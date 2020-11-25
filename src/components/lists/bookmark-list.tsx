@@ -4,6 +4,8 @@ import {
   faLock,
   faPlus,
   faSpinner,
+  faToggleOff,
+  faToggleOn,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
@@ -118,7 +120,7 @@ export function BookmarkList({
     }
   });
 
-  const isLocked = React.useMemo(() => gistState.owner !== userState.value, []);
+  const locked = React.useMemo(() => gistState.owner !== userState.value, []);
   const history = React.useContext(HistoryContext);
 
   const initialTitle = React.useMemo(
@@ -133,7 +135,7 @@ export function BookmarkList({
 
   React.useEffect(() => {
     if (initialTitle && initialUrl) {
-      if (isLocked) {
+      if (locked) {
         history.replace({search: ''});
       } else {
         setAddModal(true);
@@ -148,6 +150,9 @@ export function BookmarkList({
 
     return;
   }, [addModal]);
+
+  const [editable, setEditable] = React.useState(false);
+  const toggleEditable = React.useCallback(() => setEditable(toggle), []);
 
   if (gistState.status === 'failed') {
     return (
@@ -181,7 +186,7 @@ export function BookmarkList({
       <BulmaTitle size="4" isSubtitle>
         {gistState.description || gistNameState.gistName}
 
-        {gistState.status === 'ready' && !isLocked && (
+        {gistState.status === 'ready' && !locked && (
           <BulmaTag color="white" isRounded onClick={toggleEditModal}>
             <BulmaIcon definition={faEdit}>Edit description</BulmaIcon>
           </BulmaTag>
@@ -199,7 +204,7 @@ export function BookmarkList({
                 : `Showing ${gistState.files.length} bookmarks.`}
             </BulmaContent>
 
-            {gistState.status === 'ready' && !isLocked && (
+            {gistState.status === 'ready' && !locked && (
               <BulmaTags>
                 <BulmaTag
                   ref={addBookmarkTagRef}
@@ -211,7 +216,7 @@ export function BookmarkList({
                   <BulmaIcon definition={faPlus}>Add bookmark</BulmaIcon>
                 </BulmaTag>
 
-                {gistState.files.length === 0 && (
+                {gistState.files.length === 0 ? (
                   <BulmaTag
                     color={deletionConfirmed ? 'danger' : 'white'}
                     isRounded
@@ -221,11 +226,17 @@ export function BookmarkList({
                       {deletionConfirmed ? 'Yes, Delete gist!' : 'Delete gist'}
                     </BulmaIcon>
                   </BulmaTag>
+                ) : (
+                  <BulmaTag color="white" isRounded onClick={toggleEditable}>
+                    <BulmaIcon definition={editable ? faToggleOn : faToggleOff}>
+                      Edit bookmarks
+                    </BulmaIcon>
+                  </BulmaTag>
                 )}
               </BulmaTags>
             )}
 
-            {isLocked && (
+            {locked && (
               <BulmaTag
                 href={'https://gist.github.com/' + gistState.owner}
                 color="link"
@@ -251,7 +262,7 @@ export function BookmarkList({
             <BookmarkListItem
               gistState={gistState}
               gistFile={file}
-              isLocked={isLocked}
+              editable={!locked && editable}
             />
           </BulmaColumn>
         ))}

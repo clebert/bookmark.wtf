@@ -38,12 +38,12 @@ export function useSenderState(): SenderState {
 
   React.useEffect(() => () => void (mountedRef.current = false), []);
 
-  const [isSending, setIsSending] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
   const [sendingError, setSendingError] = React.useState<Error | undefined>();
 
   const send = React.useCallback<IdleSenderState['send']>((signal, effect) => {
-    setIsSending((prevIsSending) => {
-      if (prevIsSending) {
+    setSending((prevSending) => {
+      if (prevSending) {
         throw new Error('Illegal output state.');
       }
 
@@ -53,14 +53,14 @@ export function useSenderState(): SenderState {
     signal
       .then((value) => {
         if (mountedRef.current) {
-          setIsSending(false);
+          setSending(false);
           setSendingError(undefined);
           effect?.(value);
         }
       })
       .catch((error) => {
         if (mountedRef.current) {
-          setIsSending(false);
+          setSending(false);
           setSendingError(error);
         }
       });
@@ -68,11 +68,11 @@ export function useSenderState(): SenderState {
 
   return React.useMemo(
     () =>
-      isSending
+      sending
         ? {status: 'sending', error: undefined, send: undefined}
         : sendingError
         ? {status: 'failed', error: sendingError, send}
         : {status: 'idle', error: undefined, send},
-    [isSending, sendingError]
+    [sending, sendingError]
   );
 }

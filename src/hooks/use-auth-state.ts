@@ -42,11 +42,11 @@ export function useAuthState(): AuthState {
     }
   }, [token]);
 
-  const [isAuthorizing, setIsAuthorizing] = React.useState(false);
+  const [authorizing, setAuthorizing] = React.useState(false);
 
   const signIn = React.useCallback(() => {
-    setIsAuthorizing((prevIsAuthorizing) => {
-      if (prevIsAuthorizing) {
+    setAuthorizing((prevAuthorizing) => {
+      if (prevAuthorizing) {
         throw new Error('The authorization is already in progress.');
       }
 
@@ -83,7 +83,7 @@ export function useAuthState(): AuthState {
       return {status: 'authorized', token, signIn: undefined, signOut};
     }
 
-    if (isAuthorizing) {
+    if (authorizing) {
       return {
         status: 'authorizing',
         token: undefined,
@@ -98,7 +98,7 @@ export function useAuthState(): AuthState {
       signIn,
       signOut: undefined,
     };
-  }, [token, isAuthorizing, signIn]);
+  }, [token, authorizing, signIn]);
 }
 
 function handleTransaction(): void {

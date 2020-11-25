@@ -20,13 +20,13 @@ import {EditBookmarkModal} from '../modals/edit-bookmark-modal';
 export interface BookmarkListItemProps {
   readonly gistState: ReadyGistState<Bookmark> | UpdatingGistState<Bookmark>;
   readonly gistFile: GistFile<Bookmark>;
-  readonly isLocked: boolean;
+  readonly editable: boolean;
 }
 
 export function BookmarkListItem({
   gistState,
   gistFile,
-  isLocked,
+  editable,
 }: BookmarkListItemProps): JSX.Element {
   const faviconUrl = React.useMemo(() => createFaviconUrl(gistFile.model.url), [
     gistFile,
@@ -104,7 +104,7 @@ export function BookmarkListItem({
           </BulmaText>
         </BulmaContent>
 
-        {gistState.status === 'ready' && !isLocked && (
+        {gistState.status === 'ready' && editable && (
           <BulmaTags>
             <BulmaTag color="white" isRounded onClick={toggleEditModal}>
               <BulmaIcon definition={faEdit}>Edit</BulmaIcon>
