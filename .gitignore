@@ -1,5 +1,6 @@
 .envrc
 .vscode
+cdk.out
 coverage
 dist
 github-graphql-schema.json

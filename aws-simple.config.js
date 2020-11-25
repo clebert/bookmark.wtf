@@ -9,7 +9,7 @@ const appUrl = (exports.appUrl = 'https://bookmark.wtf');
  * @type {import('aws-simple').AppConfig}
  */
 exports.default = {
-  appName,
+  appName: appName.replace(/[^a-z]/g, ''),
   appVersion: 'latest',
   createStackConfig: () => {
     return {
