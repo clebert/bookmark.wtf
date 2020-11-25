@@ -1,0 +1,51 @@
+import {APIGatewayEvent, APIGatewayProxyResult} from 'aws-lambda';
+import fetch from 'node-fetch';
+import {assertIsString} from '../utils/assert-is-string';
+import {getLambdaCookie} from '../utils/get-lambda-cookie';
+import {getLambdaParam} from '../utils/get-lambda-param';
+
+export async function handler(
+  event: APIGatewayEvent
+): Promise<APIGatewayProxyResult> {
+  const transactionId = getLambdaParam(event, 'state');
+
+  if (
+    !transactionId ||
+    transactionId !== getLambdaCookie(event, 'transactionId')
+  ) {
+    throw new Error('Untrusted OAuth transaction.');
+  }
+
+  const url = new URL('https://github.com/login/oauth/access_token');
+  const code = getLambdaParam(event, 'code');
+
+  assertIsString(process.env.CLIENT_ID, 'process.env.CLIENT_ID');
+  assertIsString(process.env.CLIENT_SECRET, 'process.env.CLIENT_SECRET');
+  assertIsString(code, 'code');
+
+  url.searchParams.set('client_id', process.env.CLIENT_ID);
+  url.searchParams.set('client_secret', process.env.CLIENT_SECRET);
+  url.searchParams.set('code', code);
+  url.searchParams.set('state', transactionId);
+
+  const response = await fetch(url.href, {
+    headers: {Accept: 'application/json'},
+  });
+
+  const body = await response.json();
+
+  if (response.status !== 200) {
+    throw new Error(`Fetching token failed: ${body.message}`);
+  }
+
+  const searchParams = new URLSearchParams();
+
+  searchParams.set('transactionId', transactionId);
+  searchParams.set('token', body.access_token);
+
+  return {
+    statusCode: 302,
+    headers: {Location: `/?${searchParams.toString()}`},
+    body: '',
+  };
+}
