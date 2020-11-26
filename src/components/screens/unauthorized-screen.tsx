@@ -31,7 +31,7 @@ export function UnauthorizedScreen({
         </BulmaTitle>
       </BulmaHero>
 
-      <BulmaHero color="info" isBold>
+      <BulmaHero>
         <BulmaContent size="small">
           <ol>
             <li>
