@@ -64,6 +64,7 @@ exports.default = {
           localPath: 'screenshot.png',
           bucketPath: 'images/screenshot.png',
           responseHeaders: {cacheControl},
+          binary: true,
         },
       ],
     };
