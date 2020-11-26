@@ -1,4 +1,4 @@
-import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
+import {faAngleDown, faAngleUp} from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import {BulmaButton} from '../../bulma/bulma-button';
 import {BulmaDropdown} from '../../bulma/bulma-dropdown';
@@ -24,6 +24,11 @@ export function OpenGistDropdown({
   const [menu, setMenu] = React.useState(false);
   const toggleMenu = React.useCallback(() => setMenu(toggle), []);
 
+  const trigger = React.useCallback((event: React.MouseEvent) => {
+    toggleMenu();
+    event.stopPropagation();
+  }, []);
+
   React.useEffect(() => {
     if (!menu) {
       return;
@@ -40,9 +45,9 @@ export function OpenGistDropdown({
         <BulmaButton
           isDisabled={isDisabled || !gistOverviewState.value?.length}
           isLoading={gistOverviewState.status === 'receiving'}
-          onClick={toggleMenu}
+          onClick={trigger}
         >
-          <BulmaIcon definition={faCaretDown} isRightAligned>
+          <BulmaIcon definition={menu ? faAngleUp : faAngleDown} isRightAligned>
             Select
           </BulmaIcon>
         </BulmaButton>
