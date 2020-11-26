@@ -2,6 +2,8 @@
 
 An open source developed bookmark manager with GitHub Gist as data backend.
 
+<a href="https://bookmark.wtf/c8ddcf1dd5112399e97923508ed0ab56"><img src="./screenshot.png"/></a>
+
 1. To use this application, you need to sign in to GitHub and give it permission
    to access your gists.
 1. The application does not track you or store data outside your browser or
