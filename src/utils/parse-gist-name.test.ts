@@ -6,6 +6,8 @@ describe('parseGistName()', () => {
     expect(parseGistName('gist.github.com/a/b')).toBe('b');
     expect(parseGistName('https://gist.github.com/a')).toBe('a');
     expect(parseGistName('gist.github.com/a')).toBe('a');
+    expect(parseGistName('https://bookmark.wtf/a')).toBe('a');
+    expect(parseGistName('bookmark.wtf/a')).toBe('a');
   });
 
   it('returns undefined', () => {
@@ -17,5 +19,11 @@ describe('parseGistName()', () => {
     expect(parseGistName('gist.github.com/')).toBe(undefined);
     expect(parseGistName('https://gist.github.com')).toBe(undefined);
     expect(parseGistName('gist.github.com')).toBe(undefined);
+    expect(parseGistName('https://bookmark.wtf/a/b')).toBe(undefined);
+    expect(parseGistName('bookmark.wtf/a/b')).toBe(undefined);
+    expect(parseGistName('https://bookmark.wtf/')).toBe(undefined);
+    expect(parseGistName('bookmark.wtf/')).toBe(undefined);
+    expect(parseGistName('https://bookmark.wtf')).toBe(undefined);
+    expect(parseGistName('bookmark.wtf')).toBe(undefined);
   });
 });
