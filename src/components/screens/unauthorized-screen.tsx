@@ -75,8 +75,9 @@ export function UnauthorizedScreen({
 
             <li>
               By sharing the URL, other people can access your bookmark
-              collections. Your bookmark collections, respectively your gists,
-              are only "secret" as long as you do not share the URL with anyone.
+              collections in read-only mode. Your bookmark collections,
+              respectively your gists, are only "secret" as long as you do not
+              share the URL with anyone.
             </li>
           </ol>
         </BulmaContent>

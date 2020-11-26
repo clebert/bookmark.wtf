@@ -13,9 +13,9 @@ An open source developed bookmark manager with GitHub Gist as data backend.
    find [here](https://gist.github.com/clebert/c8ddcf1dd5112399e97923508ed0ab56)
    an example.
 1. You can manage as many gists and thus bookmark collections as you like.
-1. By sharing the URL, other people can access your bookmark collections. Your
-   bookmark collections, respectively your gists, are only "secret" as long as
-   you do not share the URL with anyone.
+1. By sharing the URL, other people can access your bookmark collections in
+   read-only mode. Your bookmark collections, respectively your gists, are only
+   "secret" as long as you do not share the URL with anyone.
 
 **Disclaimer:** This application is developed by me in my spare time for free.
 You have no claim to correct functioning or even availability. Please use this
