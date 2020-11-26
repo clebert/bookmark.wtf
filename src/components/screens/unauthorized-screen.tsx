@@ -1,18 +1,26 @@
 import React from 'react';
 import {BulmaContent} from '../../bulma/bulma-content';
 import {BulmaHero} from '../../bulma/bulma-hero';
+import {BulmaImage} from '../../bulma/bulma-image';
 import {BulmaLevel} from '../../bulma/bulma-level';
 import {BulmaTitle} from '../../bulma/bulma-title';
 import {
   AuthorizingAuthState,
   UnauthorizedAuthState,
 } from '../../hooks/use-auth-state';
+import {assertIsString} from '../../utils/assert-is-string';
 import {AppName} from '../app-name';
 import {SignInButton} from '../buttons/sign-in-button';
 
 export interface UnauthorizedScreenProps {
   readonly authState: UnauthorizedAuthState | AuthorizingAuthState;
 }
+
+const screenshotHash = process.env.SCREENSHOT_HASH;
+
+assertIsString(screenshotHash, 'process.env.SCREENSHOT_HASH');
+
+const screenshotGistName = 'c8ddcf1dd5112399e97923508ed0ab56';
 
 export function UnauthorizedScreen({
   authState,
@@ -23,12 +31,16 @@ export function UnauthorizedScreen({
         items={[<AppName />, <SignInButton authState={authState} />]}
       />
 
-      <BulmaHero color="dark" size="medium" isBold>
+      <BulmaHero color="dark" isBold>
         <BulmaTitle size="3">Manage your bookmarks</BulmaTitle>
 
         <BulmaTitle size="4" isSubtitle>
           with <a href="https://gist.github.com">GitHub Gist</a> as data backend
         </BulmaTitle>
+
+        <a href={`https://bookmark.wtf/${screenshotGistName}`}>
+          <BulmaImage src={`/images/screenshot.${screenshotHash}.png`} />
+        </a>
       </BulmaHero>
 
       <BulmaHero>
@@ -49,7 +61,11 @@ export function UnauthorizedScreen({
             <li>
               Your bookmarks are stored in markdown format (human and machine
               readable) in GitHub Gist. This allows you to use them without this
-              application.
+              application. Please find{' '}
+              <a href={`https://gist.github.com/clebert/${screenshotGistName}`}>
+                here
+              </a>{' '}
+              an example.
             </li>
 
             <li>

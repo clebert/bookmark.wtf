@@ -1,9 +1,17 @@
 // @ts-check
 
+const {createHash} = require('crypto');
+const {readFileSync} = require('fs');
 const packageJson = require('./package.json');
 
 const appName = (exports.appName = packageJson.name);
 const appUrl = (exports.appUrl = 'https://bookmark.wtf');
+
+const screenshotHash = (exports.screenshotHash = createHash('md5')
+  .update(readFileSync('./screenshot.png'))
+  .digest('hex'));
+
+const cacheControl = `max-age=${5 * 365 * 24 * 60 * 60}`; // 5 years
 
 /**
  * @type {import('aws-simple').AppConfig}
@@ -18,6 +26,7 @@ exports.default = {
         hostedZoneId: process.env.HOSTED_ZONE_ID,
         hostedZoneName: new URL(appUrl).hostname,
       },
+      binaryMediaTypes: ['image/png'],
       minimumCompressionSizeInBytes: 1000,
       lambdaConfigs: [
         {
@@ -47,9 +56,14 @@ exports.default = {
           publicPath: '/app',
           localPath: 'dist/app',
           bucketPath: '/app',
-          responseHeaders: {
-            cacheControl: `max-age=${5 * 365 * 24 * 60 * 60}`, // 5 years
-          },
+          responseHeaders: {cacheControl},
+        },
+        {
+          type: 'file',
+          publicPath: `/images/screenshot.${screenshotHash}.png`,
+          localPath: 'screenshot.png',
+          bucketPath: 'images/screenshot.png',
+          responseHeaders: {cacheControl},
         },
       ],
     };

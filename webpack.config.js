@@ -2,7 +2,7 @@
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const {appName, appUrl} = require('./aws-simple.config');
+const {appName, appUrl, screenshotHash} = require('./aws-simple.config');
 
 // https://github.com/settings/applications/1238959
 const devClientId = '11fad4b65813aa89347e';
@@ -46,6 +46,7 @@ function createAppConfig(dev) {
         'process.env.APP_URL': JSON.stringify(
           dev ? 'http://localhost:3000' : appUrl
         ),
+        'process.env.SCREENSHOT_HASH': JSON.stringify(screenshotHash),
       }),
     ],
     module: {rules: [babelLoader]},

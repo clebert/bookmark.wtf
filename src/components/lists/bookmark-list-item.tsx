@@ -1,6 +1,5 @@
 import {faEdit, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
-import {BulmaContent} from '../../bulma/bulma-content';
 import {BulmaIcon} from '../../bulma/bulma-icon';
 import {BulmaImage} from '../../bulma/bulma-image';
 import {BulmaMediaObject} from '../../bulma/bulma-media-object';
@@ -99,15 +98,13 @@ export function BookmarkListItem({
           </a>
         }
       >
-        <BulmaContent>
-          <BulmaText
-            href={gistFile.model.url}
-            tabIndex={-1}
-            onClick={countBookmarkClick}
-          >
-            {gistFile.model.title}
-          </BulmaText>
-        </BulmaContent>
+        <BulmaText
+          href={gistFile.model.url}
+          tabIndex={-1}
+          onClick={countBookmarkClick}
+        >
+          {gistFile.model.title}
+        </BulmaText>
 
         {gistState.status === 'ready' && editable && (
           <BulmaTags>
