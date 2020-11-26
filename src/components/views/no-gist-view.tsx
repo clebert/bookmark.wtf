@@ -82,7 +82,7 @@ export function NoGistView({
       <BulmaColumns isMultiline>
         <BulmaColumn breakpointSizes={breakpointSizes}>
           <BulmaHero color="dark" isBold>
-            <BulmaTitle size="4">Open a gist.</BulmaTitle>
+            <BulmaTitle size="4">Open an existing gist.</BulmaTitle>
 
             <BulmaField isGrouped>
               <OpenGistDropdown
@@ -95,7 +95,7 @@ export function NoGistView({
                 isDisabled={creationState.status === 'sending'}
                 onClick={toggleOpenModal}
               >
-                Enter name
+                Enter URL
               </BulmaButton>
             </BulmaField>
           </BulmaHero>

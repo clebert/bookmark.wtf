@@ -4,6 +4,7 @@ import {BulmaField} from '../../bulma/bulma-field';
 import {BulmaInput} from '../../bulma/bulma-input';
 import {BulmaModalCard} from '../../bulma/bulma-modal-card';
 import {useInputCallback} from '../../hooks/use-input-callback';
+import {parseGistName} from '../../utils/parse-gist-name';
 
 export interface OpenGistModalProps {
   onOpenGist(gistName: string): void;
@@ -14,11 +15,15 @@ export function OpenGistModal({
   onOpenGist,
   onCancel,
 }: OpenGistModalProps): JSX.Element {
-  const [gistName, setGistName] = React.useState('');
+  const [gistUrl, setGistUrl] = React.useState('');
+  const gistName = React.useMemo(() => parseGistName(gistUrl), [gistUrl]);
 
   const openGist = React.useCallback(
     (event: React.FormEvent) => {
-      onOpenGist(gistName);
+      if (gistName) {
+        onOpenGist(gistName);
+      }
+
       event.preventDefault();
     },
     [onOpenGist, gistName]
@@ -27,7 +32,7 @@ export function OpenGistModal({
   return (
     <form onSubmit={openGist}>
       <BulmaModalCard
-        title="Open a gist."
+        title="Open an existing gist."
         footer={
           <BulmaField isGrouped>
             <BulmaButton type="submit" color="success">
@@ -43,11 +48,13 @@ export function OpenGistModal({
       >
         <BulmaField>
           <BulmaInput
-            placeholder="Enter name"
-            value={gistName}
+            type="url"
+            placeholder="Enter URL"
+            color={gistUrl && !gistName ? 'danger' : undefined}
+            value={gistUrl}
             isAutoFocused
             isRequired
-            onChange={useInputCallback(setGistName)}
+            onChange={useInputCallback(setGistUrl)}
           />
         </BulmaField>
       </BulmaModalCard>
