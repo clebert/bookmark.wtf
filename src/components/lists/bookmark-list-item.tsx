@@ -9,6 +9,7 @@ import {BulmaTags} from '../../bulma/bulma-tags';
 import {BulmaText} from '../../bulma/bulma-text';
 import {
   GistFile,
+  LockedGistState,
   ReadyGistState,
   UpdatingGistState,
 } from '../../hooks/use-gist-state';
@@ -18,7 +19,11 @@ import {toggle} from '../../utils/toggle';
 import {EditBookmarkModal} from '../modals/edit-bookmark-modal';
 
 export interface BookmarkListItemProps {
-  readonly gistState: ReadyGistState<Bookmark> | UpdatingGistState<Bookmark>;
+  readonly gistState:
+    | ReadyGistState<Bookmark>
+    | UpdatingGistState<Bookmark>
+    | LockedGistState<Bookmark>;
+
   readonly gistFile: GistFile<Bookmark>;
   readonly editable: boolean;
 }

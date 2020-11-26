@@ -10,6 +10,7 @@ import {useSenderState} from './use-sender-state';
 export type GistState<TModel> =
   | ReadyGistState<TModel>
   | UpdatingGistState<TModel>
+  | LockedGistState<TModel>
   | FailedGistState;
 
 export interface ReadyGistState<TModel> {
@@ -33,6 +34,19 @@ export interface ReadyGistState<TModel> {
 
 export interface UpdatingGistState<TModel> {
   readonly status: 'updating';
+  readonly owner: string;
+  readonly description: string;
+  readonly files: readonly GistFile<TModel>[];
+  readonly error: undefined;
+  readonly createFile: undefined;
+  readonly updateFile: undefined;
+  readonly deleteFile: undefined;
+  readonly updateGist: undefined;
+  readonly deleteGist: undefined;
+}
+
+export interface LockedGistState<TModel> {
+  readonly status: 'locked';
   readonly owner: string;
   readonly description: string;
   readonly files: readonly GistFile<TModel>[];
@@ -70,6 +84,7 @@ export interface ModelBackend<TModel> {
 
 export function useGistState<TModel>(
   authState: AuthorizedAuthState,
+  userState: ReceivedReceiverState<string>,
   gistNameState: SetGistNameState,
   gistDataState: ReceivedReceiverState<GetGist_viewer_gist>,
   modelBackend: ModelBackend<TModel>
@@ -80,6 +95,7 @@ export function useGistState<TModel>(
     return gistDataState.value.owner.login;
   }, []);
 
+  const locked = React.useMemo(() => userState.value !== owner, []);
   const restApi = React.useMemo(() => new GistRestApi(authState.token), []);
   const updateState = useSenderState();
 
@@ -207,9 +223,9 @@ export function useGistState<TModel>(
       modelBackend.compareModels(a.model, b.model)
     );
 
-    if (updateState.status === 'sending') {
+    if (locked || updateState.status === 'sending') {
       return {
-        status: 'updating',
+        status: locked ? 'locked' : 'updating',
         owner,
         description,
         files: sortedFiles,

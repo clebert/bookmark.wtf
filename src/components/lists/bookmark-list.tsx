@@ -58,6 +58,7 @@ export function BookmarkList({
 }: BookmarkListProps): JSX.Element {
   const gistState = useGistState(
     authState,
+    userState,
     gistNameState,
     gistDataState,
     bookmarkBackend
@@ -120,7 +121,6 @@ export function BookmarkList({
     }
   });
 
-  const locked = React.useMemo(() => gistState.owner !== userState.value, []);
   const history = React.useContext(HistoryContext);
 
   const initialTitle = React.useMemo(
@@ -135,7 +135,7 @@ export function BookmarkList({
 
   React.useEffect(() => {
     if (initialTitle && initialUrl) {
-      if (locked) {
+      if (gistState.status === 'locked') {
         history.replace({search: ''});
       } else {
         setAddModal(true);
@@ -186,7 +186,7 @@ export function BookmarkList({
       <BulmaTitle size="4" isSubtitle>
         {gistState.description || gistNameState.gistName}
 
-        {gistState.status === 'ready' && !locked && (
+        {gistState.status === 'ready' && (
           <BulmaTag color="white" isRounded onClick={toggleEditModal}>
             <BulmaIcon definition={faEdit}>Edit description</BulmaIcon>
           </BulmaTag>
@@ -204,7 +204,7 @@ export function BookmarkList({
                 : `Showing ${gistState.files.length} bookmarks.`}
             </BulmaContent>
 
-            {gistState.status === 'ready' && !locked && (
+            {gistState.status === 'ready' && (
               <BulmaTags>
                 <BulmaTag
                   ref={addBookmarkTagRef}
@@ -236,7 +236,7 @@ export function BookmarkList({
               </BulmaTags>
             )}
 
-            {locked && (
+            {gistState.status === 'locked' && (
               <BulmaTag
                 href={'https://gist.github.com/' + gistState.owner}
                 color="link"
@@ -262,7 +262,7 @@ export function BookmarkList({
             <BookmarkListItem
               gistState={gistState}
               gistFile={file}
-              editable={!locked && editable}
+              editable={editable}
             />
           </BulmaColumn>
         ))}
