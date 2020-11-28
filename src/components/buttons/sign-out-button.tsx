@@ -4,15 +4,15 @@ import {BulmaButton} from '../../bulma/bulma-button';
 import {BulmaField} from '../../bulma/bulma-field';
 import {BulmaIcon} from '../../bulma/bulma-icon';
 import {BulmaText} from '../../bulma/bulma-text';
-import {AuthorizedAuthState} from '../../hooks/use-auth-state';
-import {UserStateContext} from '../../hooks/use-user-state';
+import {AuthorizedAuthState} from '../../hooks/use-auth';
+import {UserContext} from '../../hooks/use-user';
 
 export interface SignOutButtonProps {
   readonly authState: AuthorizedAuthState;
 }
 
 export function SignOutButton({authState}: SignOutButtonProps): JSX.Element {
-  const userState = React.useContext(UserStateContext);
+  const userState = React.useContext(UserContext);
 
   return (
     <BulmaField hasAddons>

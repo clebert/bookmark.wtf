@@ -7,7 +7,7 @@ import {BulmaTitle} from '../../bulma/bulma-title';
 import {
   AuthorizingAuthState,
   UnauthorizedAuthState,
-} from '../../hooks/use-auth-state';
+} from '../../hooks/use-auth';
 import {assertIsString} from '../../utils/assert-is-string';
 import {AppName} from '../app-name';
 import {SignInButton} from '../buttons/sign-in-button';

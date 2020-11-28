@@ -7,23 +7,23 @@ export type ReceiverState<TValue> =
 
 export interface ReceivingReceiverState {
   readonly status: 'receiving';
-  readonly value: undefined;
-  readonly error: undefined;
+  readonly value?: undefined;
+  readonly error?: undefined;
 }
 
 export interface ReceivedReceiverState<TValue> {
   readonly status: 'received';
   readonly value: TValue;
-  readonly error: undefined;
+  readonly error?: undefined;
 }
 
 export interface FailedReceiverState {
   readonly status: 'failed';
-  readonly value: undefined;
+  readonly value?: undefined;
   readonly error: Error;
 }
 
-export function useReceiverState<TValue>(
+export function useReceiver<TValue>(
   signal: Promise<TValue>
 ): ReceiverState<TValue> {
   const mountedRef = React.useRef(true);
@@ -53,10 +53,10 @@ export function useReceiverState<TValue>(
   return React.useMemo(() => {
     if (signal === result?.signal) {
       return result.ok
-        ? {status: 'received', value: result.value, error: undefined}
-        : {status: 'failed', value: undefined, error: result.error};
+        ? {status: 'received', value: result.value}
+        : {status: 'failed', error: result.error};
     }
 
-    return {status: 'receiving', value: undefined, error: undefined};
+    return {status: 'receiving'};
   }, [signal, result]);
 }

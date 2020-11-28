@@ -1,7 +1,7 @@
 import React from 'react';
 import {BulmaContainer} from '../bulma/bulma-container';
 import {BulmaSection} from '../bulma/bulma-section';
-import {useAuthState} from '../hooks/use-auth-state';
+import {useAuth} from '../hooks/use-auth';
 import {HistoryContext, useHistory} from '../hooks/use-history';
 import {ErrorBoundary} from './error-boundary';
 import {AuthorizedScreen} from './screens/authorized-screen';
@@ -10,7 +10,7 @@ import {UnauthorizedScreen} from './screens/unauthorized-screen';
 
 export function App(): JSX.Element {
   const history = useHistory();
-  const authState = useAuthState();
+  const authState = useAuth();
 
   return (
     <HistoryContext.Provider value={history}>

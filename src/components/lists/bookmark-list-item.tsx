@@ -11,7 +11,7 @@ import {
   LockedGistState,
   ReadyGistState,
   UpdatingGistState,
-} from '../../hooks/use-gist-state';
+} from '../../hooks/use-gist';
 import {Bookmark} from '../../models/bookmark';
 import {createFaviconUrl} from '../../utils/create-favicon-url';
 import {toggle} from '../../utils/toggle';

@@ -1,5 +1,5 @@
 import {lexer} from 'marked';
-import {ModelBackend} from '../hooks/use-gist-state';
+import {ModelBackend} from '../hooks/use-gist';
 import {isNumber} from '../utils/is-number';
 import {isObject} from '../utils/is-object';
 import {isString} from '../utils/is-string';

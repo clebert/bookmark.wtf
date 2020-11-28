@@ -2,10 +2,17 @@ import React from 'react';
 import {GistRestApi} from '../apis/gist-rest-api';
 import {GetGist_viewer_gist} from '../queries/__generated__/GetGist';
 import {assertIsString} from '../utils/assert-is-string';
-import {AuthorizedAuthState} from './use-auth-state';
-import {SetGistNameState} from './use-gist-name-state';
-import {ReceivedReceiverState} from './use-receiver-state';
-import {useSenderState} from './use-sender-state';
+import {AuthorizedAuthState} from './use-auth';
+import {SetGistNameState} from './use-gist-name';
+import {ReceivedReceiverState} from './use-receiver';
+import {useSender} from './use-sender';
+
+export interface GistDependencies {
+  readonly authState: AuthorizedAuthState;
+  readonly userState: ReceivedReceiverState<string>;
+  readonly gistNameState: SetGistNameState;
+  readonly gistDataState: ReceivedReceiverState<GetGist_viewer_gist>;
+}
 
 export type GistState<TModel> =
   | ReadyGistState<TModel>
@@ -37,12 +44,12 @@ export interface UpdatingGistState<TModel> {
   readonly owner: string;
   readonly description: string;
   readonly files: readonly GistFile<TModel>[];
-  readonly error: undefined;
-  readonly createFile: undefined;
-  readonly updateFile: undefined;
-  readonly deleteFile: undefined;
-  readonly updateGist: undefined;
-  readonly deleteGist: undefined;
+  readonly error?: undefined;
+  readonly createFile?: undefined;
+  readonly updateFile?: undefined;
+  readonly deleteFile?: undefined;
+  readonly updateGist?: undefined;
+  readonly deleteGist?: undefined;
 }
 
 export interface LockedGistState<TModel> {
@@ -50,25 +57,25 @@ export interface LockedGistState<TModel> {
   readonly owner: string;
   readonly description: string;
   readonly files: readonly GistFile<TModel>[];
-  readonly error: undefined;
-  readonly createFile: undefined;
-  readonly updateFile: undefined;
-  readonly deleteFile: undefined;
-  readonly updateGist: undefined;
-  readonly deleteGist: undefined;
+  readonly error?: undefined;
+  readonly createFile?: undefined;
+  readonly updateFile?: undefined;
+  readonly deleteFile?: undefined;
+  readonly updateGist?: undefined;
+  readonly deleteGist?: undefined;
 }
 
 export interface FailedGistState {
   readonly status: 'failed';
-  readonly owner: undefined;
-  readonly description: undefined;
-  readonly files: undefined;
+  readonly owner?: undefined;
+  readonly description?: undefined;
+  readonly files?: undefined;
   readonly error: Error;
-  readonly createFile: undefined;
-  readonly updateFile: undefined;
-  readonly deleteFile: undefined;
-  readonly updateGist: undefined;
-  readonly deleteGist: undefined;
+  readonly createFile?: undefined;
+  readonly updateFile?: undefined;
+  readonly deleteFile?: undefined;
+  readonly updateGist?: undefined;
+  readonly deleteGist?: undefined;
 }
 
 export interface GistFile<TModel> {
@@ -82,13 +89,12 @@ export interface ModelBackend<TModel> {
   compareModels(modelA: TModel, modelB: TModel): -1 | 0 | 1;
 }
 
-export function useGistState<TModel>(
-  authState: AuthorizedAuthState,
-  userState: ReceivedReceiverState<string>,
-  gistNameState: SetGistNameState,
-  gistDataState: ReceivedReceiverState<GetGist_viewer_gist>,
+export function useGist<TModel>(
+  dependencies: GistDependencies,
   modelBackend: ModelBackend<TModel>
 ): GistState<TModel> {
+  const {authState, userState, gistNameState, gistDataState} = dependencies;
+
   const owner = React.useMemo(() => {
     assertIsString(gistDataState.value.owner?.login, 'owner');
 
@@ -97,7 +103,7 @@ export function useGistState<TModel>(
 
   const locked = React.useMemo(() => userState.value !== owner, []);
   const restApi = React.useMemo(() => new GistRestApi(authState.token), []);
-  const updateState = useSenderState();
+  const updateState = useSender();
 
   const [description, setDescription] = React.useState(
     gistDataState.value.description ?? ''
@@ -205,18 +211,7 @@ export function useGistState<TModel>(
 
   return React.useMemo(() => {
     if (updateState.status === 'failed') {
-      return {
-        status: 'failed',
-        owner: undefined,
-        description: undefined,
-        files: undefined,
-        error: updateState.error,
-        createFile: undefined,
-        updateFile: undefined,
-        deleteFile: undefined,
-        updateGist: undefined,
-        deleteGist: undefined,
-      };
+      return {status: 'failed', error: updateState.error};
     }
 
     const sortedFiles = [...files].sort((a, b) =>
@@ -224,18 +219,9 @@ export function useGistState<TModel>(
     );
 
     if (locked || updateState.status === 'sending') {
-      return {
-        status: locked ? 'locked' : 'updating',
-        owner,
-        description,
-        files: sortedFiles,
-        error: undefined,
-        createFile: undefined,
-        updateFile: undefined,
-        deleteFile: undefined,
-        updateGist: undefined,
-        deleteGist: undefined,
-      };
+      const status = locked ? 'locked' : 'updating';
+
+      return {status, owner, description, files: sortedFiles};
     }
 
     return {
@@ -243,7 +229,6 @@ export function useGistState<TModel>(
       owner,
       description,
       files: sortedFiles,
-      error: undefined,
       createFile,
       updateFile,
       deleteFile,

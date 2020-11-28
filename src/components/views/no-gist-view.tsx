@@ -9,9 +9,9 @@ import {BulmaColumns} from '../../bulma/bulma-columns';
 import {BulmaField} from '../../bulma/bulma-field';
 import {BulmaHero} from '../../bulma/bulma-hero';
 import {BulmaTitle} from '../../bulma/bulma-title';
-import {AuthorizedAuthState} from '../../hooks/use-auth-state';
-import {UnsetGistNameState} from '../../hooks/use-gist-name-state';
-import {useSenderState} from '../../hooks/use-sender-state';
+import {AuthorizedAuthState} from '../../hooks/use-auth';
+import {UnsetGistNameState} from '../../hooks/use-gist-name';
+import {useSender} from '../../hooks/use-sender';
 import {assertIsString} from '../../utils/assert-is-string';
 import {toggle} from '../../utils/toggle';
 import {OpenGistDropdown} from '../dropdowns/open-gist-dropdown';
@@ -44,7 +44,7 @@ export function NoGistView({
   const toggleCreateModal = React.useCallback(() => setCreateModal(toggle), []);
   const [openModal, setOpenModal] = React.useState(false);
   const toggleOpenModal = React.useCallback(() => setOpenModal(toggle), []);
-  const creationState = useSenderState();
+  const creationState = useSender();
   const restApi = React.useMemo(() => new GistRestApi(authState.token), []);
 
   const createGist = React.useCallback(

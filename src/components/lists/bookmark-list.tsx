@@ -21,13 +21,9 @@ import {BulmaTag} from '../../bulma/bulma-tag';
 import {BulmaTags} from '../../bulma/bulma-tags';
 import {BulmaText} from '../../bulma/bulma-text';
 import {BulmaTitle} from '../../bulma/bulma-title';
-import {AuthorizedAuthState} from '../../hooks/use-auth-state';
-import {SetGistNameState} from '../../hooks/use-gist-name-state';
-import {useGistState} from '../../hooks/use-gist-state';
+import {GistDependencies, useGist} from '../../hooks/use-gist';
 import {HistoryContext} from '../../hooks/use-history';
-import {ReceivedReceiverState} from '../../hooks/use-receiver-state';
 import {BookmarkBackend} from '../../models/bookmark';
-import {GetGist_viewer_gist} from '../../queries/__generated__/GetGist';
 import {createBookmarklet} from '../../utils/create-bookmarklet';
 import {createRandomValue} from '../../utils/create-random-value';
 import {toggle} from '../../utils/toggle';
@@ -35,12 +31,7 @@ import {AddBookmarkModal} from '../modals/add-bookmark-modal';
 import {EditDescriptionModal} from '../modals/edit-description-modal';
 import {BookmarkListItem} from './bookmark-list-item';
 
-export interface BookmarkListProps {
-  readonly authState: AuthorizedAuthState;
-  readonly userState: ReceivedReceiverState<string>;
-  readonly gistNameState: SetGistNameState;
-  readonly gistDataState: ReceivedReceiverState<GetGist_viewer_gist>;
-}
+export interface BookmarkListProps extends GistDependencies {}
 
 const breakpointSizes: BulmaColumnBreakpointSizes = {
   tablet: '6',
@@ -56,11 +47,8 @@ export function BookmarkList({
   gistNameState,
   gistDataState,
 }: BookmarkListProps): JSX.Element {
-  const gistState = useGistState(
-    authState,
-    userState,
-    gistNameState,
-    gistDataState,
+  const gistState = useGist(
+    {authState, userState, gistNameState, gistDataState},
     bookmarkBackend
   );
 

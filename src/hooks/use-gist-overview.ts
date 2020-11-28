@@ -1,7 +1,11 @@
 import React from 'react';
 import {fetchGistsData} from '../apis/fetch-gists-data';
-import {AuthorizedAuthState} from './use-auth-state';
-import {ReceiverState, useReceiverState} from './use-receiver-state';
+import {AuthorizedAuthState} from './use-auth';
+import {ReceiverState, useReceiver} from './use-receiver';
+
+export interface GistOverviewDependencies {
+  readonly authState: AuthorizedAuthState;
+}
 
 export type GistOverview = readonly GistOverviewItem[];
 
@@ -11,12 +15,12 @@ export interface GistOverviewItem {
   readonly description: string;
 }
 
-export function useGistOverviewState(
-  authState: AuthorizedAuthState
+export function useGistOverview(
+  dependencies: GistOverviewDependencies
 ): ReceiverState<GistOverview> {
-  const {token} = authState;
+  const {token} = dependencies.authState;
 
-  return useReceiverState(
+  return useReceiver(
     React.useMemo(
       () =>
         fetchGistsData(token).then(({nodes}) => {

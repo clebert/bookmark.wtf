@@ -7,7 +7,7 @@ export type SenderState =
 
 export interface IdleSenderState {
   readonly status: 'idle';
-  readonly error: undefined;
+  readonly error?: undefined;
 
   readonly send: <TValue>(
     signal: Promise<TValue>,
@@ -17,8 +17,8 @@ export interface IdleSenderState {
 
 export interface SendingSenderState {
   readonly status: 'sending';
-  readonly error: undefined;
-  readonly send: undefined;
+  readonly error?: undefined;
+  readonly send?: undefined;
 }
 
 export interface FailedSenderState {
@@ -33,7 +33,7 @@ export interface FailedSenderState {
 
 export type Effect<TValue> = (value: TValue) => void;
 
-export function useSenderState(): SenderState {
+export function useSender(): SenderState {
   const mountedRef = React.useRef(true);
 
   React.useEffect(() => () => void (mountedRef.current = false), []);
@@ -69,10 +69,10 @@ export function useSenderState(): SenderState {
   return React.useMemo(
     () =>
       sending
-        ? {status: 'sending', error: undefined, send: undefined}
+        ? {status: 'sending'}
         : sendingError
         ? {status: 'failed', error: sendingError, send}
-        : {status: 'idle', error: undefined, send},
+        : {status: 'idle', send},
     [sending, sendingError]
   );
 }

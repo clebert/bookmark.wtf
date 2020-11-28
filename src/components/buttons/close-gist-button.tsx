@@ -4,7 +4,7 @@ import React from 'react';
 import {BulmaButton} from '../../bulma/bulma-button';
 import {BulmaField} from '../../bulma/bulma-field';
 import {BulmaIcon} from '../../bulma/bulma-icon';
-import {SetGistNameState} from '../../hooks/use-gist-name-state';
+import {SetGistNameState} from '../../hooks/use-gist-name';
 
 export interface CloseGistButtonProps {
   readonly gistNameState: SetGistNameState;

@@ -6,7 +6,7 @@ import {BulmaIcon} from '../../bulma/bulma-icon';
 import {
   AuthorizingAuthState,
   UnauthorizedAuthState,
-} from '../../hooks/use-auth-state';
+} from '../../hooks/use-auth';
 
 export interface SignInButtonProps {
   readonly authState: UnauthorizedAuthState | AuthorizingAuthState;

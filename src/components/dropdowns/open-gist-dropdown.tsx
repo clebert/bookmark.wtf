@@ -3,14 +3,15 @@ import React from 'react';
 import {BulmaButton} from '../../bulma/bulma-button';
 import {BulmaDropdown} from '../../bulma/bulma-dropdown';
 import {BulmaIcon} from '../../bulma/bulma-icon';
-import {AuthorizedAuthState} from '../../hooks/use-auth-state';
-import {UnsetGistNameState} from '../../hooks/use-gist-name-state';
-import {useGistOverviewState} from '../../hooks/use-gist-overview-state';
+import {UnsetGistNameState} from '../../hooks/use-gist-name';
+import {
+  GistOverviewDependencies,
+  useGistOverview,
+} from '../../hooks/use-gist-overview';
 import {toggle} from '../../utils/toggle';
 import {OpenGistDropdownItem} from './open-gist-dropdown-item';
 
-export interface OpenGistDropdownProps {
-  readonly authState: AuthorizedAuthState;
+export interface OpenGistDropdownProps extends GistOverviewDependencies {
   readonly gistNameState: UnsetGistNameState;
   readonly isDisabled: boolean;
 }
@@ -20,7 +21,7 @@ export function OpenGistDropdown({
   gistNameState,
   isDisabled,
 }: OpenGistDropdownProps): JSX.Element {
-  const gistOverviewState = useGistOverviewState(authState);
+  const gistOverviewState = useGistOverview({authState});
   const [menu, setMenu] = React.useState(false);
   const toggleMenu = React.useCallback(() => setMenu(toggle), []);
 

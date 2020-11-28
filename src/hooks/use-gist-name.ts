@@ -11,11 +11,11 @@ export interface SetGistNameState {
 
 export interface UnsetGistNameState {
   readonly status: 'unset';
-  readonly gistName: undefined;
+  readonly gistName?: undefined;
   readonly setGistName: (gistName: string | undefined) => void;
 }
 
-export function useGistNameState(history: History): GistNameState {
+export function useGistName(history: History): GistNameState {
   const setGistName = React.useCallback(
     (gistName: string | undefined) =>
       history.push({pathname: '/' + (gistName ?? '')}),
@@ -27,6 +27,6 @@ export function useGistNameState(history: History): GistNameState {
 
     return gistName
       ? {status: 'set', gistName, setGistName}
-      : {status: 'unset', gistName: undefined, setGistName};
+      : {status: 'unset', setGistName};
   }, [history]);
 }

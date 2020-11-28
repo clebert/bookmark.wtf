@@ -11,25 +11,25 @@ export type AuthState =
 export type AuthorizedAuthState = {
   readonly status: 'authorized';
   readonly token: string;
-  readonly signIn: undefined;
+  readonly signIn?: undefined;
   readonly signOut: () => void;
 };
 
 export type AuthorizingAuthState = {
   readonly status: 'authorizing';
-  readonly token: undefined;
-  readonly signIn: undefined;
-  readonly signOut: undefined;
+  readonly token?: undefined;
+  readonly signIn?: undefined;
+  readonly signOut?: undefined;
 };
 
 export type UnauthorizedAuthState = {
   readonly status: 'unauthorized';
-  readonly token: undefined;
+  readonly token?: undefined;
   readonly signIn: () => void;
-  readonly signOut: undefined;
+  readonly signOut?: undefined;
 };
 
-export function useAuthState(): AuthState {
+export function useAuth(): AuthState {
   const [token, setToken] = React.useState(
     localStorage.getItem('token') ?? undefined
   );
@@ -78,27 +78,15 @@ export function useAuthState(): AuthState {
 
   const signOut = React.useCallback(() => setToken(undefined), []);
 
-  return React.useMemo(() => {
-    if (token) {
-      return {status: 'authorized', token, signIn: undefined, signOut};
-    }
-
-    if (authorizing) {
-      return {
-        status: 'authorizing',
-        token: undefined,
-        signIn: undefined,
-        signOut: undefined,
-      };
-    }
-
-    return {
-      status: 'unauthorized',
-      token: undefined,
-      signIn,
-      signOut: undefined,
-    };
-  }, [token, authorizing, signIn]);
+  return React.useMemo(
+    () =>
+      token
+        ? {status: 'authorized', token, signOut}
+        : authorizing
+        ? {status: 'authorizing'}
+        : {status: 'unauthorized', signIn},
+    [token, authorizing, signIn]
+  );
 }
 
 function handleTransaction(): void {

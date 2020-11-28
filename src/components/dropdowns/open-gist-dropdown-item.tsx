@@ -1,6 +1,6 @@
 import React from 'react';
 import {BulmaDropdownItem} from '../../bulma/bulma-dropdown-item';
-import {UnsetGistNameState} from '../../hooks/use-gist-name-state';
+import {UnsetGistNameState} from '../../hooks/use-gist-name';
 
 export interface OpenGistDropdownItemProps {
   readonly gistNameState: UnsetGistNameState;

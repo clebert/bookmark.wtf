@@ -2,17 +2,12 @@ import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import {BulmaIcon} from '../../bulma/bulma-icon';
 import {BulmaText} from '../../bulma/bulma-text';
-import {AuthorizedAuthState} from '../../hooks/use-auth-state';
-import {useGistDataState} from '../../hooks/use-gist-data-state';
-import {SetGistNameState} from '../../hooks/use-gist-name-state';
-import {UserStateContext} from '../../hooks/use-user-state';
+import {GistDataDependencies, useGistData} from '../../hooks/use-gist-data';
+import {UserContext} from '../../hooks/use-user';
 import {assertIsString} from '../../utils/assert-is-string';
 import {BookmarkList} from '../lists/bookmark-list';
 
-export interface GistViewProps {
-  readonly authState: AuthorizedAuthState;
-  readonly gistNameState: SetGistNameState;
-}
+export interface GistViewProps extends GistDataDependencies {}
 
 const appName = process.env.APP_NAME;
 
@@ -22,8 +17,8 @@ export function GistView({
   authState,
   gistNameState,
 }: GistViewProps): JSX.Element | null {
-  const userState = React.useContext(UserStateContext);
-  const gistDataState = useGistDataState(authState, gistNameState);
+  const userState = React.useContext(UserContext);
+  const gistDataState = useGistData({authState, gistNameState});
 
   React.useEffect(() => {
     if (gistDataState.status === 'received') {
