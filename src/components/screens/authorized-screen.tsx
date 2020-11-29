@@ -1,7 +1,6 @@
 import React from 'react';
 import {BulmaLevel} from '../../bulma/bulma-level';
 import {useGistName} from '../../hooks/use-gist-name';
-import {HistoryContext} from '../../hooks/use-history';
 import {UserContext, UserDependencies, useUser} from '../../hooks/use-user';
 import {AppName} from '../app-name';
 import {CloseGistButton} from '../buttons/close-gist-button';
@@ -14,8 +13,7 @@ export interface AuthorizedScreenProps extends UserDependencies {}
 export function AuthorizedScreen({
   authState,
 }: AuthorizedScreenProps): JSX.Element {
-  const history = React.useContext(HistoryContext);
-  const gistNameState = useGistName(history);
+  const gistNameState = useGistName();
   const userState = useUser({authState});
 
   return (

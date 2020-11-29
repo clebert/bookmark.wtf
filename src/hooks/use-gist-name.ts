@@ -1,5 +1,5 @@
 import React from 'react';
-import {History} from './use-history';
+import {HistoryContext} from './use-history';
 
 export type GistNameState = SetGistNameState | UnsetGistNameState;
 
@@ -15,7 +15,9 @@ export interface UnsetGistNameState {
   readonly setGistName: (gistName: string | undefined) => void;
 }
 
-export function useGistName(history: History): GistNameState {
+export function useGistName(): GistNameState {
+  const history = React.useContext(HistoryContext);
+
   const setGistName = React.useCallback(
     (gistName: string | undefined) =>
       history.push({pathname: '/' + (gistName ?? '')}),
