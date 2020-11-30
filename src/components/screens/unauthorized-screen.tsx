@@ -48,21 +48,20 @@ export function UnauthorizedScreen({
         <BulmaContent size="small">
           <ol>
             <li>
-              To use this application, you need to sign in to GitHub and give it
+              To use this web app, you need to sign in to GitHub and give it
               permission to access your gists.
             </li>
 
             <li>
-              The application does not track you or store data outside your
-              browser or GitHub. The{' '}
+              This web app does not track you or store data outside your browser
+              or GitHub. The{' '}
               <a href="https://github.com/clebert/bookmark.wtf">source code</a>{' '}
-              of the application is publicly available.
+              of it is publicly available.
             </li>
 
             <li>
-              Your bookmarks are stored in markdown format (human and machine
-              readable) in GitHub Gist. This allows you to use them without this
-              application. Please find{' '}
+              Your bookmarks are stored in markdown format in GitHub Gist. This
+              allows you to use them without this web app. Please find{' '}
               <a href={`https://gist.github.com/clebert/${screenshotGistName}`}>
                 here
               </a>{' '}
