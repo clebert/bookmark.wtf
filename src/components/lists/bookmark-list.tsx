@@ -21,6 +21,7 @@ import {BulmaTag} from '../../bulma/bulma-tag';
 import {BulmaTags} from '../../bulma/bulma-tags';
 import {BulmaText} from '../../bulma/bulma-text';
 import {BulmaTitle} from '../../bulma/bulma-title';
+import {useConfirmation} from '../../hooks/use-confirmation';
 import {GistDependencies, useGist} from '../../hooks/use-gist';
 import {HistoryContext} from '../../hooks/use-history';
 import {BookmarkBackend} from '../../models/bookmark';
@@ -52,7 +53,7 @@ export function BookmarkList({
     bookmarkBackend
   );
 
-  const [deletionConfirmed, setDeletionConfirmed] = React.useState(false);
+  const [deletionConfirmed, setDeletionConfirmed] = useConfirmation();
 
   const deleteGist = React.useCallback(() => {
     if (deletionConfirmed) {

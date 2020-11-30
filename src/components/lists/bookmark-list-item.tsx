@@ -5,6 +5,7 @@ import {BulmaMediaObject} from '../../bulma/bulma-media-object';
 import {BulmaTag} from '../../bulma/bulma-tag';
 import {BulmaTags} from '../../bulma/bulma-tags';
 import {BulmaText} from '../../bulma/bulma-text';
+import {useConfirmation} from '../../hooks/use-confirmation';
 import {
   GistFile,
   LockedGistState,
@@ -49,7 +50,7 @@ export function BookmarkListItem({
     [gistState, gistFile]
   );
 
-  const [deletionConfirmed, setDeletionConfirmed] = React.useState(false);
+  const [deletionConfirmed, setDeletionConfirmed] = useConfirmation();
 
   const deleteBookmark = React.useCallback(() => {
     if (deletionConfirmed) {
