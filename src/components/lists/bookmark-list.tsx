@@ -158,6 +158,7 @@ export function BookmarkList({
         <AddBookmarkModal
           initialTitle={initialTitle}
           initialUrl={initialUrl}
+          bookmarklet={bookmarklet}
           onCreateBookmark={createBookmark}
           onCancel={closeAddModal}
         />

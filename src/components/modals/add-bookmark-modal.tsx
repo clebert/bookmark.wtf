@@ -1,13 +1,18 @@
+import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import {BulmaButton} from '../../bulma/bulma-button';
+import {BulmaContent} from '../../bulma/bulma-content';
 import {BulmaField} from '../../bulma/bulma-field';
+import {BulmaIcon} from '../../bulma/bulma-icon';
 import {BulmaInput} from '../../bulma/bulma-input';
 import {BulmaModalCard} from '../../bulma/bulma-modal-card';
+import {BulmaTag} from '../../bulma/bulma-tag';
 import {useInputCallback} from '../../hooks/use-input-callback';
 
 export interface AddBookmarkModalProps {
   readonly initialTitle: string;
   readonly initialUrl: string;
+  readonly bookmarklet: string;
 
   onCreateBookmark(title: string, url: string): void;
   onCancel(): void;
@@ -16,6 +21,7 @@ export interface AddBookmarkModalProps {
 export function AddBookmarkModal({
   initialTitle,
   initialUrl,
+  bookmarklet,
   onCreateBookmark,
   onCancel,
 }: AddBookmarkModalProps): JSX.Element {
@@ -28,6 +34,19 @@ export function AddBookmarkModal({
       event.preventDefault();
     },
     [onCreateBookmark, title, url]
+  );
+
+  const addBookmarkTagRef = React.useRef<HTMLAnchorElement>(null);
+
+  React.useEffect(() => {
+    if (addBookmarkTagRef.current) {
+      addBookmarkTagRef.current.setAttribute('href', bookmarklet);
+    }
+  });
+
+  const nop = React.useCallback(
+    (event: React.MouseEvent) => event.preventDefault(),
+    []
   );
 
   return (
@@ -66,6 +85,21 @@ export function AddBookmarkModal({
             onChange={useInputCallback(setUrl)}
           />
         </BulmaField>
+
+        <BulmaContent isHidden="touch">
+          <b>Note: </b>You can save the bookmarklet{' '}
+          <BulmaTag
+            ref={addBookmarkTagRef}
+            color="link"
+            isLight
+            isRounded
+            onClick={nop}
+          >
+            <BulmaIcon definition={faPlus}>Add bookmark</BulmaIcon>
+          </BulmaTag>{' '}
+          in the Favorites bar of your browser. This allows you to add new
+          bookmarks without having to enter the title and URL yourself.
+        </BulmaContent>
       </BulmaModalCard>
     </form>
   );
