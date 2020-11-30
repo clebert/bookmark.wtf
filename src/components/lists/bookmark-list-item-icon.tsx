@@ -31,7 +31,7 @@ export function BookmarkListItemIcon({
       } else {
         const {currentTarget} = event;
 
-        createIdenticon(url, 256)
+        createIdenticon(url)
           .then((identicon) => currentTarget?.setAttribute('src', identicon))
           .catch(console.error);
       }
