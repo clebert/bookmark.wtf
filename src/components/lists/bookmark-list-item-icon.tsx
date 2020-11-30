@@ -18,6 +18,7 @@ export function BookmarkListItemIcon({
       createRichIconUrl(url),
       createIconUrl(url, 'apple-touch-icon.png'),
       createIconUrl(url, 'favicon.ico'),
+      createIconUrl(url, 'favicon.png'),
     ],
     [url]
   );
