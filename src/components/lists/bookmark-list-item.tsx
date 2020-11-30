@@ -1,7 +1,6 @@
 import {faEdit, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import {BulmaIcon} from '../../bulma/bulma-icon';
-import {BulmaImage} from '../../bulma/bulma-image';
 import {BulmaMediaObject} from '../../bulma/bulma-media-object';
 import {BulmaTag} from '../../bulma/bulma-tag';
 import {BulmaTags} from '../../bulma/bulma-tags';
@@ -13,9 +12,9 @@ import {
   UpdatingGistState,
 } from '../../hooks/use-gist';
 import {Bookmark} from '../../models/bookmark';
-import {createFaviconUrl} from '../../utils/create-favicon-url';
 import {toggle} from '../../utils/toggle';
 import {EditBookmarkModal} from '../modals/edit-bookmark-modal';
+import {BookmarkListItemIcon} from './bookmark-list-item-icon';
 
 export interface BookmarkListItemProps {
   readonly gistState:
@@ -32,15 +31,6 @@ export function BookmarkListItem({
   gistFile,
   editable,
 }: BookmarkListItemProps): JSX.Element {
-  const faviconUrl = React.useMemo(() => createFaviconUrl(gistFile.model.url), [
-    gistFile,
-  ]);
-
-  const defaultFaviconUrl = React.useMemo(
-    () => createFaviconUrl('https://example.com'),
-    []
-  );
-
   const [editModal, setEditModal] = React.useState(false);
   const toggleEditModal = React.useCallback(() => setEditModal(toggle), []);
 
@@ -89,13 +79,10 @@ export function BookmarkListItem({
 
       <BulmaMediaObject
         left={
-          <a href={gistFile.model.url} onClick={countBookmarkClick}>
-            <BulmaImage
-              dimension="64x64"
-              defaultSrc={defaultFaviconUrl}
-              src={faviconUrl}
-            />
-          </a>
+          <BookmarkListItemIcon
+            url={gistFile.model.url}
+            onClick={countBookmarkClick}
+          />
         }
       >
         <BulmaText

@@ -4,9 +4,9 @@ import React from 'react';
 export interface BulmaImageProps {
   readonly dimension?: BulmaImageDimension;
   readonly ratio?: BulmaImageRatio;
-  readonly defaultSrc?: string;
   readonly src?: string;
   readonly isRounded?: boolean;
+  readonly onError?: React.ReactEventHandler<HTMLImageElement>;
 }
 
 export type BulmaImageDimension =
@@ -40,15 +40,6 @@ export type BulmaImageRatio =
  * https://bulma.io/documentation/elements/image/
  */
 export function BulmaImage(props: BulmaImageProps): JSX.Element {
-  const handleError = React.useCallback(
-    (event: React.SyntheticEvent<HTMLImageElement>) => {
-      if (props.defaultSrc) {
-        event.currentTarget.setAttribute('src', props.defaultSrc);
-      }
-    },
-    [props.defaultSrc]
-  );
-
   return (
     <figure
       className={classnames({
@@ -61,7 +52,7 @@ export function BulmaImage(props: BulmaImageProps): JSX.Element {
         <img
           className={classnames({'is-rounded': props.isRounded})}
           src={props.src}
-          onError={handleError}
+          onError={props.onError}
         />
       )}
     </figure>
