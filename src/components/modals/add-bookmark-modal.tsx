@@ -87,7 +87,7 @@ export function AddBookmarkModal({
         </BulmaField>
 
         <BulmaContent isHidden="touch">
-          <b>Note: </b>You can save the bookmarklet{' '}
+          <b>Tip: </b>You can save the bookmarklet{' '}
           <BulmaTag
             ref={addBookmarkTagRef}
             color="link"
