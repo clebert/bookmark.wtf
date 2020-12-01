@@ -91,7 +91,7 @@
     "@types/react-dom": "^17.0.0",
     "apollo": "^2.31.1",
     "aws-cdk": "^1.75.0",
-    "aws-simple": "^4.1.0",
+    "aws-simple": "^4.1.2",
     "babel-loader": "^8.2.1",
     "constructs": "^3.2.42",
     "core-js": "^3.7.0",
