@@ -1,5 +1,5 @@
+import {BulmaTitle} from '@clebert/bulma-react/lib/bulma-title';
 import React from 'react';
-import {BulmaTitle} from '../bulma/bulma-title';
 import {assertIsString} from '../utils/assert-is-string';
 
 const appName = process.env.APP_NAME;

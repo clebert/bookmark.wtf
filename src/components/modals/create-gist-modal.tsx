@@ -1,8 +1,8 @@
+import {BulmaButton} from '@clebert/bulma-react/lib/bulma-button';
+import {BulmaField} from '@clebert/bulma-react/lib/bulma-field';
+import {BulmaInput} from '@clebert/bulma-react/lib/bulma-input';
+import {BulmaModalCard} from '@clebert/bulma-react/lib/bulma-modal-card';
 import React from 'react';
-import {BulmaButton} from '../../bulma/bulma-button';
-import {BulmaField} from '../../bulma/bulma-field';
-import {BulmaInput} from '../../bulma/bulma-input';
-import {BulmaModalCard} from '../../bulma/bulma-modal-card';
 import {useInputCallback} from '../../hooks/use-input-callback';
 
 export interface CreateGistModalProps {

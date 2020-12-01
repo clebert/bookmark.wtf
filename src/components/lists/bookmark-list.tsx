@@ -1,4 +1,16 @@
 import {
+  BulmaColumn,
+  BulmaColumnBreakpointSizes,
+} from '@clebert/bulma-react/lib/bulma-column';
+import {BulmaColumns} from '@clebert/bulma-react/lib/bulma-columns';
+import {BulmaContent} from '@clebert/bulma-react/lib/bulma-content';
+import {BulmaIcon} from '@clebert/bulma-react/lib/bulma-icon';
+import {BulmaMediaObject} from '@clebert/bulma-react/lib/bulma-media-object';
+import {BulmaTag} from '@clebert/bulma-react/lib/bulma-tag';
+import {BulmaTags} from '@clebert/bulma-react/lib/bulma-tags';
+import {BulmaText} from '@clebert/bulma-react/lib/bulma-text';
+import {BulmaTitle} from '@clebert/bulma-react/lib/bulma-title';
+import {
   faEdit,
   faExclamationTriangle,
   faLock,
@@ -9,18 +21,6 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
-import {
-  BulmaColumn,
-  BulmaColumnBreakpointSizes,
-} from '../../bulma/bulma-column';
-import {BulmaColumns} from '../../bulma/bulma-columns';
-import {BulmaContent} from '../../bulma/bulma-content';
-import {BulmaIcon} from '../../bulma/bulma-icon';
-import {BulmaMediaObject} from '../../bulma/bulma-media-object';
-import {BulmaTag} from '../../bulma/bulma-tag';
-import {BulmaTags} from '../../bulma/bulma-tags';
-import {BulmaText} from '../../bulma/bulma-text';
-import {BulmaTitle} from '../../bulma/bulma-title';
 import {useConfirmation} from '../../hooks/use-confirmation';
 import {GistDependencies, useGist} from '../../hooks/use-gist';
 import {HistoryContext} from '../../hooks/use-history';

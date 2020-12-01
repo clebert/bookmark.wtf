@@ -1,6 +1,6 @@
+import {BulmaContainer} from '@clebert/bulma-react/lib/bulma-container';
+import {BulmaSection} from '@clebert/bulma-react/lib/bulma-section';
 import React from 'react';
-import {BulmaContainer} from '../bulma/bulma-container';
-import {BulmaSection} from '../bulma/bulma-section';
 import {useAuth} from '../hooks/use-auth';
 import {HistoryContext, useHistory} from '../hooks/use-history';
 import {ErrorBoundary} from './error-boundary';

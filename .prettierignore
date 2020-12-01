@@ -1,4 +1,5 @@
 __generated__
+.vscode
 cdk.out
 coverage
 dist

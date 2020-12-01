@@ -1,5 +1,5 @@
+import {BulmaLevel} from '@clebert/bulma-react/lib/bulma-level';
 import React from 'react';
-import {BulmaLevel} from '../../bulma/bulma-level';
 import {useGistName} from '../../hooks/use-gist-name';
 import {UserContext, UserDependencies, useUser} from '../../hooks/use-user';
 import {AppName} from '../app-name';

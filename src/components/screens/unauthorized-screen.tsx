@@ -1,9 +1,9 @@
+import {BulmaContent} from '@clebert/bulma-react/lib/bulma-content';
+import {BulmaHero} from '@clebert/bulma-react/lib/bulma-hero';
+import {BulmaImage} from '@clebert/bulma-react/lib/bulma-image';
+import {BulmaLevel} from '@clebert/bulma-react/lib/bulma-level';
+import {BulmaTitle} from '@clebert/bulma-react/lib/bulma-title';
 import React from 'react';
-import {BulmaContent} from '../../bulma/bulma-content';
-import {BulmaHero} from '../../bulma/bulma-hero';
-import {BulmaImage} from '../../bulma/bulma-image';
-import {BulmaLevel} from '../../bulma/bulma-level';
-import {BulmaTitle} from '../../bulma/bulma-title';
 import {
   AuthorizingAuthState,
   UnauthorizedAuthState,

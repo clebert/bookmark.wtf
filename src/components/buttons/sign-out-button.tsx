@@ -1,9 +1,9 @@
+import {BulmaButton} from '@clebert/bulma-react/lib/bulma-button';
+import {BulmaField} from '@clebert/bulma-react/lib/bulma-field';
+import {BulmaIcon} from '@clebert/bulma-react/lib/bulma-icon';
+import {BulmaText} from '@clebert/bulma-react/lib/bulma-text';
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
-import {BulmaButton} from '../../bulma/bulma-button';
-import {BulmaField} from '../../bulma/bulma-field';
-import {BulmaIcon} from '../../bulma/bulma-icon';
-import {BulmaText} from '../../bulma/bulma-text';
 import {AuthorizedAuthState} from '../../hooks/use-auth';
 import {UserContext} from '../../hooks/use-user';
 
