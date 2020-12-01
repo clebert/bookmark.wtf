@@ -44,7 +44,7 @@ export function useSender(): SenderState {
   const send = React.useCallback<IdleSenderState['send']>((signal, effect) => {
     setSending((prevSending) => {
       if (prevSending) {
-        throw new Error('Illegal output state.');
+        throw new Error('A signal is already being sent.');
       }
 
       return true;
