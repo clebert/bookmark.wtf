@@ -15,9 +15,9 @@ const prodClientSecret = process.env.PROD_CLIENT_SECRET;
 /**
  * @type {import('webpack').RuleSetRule}
  */
-const babelLoader = {
+const tsLoader = {
   test: /\.tsx?$/,
-  use: {loader: 'babel-loader'},
+  use: {loader: 'ts-loader'},
   exclude: [/node_modules/],
 };
 
@@ -27,7 +27,7 @@ const babelLoader = {
  */
 function createAppConfig(dev) {
   return {
-    target: ['web', 'es2018'],
+    target: ['web', 'es2019'],
     entry: './src/index.tsx',
     output: {
       filename: 'app/index.[contenthash].js',
@@ -49,7 +49,7 @@ function createAppConfig(dev) {
         'process.env.SCREENSHOT_HASH': JSON.stringify(screenshotHash),
       }),
     ],
-    module: {rules: [babelLoader]},
+    module: {rules: [tsLoader]},
     resolve: {extensions: ['.js', '.json', '.ts', '.tsx']},
     devtool: dev ? 'eval-source-map' : 'source-map',
   };
@@ -62,7 +62,7 @@ function createAppConfig(dev) {
  */
 function createLambdaConfig(dev, apiName) {
   return {
-    target: ['node12', 'es2018'],
+    target: ['node12', 'es2019'],
     node: {__dirname: false},
     entry: `./src/handlers/${apiName}.ts`,
     output: {
@@ -79,7 +79,7 @@ function createLambdaConfig(dev, apiName) {
         ),
       }),
     ],
-    module: {rules: [babelLoader]},
+    module: {rules: [tsLoader]},
     resolve: {extensions: ['.js', '.json', '.ts', '.tsx']},
   };
 }

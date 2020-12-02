@@ -5,8 +5,7 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "webpack --mode production",
-    "ci": "run-p format:test lint test compile build",
-    "compile": "tsc --noEmit --incremental --pretty",
+    "ci": "run-p format:test lint test build",
     "deploy": "cdk deploy --app 'yarn aws-simple create'",
     "postdeploy": "aws-simple upload && aws-simple redeploy",
     "format": "prettier --write '**/*.{html,js,json,md,ts,tsx,yml}'",
@@ -17,9 +16,7 @@
     "lint": "tslint --config tslint.json --project tsconfig.json --format verbose",
     "start": "aws-simple start",
     "test": "jest",
-    "watch": "run-p start watch:*",
-    "watch:build": "webpack --mode development --watch",
-    "watch:compile": "tsc --noEmit --incremental --pretty --watch"
+    "watch": "webpack --mode development --watch"
   },
   "resolutions": {
     "@types/react": "^17.0.0"
@@ -72,9 +69,7 @@
     "@aws-cdk/cx-api": "^1.75.0",
     "@aws-cdk/region-info": "^1.75.0",
     "@babel/core": "^7.12.9",
-    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
     "@babel/preset-env": "^7.12.7",
-    "@babel/preset-react": "^7.12.7",
     "@babel/preset-typescript": "^7.12.7",
     "@types/aws-lambda": "^8.10.64",
     "@types/cookie": "^0.4.0",
@@ -87,13 +82,12 @@
     "apollo": "^2.31.1",
     "aws-cdk": "^1.75.0",
     "aws-simple": "^4.1.2",
-    "babel-loader": "^8.2.1",
     "constructs": "^3.2.42",
-    "core-js": "^3.7.0",
     "html-webpack-plugin": "next",
     "jest": "^26.6.3",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.0",
+    "ts-loader": "^8.0.11",
     "tslint": "^6.1.3",
     "typescript": "^4.1.2",
     "webpack": "^5.6.0",
