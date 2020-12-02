@@ -29,9 +29,7 @@ function createAppConfig(dev) {
   return {
     target: ['web', 'es2019'],
     entry: './src/index.tsx',
-    output: {
-      filename: 'app/index.[contenthash].js',
-    },
+    output: {filename: 'app/index.[contenthash].js'},
     plugins: [
       new HtmlWebpackPlugin({
         filename: 'app/index.html',
@@ -47,6 +45,10 @@ function createAppConfig(dev) {
           dev ? 'http://localhost:3000' : appUrl
         ),
         'process.env.SCREENSHOT_HASH': JSON.stringify(screenshotHash),
+      }),
+      new webpack.SourceMapDevToolPlugin({
+        filename: '[file].map',
+        publicPath: '/',
       }),
     ],
     module: {rules: [tsLoader]},
