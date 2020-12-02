@@ -1,6 +1,7 @@
 // @ts-check
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 const webpack = require('webpack');
 const {appName, appUrl, screenshotHash} = require('./aws-simple.config');
 
@@ -13,15 +14,6 @@ const prodClientId = 'fae9329e8bd2e706c920';
 const prodClientSecret = process.env.PROD_CLIENT_SECRET;
 
 /**
- * @type {import('webpack').RuleSetRule}
- */
-const tsLoader = {
-  test: /\.tsx?$/,
-  use: {loader: 'ts-loader'},
-  exclude: [/node_modules/],
-};
-
-/**
  * @param {boolean} dev
  * @returns {import('webpack').Configuration}
  */
@@ -29,10 +21,14 @@ function createAppConfig(dev) {
   return {
     target: ['web', 'es2019'],
     entry: './src/index.tsx',
-    output: {filename: 'app/index.[contenthash].js'},
+    output: {
+      filename: 'index.[contenthash].js',
+      path: path.join(__dirname, 'dist/app'),
+      publicPath: '/app/',
+    },
     plugins: [
       new HtmlWebpackPlugin({
-        filename: 'app/index.html',
+        filename: 'index.html',
         title: appName,
         template: './src/index.html',
       }),
@@ -48,10 +44,18 @@ function createAppConfig(dev) {
       }),
       new webpack.SourceMapDevToolPlugin({
         filename: '[file].map',
-        publicPath: '/',
+        publicPath: '/app/',
       }),
     ],
-    module: {rules: [tsLoader]},
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          use: {loader: 'ts-loader', options: {transpileOnly: dev}},
+          exclude: [/node_modules/],
+        },
+      ],
+    },
     resolve: {extensions: ['.js', '.json', '.ts', '.tsx']},
     devtool: dev ? 'eval-source-map' : 'source-map',
   };
@@ -81,7 +85,15 @@ function createLambdaConfig(dev, apiName) {
         ),
       }),
     ],
-    module: {rules: [tsLoader]},
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          use: {loader: 'ts-loader', options: {transpileOnly: dev}},
+          exclude: [/node_modules/],
+        },
+      ],
+    },
     resolve: {extensions: ['.js', '.json', '.ts', '.tsx']},
   };
 }

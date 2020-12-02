@@ -16,7 +16,8 @@
     "lint": "tslint --config tslint.json --project tsconfig.json --format verbose",
     "start": "aws-simple start",
     "test": "jest",
-    "watch": "webpack --mode development --watch"
+    "watch": "run-p start watch:*",
+    "watch:build": "webpack --mode development --watch"
   },
   "resolutions": {
     "@types/react": "^17.0.0"
