@@ -34,6 +34,7 @@ exports.default = {
           publicPath: `/api/redirect`,
           localPath: 'dist/api/redirect.js',
           memorySize: 128,
+          timeoutInSeconds: 3,
           loggingLevel: 'INFO',
           acceptedParameters: {code: {}, state: {}},
         },

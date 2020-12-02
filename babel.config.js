@@ -15,12 +15,6 @@ module.exports = function (api) {
       '@babel/react',
       '@babel/typescript',
     ],
-    plugins: [
-      '@babel/proposal-class-properties',
-      '@babel/proposal-nullish-coalescing-operator',
-      '@babel/proposal-object-rest-spread',
-      '@babel/proposal-optional-chaining',
-      '@babel/syntax-dynamic-import',
-    ],
+    plugins: ['@babel/proposal-optional-chaining'],
   };
 };
