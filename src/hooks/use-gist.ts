@@ -1,24 +1,24 @@
+import {SuccessReceiverState} from 'loxia';
 import React from 'react';
 import {GistRestApi} from '../apis/gist-rest-api';
 import {GetGist_viewer_gist} from '../queries/__generated__/GetGist';
 import {assertIsString} from '../utils/assert-is-string';
 import {AuthorizedAuthState} from './use-auth';
 import {SetGistNameState} from './use-gist-name';
-import {ReceivedReceiverState} from './use-receiver';
 import {useSender} from './use-sender';
 
 export interface GistDependencies {
   readonly authState: AuthorizedAuthState;
-  readonly userState: ReceivedReceiverState<string>;
+  readonly userState: SuccessReceiverState<string>;
   readonly gistNameState: SetGistNameState;
-  readonly gistDataState: ReceivedReceiverState<GetGist_viewer_gist>;
+  readonly gistDataState: SuccessReceiverState<GetGist_viewer_gist>;
 }
 
 export type GistState<TModel> =
   | ReadyGistState<TModel>
   | UpdatingGistState<TModel>
   | LockedGistState<TModel>
-  | FailedGistState;
+  | FailedGistState; // TODO: rename
 
 export interface ReadyGistState<TModel> {
   readonly status: 'ready';
@@ -210,8 +210,8 @@ export function useGist<TModel>(
   );
 
   return React.useMemo(() => {
-    if (updateState.status === 'failed') {
-      return {status: 'failed', error: updateState.error};
+    if (updateState.status === 'failure') {
+      return {status: 'failed', error: updateState.reason};
     }
 
     const sortedFiles = [...files].sort((a, b) =>

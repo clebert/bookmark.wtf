@@ -21,7 +21,7 @@ export function GistView({
   const gistDataState = useGistData({authState, gistNameState});
 
   React.useEffect(() => {
-    if (gistDataState.status === 'received') {
+    if (gistDataState.status === 'success') {
       document.title = `${gistDataState.value.description} - ${appName}`;
 
       return () => void (document.title = appName!);
@@ -37,7 +37,7 @@ export function GistView({
     return null;
   }
 
-  if (gistDataState.status === 'failed' || userState.status === 'failed') {
+  if (gistDataState.status === 'failure' || userState.status === 'failure') {
     return (
       <BulmaText color="danger">
         <BulmaIcon definition={faExclamationTriangle}>

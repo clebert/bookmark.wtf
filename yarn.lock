@@ -3019,6 +3019,11 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
+batis@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/batis/-/batis-0.1.2.tgz#a982e19d1928eaa59f65616dd107a739715b3dca"
+  integrity sha512-V2JPDV5p4K2+6jvpue7vjyiAvQ3YdS0sRvqyG/AM6v3q9bYWEzD6HJwo7Es+K1V8W/RlpwVZAsyxNtne0QBShQ==
+
 bcrypt-pbkdf@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/bcrypt-pbkdf/-/bcrypt-pbkdf-1.0.2.tgz"
@@ -6487,6 +6492,13 @@ lower-case@^2.0.1:
   integrity sha512-LiWgfDLLb1dwbFQZsSglpRj+1ctGnayXz3Uv0/WO8n558JycT5fg6zkNcnW0G68Nn0aEldTFeEfmjCfmqry/rQ==
   dependencies:
     tslib "^1.10.0"
+
+loxia@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/loxia/-/loxia-0.1.0.tgz#faac94dca259d4cc2addc7c7b8f84716946f169a"
+  integrity sha512-XZBRIQaldutDP9HOkL1Gpo2O/FVUSbgkgU0bA1TlfICA1XPQAPVsCgpo4RFO7wY85mul06IM1kYgBvtYBkqlVw==
+  dependencies:
+    batis "^0.1.2"
 
 lru-cache@^5.0.0, lru-cache@^5.1.1:
   version "5.1.1"

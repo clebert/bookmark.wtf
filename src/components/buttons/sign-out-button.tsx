@@ -20,7 +20,7 @@ export function SignOutButton({authState}: SignOutButtonProps): JSX.Element {
         <BulmaIcon definition={faSignOutAlt}>Sign out</BulmaIcon>
       </BulmaButton>
 
-      {userState.status === 'failed' ? (
+      {userState.status === 'failure' ? (
         <BulmaButton size="small" isRounded isStatic>
           <BulmaText color="danger">Oops! Something went wrong.</BulmaText>
         </BulmaButton>

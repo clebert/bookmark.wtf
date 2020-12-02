@@ -1,7 +1,8 @@
+import {ReceiverState} from 'loxia';
 import React from 'react';
 import {fetchUserData} from '../apis/fetch-user-data';
 import {AuthorizedAuthState} from './use-auth';
-import {ReceiverState, useReceiver} from './use-receiver';
+import {useReceiver} from './use-receiver';
 
 export interface UserDependencies {
   readonly authState: AuthorizedAuthState;

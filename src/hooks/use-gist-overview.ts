@@ -1,7 +1,8 @@
+import {ReceiverState} from 'loxia';
 import React from 'react';
 import {fetchGistsData} from '../apis/fetch-gists-data';
 import {AuthorizedAuthState} from './use-auth';
-import {ReceiverState, useReceiver} from './use-receiver';
+import {useReceiver} from './use-receiver';
 
 export interface GistOverviewDependencies {
   readonly authState: AuthorizedAuthState;
