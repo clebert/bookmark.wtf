@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {HistoryContext} from './use-history';
 
 export type GistNameState = SetGistNameState | UnsetGistNameState;

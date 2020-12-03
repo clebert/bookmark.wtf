@@ -1,5 +1,5 @@
 import {ReceiverState} from 'loxia';
-import React from 'react';
+import * as React from 'react';
 import {fetchUserData} from '../apis/fetch-user-data';
 import {AuthorizedAuthState} from './use-auth';
 import {useReceiver} from './use-receiver';

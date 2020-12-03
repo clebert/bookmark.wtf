@@ -1,10 +1,12 @@
-import {BulmaIcon} from '@clebert/bulma-react/lib/bulma-icon';
-import {BulmaMediaObject} from '@clebert/bulma-react/lib/bulma-media-object';
-import {BulmaTag} from '@clebert/bulma-react/lib/bulma-tag';
-import {BulmaTags} from '@clebert/bulma-react/lib/bulma-tags';
-import {BulmaText} from '@clebert/bulma-react/lib/bulma-text';
+import {
+  BulmaIcon,
+  BulmaMediaObject,
+  BulmaTag,
+  BulmaTags,
+  BulmaText,
+} from '@clebert/bulma-react';
 import {faEdit, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
+import * as React from 'react';
 import {useConfirmation} from '../../hooks/use-confirmation';
 import {
   GistFile,

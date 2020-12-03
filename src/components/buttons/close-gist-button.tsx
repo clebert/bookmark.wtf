@@ -1,9 +1,7 @@
-import {BulmaButton} from '@clebert/bulma-react/lib/bulma-button';
-import {BulmaField} from '@clebert/bulma-react/lib/bulma-field';
-import {BulmaIcon} from '@clebert/bulma-react/lib/bulma-icon';
+import {BulmaButton, BulmaField, BulmaIcon} from '@clebert/bulma-react';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
+import * as React from 'react';
 import {SetGistNameState} from '../../hooks/use-gist-name';
 
 export interface CloseGistButtonProps {

@@ -1,13 +1,13 @@
-import {BulmaButton} from '@clebert/bulma-react/lib/bulma-button';
 import {
+  BulmaButton,
   BulmaColumn,
   BulmaColumnBreakpointSizes,
-} from '@clebert/bulma-react/lib/bulma-column';
-import {BulmaColumns} from '@clebert/bulma-react/lib/bulma-columns';
-import {BulmaField} from '@clebert/bulma-react/lib/bulma-field';
-import {BulmaHero} from '@clebert/bulma-react/lib/bulma-hero';
-import {BulmaTitle} from '@clebert/bulma-react/lib/bulma-title';
-import React from 'react';
+  BulmaColumns,
+  BulmaField,
+  BulmaHero,
+  BulmaTitle,
+} from '@clebert/bulma-react';
+import * as React from 'react';
 import {GistRestApi} from '../../apis/gist-rest-api';
 import {AuthorizedAuthState} from '../../hooks/use-auth';
 import {UnsetGistNameState} from '../../hooks/use-gist-name';

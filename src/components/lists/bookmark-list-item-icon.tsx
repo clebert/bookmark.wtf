@@ -1,5 +1,5 @@
-import {BulmaImage} from '@clebert/bulma-react/lib/bulma-image';
-import React from 'react';
+import {BulmaImage} from '@clebert/bulma-react';
+import * as React from 'react';
 import {createIdenticon} from '../../utils/create-identicon';
 
 export interface BookmarkListItemIconProps {

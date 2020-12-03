@@ -1,12 +1,14 @@
-import {BulmaButton} from '@clebert/bulma-react/lib/bulma-button';
-import {BulmaContent} from '@clebert/bulma-react/lib/bulma-content';
-import {BulmaField} from '@clebert/bulma-react/lib/bulma-field';
-import {BulmaIcon} from '@clebert/bulma-react/lib/bulma-icon';
-import {BulmaInput} from '@clebert/bulma-react/lib/bulma-input';
-import {BulmaModalCard} from '@clebert/bulma-react/lib/bulma-modal-card';
-import {BulmaTag} from '@clebert/bulma-react/lib/bulma-tag';
+import {
+  BulmaButton,
+  BulmaContent,
+  BulmaField,
+  BulmaIcon,
+  BulmaInput,
+  BulmaModalCard,
+  BulmaTag,
+} from '@clebert/bulma-react';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
+import * as React from 'react';
 import {useInputCallback} from '../../hooks/use-input-callback';
 
 export interface AddBookmarkModalProps {

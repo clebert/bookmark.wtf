@@ -1,15 +1,15 @@
 import {
   BulmaColumn,
   BulmaColumnBreakpointSizes,
-} from '@clebert/bulma-react/lib/bulma-column';
-import {BulmaColumns} from '@clebert/bulma-react/lib/bulma-columns';
-import {BulmaContent} from '@clebert/bulma-react/lib/bulma-content';
-import {BulmaIcon} from '@clebert/bulma-react/lib/bulma-icon';
-import {BulmaMediaObject} from '@clebert/bulma-react/lib/bulma-media-object';
-import {BulmaTag} from '@clebert/bulma-react/lib/bulma-tag';
-import {BulmaTags} from '@clebert/bulma-react/lib/bulma-tags';
-import {BulmaText} from '@clebert/bulma-react/lib/bulma-text';
-import {BulmaTitle} from '@clebert/bulma-react/lib/bulma-title';
+  BulmaColumns,
+  BulmaContent,
+  BulmaIcon,
+  BulmaMediaObject,
+  BulmaTag,
+  BulmaTags,
+  BulmaText,
+  BulmaTitle,
+} from '@clebert/bulma-react';
 import {
   faEdit,
   faExclamationTriangle,
@@ -20,7 +20,7 @@ import {
   faToggleOn,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
+import * as React from 'react';
 import {useConfirmation} from '../../hooks/use-confirmation';
 import {GistDependencies, useGist} from '../../hooks/use-gist';
 import {HistoryContext} from '../../hooks/use-history';

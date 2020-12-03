@@ -1,7 +1,6 @@
-import {BulmaIcon} from '@clebert/bulma-react/lib/bulma-icon';
-import {BulmaText} from '@clebert/bulma-react/lib/bulma-text';
+import {BulmaIcon, BulmaText} from '@clebert/bulma-react';
 import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
+import * as React from 'react';
 import {GistDataDependencies, useGistData} from '../../hooks/use-gist-data';
 import {UserContext} from '../../hooks/use-user';
 import {assertIsString} from '../../utils/assert-is-string';

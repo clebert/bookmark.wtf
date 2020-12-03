@@ -1,5 +1,5 @@
 import cookie from 'cookie';
-import React from 'react';
+import * as React from 'react';
 import {assertIsString} from '../utils/assert-is-string';
 import {createRandomValue} from '../utils/create-random-value';
 

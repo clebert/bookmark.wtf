@@ -1,5 +1,5 @@
 import {SuccessReceiverState} from 'loxia';
-import React from 'react';
+import * as React from 'react';
 import {GistRestApi} from '../apis/gist-rest-api';
 import {GetGist_viewer_gist} from '../queries/__generated__/GetGist';
 import {assertIsString} from '../utils/assert-is-string';

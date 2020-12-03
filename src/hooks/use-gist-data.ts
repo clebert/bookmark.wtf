@@ -1,5 +1,5 @@
 import {ReceiverState} from 'loxia';
-import React from 'react';
+import * as React from 'react';
 import {fetchGistData} from '../apis/fetch-gist-data';
 import {GetGist_viewer_gist} from '../queries/__generated__/GetGist';
 import {AuthorizedAuthState} from './use-auth';

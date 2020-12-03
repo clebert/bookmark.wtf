@@ -1,9 +1,11 @@
-import {BulmaContent} from '@clebert/bulma-react/lib/bulma-content';
-import {BulmaHero} from '@clebert/bulma-react/lib/bulma-hero';
-import {BulmaImage} from '@clebert/bulma-react/lib/bulma-image';
-import {BulmaLevel} from '@clebert/bulma-react/lib/bulma-level';
-import {BulmaTitle} from '@clebert/bulma-react/lib/bulma-title';
-import React from 'react';
+import {
+  BulmaContent,
+  BulmaHero,
+  BulmaImage,
+  BulmaLevel,
+  BulmaTitle,
+} from '@clebert/bulma-react';
+import * as React from 'react';
 import {
   AuthorizingAuthState,
   UnauthorizedAuthState,

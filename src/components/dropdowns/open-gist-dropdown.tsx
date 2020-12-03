@@ -1,8 +1,6 @@
-import {BulmaButton} from '@clebert/bulma-react/lib/bulma-button';
-import {BulmaDropdown} from '@clebert/bulma-react/lib/bulma-dropdown';
-import {BulmaIcon} from '@clebert/bulma-react/lib/bulma-icon';
+import {BulmaButton, BulmaDropdown, BulmaIcon} from '@clebert/bulma-react';
 import {faAngleDown, faAngleUp} from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
+import * as React from 'react';
 import {UnsetGistNameState} from '../../hooks/use-gist-name';
 import {
   GistOverviewDependencies,

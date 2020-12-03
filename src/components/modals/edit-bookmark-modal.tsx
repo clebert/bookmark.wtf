@@ -1,8 +1,10 @@
-import {BulmaButton} from '@clebert/bulma-react/lib/bulma-button';
-import {BulmaField} from '@clebert/bulma-react/lib/bulma-field';
-import {BulmaInput} from '@clebert/bulma-react/lib/bulma-input';
-import {BulmaModalCard} from '@clebert/bulma-react/lib/bulma-modal-card';
-import React from 'react';
+import {
+  BulmaButton,
+  BulmaField,
+  BulmaInput,
+  BulmaModalCard,
+} from '@clebert/bulma-react';
+import * as React from 'react';
 import {useInputCallback} from '../../hooks/use-input-callback';
 
 export interface EditBookmarkModalProps {
