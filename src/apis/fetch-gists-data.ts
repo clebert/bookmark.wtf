@@ -1,27 +1,28 @@
-import {
-  GetGists,
-  GetGists_viewer_gists,
-} from '../queries/__generated__/GetGists';
 import {GET_GISTS} from '../queries/get-gists';
+import {GetGistsQuery, GetGistsQueryVariables} from '../queries/types';
 import {createGithubClient} from '../utils/create-github-client';
 
-export async function fetchGistsData(
-  token: string
-): Promise<GetGists_viewer_gists> {
+export type GistsData = Exclude<
+  GetGistsQuery['viewer']['gists'],
+  undefined | null
+>;
+
+export async function fetchGistsData(token: string): Promise<GistsData> {
   const client = createGithubClient(token);
 
-  try {
-    const result = await client.query<GetGists>({
-      query: GET_GISTS,
-      fetchPolicy: 'network-only',
-    });
+  const result = await client
+    .query<GetGistsQuery, GetGistsQueryVariables>(GET_GISTS, {})
+    .toPromise();
 
-    if (result.error) {
-      throw result.error;
-    }
-
-    return result.data.viewer.gists;
-  } finally {
-    client.stop();
+  if (result.error) {
+    throw result.error;
   }
+
+  const gistsData = result.data?.viewer?.gists;
+
+  if (!gistsData) {
+    throw new Error('Gists data not found.');
+  }
+
+  return gistsData;
 }

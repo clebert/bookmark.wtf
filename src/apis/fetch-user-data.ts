@@ -1,22 +1,25 @@
-import {GetUser, GetUser_viewer} from '../queries/__generated__/GetUser';
 import {GET_USER} from '../queries/get-user';
+import {GetUserQuery, GetUserQueryVariables} from '../queries/types';
 import {createGithubClient} from '../utils/create-github-client';
 
-export async function fetchUserData(token: string): Promise<GetUser_viewer> {
+export type UserData = Exclude<GetUserQuery['viewer'], undefined | null>;
+
+export async function fetchUserData(token: string): Promise<UserData> {
   const client = createGithubClient(token);
 
-  try {
-    const result = await client.query<GetUser>({
-      query: GET_USER,
-      fetchPolicy: 'network-only',
-    });
+  const result = await client
+    .query<GetUserQuery, GetUserQueryVariables>(GET_USER, {})
+    .toPromise();
 
-    if (result.error) {
-      throw result.error;
-    }
-
-    return result.data.viewer;
-  } finally {
-    client.stop();
+  if (result.error) {
+    throw result.error;
   }
+
+  const userData = result.data?.viewer;
+
+  if (!userData) {
+    throw new Error('User data not found.');
+  }
+
+  return userData;
 }

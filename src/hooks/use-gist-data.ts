@@ -1,7 +1,6 @@
 import {ReceiverState} from 'loxia';
 import * as React from 'react';
-import {fetchGistData} from '../apis/fetch-gist-data';
-import {GetGist_viewer_gist} from '../queries/__generated__/GetGist';
+import {GistData, fetchGistData} from '../apis/fetch-gist-data';
 import {AuthorizedAuthState} from './use-auth';
 import {SetGistNameState} from './use-gist-name';
 import {useReceiver} from './use-receiver';
@@ -13,7 +12,7 @@ export interface GistDataDependencies {
 
 export function useGistData(
   dependencies: GistDataDependencies
-): ReceiverState<GetGist_viewer_gist> {
+): ReceiverState<GistData> {
   const {
     authState: {token},
     gistNameState: {gistName},

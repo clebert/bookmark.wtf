@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client/core';
+import {gql} from '@urql/core';
 
 export const GET_GIST = gql`
   query GetGist($gistName: String!) {

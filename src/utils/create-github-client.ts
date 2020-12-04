@@ -1,9 +1,8 @@
-import {ApolloClient, InMemoryCache} from '@apollo/client/core';
+import {Client} from '@urql/core';
 
-export function createGithubClient(token: string): ApolloClient<unknown> {
-  return new ApolloClient({
-    uri: 'https://api.github.com/graphql',
-    cache: new InMemoryCache(),
-    headers: {authorization: `token ${token}`},
+export function createGithubClient(token: string): Client {
+  return new Client({
+    url: 'https://api.github.com/graphql',
+    fetchOptions: {headers: {authorization: `token ${token}`}},
   });
 }

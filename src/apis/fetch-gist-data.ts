@@ -1,36 +1,31 @@
-import {
-  GetGist,
-  GetGistVariables,
-  GetGist_viewer_gist,
-} from '../queries/__generated__/GetGist';
 import {GET_GIST} from '../queries/get-gist';
+import {GetGistQuery, GetGistQueryVariables} from '../queries/types';
 import {createGithubClient} from '../utils/create-github-client';
+
+export type GistData = Exclude<
+  GetGistQuery['viewer']['gist'],
+  undefined | null
+>;
 
 export async function fetchGistData(
   token: string,
   gistName: string
-): Promise<GetGist_viewer_gist> {
+): Promise<GistData> {
   const client = createGithubClient(token);
 
-  try {
-    const result = await client.query<GetGist, GetGistVariables>({
-      query: GET_GIST,
-      variables: {gistName},
-      fetchPolicy: 'network-only',
-    });
+  const result = await client
+    .query<GetGistQuery, GetGistQueryVariables>(GET_GIST, {gistName})
+    .toPromise();
 
-    if (result.error) {
-      throw result.error;
-    }
-
-    const {gist: gistData} = result.data.viewer;
-
-    if (!gistData) {
-      throw new Error('Gist not found.');
-    }
-
-    return gistData;
-  } finally {
-    client.stop();
+  if (result.error) {
+    throw result.error;
   }
+
+  const gistData = result.data?.viewer?.gist;
+
+  if (!gistData) {
+    throw new Error('Gist data not found.');
+  }
+
+  return gistData;
 }

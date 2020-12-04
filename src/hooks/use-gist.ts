@@ -1,7 +1,7 @@
 import {SuccessReceiverState} from 'loxia';
 import * as React from 'react';
+import {GistData} from '../apis/fetch-gist-data';
 import {GistRestApi} from '../apis/gist-rest-api';
-import {GetGist_viewer_gist} from '../queries/__generated__/GetGist';
 import {assertIsString} from '../utils/assert-is-string';
 import {AuthorizedAuthState} from './use-auth';
 import {SetGistNameState} from './use-gist-name';
@@ -11,7 +11,7 @@ export interface GistDependencies {
   readonly authState: AuthorizedAuthState;
   readonly userState: SuccessReceiverState<string>;
   readonly gistNameState: SetGistNameState;
-  readonly gistDataState: SuccessReceiverState<GetGist_viewer_gist>;
+  readonly gistDataState: SuccessReceiverState<GistData>;
 }
 
 export type GistState<TModel> =
