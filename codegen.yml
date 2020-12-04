@@ -3,9 +3,9 @@ schema:
   - https://api.github.com/graphql:
       headers:
         Authorization: 'token ${TOKEN}'
-documents: 'src/queries/*.ts'
+documents: 'src/queries/!(*.d).ts'
 generates:
-  src/queries/types.ts:
+  src/queries/types.d.ts:
     plugins:
       - 'typescript'
       - 'typescript-operations'
