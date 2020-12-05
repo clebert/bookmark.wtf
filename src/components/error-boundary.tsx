@@ -1,14 +1,14 @@
-import * as React from 'react';
+import {Component, ComponentChild, ComponentChildren} from 'preact';
 
 export interface ErrorBoundaryProps {
-  readonly fallback: React.ReactNode;
+  readonly fallback: ComponentChild;
 }
 
 export interface ErrorBoundaryState {
   readonly hasError: boolean;
 }
 
-export class ErrorBoundary extends React.Component<
+export class ErrorBoundary extends Component<
   ErrorBoundaryProps,
   ErrorBoundaryState
 > {
@@ -22,11 +22,7 @@ export class ErrorBoundary extends React.Component<
     this.state = {hasError: false};
   }
 
-  render(): JSX.Element {
-    return this.state.hasError ? (
-      <>{this.props.fallback}</>
-    ) : (
-      <>{this.props.children}</>
-    );
+  render(): ComponentChildren {
+    return this.state.hasError ? this.props.fallback : this.props.children;
   }
 }

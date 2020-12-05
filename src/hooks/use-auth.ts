@@ -1,5 +1,5 @@
 import cookie from 'cookie';
-import * as React from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'preact/hooks';
 import {assertIsString} from '../utils/assert-is-string';
 import {createRandomValue} from '../utils/create-random-value';
 
@@ -30,11 +30,11 @@ export type UnauthorizedAuthState = {
 };
 
 export function useAuth(): AuthState {
-  const [token, setToken] = React.useState(
+  const [token, setToken] = useState(
     localStorage.getItem('token') ?? undefined
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (token) {
       localStorage.setItem('token', token);
     } else {
@@ -42,9 +42,9 @@ export function useAuth(): AuthState {
     }
   }, [token]);
 
-  const [authorizing, setAuthorizing] = React.useState(false);
+  const [authorizing, setAuthorizing] = useState(false);
 
-  const signIn = React.useCallback(() => {
+  const signIn = useCallback(() => {
     setAuthorizing((prevAuthorizing) => {
       if (prevAuthorizing) {
         throw new Error('The authorization is already in progress.');
@@ -76,9 +76,9 @@ export function useAuth(): AuthState {
     window.location.href = url.href;
   }, []);
 
-  const signOut = React.useCallback(() => setToken(undefined), []);
+  const signOut = useCallback(() => setToken(undefined), []);
 
-  return React.useMemo(
+  return useMemo(
     () =>
       token
         ? {status: 'authorized', token, signOut}

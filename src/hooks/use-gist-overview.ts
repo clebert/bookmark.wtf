@@ -1,5 +1,5 @@
 import {ReceiverState} from 'loxia';
-import * as React from 'react';
+import {useMemo} from 'preact/hooks';
 import {fetchGistsData} from '../apis/fetch-gists-data';
 import {AuthorizedAuthState} from './use-auth';
 import {useReceiver} from './use-receiver';
@@ -22,7 +22,7 @@ export function useGistOverview(
   const {token} = dependencies.authState;
 
   return useReceiver(
-    React.useMemo(
+    useMemo(
       () =>
         fetchGistsData(token).then(({nodes}) => {
           const items: GistOverviewItem[] = [];

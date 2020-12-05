@@ -4,9 +4,10 @@ import {
   BulmaTag,
   BulmaTags,
   BulmaText,
-} from '@clebert/bulma-react';
+} from '@clebert/bulma-preact';
 import {faEdit, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
-import * as React from 'react';
+import {Fragment, JSX, h} from 'preact';
+import {useCallback, useState} from 'preact/hooks';
 import {useConfirmation} from '../../hooks/use-confirmation';
 import {
   GistFile,
@@ -34,10 +35,10 @@ export function BookmarkListItem({
   gistFile,
   editable,
 }: BookmarkListItemProps): JSX.Element {
-  const [editModal, setEditModal] = React.useState(false);
-  const toggleEditModal = React.useCallback(() => setEditModal(toggle), []);
+  const [editModal, setEditModal] = useState(false);
+  const toggleEditModal = useCallback(() => setEditModal(toggle), []);
 
-  const updateBookmark = React.useCallback(
+  const updateBookmark = useCallback(
     (title: string, url: string) => {
       if (title !== gistFile.model.title || url !== gistFile.model.url) {
         gistState.updateFile?.(gistFile, {
@@ -54,7 +55,7 @@ export function BookmarkListItem({
 
   const [deletionConfirmed, setDeletionConfirmed] = useConfirmation();
 
-  const deleteBookmark = React.useCallback(() => {
+  const deleteBookmark = useCallback(() => {
     if (deletionConfirmed) {
       gistState.deleteFile?.(gistFile);
     } else {
@@ -62,7 +63,7 @@ export function BookmarkListItem({
     }
   }, [gistState, gistFile, deletionConfirmed]);
 
-  const countBookmarkClick = React.useCallback(() => {
+  const countBookmarkClick = useCallback(() => {
     const clickCount = (gistFile.model.properties.clickCount ?? 0) + 1;
     const properties = {...gistFile.model.properties, clickCount};
 

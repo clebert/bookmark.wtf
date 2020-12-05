@@ -1,6 +1,7 @@
-import {BulmaButton, BulmaDropdown, BulmaIcon} from '@clebert/bulma-react';
+import {BulmaButton, BulmaDropdown, BulmaIcon} from '@clebert/bulma-preact';
 import {faAngleDown, faAngleUp} from '@fortawesome/free-solid-svg-icons';
-import * as React from 'react';
+import {JSX, h} from 'preact';
+import {useCallback, useEffect, useState} from 'preact/hooks';
 import {UnsetGistNameState} from '../../hooks/use-gist-name';
 import {
   GistOverviewDependencies,
@@ -20,15 +21,15 @@ export function OpenGistDropdown({
   isDisabled,
 }: OpenGistDropdownProps): JSX.Element {
   const gistOverviewState = useGistOverview({authState});
-  const [menu, setMenu] = React.useState(false);
-  const toggleMenu = React.useCallback(() => setMenu(toggle), []);
+  const [menu, setMenu] = useState(false);
+  const toggleMenu = useCallback(() => setMenu(toggle), []);
 
-  const trigger = React.useCallback((event: React.MouseEvent) => {
+  const trigger = useCallback((event: JSX.TargetedEvent) => {
     toggleMenu();
     event.stopPropagation();
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!menu) {
       return;
     }

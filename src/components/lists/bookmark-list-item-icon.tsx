@@ -1,19 +1,20 @@
-import {BulmaImage} from '@clebert/bulma-react';
-import * as React from 'react';
+import {BulmaImage} from '@clebert/bulma-preact';
+import {JSX, h} from 'preact';
+import {useCallback, useMemo, useRef} from 'preact/hooks';
 import {createIdenticon} from '../../utils/create-identicon';
 
 export interface BookmarkListItemIconProps {
   readonly url: string;
-  readonly onClick: React.MouseEventHandler<HTMLAnchorElement>;
+  readonly onClick: JSX.MouseEventHandler<HTMLAnchorElement>;
 }
 
 export function BookmarkListItemIcon({
   url,
   onClick,
 }: BookmarkListItemIconProps): JSX.Element {
-  const iconUrlIndexRef = React.useRef(0);
+  const iconUrlIndexRef = useRef(0);
 
-  const iconUrls = React.useMemo(
+  const iconUrls = useMemo(
     () => [
       createRichIconUrl(url),
       createIconUrl(url, 'apple-touch-icon.png'),
@@ -23,8 +24,8 @@ export function BookmarkListItemIcon({
     [url]
   );
 
-  const handleError = React.useCallback(
-    (event: React.SyntheticEvent<HTMLImageElement>) => {
+  const handleError = useCallback(
+    (event: JSX.TargetedEvent<HTMLImageElement>) => {
       const iconUrl = iconUrls[(iconUrlIndexRef.current += 1)];
 
       if (iconUrl) {
@@ -46,7 +47,7 @@ export function BookmarkListItemIcon({
     <a href={url} onClick={onClick}>
       <BulmaImage
         dimension="64x64"
-        src={React.useMemo(() => iconUrls[0], [iconUrls])}
+        src={useMemo(() => iconUrls[0], [iconUrls])}
         onError={handleError}
       />
     </a>

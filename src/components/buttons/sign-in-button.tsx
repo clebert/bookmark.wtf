@@ -1,6 +1,6 @@
-import {BulmaButton, BulmaField, BulmaIcon} from '@clebert/bulma-react';
+import {BulmaButton, BulmaField, BulmaIcon} from '@clebert/bulma-preact';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
-import * as React from 'react';
+import {JSX, h} from 'preact';
 import {
   AuthorizingAuthState,
   UnauthorizedAuthState,

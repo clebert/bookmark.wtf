@@ -9,7 +9,7 @@ import {
   BulmaTags,
   BulmaText,
   BulmaTitle,
-} from '@clebert/bulma-react';
+} from '@clebert/bulma-preact';
 import {
   faEdit,
   faExclamationTriangle,
@@ -20,7 +20,15 @@ import {
   faToggleOn,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import * as React from 'react';
+import {Fragment, JSX, h} from 'preact';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'preact/hooks';
 import {useConfirmation} from '../../hooks/use-confirmation';
 import {GistDependencies, useGist} from '../../hooks/use-gist';
 import {HistoryContext} from '../../hooks/use-history';
@@ -55,7 +63,7 @@ export function BookmarkList({
 
   const [deletionConfirmed, setDeletionConfirmed] = useConfirmation();
 
-  const deleteGist = React.useCallback(() => {
+  const deleteGist = useCallback(() => {
     if (deletionConfirmed) {
       gistState.deleteGist?.();
     } else {
@@ -63,17 +71,17 @@ export function BookmarkList({
     }
   }, [gistState, deletionConfirmed]);
 
-  const [addModal, setAddModal] = React.useState(false);
-  const closeAddModal = React.useCallback(() => setAddModal(false), []);
-  const [editModal, setEditModal] = React.useState(false);
-  const toggleEditModal = React.useCallback(() => setEditModal(toggle), []);
+  const [addModal, setAddModal] = useState(false);
+  const closeAddModal = useCallback(() => setAddModal(false), []);
+  const [editModal, setEditModal] = useState(false);
+  const toggleEditModal = useCallback(() => setEditModal(toggle), []);
 
-  const addBookmark = React.useCallback((event: React.MouseEvent) => {
+  const addBookmark = useCallback((event: JSX.TargetedEvent) => {
     setAddModal(true);
     event.preventDefault();
   }, []);
 
-  const createBookmark = React.useCallback(
+  const createBookmark = useCallback(
     (title: string, url: string) => {
       gistState.createFile?.(createRandomValue() + '.md', {
         title,
@@ -86,7 +94,7 @@ export function BookmarkList({
     [gistState]
   );
 
-  const updateDescription = React.useCallback(
+  const updateDescription = useCallback(
     (description: string) => {
       if (description !== gistState.description) {
         gistState.updateGist?.(description);
@@ -97,32 +105,32 @@ export function BookmarkList({
     [gistState]
   );
 
-  const bookmarklet = React.useMemo(
+  const bookmarklet = useMemo(
     () => createBookmarklet(gistNameState.gistName),
     []
   );
 
-  const addBookmarkTagRef = React.useRef<HTMLAnchorElement>(null);
+  const addBookmarkTagRef = useRef<HTMLAnchorElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (addBookmarkTagRef.current) {
       addBookmarkTagRef.current.setAttribute('href', bookmarklet);
     }
   });
 
-  const history = React.useContext(HistoryContext);
+  const history = useContext(HistoryContext);
 
-  const initialTitle = React.useMemo(
+  const initialTitle = useMemo(
     () => new URLSearchParams(history.search).get('title') ?? '',
     [history]
   );
 
-  const initialUrl = React.useMemo(
+  const initialUrl = useMemo(
     () => new URLSearchParams(history.search).get('url') ?? '',
     [history]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (initialTitle && initialUrl) {
       if (gistState.status === 'locked') {
         history.replace({search: ''});
@@ -132,7 +140,7 @@ export function BookmarkList({
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (addModal && initialTitle && initialUrl) {
       return () => history.replace({search: ''});
     }
@@ -140,8 +148,8 @@ export function BookmarkList({
     return;
   }, [addModal]);
 
-  const [editable, setEditable] = React.useState(false);
-  const toggleEditable = React.useCallback(() => setEditable(toggle), []);
+  const [editable, setEditable] = useState(false);
+  const toggleEditable = useCallback(() => setEditable(toggle), []);
 
   if (gistState.status === 'failed') {
     return (

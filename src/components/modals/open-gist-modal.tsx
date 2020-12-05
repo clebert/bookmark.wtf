@@ -3,8 +3,9 @@ import {
   BulmaField,
   BulmaInput,
   BulmaModalCard,
-} from '@clebert/bulma-react';
-import * as React from 'react';
+} from '@clebert/bulma-preact';
+import {JSX, h} from 'preact';
+import {useCallback, useMemo, useState} from 'preact/hooks';
 import {useInputCallback} from '../../hooks/use-input-callback';
 import {parseGistName} from '../../utils/parse-gist-name';
 
@@ -17,11 +18,11 @@ export function OpenGistModal({
   onOpenGist,
   onCancel,
 }: OpenGistModalProps): JSX.Element {
-  const [gistUrl, setGistUrl] = React.useState('');
-  const gistName = React.useMemo(() => parseGistName(gistUrl), [gistUrl]);
+  const [gistUrl, setGistUrl] = useState('');
+  const gistName = useMemo(() => parseGistName(gistUrl), [gistUrl]);
 
-  const openGist = React.useCallback(
-    (event: React.FormEvent) => {
+  const openGist = useCallback(
+    (event: JSX.TargetedEvent) => {
       if (gistName) {
         onOpenGist(gistName);
       }

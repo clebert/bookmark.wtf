@@ -3,9 +3,10 @@ import {
   BulmaField,
   BulmaIcon,
   BulmaText,
-} from '@clebert/bulma-react';
+} from '@clebert/bulma-preact';
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
-import * as React from 'react';
+import {JSX, h} from 'preact';
+import {useContext} from 'preact/hooks';
 import {AuthorizedAuthState} from '../../hooks/use-auth';
 import {UserContext} from '../../hooks/use-user';
 
@@ -14,7 +15,7 @@ export interface SignOutButtonProps {
 }
 
 export function SignOutButton({authState}: SignOutButtonProps): JSX.Element {
-  const userState = React.useContext(UserContext);
+  const userState = useContext(UserContext);
 
   return (
     <BulmaField hasAddons>

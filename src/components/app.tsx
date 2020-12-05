@@ -1,5 +1,5 @@
-import {BulmaContainer, BulmaSection} from '@clebert/bulma-react';
-import * as React from 'react';
+import {BulmaContainer, BulmaSection} from '@clebert/bulma-preact';
+import {JSX, h} from 'preact';
 import {useAuth} from '../hooks/use-auth';
 import {HistoryContext, useHistory} from '../hooks/use-history';
 import {ErrorBoundary} from './error-boundary';

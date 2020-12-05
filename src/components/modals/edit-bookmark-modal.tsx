@@ -3,8 +3,9 @@ import {
   BulmaField,
   BulmaInput,
   BulmaModalCard,
-} from '@clebert/bulma-react';
-import * as React from 'react';
+} from '@clebert/bulma-preact';
+import {JSX, h} from 'preact';
+import {useCallback, useState} from 'preact/hooks';
 import {useInputCallback} from '../../hooks/use-input-callback';
 
 export interface EditBookmarkModalProps {
@@ -21,11 +22,11 @@ export function EditBookmarkModal({
   onUpdateBookmark,
   onCancel,
 }: EditBookmarkModalProps): JSX.Element {
-  const [title, setTitle] = React.useState(initialTitle);
-  const [url, setUrl] = React.useState(initialUrl);
+  const [title, setTitle] = useState(initialTitle);
+  const [url, setUrl] = useState(initialUrl);
 
-  const updateBookmark = React.useCallback(
-    (event: React.FormEvent) => {
+  const updateBookmark = useCallback(
+    (event: JSX.TargetedEvent) => {
       onUpdateBookmark(title, url);
       event.preventDefault();
     },

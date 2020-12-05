@@ -1,5 +1,6 @@
 import {ReceiverState} from 'loxia';
-import * as React from 'react';
+import {createContext} from 'preact';
+import {useMemo} from 'preact/hooks';
 import {fetchUserData} from '../apis/fetch-user-data';
 import {AuthorizedAuthState} from './use-auth';
 import {useReceiver} from './use-receiver';
@@ -8,7 +9,7 @@ export interface UserDependencies {
   readonly authState: AuthorizedAuthState;
 }
 
-export const UserContext = React.createContext<ReceiverState<string>>(
+export const UserContext = createContext<ReceiverState<string>>(
   undefined as any
 );
 
@@ -16,6 +17,6 @@ export function useUser(dependencies: UserDependencies): ReceiverState<string> {
   const {token} = dependencies.authState;
 
   return useReceiver(
-    React.useMemo(() => fetchUserData(token).then(({login}) => login), [token])
+    useMemo(() => fetchUserData(token).then(({login}) => login), [token])
   );
 }

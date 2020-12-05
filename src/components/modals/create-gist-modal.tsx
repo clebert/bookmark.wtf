@@ -3,8 +3,9 @@ import {
   BulmaField,
   BulmaInput,
   BulmaModalCard,
-} from '@clebert/bulma-react';
-import * as React from 'react';
+} from '@clebert/bulma-preact';
+import {JSX, h} from 'preact';
+import {useCallback, useState} from 'preact/hooks';
 import {useInputCallback} from '../../hooks/use-input-callback';
 
 export interface CreateGistModalProps {
@@ -16,10 +17,10 @@ export function CreateGistModal({
   onCreateGist,
   onCancel,
 }: CreateGistModalProps): JSX.Element {
-  const [description, setDescription] = React.useState('');
+  const [description, setDescription] = useState('');
 
-  const createGist = React.useCallback(
-    (event: React.FormEvent) => {
+  const createGist = useCallback(
+    (event: JSX.TargetedEvent) => {
       onCreateGist(description);
       event.preventDefault();
     },

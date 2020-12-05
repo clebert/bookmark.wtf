@@ -6,8 +6,9 @@ import {
   BulmaField,
   BulmaHero,
   BulmaTitle,
-} from '@clebert/bulma-react';
-import * as React from 'react';
+} from '@clebert/bulma-preact';
+import {Fragment, JSX, h} from 'preact';
+import {useCallback, useMemo, useState} from 'preact/hooks';
 import {GistRestApi} from '../../apis/gist-rest-api';
 import {AuthorizedAuthState} from '../../hooks/use-auth';
 import {UnsetGistNameState} from '../../hooks/use-gist-name';
@@ -40,14 +41,14 @@ export function NoGistView({
   authState,
   gistNameState,
 }: NoGistViewProps): JSX.Element {
-  const [createModal, setCreateModal] = React.useState(false);
-  const toggleCreateModal = React.useCallback(() => setCreateModal(toggle), []);
-  const [openModal, setOpenModal] = React.useState(false);
-  const toggleOpenModal = React.useCallback(() => setOpenModal(toggle), []);
+  const [createModal, setCreateModal] = useState(false);
+  const toggleCreateModal = useCallback(() => setCreateModal(toggle), []);
+  const [openModal, setOpenModal] = useState(false);
+  const toggleOpenModal = useCallback(() => setOpenModal(toggle), []);
   const creationState = useSender();
-  const restApi = React.useMemo(() => new GistRestApi(authState.token), []);
+  const restApi = useMemo(() => new GistRestApi(authState.token), []);
 
-  const createGist = React.useCallback(
+  const createGist = useCallback(
     (description: string) => {
       creationState.send?.(
         restApi.createGist(description, {
@@ -61,7 +62,7 @@ export function NoGistView({
     [creationState]
   );
 
-  const openGist = React.useCallback((gistName: string) => {
+  const openGist = useCallback((gistName: string) => {
     gistNameState.setGistName(gistName);
     setOpenModal(false);
   }, []);

@@ -1,4 +1,5 @@
-import * as React from 'react';
+import {createContext} from 'preact';
+import {useCallback, useEffect, useMemo, useState} from 'preact/hooks';
 
 export interface History {
   readonly pathname: string;
@@ -13,18 +14,18 @@ export interface PartialUrl {
   readonly search?: string;
 }
 
-export const HistoryContext = React.createContext<History>(undefined as any);
+export const HistoryContext = createContext<History>(undefined as any);
 
 export function useHistory(): History {
-  const [pathname, setPathname] = React.useState(window.location.pathname);
-  const [search, setSearch] = React.useState(window.location.search);
+  const [pathname, setPathname] = useState(window.location.pathname);
+  const [search, setSearch] = useState(window.location.search);
 
-  const synchronize = React.useCallback(() => {
+  const synchronize = useCallback(() => {
     setPathname(window.location.pathname);
     setSearch(window.location.search);
   }, []);
 
-  const push = React.useCallback((url: PartialUrl) => {
+  const push = useCallback((url: PartialUrl) => {
     const newPathname = url.pathname ?? window.location.pathname;
     const newSearch = url.search ?? window.location.search;
 
@@ -32,7 +33,7 @@ export function useHistory(): History {
     synchronize();
   }, []);
 
-  const replace = React.useCallback((url: PartialUrl) => {
+  const replace = useCallback((url: PartialUrl) => {
     const newPathname = url.pathname ?? window.location.pathname;
     const newSearch = url.search ?? window.location.search;
 
@@ -40,7 +41,7 @@ export function useHistory(): History {
     synchronize();
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener('pageshow', synchronize);
     window.addEventListener('popstate', synchronize);
 
@@ -50,8 +51,5 @@ export function useHistory(): History {
     };
   }, []);
 
-  return React.useMemo(() => ({pathname, search, push, replace}), [
-    pathname,
-    search,
-  ]);
+  return useMemo(() => ({pathname, search, push, replace}), [pathname, search]);
 }

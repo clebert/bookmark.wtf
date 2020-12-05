@@ -3,8 +3,9 @@ import {
   BulmaField,
   BulmaInput,
   BulmaModalCard,
-} from '@clebert/bulma-react';
-import * as React from 'react';
+} from '@clebert/bulma-preact';
+import {JSX, h} from 'preact';
+import {useCallback, useState} from 'preact/hooks';
 import {useInputCallback} from '../../hooks/use-input-callback';
 
 export interface EditDescriptionModalProps {
@@ -19,10 +20,10 @@ export function EditDescriptionModal({
   onUpdateDescription,
   onCancel,
 }: EditDescriptionModalProps): JSX.Element {
-  const [description, setDescription] = React.useState(initialDescription);
+  const [description, setDescription] = useState(initialDescription);
 
-  const updateDescription = React.useCallback(
-    (event: React.FormEvent) => {
+  const updateDescription = useCallback(
+    (event: JSX.TargetedEvent) => {
       onUpdateDescription(description);
       event.preventDefault();
     },

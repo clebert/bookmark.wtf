@@ -3,9 +3,9 @@ import {
   BulmaIcon,
   BulmaLevel,
   BulmaTitle,
-} from '@clebert/bulma-react';
+} from '@clebert/bulma-preact';
 import {faBomb} from '@fortawesome/free-solid-svg-icons';
-import * as React from 'react';
+import {Fragment, JSX, h} from 'preact';
 import {AppName} from '../app-name';
 
 export function ErrorScreen(): JSX.Element {

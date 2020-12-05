@@ -4,8 +4,8 @@ import {
   BulmaImage,
   BulmaLevel,
   BulmaTitle,
-} from '@clebert/bulma-react';
-import * as React from 'react';
+} from '@clebert/bulma-preact';
+import {Fragment, JSX, h} from 'preact';
 import {
   AuthorizingAuthState,
   UnauthorizedAuthState,

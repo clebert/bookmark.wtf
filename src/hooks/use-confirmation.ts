@@ -1,12 +1,9 @@
-import * as React from 'react';
+import {StateUpdater, useEffect, useState} from 'preact/hooks';
 
-export function useConfirmation(): [
-  boolean,
-  React.Dispatch<React.SetStateAction<boolean>>
-] {
-  const state = React.useState(false);
+export function useConfirmation(): [boolean, StateUpdater<boolean>] {
+  const state = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!state[0]) {
       return;
     }

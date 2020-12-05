@@ -1,5 +1,4 @@
-import * as React from 'react';
-import {render} from 'react-dom';
+import {h, render} from 'preact';
 import {App} from './components/app';
 
-render(<App />, document.querySelector('main#app'));
+render(<App />, document.querySelector('main#app')!);

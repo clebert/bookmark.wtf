@@ -6,9 +6,10 @@ import {
   BulmaInput,
   BulmaModalCard,
   BulmaTag,
-} from '@clebert/bulma-react';
+} from '@clebert/bulma-preact';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
-import * as React from 'react';
+import {JSX, h} from 'preact';
+import {useCallback, useEffect, useRef, useState} from 'preact/hooks';
 import {useInputCallback} from '../../hooks/use-input-callback';
 
 export interface AddBookmarkModalProps {
@@ -27,27 +28,27 @@ export function AddBookmarkModal({
   onCreateBookmark,
   onCancel,
 }: AddBookmarkModalProps): JSX.Element {
-  const [title, setTitle] = React.useState(initialTitle);
-  const [url, setUrl] = React.useState(initialUrl);
+  const [title, setTitle] = useState(initialTitle);
+  const [url, setUrl] = useState(initialUrl);
 
-  const createBookmark = React.useCallback(
-    (event: React.FormEvent) => {
+  const createBookmark = useCallback(
+    (event: JSX.TargetedEvent) => {
       onCreateBookmark(title, url);
       event.preventDefault();
     },
     [onCreateBookmark, title, url]
   );
 
-  const addBookmarkTagRef = React.useRef<HTMLAnchorElement>(null);
+  const addBookmarkTagRef = useRef<HTMLAnchorElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (addBookmarkTagRef.current) {
       addBookmarkTagRef.current.setAttribute('href', bookmarklet);
     }
   });
 
-  const nop = React.useCallback(
-    (event: React.MouseEvent) => event.preventDefault(),
+  const nop = useCallback(
+    (event: JSX.TargetedEvent) => event.preventDefault(),
     []
   );
 

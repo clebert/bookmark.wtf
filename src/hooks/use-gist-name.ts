@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useCallback, useContext, useMemo} from 'preact/hooks';
 import {HistoryContext} from './use-history';
 
 export type GistNameState = SetGistNameState | UnsetGistNameState;
@@ -16,15 +16,15 @@ export interface UnsetGistNameState {
 }
 
 export function useGistName(): GistNameState {
-  const history = React.useContext(HistoryContext);
+  const history = useContext(HistoryContext);
 
-  const setGistName = React.useCallback(
+  const setGistName = useCallback(
     (gistName: string | undefined) =>
       history.push({pathname: '/' + (gistName ?? '')}),
     [history]
   );
 
-  return React.useMemo(() => {
+  return useMemo(() => {
     const gistName = history.pathname.split('/')[1];
 
     return gistName

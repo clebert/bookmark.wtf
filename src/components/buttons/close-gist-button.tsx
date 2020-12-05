@@ -1,7 +1,8 @@
-import {BulmaButton, BulmaField, BulmaIcon} from '@clebert/bulma-react';
+import {BulmaButton, BulmaField, BulmaIcon} from '@clebert/bulma-preact';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import * as React from 'react';
+import {JSX, h} from 'preact';
+import {useCallback} from 'preact/hooks';
 import {SetGistNameState} from '../../hooks/use-gist-name';
 
 export interface CloseGistButtonProps {
@@ -11,17 +12,16 @@ export interface CloseGistButtonProps {
 export function CloseGistButton({
   gistNameState,
 }: CloseGistButtonProps): JSX.Element {
-  const viewOnGithub = React.useCallback(
+  const viewOnGithub = useCallback(
     () =>
       (window.location.href =
         'https://gist.github.com/' + gistNameState.gistName),
     [gistNameState]
   );
 
-  const closeGist = React.useCallback(
-    () => gistNameState.setGistName(undefined),
-    [gistNameState]
-  );
+  const closeGist = useCallback(() => gistNameState.setGistName(undefined), [
+    gistNameState,
+  ]);
 
   return (
     <BulmaField hasAddons>

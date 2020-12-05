@@ -1,6 +1,7 @@
-import {BulmaIcon, BulmaText} from '@clebert/bulma-react';
+import {BulmaIcon, BulmaText} from '@clebert/bulma-preact';
 import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
-import * as React from 'react';
+import {JSX, h} from 'preact';
+import {useContext, useEffect} from 'preact/hooks';
 import {GistDataDependencies, useGistData} from '../../hooks/use-gist-data';
 import {UserContext} from '../../hooks/use-user';
 import {assertIsString} from '../../utils/assert-is-string';
@@ -16,10 +17,10 @@ export function GistView({
   authState,
   gistNameState,
 }: GistViewProps): JSX.Element | null {
-  const userState = React.useContext(UserContext);
+  const userState = useContext(UserContext);
   const gistDataState = useGistData({authState, gistNameState});
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (gistDataState.status === 'success') {
       document.title = `${gistDataState.value.description} - ${appName}`;
 

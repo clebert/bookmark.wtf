@@ -1,5 +1,5 @@
 import {SuccessReceiverState} from 'loxia';
-import * as React from 'react';
+import {useCallback, useMemo, useState} from 'preact/hooks';
 import {GistData} from '../apis/fetch-gist-data';
 import {GistRestApi} from '../apis/gist-rest-api';
 import {assertIsString} from '../utils/assert-is-string';
@@ -95,22 +95,22 @@ export function useGist<TModel>(
 ): GistState<TModel> {
   const {authState, userState, gistNameState, gistDataState} = dependencies;
 
-  const owner = React.useMemo(() => {
+  const owner = useMemo(() => {
     assertIsString(gistDataState.value.owner?.login, 'owner');
 
     return gistDataState.value.owner.login;
   }, []);
 
-  const locked = React.useMemo(() => userState.value !== owner, []);
-  const restApi = React.useMemo(() => new GistRestApi(authState.token), []);
+  const locked = useMemo(() => userState.value !== owner, []);
+  const restApi = useMemo(() => new GistRestApi(authState.token), []);
   const updateState = useSender();
 
-  const [description, setDescription] = React.useState(
+  const [description, setDescription] = useState(
     gistDataState.value.description ?? ''
   );
 
-  const updateGist = React.useCallback(
-    (newDescription) => {
+  const updateGist = useCallback(
+    (newDescription: string) => {
       setDescription(newDescription);
 
       updateState.send?.(
@@ -120,13 +120,13 @@ export function useGist<TModel>(
     [updateState]
   );
 
-  const deleteGist = React.useCallback(() => {
+  const deleteGist = useCallback(() => {
     updateState.send?.(restApi.deleteGist(gistDataState.value.name), () =>
       gistNameState.setGistName(undefined)
     );
   }, [updateState]);
 
-  const [files, setFiles] = React.useState<readonly GistFile<TModel>[]>(() =>
+  const [files, setFiles] = useState<readonly GistFile<TModel>[]>(() =>
     (gistDataState.value.files ?? []).reduce((accu, file) => {
       if (file && file.name && file.text) {
         const model = modelBackend.parseModel(file.text);
@@ -140,7 +140,7 @@ export function useGist<TModel>(
     }, [] as GistFile<TModel>[])
   );
 
-  const createFile = React.useCallback(
+  const createFile = useCallback(
     (filename: string, model: TModel) => {
       if (updateState.status === 'idle') {
         setFiles((prevFiles) => [...prevFiles, {filename, model}]);
@@ -157,7 +157,7 @@ export function useGist<TModel>(
     [updateState]
   );
 
-  const updateFile = React.useCallback(
+  const updateFile = useCallback(
     (file: GistFile<TModel>, newModel: TModel, silent: boolean = false) => {
       if (updateState.status !== 'idle') {
         return;
@@ -194,7 +194,7 @@ export function useGist<TModel>(
     [updateState]
   );
 
-  const deleteFile = React.useCallback(
+  const deleteFile = useCallback(
     (file: GistFile<TModel>) => {
       if (updateState.status === 'idle') {
         setFiles((prevFiles) =>
@@ -209,7 +209,7 @@ export function useGist<TModel>(
     [updateState]
   );
 
-  return React.useMemo(() => {
+  return useMemo(() => {
     if (updateState.status === 'failure') {
       return {status: 'failed', error: updateState.reason};
     }

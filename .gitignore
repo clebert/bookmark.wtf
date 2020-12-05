@@ -3,6 +3,4 @@
 cdk.out
 coverage
 dist
-github-graphql-schema.json
 node_modules
-tsconfig.tsbuildinfo
