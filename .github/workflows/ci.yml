@@ -22,7 +22,6 @@ jobs:
 
       - name: Run CI checks
         env:
-          CI: true
           PROD_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
         run: npm run ci
 
