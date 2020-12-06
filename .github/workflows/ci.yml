@@ -9,10 +9,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set Node.js version
+        run: echo NODE_VERSION=$(cat .node-version) >> $GITHUB_ENV
+
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '14'
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Install dependencies
         run: npm install
