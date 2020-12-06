@@ -34,3 +34,10 @@ jobs:
           CERTIFICATE_ARN: ${{ secrets.CERTIFICATE_ARN }}
           HOSTED_ZONE_ID: ${{ secrets.HOSTED_ZONE_ID }}
         run: npm run deploy -- --require-approval never
+
+      - name: Run integration tests
+        if: github.ref == 'refs/heads/main'
+        env:
+          ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
+          ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
+        run: npm run itest
