@@ -40,4 +40,5 @@ jobs:
         env:
           ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
           ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
+          ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
         run: npm run itest
