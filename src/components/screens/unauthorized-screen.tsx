@@ -22,7 +22,7 @@ const screenshotHash = process.env.SCREENSHOT_HASH;
 
 assertIsString(screenshotHash, 'process.env.SCREENSHOT_HASH');
 
-const screenshotGistName = 'c8ddcf1dd5112399e97923508ed0ab56';
+const screenshotGistName = '9803bde974539a8992c0515b28db439b';
 
 export function UnauthorizedScreen({
   authState,

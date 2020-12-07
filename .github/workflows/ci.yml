@@ -20,9 +20,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Run integration tests on localhost
+        if: github.ref == 'refs/heads/main'
+        env:
+          DEV_CLIENT_SECRET: ${{ secrets.DEV_CLIENT_SECRET }}
+          APP_BASE_URL: 'http://localhost:3000'
+          ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
+          ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
+          ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
+        run: ./local-itest.sh
+
       - name: Run CI checks
         env:
-          PROD_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          PROD_CLIENT_SECRET: ${{ secrets.PROD_CLIENT_SECRET }}
         run: npm run ci
 
       - name: Deploy to AWS
@@ -35,7 +45,7 @@ jobs:
           HOSTED_ZONE_ID: ${{ secrets.HOSTED_ZONE_ID }}
         run: npm run deploy -- --require-approval never
 
-      - name: Run integration tests
+      - name: Run integration tests on bookmark.wtf
         if: github.ref == 'refs/heads/main'
         env:
           APP_BASE_URL: 'https://bookmark.wtf'
