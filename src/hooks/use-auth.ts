@@ -62,6 +62,7 @@ export function useAuth(): AuthState {
     });
 
     sessionStorage.setItem('originalPathname', window.location.pathname);
+    sessionStorage.setItem('originalSearch', window.location.search);
 
     const clientId = process.env.CLIENT_ID;
 
@@ -94,10 +95,24 @@ function handleTransaction(): void {
   const tokenParam = searchParams.get('token');
 
   if (tokenParam) {
+    const originalPathname =
+      sessionStorage.getItem('originalPathname') ?? window.location.pathname;
+
+    const originalSearchParams = new URLSearchParams(
+      sessionStorage.getItem('originalSearch') ?? window.location.search
+    );
+
+    originalSearchParams.delete('token');
+    originalSearchParams.delete('transactionId');
+
+    const originalSearch = originalSearchParams.toString();
+
     window.history.replaceState(
       undefined,
       '',
-      sessionStorage.getItem('originalPathname') ?? window.location.pathname
+      originalSearch
+        ? `${originalPathname}?${originalSearch}`
+        : originalPathname
     );
 
     const transactionIdParam = searchParams.get('transactionId');

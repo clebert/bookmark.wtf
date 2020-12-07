@@ -24,9 +24,9 @@ export interface NoGistViewProps {
   readonly gistNameState: UnsetGistNameState;
 }
 
-const appUrl = process.env.APP_URL;
+const appBaseUrl = process.env.APP_BASE_URL;
 
-assertIsString(appUrl, 'process.env.APP_URL');
+assertIsString(appBaseUrl, 'process.env.APP_BASE_URL');
 
 const appName = process.env.APP_NAME;
 
@@ -52,7 +52,7 @@ export function NoGistView({
     (description: string) => {
       creationState.send?.(
         restApi.createGist(description, {
-          [`.${appName}.md`]: `# This gist is maintained via [${appName}](${appUrl})`,
+          [`.${appName}.md`]: `# This gist is maintained via [${appName}](${appBaseUrl})`,
         }),
         gistNameState.setGistName
       );

@@ -37,7 +37,7 @@ function createAppConfig(dev) {
           dev ? devClientId : prodClientId
         ),
         'process.env.APP_NAME': JSON.stringify(appName),
-        'process.env.APP_URL': JSON.stringify(
+        'process.env.APP_BASE_URL': JSON.stringify(
           dev ? 'http://localhost:3000' : appUrl
         ),
         'process.env.SCREENSHOT_HASH': JSON.stringify(screenshotHash),

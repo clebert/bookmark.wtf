@@ -38,6 +38,7 @@ jobs:
       - name: Run integration tests
         if: github.ref == 'refs/heads/main'
         env:
+          APP_BASE_URL: 'https://bookmark.wtf'
           ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
           ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
           ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
