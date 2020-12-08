@@ -1,13 +1,12 @@
 import {BulmaButton, BulmaDropdown, BulmaIcon} from '@clebert/bulma-preact';
 import {faAngleDown, faAngleUp} from '@fortawesome/free-solid-svg-icons';
 import {JSX, h} from 'preact';
-import {useCallback, useEffect, useState} from 'preact/hooks';
 import {UnsetGistNameState} from '../../hooks/use-gist-name';
 import {
   GistOverviewDependencies,
   useGistOverview,
 } from '../../hooks/use-gist-overview';
-import {toggle} from '../../utils/toggle';
+import {useMenu} from '../../hooks/use-menu';
 import {OpenGistDropdownItem} from './open-gist-dropdown-item';
 
 export interface OpenGistDropdownProps extends GistOverviewDependencies {
@@ -21,23 +20,7 @@ export function OpenGistDropdown({
   isDisabled,
 }: OpenGistDropdownProps): JSX.Element {
   const gistOverviewState = useGistOverview({authState});
-  const [menu, setMenu] = useState(false);
-  const toggleMenu = useCallback(() => setMenu(toggle), []);
-
-  const trigger = useCallback((event: JSX.TargetedEvent) => {
-    toggleMenu();
-    event.stopPropagation();
-  }, []);
-
-  useEffect(() => {
-    if (!menu) {
-      return;
-    }
-
-    document.addEventListener('click', toggleMenu);
-
-    return () => document.removeEventListener('click', toggleMenu);
-  }, [menu]);
+  const {visible, trigger} = useMenu();
 
   return (
     <BulmaDropdown
@@ -47,12 +30,15 @@ export function OpenGistDropdown({
           isLoading={gistOverviewState.status === 'receiving'}
           onClick={trigger}
         >
-          <BulmaIcon definition={menu ? faAngleUp : faAngleDown} isRightAligned>
+          <BulmaIcon
+            definition={visible ? faAngleUp : faAngleDown}
+            isRightAligned
+          >
             Select
           </BulmaIcon>
         </BulmaButton>
       }
-      isActive={menu}
+      isActive={visible}
     >
       {gistOverviewState.value?.map(({id, gistName, description}) => (
         <OpenGistDropdownItem
