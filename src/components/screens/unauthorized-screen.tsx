@@ -64,9 +64,7 @@ export function UnauthorizedScreen({
             <li>
               Your bookmarks are stored in markdown format in GitHub Gist. This
               allows you to use them without this web app. Please find{' '}
-              <a href={`https://gist.github.com/clebert/${screenshotGistName}`}>
-                here
-              </a>{' '}
+              <a href={`https://gist.github.com/${screenshotGistName}`}>here</a>{' '}
               an example.
             </li>
 
