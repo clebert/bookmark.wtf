@@ -84,7 +84,7 @@ export function NoGistView({
 
       <BulmaColumns isMultiline>
         <BulmaColumn breakpointSizes={breakpointSizes}>
-          <BulmaHero color="dark" isBold>
+          <BulmaHero color="primary" isBold>
             <BulmaTitle size="4">Open an existing gist.</BulmaTitle>
 
             <BulmaField isGrouped>
@@ -105,7 +105,7 @@ export function NoGistView({
         </BulmaColumn>
 
         <BulmaColumn breakpointSizes={breakpointSizes}>
-          <BulmaHero color="light" isBold>
+          <BulmaHero color="info" isBold>
             <BulmaTitle size="4">Create a new gist.</BulmaTitle>
 
             <BulmaButton

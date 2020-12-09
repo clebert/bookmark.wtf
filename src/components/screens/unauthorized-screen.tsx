@@ -33,7 +33,7 @@ export function UnauthorizedScreen({
         items={[<AppName />, <SignInButton authState={authState} />]}
       />
 
-      <BulmaHero color="dark" isBold>
+      <BulmaHero color="primary" isBold>
         <BulmaTitle size="3">Manage your bookmarks</BulmaTitle>
 
         <BulmaTitle size="4" isSubtitle>
