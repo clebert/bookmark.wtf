@@ -19,7 +19,7 @@ const prodClientSecret = process.env.PROD_CLIENT_SECRET;
  */
 function createAppConfig(dev) {
   return {
-    target: ['web', 'es2019'],
+    target: 'web',
     entry: './src/index.tsx',
     output: {
       filename: 'index.[contenthash].js',
@@ -68,7 +68,7 @@ function createAppConfig(dev) {
  */
 function createLambdaConfig(dev, apiName) {
   return {
-    target: ['node12', 'es2019'],
+    target: 'node',
     node: {__dirname: false},
     entry: `./src/handlers/${apiName}.ts`,
     output: {
