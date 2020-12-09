@@ -37,8 +37,8 @@ export function UnauthorizedScreen({
         <BulmaTitle size="3">Manage your bookmarks</BulmaTitle>
 
         <BulmaTitle size="4" isSubtitle>
-          using <a href="https://gist.github.com">GitHub Gist</a> as data
-          backend.
+          using <a href="https://gist.github.com">GitHub Gist</a> as data back
+          end.
         </BulmaTitle>
 
         <a href={`https://bookmark.wtf/${screenshotGistName}`}>
