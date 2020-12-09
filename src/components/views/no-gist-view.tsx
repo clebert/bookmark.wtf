@@ -5,8 +5,10 @@ import {
   BulmaColumns,
   BulmaField,
   BulmaHero,
+  BulmaIcon,
   BulmaTitle,
 } from '@clebert/bulma-preact';
+import {faEdit} from '@fortawesome/free-solid-svg-icons';
 import {Fragment, JSX, h} from 'preact';
 import {useCallback, useMemo, useState} from 'preact/hooks';
 import {GistRestApi} from '../../apis/gist-rest-api';
@@ -96,7 +98,7 @@ export function NoGistView({
                 isDisabled={creationState.status === 'sending'}
                 onClick={toggleOpenModal}
               >
-                Enter URL
+                <BulmaIcon definition={faEdit}>Enter URL</BulmaIcon>
               </BulmaButton>
             </BulmaField>
           </BulmaHero>
@@ -110,7 +112,7 @@ export function NoGistView({
               isDisabled={creationState.status === 'sending'}
               onClick={toggleCreateModal}
             >
-              Enter description
+              <BulmaIcon definition={faEdit}>Enter description</BulmaIcon>
             </BulmaButton>
           </BulmaHero>
         </BulmaColumn>
