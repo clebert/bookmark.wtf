@@ -20,24 +20,22 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Run CI checks
+        run: npm run ci
+
       - name: Run integration tests on localhost
-        if: github.ref == 'refs/heads/main'
         env:
           DEV_CLIENT_SECRET: ${{ secrets.DEV_CLIENT_SECRET }}
           APP_BASE_URL: 'http://localhost:3000'
           ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
           ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
           ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
-        run: ./local-itest.sh
-
-      - name: Run CI checks
-        env:
-          PROD_CLIENT_SECRET: ${{ secrets.PROD_CLIENT_SECRET }}
-        run: npm run ci
+        run: npm run itest:dev
 
       - name: Deploy to AWS
         if: github.ref == 'refs/heads/main'
         env:
+          PROD_CLIENT_SECRET: ${{ secrets.PROD_CLIENT_SECRET }}
           AWS_REGION: 'eu-central-1'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -52,4 +50,4 @@ jobs:
           ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
           ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
           ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
-        run: npm run itest
+        run: npm run itest:prod
