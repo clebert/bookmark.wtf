@@ -1,0 +1,31 @@
+name: Nightly integration tests
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  itest:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set Node.js version
+        run: echo NODE_VERSION=$(cat .node-version) >> $GITHUB_ENV
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run integration tests on bookmark.wtf
+        env:
+          APP_BASE_URL: 'https://bookmark.wtf'
+          ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
+          ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
+          ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
+        run: npm run itest:prod
