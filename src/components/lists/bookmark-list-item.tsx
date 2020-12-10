@@ -1,4 +1,5 @@
 import {
+  BulmaContent,
   BulmaIcon,
   BulmaMediaObject,
   BulmaTag,
@@ -89,13 +90,15 @@ export function BookmarkListItem({
           />
         }
       >
-        <BulmaText
-          href={gistFile.model.url}
-          tabIndex={-1}
-          onClick={countBookmarkClick}
-        >
-          {gistFile.model.title}
-        </BulmaText>
+        <BulmaContent>
+          <BulmaText
+            href={gistFile.model.url}
+            tabIndex={-1}
+            onClick={countBookmarkClick}
+          >
+            {gistFile.model.title}
+          </BulmaText>
+        </BulmaContent>
 
         {gistState.status === 'ready' && editable && (
           <BulmaTags>
