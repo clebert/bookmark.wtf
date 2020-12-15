@@ -19,8 +19,18 @@ export function useGistName(): GistNameState {
   const history = useContext(HistoryContext);
 
   const setGistName = useCallback(
-    (gistName: string | undefined) =>
-      history.push({pathname: '/' + (gistName ?? '')}),
+    (gistName: string | undefined) => {
+      const searchParams = new URLSearchParams(history.search);
+
+      searchParams.delete('search');
+
+      const search = searchParams.toString();
+
+      history.push({
+        pathname: '/' + (gistName ?? ''),
+        search: search ? '?' + search : '',
+      });
+    },
     [history]
   );
 

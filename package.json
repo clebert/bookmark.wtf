@@ -23,7 +23,7 @@
     "watch:build": "npm run build:dev -- --watch"
   },
   "dependencies": {
-    "@clebert/bulma-preact": "^1.0.0",
+    "@clebert/bulma-preact": "^1.1.0",
     "@fortawesome/free-brands-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@urql/core": "^1.16.0",

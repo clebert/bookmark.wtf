@@ -61,6 +61,31 @@ export function BookmarkList({
     bookmarkBackend
   );
 
+  const history = useContext(HistoryContext);
+
+  const searchParams = useMemo(() => new URLSearchParams(history.search), [
+    history,
+  ]);
+
+  const searchTermRegExp = useMemo(() => {
+    const searchTerm = searchParams.get('search');
+
+    return searchTerm
+      ? new RegExp(searchTerm.split('').join('.?'), 'i')
+      : undefined;
+  }, [searchParams]);
+
+  const filteredFiles = useMemo(
+    () =>
+      gistState.files?.filter(
+        (file) =>
+          !searchTermRegExp ||
+          searchTermRegExp.test(file.model.title) ||
+          searchTermRegExp.test(file.model.url)
+      ) ?? [],
+    [gistState, searchTermRegExp]
+  );
+
   const [deletionConfirmed, setDeletionConfirmed] = useConfirmation();
 
   const deleteGist = useCallback(() => {
@@ -118,17 +143,13 @@ export function BookmarkList({
     }
   });
 
-  const history = useContext(HistoryContext);
+  const initialTitle = useMemo(() => searchParams.get('title') ?? '', [
+    searchParams,
+  ]);
 
-  const initialTitle = useMemo(
-    () => new URLSearchParams(history.search).get('title') ?? '',
-    [history]
-  );
-
-  const initialUrl = useMemo(
-    () => new URLSearchParams(history.search).get('url') ?? '',
-    [history]
-  );
+  const initialUrl = useMemo(() => searchParams.get('url') ?? '', [
+    searchParams,
+  ]);
 
   useEffect(() => {
     if (initialTitle && initialUrl) {
@@ -195,11 +216,11 @@ export function BookmarkList({
         <BulmaColumn breakpointSizes={breakpointSizes}>
           <BulmaMediaObject>
             <BulmaContent>
-              {gistState.files.length === 0
+              {filteredFiles.length === 0
                 ? 'No bookmarks found.'
-                : gistState.files.length === 1
-                ? `Showing ${gistState.files.length} bookmark.`
-                : `Showing ${gistState.files.length} bookmarks.`}
+                : filteredFiles.length === 1
+                ? `Showing ${filteredFiles.length} bookmark.`
+                : `Showing ${filteredFiles.length} bookmarks.`}
             </BulmaContent>
 
             {gistState.status === 'ready' && (
@@ -224,13 +245,13 @@ export function BookmarkList({
                       {deletionConfirmed ? 'Yes, Delete gist!' : 'Delete gist'}
                     </BulmaIcon>
                   </BulmaTag>
-                ) : (
+                ) : filteredFiles.length > 0 ? (
                   <BulmaTag color="white" isRounded onClick={toggleEditable}>
                     <BulmaIcon definition={editable ? faToggleOn : faToggleOff}>
                       Edit bookmarks
                     </BulmaIcon>
                   </BulmaTag>
-                )}
+                ) : undefined}
               </BulmaTags>
             )}
 
@@ -255,7 +276,7 @@ export function BookmarkList({
           </BulmaMediaObject>
         </BulmaColumn>
 
-        {gistState.files.map((file) => (
+        {filteredFiles.map((file) => (
           <BulmaColumn key={file.filename} breakpointSizes={breakpointSizes}>
             <BookmarkListItem
               gistState={gistState}
