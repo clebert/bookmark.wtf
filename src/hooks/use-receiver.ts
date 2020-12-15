@@ -1,9 +1,4 @@
 import {createReceiverHook} from 'loxia';
-import {useEffect, useMemo, useRef, useState} from 'preact/hooks';
+import * as PreactHooks from 'preact/hooks';
 
-export const useReceiver = createReceiverHook({
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-});
+export const useReceiver = createReceiverHook(PreactHooks);

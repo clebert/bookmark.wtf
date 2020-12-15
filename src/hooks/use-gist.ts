@@ -1,4 +1,4 @@
-import {SuccessReceiverState} from 'loxia';
+import {SuccessfulReceiverState} from 'loxia';
 import {useCallback, useMemo, useState} from 'preact/hooks';
 import {GistData} from '../apis/fetch-gist-data';
 import {GistRestApi} from '../apis/gist-rest-api';
@@ -9,9 +9,9 @@ import {useSender} from './use-sender';
 
 export interface GistDependencies {
   readonly authState: AuthorizedAuthState;
-  readonly userState: SuccessReceiverState<string>;
+  readonly userState: SuccessfulReceiverState<string>;
   readonly gistNameState: SetGistNameState;
-  readonly gistDataState: SuccessReceiverState<GistData>;
+  readonly gistDataState: SuccessfulReceiverState<GistData>;
 }
 
 export type GistState<TModel> =
@@ -210,8 +210,8 @@ export function useGist<TModel>(
   );
 
   return useMemo(() => {
-    if (updateState.status === 'failure') {
-      return {status: 'failed', error: updateState.reason};
+    if (updateState.status === 'failed') {
+      return {status: 'failed', error: updateState.error};
     }
 
     const sortedFiles = [...files].sort((a, b) =>

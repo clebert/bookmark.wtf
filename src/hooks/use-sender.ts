@@ -1,10 +1,4 @@
 import {createSenderHook} from 'loxia';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'preact/hooks';
+import * as PreactHooks from 'preact/hooks';
 
-export const useSender = createSenderHook({
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-});
+export const useSender = createSenderHook(PreactHooks);
