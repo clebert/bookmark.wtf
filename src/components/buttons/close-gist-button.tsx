@@ -19,9 +19,7 @@ export function CloseGistButton({
     [gistNameState]
   );
 
-  const closeGist = useCallback(() => gistNameState.setGistName(undefined), [
-    gistNameState,
-  ]);
+  const closeGist = useCallback(() => gistNameState.setGistName(undefined), []);
 
   return (
     <BulmaField hasAddons>

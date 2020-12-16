@@ -32,6 +32,7 @@ import {
 import {useConfirmation} from '../../hooks/use-confirmation';
 import {GistDependencies, useGist} from '../../hooks/use-gist';
 import {HistoryContext} from '../../hooks/use-history';
+import {useSearchTerm} from '../../hooks/use-search-term';
 import {BookmarkBackend} from '../../models/bookmark';
 import {createBookmarklet} from '../../utils/create-bookmarklet';
 import {createRandomValue} from '../../utils/create-random-value';
@@ -61,29 +62,17 @@ export function BookmarkList({
     bookmarkBackend
   );
 
-  const history = useContext(HistoryContext);
-
-  const searchParams = useMemo(() => new URLSearchParams(history.search), [
-    history,
-  ]);
-
-  const searchTermRegExp = useMemo(() => {
-    const searchTerm = searchParams.get('search');
-
-    return searchTerm
-      ? new RegExp(searchTerm.split('').join('.?'), 'i')
-      : undefined;
-  }, [searchParams]);
+  const searchTerm = useSearchTerm();
 
   const filteredFiles = useMemo(
     () =>
       gistState.files?.filter(
         (file) =>
-          !searchTermRegExp ||
-          searchTermRegExp.test(file.model.title) ||
-          searchTermRegExp.test(file.model.url)
+          !searchTerm.regex ||
+          searchTerm.regex.test(file.model.title) ||
+          searchTerm.regex.test(file.model.url)
       ) ?? [],
-    [gistState, searchTermRegExp]
+    [gistState, searchTerm]
   );
 
   const [deletionConfirmed, setDeletionConfirmed] = useConfirmation();
@@ -143,31 +132,29 @@ export function BookmarkList({
     }
   });
 
-  const initialTitle = useMemo(() => searchParams.get('title') ?? '', [
-    searchParams,
-  ]);
+  const history = useContext(HistoryContext);
 
-  const initialUrl = useMemo(() => searchParams.get('url') ?? '', [
-    searchParams,
-  ]);
+  const initialTitle = useMemo(
+    () => new URL(history.url).searchParams.get('title') ?? '',
+    []
+  );
+
+  const initialUrl = useMemo(
+    () => new URL(history.url).searchParams.get('url') ?? '',
+    []
+  );
 
   useEffect(() => {
-    if (initialTitle && initialUrl) {
-      if (gistState.status === 'locked') {
-        history.replace({search: ''});
-      } else {
-        setAddModal(true);
-      }
-    }
+    history.scheduleUpdate(
+      'replace',
+      {type: 'param', key: 'title'},
+      {type: 'param', key: 'url'}
+    );
+
+    setAddModal(
+      Boolean(initialTitle && initialUrl && gistState.status !== 'locked')
+    );
   }, []);
-
-  useEffect(() => {
-    if (addModal && initialTitle && initialUrl) {
-      return () => history.replace({search: ''});
-    }
-
-    return;
-  }, [addModal]);
 
   const [editable, setEditable] = useState(false);
   const toggleEditable = useCallback(() => setEditable(toggle), []);
