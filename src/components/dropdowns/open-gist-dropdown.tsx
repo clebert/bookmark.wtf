@@ -1,25 +1,28 @@
 import {BulmaButton, BulmaDropdown, BulmaIcon} from '@clebert/bulma-preact';
 import {faAngleDown, faAngleUp} from '@fortawesome/free-solid-svg-icons';
+import {FailedReceiverState, ReceiverState} from 'loxia';
 import {JSX, h} from 'preact';
 import {UnsetGistNameState} from '../../hooks/use-gist-name';
-import {
-  GistOverviewDependencies,
-  useGistOverview,
-} from '../../hooks/use-gist-overview';
+import {GistOverview} from '../../hooks/use-gist-overview';
 import {useMenu} from '../../hooks/use-menu';
 import {OpenGistDropdownItem} from './open-gist-dropdown-item';
 
-export interface OpenGistDropdownProps extends GistOverviewDependencies {
+export interface OpenGistDropdownProps {
   readonly gistNameState: UnsetGistNameState;
+
+  readonly gistOverviewState: Exclude<
+    ReceiverState<GistOverview>,
+    FailedReceiverState
+  >;
+
   readonly isDisabled: boolean;
 }
 
 export function OpenGistDropdown({
-  authState,
   gistNameState,
+  gistOverviewState,
   isDisabled,
 }: OpenGistDropdownProps): JSX.Element {
-  const gistOverviewState = useGistOverview({authState});
   const {visible, trigger} = useMenu();
 
   return (
