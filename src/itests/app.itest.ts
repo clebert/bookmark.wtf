@@ -17,10 +17,12 @@ describe('App', () => {
   });
 
   test('signing in', async () => {
-    await app.page.goto(app.baseUrl, {waitUntil: 'networkidle'});
+    const url = app.baseUrl + '/9803bde974539a8992c0515b28db439b?foo=bar';
+
+    await app.page.goto(url);
     await app.signIn();
 
-    expect(await app.page.url()).toBe(app.baseUrl + '/');
+    expect(await app.page.url()).toBe(url);
   });
 
   test('take screenshot', async () => {

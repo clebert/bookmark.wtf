@@ -31,11 +31,7 @@ export class App {
 
   async signIn(): Promise<void> {
     await Promise.all([
-      this.page.waitForNavigation({
-        url: /^https:\/\/github\.com\/login/,
-        waitUntil: 'networkidle',
-      }),
-
+      this.page.waitForNavigation({url: /^https:\/\/github\.com\/login/}),
       this.page.click('"Sign in"'),
     ]);
 
@@ -45,7 +41,6 @@ export class App {
     await Promise.all([
       this.page.waitForNavigation({
         url: /^https:\/\/github\.com\/sessions\/two-factor/,
-        waitUntil: 'networkidle',
       }),
 
       this.page.click('"Sign in"'),
@@ -56,7 +51,7 @@ export class App {
     await this.page.fill('#otp', token);
 
     await Promise.all([
-      this.page.waitForNavigation({waitUntil: 'networkidle'}),
+      this.page.waitForNavigation(),
       this.page.click('"Verify"'),
     ]);
 
