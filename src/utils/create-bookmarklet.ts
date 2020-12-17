@@ -1,3 +1,19 @@
+export interface Bookmarklet {
+  readonly version: string;
+  readonly url: string;
+}
+
+export function createBookmarklet(gistName: string): Bookmarklet {
+  const version = '1';
+
+  const url = `javascript:(${addBookmark
+    .toString()
+    .replace('<GIST_NAME>', gistName)
+    .replace('<VERSION>', version)})()`;
+
+  return {version, url};
+}
+
 function addBookmark(): void {
   const url = new URL(process.env.APP_BASE_URL! + '/<GIST_NAME>');
 
@@ -27,11 +43,7 @@ function addBookmark(): void {
     canonicalUrlElement?.href || ogUrlElement?.content || window.location.href
   );
 
-  window.location.href = url.href;
-}
+  url.searchParams.set('version', '<VERSION>');
 
-export function createBookmarklet(gistName: string): string {
-  return `javascript:(${addBookmark
-    .toString()
-    .replace('<GIST_NAME>', gistName)})()`;
+  window.location.href = url.href;
 }

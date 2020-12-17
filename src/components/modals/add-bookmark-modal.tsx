@@ -6,30 +6,52 @@ import {
   BulmaInput,
   BulmaModalCard,
   BulmaTag,
+  BulmaText,
 } from '@clebert/bulma-preact';
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faExclamationTriangle, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {JSX, h} from 'preact';
-import {useCallback, useEffect, useRef, useState} from 'preact/hooks';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'preact/hooks';
+import {HistoryContext} from '../../hooks/use-history';
 import {useInputCallback} from '../../hooks/use-input-callback';
+import {Bookmarklet} from '../../utils/create-bookmarklet';
 
 export interface AddBookmarkModalProps {
-  readonly initialTitle: string;
-  readonly initialUrl: string;
-  readonly bookmarklet: string;
+  readonly bookmarklet: Bookmarklet;
 
   onCreateBookmark(title: string, url: string): void;
   onCancel(): void;
 }
 
 export function AddBookmarkModal({
-  initialTitle,
-  initialUrl,
   bookmarklet,
   onCreateBookmark,
   onCancel,
 }: AddBookmarkModalProps): JSX.Element {
+  const history = useContext(HistoryContext);
+  const {searchParams} = useMemo(() => new URL(history.url), []);
+  const initialTitle = useMemo(() => searchParams.get('title') ?? '', []);
+  const initialUrl = useMemo(() => searchParams.get('url') ?? '', []);
+  const initialVersion = useMemo(() => searchParams.get('version') ?? '', []);
   const [title, setTitle] = useState(initialTitle);
   const [url, setUrl] = useState(initialUrl);
+
+  useEffect(
+    () =>
+      history.scheduleUpdate(
+        'replace',
+        {type: 'param', key: 'title'},
+        {type: 'param', key: 'url'},
+        {type: 'param', key: 'version'}
+      ),
+    []
+  );
 
   const createBookmark = useCallback(
     (event: JSX.TargetedEvent) => {
@@ -43,7 +65,7 @@ export function AddBookmarkModal({
 
   useEffect(() => {
     if (addBookmarkTagRef.current) {
-      addBookmarkTagRef.current.setAttribute('href', bookmarklet);
+      addBookmarkTagRef.current.setAttribute('href', bookmarklet.url);
     }
   });
 
@@ -89,20 +111,42 @@ export function AddBookmarkModal({
           />
         </BulmaField>
 
-        <BulmaContent isHidden="touch">
-          <b>Tip: </b>You can save the bookmarklet{' '}
-          <BulmaTag
-            ref={addBookmarkTagRef}
-            color="link"
-            isLight
-            isRounded
-            onClick={nop}
-          >
-            <BulmaIcon definition={faPlus}>Add bookmark</BulmaIcon>
-          </BulmaTag>{' '}
-          in the Favorites bar of your browser. This allows you to add new
-          bookmarks without having to enter the title and URL yourself.
-        </BulmaContent>
+        {initialUrl && initialVersion !== bookmarklet.version && (
+          <BulmaContent>
+            <BulmaText color="danger">
+              <BulmaIcon definition={faExclamationTriangle}>
+                Your bookmarklet is out of date. Please replace it with the
+                latest version:{' '}
+                <BulmaTag
+                  ref={addBookmarkTagRef}
+                  color="link"
+                  isLight
+                  isRounded
+                  onClick={nop}
+                >
+                  <BulmaIcon definition={faPlus}>Add bookmark</BulmaIcon>
+                </BulmaTag>
+              </BulmaIcon>
+            </BulmaText>
+          </BulmaContent>
+        )}
+
+        {!initialUrl && (
+          <BulmaContent isHidden="touch">
+            <b>Tip: </b>You can save the bookmarklet{' '}
+            <BulmaTag
+              ref={addBookmarkTagRef}
+              color="link"
+              isLight
+              isRounded
+              onClick={nop}
+            >
+              <BulmaIcon definition={faPlus}>Add bookmark</BulmaIcon>
+            </BulmaTag>{' '}
+            in the Favorites bar of your browser. This allows you to add new
+            bookmarks without having to enter the title and URL yourself.
+          </BulmaContent>
+        )}
       </BulmaModalCard>
     </form>
   );

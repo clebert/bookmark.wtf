@@ -21,17 +21,9 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import {Fragment, JSX, h} from 'preact';
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'preact/hooks';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'preact/hooks';
 import {useConfirmation} from '../../hooks/use-confirmation';
 import {GistDependencies, useGist} from '../../hooks/use-gist';
-import {HistoryContext} from '../../hooks/use-history';
 import {useSearchTerm} from '../../hooks/use-search-term';
 import {BookmarkBackend} from '../../models/bookmark';
 import {createBookmarklet} from '../../utils/create-bookmarklet';
@@ -128,31 +120,20 @@ export function BookmarkList({
 
   useEffect(() => {
     if (addBookmarkTagRef.current) {
-      addBookmarkTagRef.current.setAttribute('href', bookmarklet);
+      addBookmarkTagRef.current.setAttribute('href', bookmarklet.url);
     }
   });
 
-  const history = useContext(HistoryContext);
-
-  const initialTitle = useMemo(
-    () => new URL(history.url).searchParams.get('title') ?? '',
+  useEffect(
+    () =>
+      setAddModal(
+        Boolean(
+          new URLSearchParams(window.location.search).get('url') &&
+            gistState.status !== 'locked'
+        )
+      ),
     []
   );
-
-  const initialUrl = useMemo(
-    () => new URL(history.url).searchParams.get('url') ?? '',
-    []
-  );
-
-  useEffect(() => {
-    history.scheduleUpdate(
-      'replace',
-      {type: 'param', key: 'title'},
-      {type: 'param', key: 'url'}
-    );
-
-    setAddModal(Boolean(initialUrl && gistState.status !== 'locked'));
-  }, []);
 
   const [editable, setEditable] = useState(false);
   const toggleEditable = useCallback(() => setEditable(toggle), []);
@@ -171,8 +152,6 @@ export function BookmarkList({
     <>
       {addModal && (
         <AddBookmarkModal
-          initialTitle={initialTitle}
-          initialUrl={initialUrl}
           bookmarklet={bookmarklet}
           onCreateBookmark={createBookmark}
           onCancel={closeAddModal}
