@@ -5,14 +5,14 @@ describe('App', () => {
   let browser: Browser;
   let app: App;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     browser = await webkit.launch();
     app = new App(await browser.newPage());
 
     app.page.on('console', console.debug);
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await browser.close();
   });
 
@@ -24,17 +24,12 @@ describe('App', () => {
   });
 
   test('take screenshot', async () => {
-    if (!/localhost/.test(app.baseUrl)) {
-      return;
-    }
-
     await app.page.setViewportSize({width: 1024, height: 500});
 
     await app.page.goto(app.baseUrl + '/9803bde974539a8992c0515b28db439b', {
       waitUntil: 'networkidle',
     });
 
-    await app.signIn();
     await app.page.click('"Edit bookmarks"');
 
     await app.page.screenshot({

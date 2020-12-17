@@ -151,9 +151,7 @@ export function BookmarkList({
       {type: 'param', key: 'url'}
     );
 
-    setAddModal(
-      Boolean(initialTitle && initialUrl && gistState.status !== 'locked')
-    );
+    setAddModal(Boolean(initialUrl && gistState.status !== 'locked'));
   }, []);
 
   const [editable, setEditable] = useState(false);
