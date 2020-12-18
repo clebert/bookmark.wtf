@@ -3,6 +3,7 @@ import {useCallback, useEffect, useMemo, useRef, useState} from 'preact/hooks';
 
 export interface History {
   readonly url: string;
+  readonly initialUrl: string;
 
   scheduleUpdate(
     action: 'push' | 'replace',
@@ -33,7 +34,8 @@ interface Update {
 export const HistoryContext = createContext<History>(undefined as any);
 
 export function useHistory(): History {
-  const [url, setUrl] = useState(() => window.location.href);
+  const initialUrl = useMemo(() => window.location.href, []);
+  const [url, setUrl] = useState(initialUrl);
   const updateRef = useRef<Update | undefined>(undefined);
 
   const scheduleUpdate = useCallback<History['scheduleUpdate']>(
@@ -104,5 +106,7 @@ export function useHistory(): History {
     };
   }, []);
 
-  return useMemo(() => ({url, scheduleUpdate, cancelUpdate}), [url]);
+  return useMemo(() => ({url, initialUrl, scheduleUpdate, cancelUpdate}), [
+    url,
+  ]);
 }

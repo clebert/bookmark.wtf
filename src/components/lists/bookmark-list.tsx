@@ -22,6 +22,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {Fragment, JSX, h} from 'preact';
 import {useCallback, useEffect, useMemo, useRef, useState} from 'preact/hooks';
+import {useBookmarkInit} from '../../hooks/use-bookmark-init';
 import {useConfirmation} from '../../hooks/use-confirmation';
 import {GistDependencies, useGist} from '../../hooks/use-gist';
 import {useSearchTerm} from '../../hooks/use-search-term';
@@ -77,7 +78,12 @@ export function BookmarkList({
     }
   }, [gistState, deletionConfirmed]);
 
-  const [addModal, setAddModal] = useState(false);
+  const bookmarkInit = useBookmarkInit();
+
+  const [addModal, setAddModal] = useState<'init' | boolean>(
+    bookmarkInit && gistState.status !== 'locked' ? 'init' : false
+  );
+
   const closeAddModal = useCallback(() => setAddModal(false), []);
   const [editModal, setEditModal] = useState(false);
   const toggleEditModal = useCallback(() => setEditModal(toggle), []);
@@ -124,17 +130,6 @@ export function BookmarkList({
     }
   });
 
-  useEffect(
-    () =>
-      setAddModal(
-        Boolean(
-          new URLSearchParams(window.location.search).get('url') &&
-            gistState.status !== 'locked'
-        )
-      ),
-    []
-  );
-
   const [editable, setEditable] = useState(false);
   const toggleEditable = useCallback(() => setEditable(toggle), []);
 
@@ -153,6 +148,7 @@ export function BookmarkList({
       {addModal && (
         <AddBookmarkModal
           bookmarklet={bookmarklet}
+          bookmarkInit={addModal === 'init' ? bookmarkInit : undefined}
           onCreateBookmark={createBookmark}
           onCancel={closeAddModal}
         />

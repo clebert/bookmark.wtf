@@ -10,20 +10,14 @@ import {
 } from '@clebert/bulma-preact';
 import {faExclamationTriangle, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {JSX, h} from 'preact';
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'preact/hooks';
-import {HistoryContext} from '../../hooks/use-history';
+import {useCallback, useEffect, useRef, useState} from 'preact/hooks';
+import {BookmarkInit} from '../../hooks/use-bookmark-init';
 import {useInputCallback} from '../../hooks/use-input-callback';
 import {Bookmarklet} from '../../utils/create-bookmarklet';
 
 export interface AddBookmarkModalProps {
   readonly bookmarklet: Bookmarklet;
+  readonly bookmarkInit: BookmarkInit | undefined;
 
   onCreateBookmark(title: string, url: string): void;
   onCancel(): void;
@@ -31,27 +25,12 @@ export interface AddBookmarkModalProps {
 
 export function AddBookmarkModal({
   bookmarklet,
+  bookmarkInit,
   onCreateBookmark,
   onCancel,
 }: AddBookmarkModalProps): JSX.Element {
-  const history = useContext(HistoryContext);
-  const {searchParams} = useMemo(() => new URL(history.url), []);
-  const initialTitle = useMemo(() => searchParams.get('title') ?? '', []);
-  const initialUrl = useMemo(() => searchParams.get('url') ?? '', []);
-  const initialVersion = useMemo(() => searchParams.get('version') ?? '', []);
-  const [title, setTitle] = useState(initialTitle);
-  const [url, setUrl] = useState(initialUrl);
-
-  useEffect(
-    () =>
-      history.scheduleUpdate(
-        'replace',
-        {type: 'param', key: 'title'},
-        {type: 'param', key: 'url'},
-        {type: 'param', key: 'version'}
-      ),
-    []
-  );
+  const [title, setTitle] = useState(bookmarkInit?.title ?? '');
+  const [url, setUrl] = useState(bookmarkInit?.url ?? '');
 
   const createBookmark = useCallback(
     (event: JSX.TargetedEvent) => {
@@ -111,7 +90,7 @@ export function AddBookmarkModal({
           />
         </BulmaField>
 
-        {initialUrl && initialVersion !== bookmarklet.version && (
+        {bookmarkInit && bookmarkInit.version !== bookmarklet.version && (
           <BulmaContent>
             <BulmaText color="danger">
               <BulmaIcon definition={faExclamationTriangle}>
@@ -131,7 +110,7 @@ export function AddBookmarkModal({
           </BulmaContent>
         )}
 
-        {!initialUrl && (
+        {!bookmarkInit && (
           <BulmaContent isHidden="touch">
             <b>Tip: </b>You can save the bookmarklet{' '}
             <BulmaTag
