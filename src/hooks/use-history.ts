@@ -1,6 +1,13 @@
 import {createContext} from 'preact';
 import {useCallback, useEffect, useMemo, useRef, useState} from 'preact/hooks';
 
+export interface HistoryBackend {
+  readonly url: string;
+
+  push(url: string): void;
+  replace(url: string): void;
+}
+
 export interface History {
   readonly url: string;
   readonly initialUrl: string;
@@ -33,8 +40,8 @@ interface Update {
 
 export const HistoryContext = createContext<History>(undefined as any);
 
-export function useHistory(): History {
-  const initialUrl = useMemo(() => window.location.href, []);
+export function useHistory(backend: HistoryBackend): History {
+  const initialUrl = useMemo(() => backend.url, []);
   const [url, setUrl] = useState(initialUrl);
   const updateRef = useRef<Update | undefined>(undefined);
 
@@ -50,7 +57,7 @@ export function useHistory(): History {
             }
 
             const update = updateRef.current;
-            const urlObject = new URL(window.location.href);
+            const urlObject = new URL(backend.url);
 
             for (const change of update.changes) {
               if (change.type === 'pathname') {
@@ -64,17 +71,17 @@ export function useHistory(): History {
 
             updateRef.current = undefined;
 
-            if (urlObject.href === window.location.href) {
+            if (urlObject.href === backend.url) {
               return;
             }
 
             if (update.action === 'push') {
-              window.history.pushState(undefined, '', urlObject.href);
+              backend.push(urlObject.href);
             } else {
-              window.history.replaceState(undefined, '', urlObject.href);
+              backend.replace(urlObject.href);
             }
 
-            setUrl(window.location.href);
+            setUrl(backend.url);
           })
           .catch((error) => console.error('Failed to update history.', error));
       } else {
@@ -94,19 +101,32 @@ export function useHistory(): History {
   );
 
   useEffect(() => {
-    const synchronize = () => setUrl(window.location.href);
+    const synchronize = () => setUrl(backend.url);
 
-    window.addEventListener('pageshow', synchronize);
-    window.addEventListener('popstate', synchronize);
+    if (isBrowser()) {
+      window.addEventListener('pageshow', synchronize);
+      window.addEventListener('popstate', synchronize);
+    }
 
     return () => {
       cancelUpdate();
-      window.removeEventListener('pageshow', synchronize);
-      window.removeEventListener('popstate', synchronize);
+
+      if (isBrowser()) {
+        window.removeEventListener('pageshow', synchronize);
+        window.removeEventListener('popstate', synchronize);
+      }
     };
   }, []);
 
   return useMemo(() => ({url, initialUrl, scheduleUpdate, cancelUpdate}), [
     url,
   ]);
+}
+
+function isBrowser(): boolean {
+  return Boolean(
+    typeof window !== 'undefined' &&
+      window.addEventListener &&
+      window.removeEventListener
+  );
 }
