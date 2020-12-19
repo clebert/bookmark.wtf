@@ -25,9 +25,7 @@ export function SignOutButton({authState}: SignOutButtonProps): JSX.Element {
 
       {userState.status === 'failed' ? (
         <BulmaButton size="small" isRounded isStatic>
-          <BulmaText color="danger">
-            Please try to sign out and sign in again.
-          </BulmaText>
+          <BulmaText color="danger">Please sign in again.</BulmaText>
         </BulmaButton>
       ) : (
         <BulmaButton
