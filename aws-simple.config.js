@@ -14,60 +14,30 @@ const screenshotHash = (exports.screenshotHash = createHash('md5')
 const cacheControl = `max-age=${5 * 365 * 24 * 60 * 60}`; // 5 years
 
 /**
- * @type {import('aws-simple').AppConfig}
+ * @type {import('aws-simple').App}
  */
 exports.default = {
   appName: appName.replace(/[^a-z]/g, ''),
-  appVersion: 'latest',
-  createStackConfig: () => {
-    return {
-      customDomainConfig: {
-        certificateArn: process.env.CERTIFICATE_ARN,
-        hostedZoneId: process.env.HOSTED_ZONE_ID,
-        hostedZoneName: new URL(appUrl).hostname,
-      },
-      binaryMediaTypes: ['image/png'],
-      minimumCompressionSizeInBytes: 1000,
-      lambdaConfigs: [
-        {
-          httpMethod: 'GET',
-          publicPath: `/api/redirect`,
-          localPath: 'dist/api/redirect.js',
-          memorySize: 128,
-          timeoutInSeconds: 3,
-          loggingLevel: 'INFO',
-          acceptedParameters: {code: {}, state: {}},
-        },
-      ],
-      s3Configs: [
-        {
-          type: 'file',
-          publicPath: '/',
-          localPath: 'dist/app/index.html',
-          bucketPath: 'app/index.html',
-        },
-        {
-          type: 'file',
-          publicPath: '/{proxy+}',
-          localPath: 'dist/app/index.html',
-          bucketPath: 'app/index.html',
-        },
-        {
-          type: 'folder',
-          publicPath: '/app',
-          localPath: 'dist/app',
-          bucketPath: '/app',
-          responseHeaders: {cacheControl},
-        },
-        {
-          type: 'file',
-          publicPath: `/images/screenshot.${screenshotHash}.png`,
-          localPath: 'screenshot.png',
-          bucketPath: 'images/screenshot.png',
-          responseHeaders: {cacheControl},
-          binary: true,
-        },
-      ],
-    };
+  customDomain: {
+    certificateArn: process.env.CERTIFICATE_ARN,
+    hostedZoneId: process.env.HOSTED_ZONE_ID,
+    hostedZoneName: new URL(appUrl).hostname,
   },
+  routes: () => ({
+    '/': {kind: 'file', filename: 'dist/app/index.html', catchAll: true},
+    '/app': {kind: 'folder', dirname: 'dist/app', cacheControl},
+    [`/images/screenshot.${screenshotHash}.png`]: {
+      kind: 'file',
+      filename: 'screenshot.png',
+      binaryMediaType: 'image/png',
+      cacheControl,
+    },
+    '/api/redirect': {
+      kind: 'function',
+      filename: 'dist/api/redirect.js',
+      timeoutInSeconds: 3,
+      loggingLevel: 'INFO',
+      parameters: {code: {}, state: {}},
+    },
+  }),
 };
