@@ -42,7 +42,7 @@ export function UnauthorizedScreen({
         </BulmaTitle>
 
         <a href={`https://bookmark.wtf/${screenshotGistName}`}>
-          <BulmaImage src={`/images/screenshot.${screenshotHash}.png`} />
+          <BulmaImage src={`/app/screenshot.${screenshotHash}.png`} />
         </a>
       </BulmaHero>
 

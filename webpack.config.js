@@ -1,9 +1,10 @@
 // @ts-check
 
+const {createHash} = require('crypto');
+const {readFileSync} = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
-const {appName, appUrl, screenshotHash} = require('./aws-simple.config');
 
 // https://github.com/settings/applications/1238959
 const devClientId = '11fad4b65813aa89347e';
@@ -12,6 +13,10 @@ const devClientSecret = process.env.DEV_CLIENT_SECRET;
 // https://github.com/settings/applications/1181805
 const prodClientId = 'fae9329e8bd2e706c920';
 const prodClientSecret = process.env.PROD_CLIENT_SECRET;
+
+const screenshotHash = createHash('md5')
+  .update(readFileSync('screenshot.png'))
+  .digest('hex');
 
 /**
  * @param {boolean} dev
@@ -29,16 +34,16 @@ function createAppConfig(dev) {
     plugins: [
       new HtmlWebpackPlugin({
         filename: 'index.html',
-        title: appName,
+        title: 'bookmark.wtf',
         template: './src/index.html',
       }),
       new webpack.DefinePlugin({
         'process.env.CLIENT_ID': JSON.stringify(
           dev ? devClientId : prodClientId
         ),
-        'process.env.APP_NAME': JSON.stringify(appName),
+        'process.env.APP_NAME': JSON.stringify('bookmark.wtf'),
         'process.env.APP_BASE_URL': JSON.stringify(
-          dev ? 'http://localhost:3000' : appUrl
+          dev ? 'http://localhost:3000' : 'https://bookmark.wtf'
         ),
         'process.env.SCREENSHOT_HASH': JSON.stringify(screenshotHash),
       }),
