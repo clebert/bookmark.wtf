@@ -15,7 +15,7 @@ exports.default = {
   customDomain: {
     certificateArn: process.env.CERTIFICATE_ARN,
     hostedZoneId: process.env.HOSTED_ZONE_ID,
-    hostedZoneName: new URL('https://bookmark.wtf').hostname,
+    hostedZoneName: 'bookmark.wtf',
   },
   routes: () => ({
     '/': {
