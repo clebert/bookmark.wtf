@@ -36,7 +36,6 @@ exports.default = {
       kind: 'function',
       filename: 'dist/api/redirect.js',
       timeoutInSeconds: 3,
-      loggingLevel: 'INFO',
       parameters: {code: {}, state: {}},
     },
   }),
