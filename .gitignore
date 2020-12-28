@@ -1,5 +1,4 @@
 .envrc
-.vscode
 cdk.out
 coverage
 dist
