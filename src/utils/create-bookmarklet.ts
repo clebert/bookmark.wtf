@@ -4,7 +4,7 @@ export interface Bookmarklet {
 }
 
 export function createBookmarklet(gistName: string): Bookmarklet {
-  const version = '1';
+  const version = '2';
 
   const url = `javascript:(${addBookmark
     .toString()
@@ -30,19 +30,7 @@ function addBookmark(): void {
     titleElement?.content || ogTitleElement?.content || document.title
   );
 
-  const canonicalUrlElement: HTMLLinkElement | null = document.querySelector(
-    'link[rel="canonical"]'
-  );
-
-  const ogUrlElement: HTMLMetaElement | null = document.querySelector(
-    'meta[property="og:url"]'
-  );
-
-  url.searchParams.set(
-    'url',
-    canonicalUrlElement?.href || ogUrlElement?.content || window.location.href
-  );
-
+  url.searchParams.set('url', window.location.href);
   url.searchParams.set('version', '<VERSION>');
 
   window.location.href = url.href;
