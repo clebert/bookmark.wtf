@@ -14,6 +14,7 @@ import {useCallback, useEffect, useRef, useState} from 'preact/hooks';
 import {BookmarkInit} from '../../hooks/use-bookmark-init';
 import {useInputCallback} from '../../hooks/use-input-callback';
 import {Bookmarklet} from '../../utils/create-bookmarklet';
+import {preventDefault} from '../../utils/prevent-default';
 
 export interface AddBookmarkModalProps {
   readonly bookmarklet: Bookmarklet;
@@ -33,10 +34,7 @@ export function AddBookmarkModal({
   const [url, setUrl] = useState(bookmarkInit?.url ?? '');
 
   const createBookmark = useCallback(
-    (event: JSX.TargetedEvent) => {
-      onCreateBookmark(title, url);
-      event.preventDefault();
-    },
+    preventDefault(() => onCreateBookmark(title, url)),
     [onCreateBookmark, title, url]
   );
 
@@ -48,10 +46,7 @@ export function AddBookmarkModal({
     }
   });
 
-  const nop = useCallback(
-    (event: JSX.TargetedEvent) => event.preventDefault(),
-    []
-  );
+  const nop = useCallback(preventDefault(), []);
 
   return (
     <form onSubmit={createBookmark}>

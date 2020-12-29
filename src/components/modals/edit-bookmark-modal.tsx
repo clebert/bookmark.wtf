@@ -7,6 +7,7 @@ import {
 import {JSX, h} from 'preact';
 import {useCallback, useState} from 'preact/hooks';
 import {useInputCallback} from '../../hooks/use-input-callback';
+import {preventDefault} from '../../utils/prevent-default';
 
 export interface EditBookmarkModalProps {
   readonly initialTitle: string;
@@ -26,10 +27,7 @@ export function EditBookmarkModal({
   const [url, setUrl] = useState(initialUrl);
 
   const updateBookmark = useCallback(
-    (event: JSX.TargetedEvent) => {
-      onUpdateBookmark(title, url);
-      event.preventDefault();
-    },
+    preventDefault(() => onUpdateBookmark(title, url)),
     [onUpdateBookmark, title, url]
   );
 

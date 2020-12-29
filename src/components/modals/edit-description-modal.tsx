@@ -7,6 +7,7 @@ import {
 import {JSX, h} from 'preact';
 import {useCallback, useState} from 'preact/hooks';
 import {useInputCallback} from '../../hooks/use-input-callback';
+import {preventDefault} from '../../utils/prevent-default';
 
 export interface EditDescriptionModalProps {
   readonly initialDescription: string;
@@ -23,10 +24,7 @@ export function EditDescriptionModal({
   const [description, setDescription] = useState(initialDescription);
 
   const updateDescription = useCallback(
-    (event: JSX.TargetedEvent) => {
-      onUpdateDescription(description);
-      event.preventDefault();
-    },
+    preventDefault(() => onUpdateDescription(description)),
     [onUpdateDescription, description]
   );
 

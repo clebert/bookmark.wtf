@@ -29,6 +29,7 @@ import {useSearchTerm} from '../../hooks/use-search-term';
 import {BookmarkBackend} from '../../models/bookmark';
 import {createBookmarklet} from '../../utils/create-bookmarklet';
 import {createRandomValue} from '../../utils/create-random-value';
+import {preventDefault} from '../../utils/prevent-default';
 import {toggle} from '../../utils/toggle';
 import {AddBookmarkModal} from '../modals/add-bookmark-modal';
 import {EditDescriptionModal} from '../modals/edit-description-modal';
@@ -88,10 +89,10 @@ export function BookmarkList({
   const [editModal, setEditModal] = useState(false);
   const toggleEditModal = useCallback(() => setEditModal(toggle), []);
 
-  const addBookmark = useCallback((event: JSX.TargetedEvent) => {
-    setAddModal(true);
-    event.preventDefault();
-  }, []);
+  const addBookmark = useCallback(
+    preventDefault(() => setAddModal(true)),
+    []
+  );
 
   const createBookmark = useCallback(
     (title: string, url: string) => {

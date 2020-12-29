@@ -8,6 +8,7 @@ import {JSX, h} from 'preact';
 import {useCallback, useMemo, useState} from 'preact/hooks';
 import {useInputCallback} from '../../hooks/use-input-callback';
 import {parseGistName} from '../../utils/parse-gist-name';
+import {preventDefault} from '../../utils/prevent-default';
 
 export interface OpenGistModalProps {
   onOpenGist(gistName: string): void;
@@ -22,13 +23,11 @@ export function OpenGistModal({
   const gistName = useMemo(() => parseGistName(gistUrl), [gistUrl]);
 
   const openGist = useCallback(
-    (event: JSX.TargetedEvent) => {
+    preventDefault(() => {
       if (gistName) {
         onOpenGist(gistName);
       }
-
-      event.preventDefault();
-    },
+    }),
     [onOpenGist, gistName]
   );
 

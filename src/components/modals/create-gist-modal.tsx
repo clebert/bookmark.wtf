@@ -7,6 +7,7 @@ import {
 import {JSX, h} from 'preact';
 import {useCallback, useState} from 'preact/hooks';
 import {useInputCallback} from '../../hooks/use-input-callback';
+import {preventDefault} from '../../utils/prevent-default';
 
 export interface CreateGistModalProps {
   onCreateGist(description: string): void;
@@ -20,10 +21,7 @@ export function CreateGistModal({
   const [description, setDescription] = useState('');
 
   const createGist = useCallback(
-    (event: JSX.TargetedEvent) => {
-      onCreateGist(description);
-      event.preventDefault();
-    },
+    preventDefault(() => onCreateGist(description)),
     [onCreateGist, description]
   );
 
