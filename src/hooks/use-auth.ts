@@ -1,7 +1,8 @@
 import cookie from 'cookie';
-import {useCallback, useEffect, useMemo, useState} from 'preact/hooks';
+import {useEffect, useMemo, useState} from 'preact/hooks';
 import {assertIsString} from '../utils/assert-is-string';
 import {createRandomValue} from '../utils/create-random-value';
+import {useTransition} from './use-transition';
 
 export type AuthState =
   | AuthorizedAuthState
@@ -44,14 +45,8 @@ export function useAuth(): AuthState {
 
   const [authorizing, setAuthorizing] = useState(false);
 
-  const signIn = useCallback(() => {
-    setAuthorizing((prevAuthorizing) => {
-      if (prevAuthorizing) {
-        throw new Error('The authorization is already in progress.');
-      }
-
-      return true;
-    });
+  const signIn = useTransition(() => {
+    setAuthorizing(true);
 
     const transactionId = createRandomValue();
 
@@ -77,7 +72,7 @@ export function useAuth(): AuthState {
     window.location.href = url.href;
   }, []);
 
-  const signOut = useCallback(() => setToken(undefined), []);
+  const signOut = useTransition(() => setToken(undefined), []);
 
   return useMemo(
     () =>
@@ -86,7 +81,7 @@ export function useAuth(): AuthState {
         : authorizing
         ? {status: 'authorizing'}
         : {status: 'unauthorized', signIn},
-    [token, authorizing, signIn]
+    [token, authorizing]
   );
 }
 

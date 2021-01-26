@@ -19,7 +19,7 @@ A bookmark manager that uses GitHub Gist as data back end.
 my own expense. Please use it at your own risk. There is a danger that due to
 software bugs your data on GitHub Gist may be lost.
 
-## Rationale
+## Motivation
 
 I implemented this web app mainly as a basis for experimenting with software
 architecture design patterns. It offers a manageable but sufficiently complex

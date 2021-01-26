@@ -13,6 +13,7 @@ import {faEdit, faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
 import {Fragment, JSX, h} from 'preact';
 import {useCallback, useMemo, useState} from 'preact/hooks';
 import {GistRestApi} from '../../apis/gist-rest-api';
+import {useBinder} from '../../hooks/use-binder';
 import {UnsetGistNameState} from '../../hooks/use-gist-name';
 import {
   GistOverviewDependencies,
@@ -52,14 +53,16 @@ export function NoGistView({
   const toggleOpenModal = useCallback(() => setOpenModal(toggle), []);
   const creationState = useSender();
   const restApi = useMemo(() => new GistRestApi(authState.token), []);
+  const bind = useBinder();
 
   const createGist = useCallback(
     (description: string) => {
       creationState.send?.(
-        restApi.createGist(description, {
-          [`.${appName}.md`]: `# This gist is maintained via [${appName}](${appBaseUrl})`,
-        }),
-        gistNameState.setGistName
+        restApi
+          .createGist(description, {
+            [`.${appName}.md`]: `# This gist is maintained via [${appName}](${appBaseUrl})`,
+          })
+          .then(bind(gistNameState.setGistName))
       );
 
       setCreateModal(false);

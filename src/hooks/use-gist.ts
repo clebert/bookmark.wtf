@@ -4,6 +4,7 @@ import {GistData} from '../apis/fetch-gist-data';
 import {GistRestApi} from '../apis/gist-rest-api';
 import {assertIsString} from '../utils/assert-is-string';
 import {AuthorizedAuthState} from './use-auth';
+import {useBinder} from './use-binder';
 import {SetGistNameState} from './use-gist-name';
 import {useSender} from './use-sender';
 
@@ -120,9 +121,13 @@ export function useGist<TModel>(
     [updateState]
   );
 
+  const bind = useBinder();
+
   const deleteGist = useCallback(() => {
-    updateState.send?.(restApi.deleteGist(gistDataState.value.name), () =>
-      gistNameState.setGistName(undefined)
+    updateState.send?.(
+      restApi
+        .deleteGist(gistDataState.value.name)
+        .then(bind(() => gistNameState.setGistName(undefined)))
     );
   }, [updateState]);
 
