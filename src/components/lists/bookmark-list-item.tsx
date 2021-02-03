@@ -12,9 +12,9 @@ import {useCallback, useState} from 'preact/hooks';
 import {useConfirmation} from '../../hooks/use-confirmation';
 import {
   GistFile,
-  LockedGistState,
-  ReadyGistState,
-  UpdatingGistState,
+  IdleGist,
+  LockedGist,
+  UpdatingGist,
 } from '../../hooks/use-gist';
 import {Bookmark} from '../../models/bookmark';
 import {toggle} from '../../utils/toggle';
@@ -22,17 +22,17 @@ import {EditBookmarkModal} from '../modals/edit-bookmark-modal';
 import {BookmarkListItemIcon} from './bookmark-list-item-icon';
 
 export interface BookmarkListItemProps {
-  readonly gistState:
-    | ReadyGistState<Bookmark>
-    | UpdatingGistState<Bookmark>
-    | LockedGistState<Bookmark>;
+  readonly gist:
+    | IdleGist<Bookmark>
+    | UpdatingGist<Bookmark>
+    | LockedGist<Bookmark>;
 
   readonly gistFile: GistFile<Bookmark>;
   readonly editable: boolean;
 }
 
 export function BookmarkListItem({
-  gistState,
+  gist,
   gistFile,
   editable,
 }: BookmarkListItemProps): JSX.Element {
@@ -42,7 +42,7 @@ export function BookmarkListItem({
   const updateBookmark = useCallback(
     (title: string, url: string) => {
       if (title !== gistFile.model.title || url !== gistFile.model.url) {
-        gistState.updateFile?.(gistFile, {
+        gist.updateFile?.(gistFile, {
           title,
           url,
           properties: {...gistFile.model.properties, mtime: Date.now()},
@@ -51,25 +51,25 @@ export function BookmarkListItem({
 
       setEditModal(false);
     },
-    [gistState, gistFile]
+    [gist, gistFile]
   );
 
   const [deletionConfirmed, setDeletionConfirmed] = useConfirmation();
 
   const deleteBookmark = useCallback(() => {
     if (deletionConfirmed) {
-      gistState.deleteFile?.(gistFile);
+      gist.deleteFile?.(gistFile);
     } else {
       setDeletionConfirmed(true);
     }
-  }, [gistState, gistFile, deletionConfirmed]);
+  }, [gist, gistFile, deletionConfirmed]);
 
   const countBookmarkClick = useCallback(() => {
     const clickCount = (gistFile.model.properties.clickCount ?? 0) + 1;
     const properties = {...gistFile.model.properties, clickCount};
 
-    gistState.updateFile?.(gistFile, {...gistFile.model, properties}, true);
-  }, [gistState, gistFile]);
+    gist.updateFile?.(gistFile, {...gistFile.model, properties}, true);
+  }, [gist, gistFile]);
 
   return (
     <>
@@ -100,7 +100,7 @@ export function BookmarkListItem({
           </BulmaText>
         </BulmaContent>
 
-        {gistState.status === 'ready' && editable && (
+        {gist.state === 'idle' && editable && (
           <BulmaTags>
             <BulmaTag color="white" isRounded onClick={toggleEditModal}>
               <BulmaIcon definition={faEdit}>Edit</BulmaIcon>

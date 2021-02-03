@@ -2,42 +2,45 @@ import {BulmaIcon, BulmaText} from '@clebert/bulma-preact';
 import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
 import {JSX, h} from 'preact';
 import {useContext, useEffect} from 'preact/hooks';
-import {GistDataDependencies, useGistData} from '../../hooks/use-gist-data';
-import {UserContext} from '../../hooks/use-user';
+import {
+  GistDataReceiverDependencies,
+  useGistDataReceiver,
+} from '../../hooks/use-gist-data-receiver';
+import {UserReceiverContext} from '../../hooks/use-user-receiver';
 import {assertIsString} from '../../utils/assert-is-string';
 import {BookmarkList} from '../lists/bookmark-list';
 
-export interface GistViewProps extends GistDataDependencies {}
+export interface GistViewProps extends GistDataReceiverDependencies {}
 
 const appName = process.env.APP_NAME;
 
 assertIsString(appName, 'process.env.APP_NAME');
 
 export function GistView({
-  authState,
-  gistNameState,
+  auth,
+  gistSelection,
 }: GistViewProps): JSX.Element | null {
-  const userState = useContext(UserContext);
-  const gistDataState = useGistData({authState, gistNameState});
+  const userReceiver = useContext(UserReceiverContext);
+  const gistDataReceiver = useGistDataReceiver({auth, gistSelection});
 
   useEffect(() => {
-    if (gistDataState.status === 'successful') {
-      document.title = `${gistDataState.value.description} - ${appName}`;
+    if (gistDataReceiver.state === 'successful') {
+      document.title = `${gistDataReceiver.value.description} - ${appName}`;
 
       return () => void (document.title = appName!);
     }
 
     return;
-  }, [gistDataState]);
+  }, [gistDataReceiver]);
 
   if (
-    gistDataState.status === 'receiving' ||
-    userState.status === 'receiving'
+    gistDataReceiver.state === 'receiving' ||
+    userReceiver.state === 'receiving'
   ) {
     return null;
   }
 
-  if (gistDataState.status === 'failed' || userState.status === 'failed') {
+  if (gistDataReceiver.state === 'failed' || userReceiver.state === 'failed') {
     return (
       <BulmaText color="danger">
         <BulmaIcon definition={faExclamationTriangle}>
@@ -49,10 +52,10 @@ export function GistView({
 
   return (
     <BookmarkList
-      authState={authState}
-      userState={userState}
-      gistNameState={gistNameState}
-      gistDataState={gistDataState}
+      auth={auth}
+      userReceiver={userReceiver}
+      gistSelection={gistSelection}
+      gistDataReceiver={gistDataReceiver}
     />
   );
 }

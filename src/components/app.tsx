@@ -12,17 +12,17 @@ const historyBackend = new BrowserHistoryBackend();
 
 export function App(): JSX.Element {
   const history = useHistory(historyBackend);
-  const authState = useAuth();
+  const auth = useAuth();
 
   return (
     <HistoryContext.Provider value={history}>
       <BulmaSection>
         <BulmaContainer isWidescreen>
           <ErrorBoundary fallback={<ErrorScreen />}>
-            {authState.status === 'authorized' ? (
-              <AuthorizedScreen authState={authState} />
+            {auth.state === 'authorized' ? (
+              <AuthorizedScreen auth={auth} />
             ) : (
-              <UnauthorizedScreen authState={authState} />
+              <UnauthorizedScreen auth={auth} />
             )}
           </ErrorBoundary>
         </BulmaContainer>

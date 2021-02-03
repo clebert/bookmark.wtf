@@ -6,16 +6,13 @@ import {
   BulmaTitle,
 } from '@clebert/bulma-preact';
 import {Fragment, JSX, h} from 'preact';
-import {
-  AuthorizingAuthState,
-  UnauthorizedAuthState,
-} from '../../hooks/use-auth';
+import {AuthorizingAuth, UnauthorizedAuth} from '../../hooks/use-auth';
 import {assertIsString} from '../../utils/assert-is-string';
 import {AppName} from '../app-name';
 import {SignInButton} from '../buttons/sign-in-button';
 
 export interface UnauthorizedScreenProps {
-  readonly authState: UnauthorizedAuthState | AuthorizingAuthState;
+  readonly auth: UnauthorizedAuth | AuthorizingAuth;
 }
 
 const screenshotHash = process.env.SCREENSHOT_HASH;
@@ -25,13 +22,11 @@ assertIsString(screenshotHash, 'process.env.SCREENSHOT_HASH');
 const screenshotGistName = '9803bde974539a8992c0515b28db439b';
 
 export function UnauthorizedScreen({
-  authState,
+  auth,
 }: UnauthorizedScreenProps): JSX.Element {
   return (
     <>
-      <BulmaLevel
-        items={[<AppName />, <SignInButton authState={authState} />]}
-      />
+      <BulmaLevel items={[<AppName />, <SignInButton auth={auth} />]} />
 
       <BulmaHero color="primary" isBold>
         <BulmaTitle size="3">Manage your bookmarks</BulmaTitle>

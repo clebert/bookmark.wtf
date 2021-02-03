@@ -46,13 +46,13 @@ const breakpointSizes: BulmaColumnBreakpointSizes = {
 const bookmarkBackend = new BookmarkBackend();
 
 export function BookmarkList({
-  authState,
-  userState,
-  gistNameState,
-  gistDataState,
+  auth,
+  userReceiver,
+  gistSelection,
+  gistDataReceiver,
 }: BookmarkListProps): JSX.Element {
-  const gistState = useGist(
-    {authState, userState, gistNameState, gistDataState},
+  const gist = useGist(
+    {auth, userReceiver, gistSelection, gistDataReceiver},
     bookmarkBackend
   );
 
@@ -60,29 +60,29 @@ export function BookmarkList({
 
   const filteredFiles = useMemo(
     () =>
-      gistState.files?.filter(
+      gist.files?.filter(
         (file) =>
           !searchTerm.regex ||
           searchTerm.regex.test(file.model.title) ||
           searchTerm.regex.test(file.model.url)
       ) ?? [],
-    [gistState, searchTerm]
+    [gist, searchTerm]
   );
 
   const [deletionConfirmed, setDeletionConfirmed] = useConfirmation();
 
   const deleteGist = useCallback(() => {
     if (deletionConfirmed) {
-      gistState.deleteGist?.();
+      gist.deleteGist?.();
     } else {
       setDeletionConfirmed(true);
     }
-  }, [gistState, deletionConfirmed]);
+  }, [gist, deletionConfirmed]);
 
   const bookmarkInit = useBookmarkInit();
 
   const [addModal, setAddModal] = useState<'init' | boolean>(
-    bookmarkInit && gistState.status !== 'locked' ? 'init' : false
+    bookmarkInit && gist.state !== 'locked' ? 'init' : false
   );
 
   const closeAddModal = useCallback(() => setAddModal(false), []);
@@ -96,7 +96,7 @@ export function BookmarkList({
 
   const createBookmark = useCallback(
     (title: string, url: string) => {
-      gistState.createFile?.(createRandomValue() + '.md', {
+      gist.createFile?.(createRandomValue() + '.md', {
         title,
         url,
         properties: {ctime: Date.now()},
@@ -104,22 +104,22 @@ export function BookmarkList({
 
       setAddModal(false);
     },
-    [gistState]
+    [gist]
   );
 
   const updateDescription = useCallback(
     (description: string) => {
-      if (description !== gistState.description) {
-        gistState.updateGist?.(description);
+      if (description !== gist.description) {
+        gist.updateGist?.(description);
       }
 
       setEditModal(false);
     },
-    [gistState]
+    [gist]
   );
 
   const bookmarklet = useMemo(
-    () => createBookmarklet(gistNameState.gistName),
+    () => createBookmarklet(gistSelection.gistName),
     []
   );
 
@@ -134,7 +134,7 @@ export function BookmarkList({
   const [editable, setEditable] = useState(false);
   const toggleEditable = useCallback(() => setEditable(toggle), []);
 
-  if (gistState.status === 'failed') {
+  if (gist.state === 'failed') {
     return (
       <BulmaText color="danger">
         <BulmaIcon definition={faExclamationTriangle}>
@@ -157,16 +157,16 @@ export function BookmarkList({
 
       {editModal && (
         <EditDescriptionModal
-          initialDescription={gistState.description}
+          initialDescription={gist.description}
           onUpdateDescription={updateDescription}
           onCancel={toggleEditModal}
         />
       )}
 
       <BulmaTitle size="4" isSubtitle>
-        {gistState.description || gistNameState.gistName}
+        {gist.description || gistSelection.gistName}
 
-        {gistState.status === 'ready' && (
+        {gist.state === 'idle' && (
           <BulmaTag color="white" isRounded onClick={toggleEditModal}>
             <BulmaIcon definition={faEdit}>Edit description</BulmaIcon>
           </BulmaTag>
@@ -184,7 +184,7 @@ export function BookmarkList({
                 : `Showing ${filteredFiles.length} bookmarks.`}
             </BulmaContent>
 
-            {gistState.status === 'ready' && (
+            {gist.state === 'idle' && (
               <BulmaTags>
                 <BulmaTag
                   ref={addBookmarkTagRef}
@@ -196,7 +196,7 @@ export function BookmarkList({
                   <BulmaIcon definition={faPlus}>Add bookmark</BulmaIcon>
                 </BulmaTag>
 
-                {gistState.files.length === 0 ? (
+                {gist.files.length === 0 ? (
                   <BulmaTag
                     color={deletionConfirmed ? 'danger' : 'white'}
                     isRounded
@@ -216,20 +216,18 @@ export function BookmarkList({
               </BulmaTags>
             )}
 
-            {gistState.status === 'locked' && (
+            {gist.state === 'locked' && (
               <BulmaTag
-                href={'https://gist.github.com/' + gistState.owner}
+                href={'https://gist.github.com/' + gist.owner}
                 color="link"
                 isLight
                 isRounded
               >
-                <BulmaIcon definition={faLock}>
-                  Owned by {gistState.owner}
-                </BulmaIcon>
+                <BulmaIcon definition={faLock}>Owned by {gist.owner}</BulmaIcon>
               </BulmaTag>
             )}
 
-            {gistState.status === 'updating' && (
+            {gist.state === 'updating' && (
               <BulmaTag color="warning" isLight isRounded>
                 <BulmaIcon definition={faSpinner}>Updating</BulmaIcon>
               </BulmaTag>
@@ -239,11 +237,7 @@ export function BookmarkList({
 
         {filteredFiles.map((file) => (
           <BulmaColumn key={file.filename} breakpointSizes={breakpointSizes}>
-            <BookmarkListItem
-              gistState={gistState}
-              gistFile={file}
-              editable={editable}
-            />
+            <BookmarkListItem gist={gist} gistFile={file} editable={editable} />
           </BulmaColumn>
         ))}
       </BulmaColumns>

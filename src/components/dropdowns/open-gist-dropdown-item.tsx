@@ -1,20 +1,20 @@
 import {BulmaDropdownItem} from '@clebert/bulma-preact';
 import {JSX, h} from 'preact';
 import {useCallback} from 'preact/hooks';
-import {UnsetGistNameState} from '../../hooks/use-gist-name';
+import {UnsetGistSelection} from '../../hooks/use-gist-selection';
 
 export interface OpenGistDropdownItemProps {
-  readonly gistNameState: UnsetGistNameState;
+  readonly gistSelection: UnsetGistSelection;
   readonly gistName: string;
   readonly description: string | undefined;
 }
 
 export function OpenGistDropdownItem({
-  gistNameState,
+  gistSelection,
   gistName,
   description,
 }: OpenGistDropdownItemProps): JSX.Element {
-  const openGist = useCallback(() => gistNameState.setGistName(gistName), [
+  const openGist = useCallback(() => gistSelection.setGistName(gistName), [
     gistName,
   ]);
 

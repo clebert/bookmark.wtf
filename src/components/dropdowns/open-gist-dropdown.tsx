@@ -1,25 +1,25 @@
 import {BulmaButton, BulmaDropdown, BulmaIcon} from '@clebert/bulma-preact';
 import {faAngleDown, faAngleUp} from '@fortawesome/free-solid-svg-icons';
-import {ReceivingReceiverState, SuccessfulReceiverState} from 'loxia';
+import {ReceivingReceiver, SuccessfulReceiver} from 'loxia';
 import {JSX, h} from 'preact';
-import {UnsetGistNameState} from '../../hooks/use-gist-name';
-import {GistOverview} from '../../hooks/use-gist-overview';
+import {GistOverview} from '../../hooks/use-gist-overview-receiver';
+import {UnsetGistSelection} from '../../hooks/use-gist-selection';
 import {useMenu} from '../../hooks/use-menu';
 import {OpenGistDropdownItem} from './open-gist-dropdown-item';
 
 export interface OpenGistDropdownProps {
-  readonly gistNameState: UnsetGistNameState;
+  readonly gistSelection: UnsetGistSelection;
 
-  readonly gistOverviewState:
-    | ReceivingReceiverState
-    | SuccessfulReceiverState<GistOverview>;
+  readonly gistOverviewReceiver:
+    | ReceivingReceiver
+    | SuccessfulReceiver<GistOverview>;
 
   readonly isDisabled: boolean;
 }
 
 export function OpenGistDropdown({
-  gistNameState,
-  gistOverviewState,
+  gistSelection,
+  gistOverviewReceiver,
   isDisabled,
 }: OpenGistDropdownProps): JSX.Element {
   const {visible, trigger} = useMenu();
@@ -28,8 +28,8 @@ export function OpenGistDropdown({
     <BulmaDropdown
       triggerButton={
         <BulmaButton
-          isDisabled={isDisabled || !gistOverviewState.value?.length}
-          isLoading={gistOverviewState.status === 'receiving'}
+          isDisabled={isDisabled || !gistOverviewReceiver.value?.length}
+          isLoading={gistOverviewReceiver.state === 'receiving'}
           onClick={trigger}
         >
           <BulmaIcon
@@ -42,10 +42,10 @@ export function OpenGistDropdown({
       }
       isActive={visible}
     >
-      {gistOverviewState.value?.map(({id, gistName, description}) => (
+      {gistOverviewReceiver.value?.map(({id, gistName, description}) => (
         <OpenGistDropdownItem
           key={id}
-          gistNameState={gistNameState}
+          gistSelection={gistSelection}
           gistName={gistName}
           description={description}
         />

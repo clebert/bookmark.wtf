@@ -2,21 +2,23 @@ import {useCallback, useContext, useMemo} from 'preact/hooks';
 import {HistoryContext} from './use-history';
 import {useSearchTerm} from './use-search-term';
 
-export type GistNameState = SetGistNameState | UnsetGistNameState;
+export type GistSelection = SetGistSelection | UnsetGistSelection;
 
-export interface SetGistNameState {
-  readonly status: 'set';
+export interface SetGistSelection {
+  readonly state: 'set';
   readonly gistName: string;
-  readonly setGistName: (gistName: string | undefined) => void;
+
+  setGistName(gistName: string | undefined): void;
 }
 
-export interface UnsetGistNameState {
-  readonly status: 'unset';
+export interface UnsetGistSelection {
+  readonly state: 'unset';
   readonly gistName?: undefined;
-  readonly setGistName: (gistName: string | undefined) => void;
+
+  setGistName(gistName: string): void;
 }
 
-export function useGistName(): GistNameState {
+export function useGistSelection(): GistSelection {
   const history = useContext(HistoryContext);
   const searchTerm = useSearchTerm();
 
@@ -33,7 +35,7 @@ export function useGistName(): GistNameState {
     const gistName = new URL(history.url).pathname.split('/')[1];
 
     return gistName
-      ? {status: 'set', gistName, setGistName}
-      : {status: 'unset', setGistName};
+      ? {state: 'set', gistName, setGistName}
+      : {state: 'unset', setGistName};
   }, [history]);
 }

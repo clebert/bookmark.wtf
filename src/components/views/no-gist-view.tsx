@@ -14,11 +14,11 @@ import {Fragment, JSX, h} from 'preact';
 import {useCallback, useMemo, useState} from 'preact/hooks';
 import {GistRestApi} from '../../apis/gist-rest-api';
 import {useBinder} from '../../hooks/use-binder';
-import {UnsetGistNameState} from '../../hooks/use-gist-name';
 import {
-  GistOverviewDependencies,
-  useGistOverview,
-} from '../../hooks/use-gist-overview';
+  GistOverviewReceiverDependencies,
+  useGistOverviewReceiver,
+} from '../../hooks/use-gist-overview-receiver';
+import {UnsetGistSelection} from '../../hooks/use-gist-selection';
 import {useSender} from '../../hooks/use-sender';
 import {assertIsString} from '../../utils/assert-is-string';
 import {toggle} from '../../utils/toggle';
@@ -26,8 +26,8 @@ import {OpenGistDropdown} from '../dropdowns/open-gist-dropdown';
 import {CreateGistModal} from '../modals/create-gist-modal';
 import {OpenGistModal} from '../modals/open-gist-modal';
 
-export interface NoGistViewProps extends GistOverviewDependencies {
-  readonly gistNameState: UnsetGistNameState;
+export interface NoGistViewProps extends GistOverviewReceiverDependencies {
+  readonly gistSelection: UnsetGistSelection;
 }
 
 const appBaseUrl = process.env.APP_BASE_URL;
@@ -44,40 +44,40 @@ const breakpointSizes: BulmaColumnBreakpointSizes = {
 };
 
 export function NoGistView({
-  authState,
-  gistNameState,
+  auth,
+  gistSelection,
 }: NoGistViewProps): JSX.Element {
   const [createModal, setCreateModal] = useState(false);
   const toggleCreateModal = useCallback(() => setCreateModal(toggle), []);
   const [openModal, setOpenModal] = useState(false);
   const toggleOpenModal = useCallback(() => setOpenModal(toggle), []);
-  const creationState = useSender();
-  const restApi = useMemo(() => new GistRestApi(authState.token), []);
+  const creationSender = useSender();
+  const restApi = useMemo(() => new GistRestApi(auth.token), []);
   const bind = useBinder();
 
   const createGist = useCallback(
     (description: string) => {
-      creationState.send?.(
+      creationSender.send?.(
         restApi
           .createGist(description, {
             [`.${appName}.md`]: `# This gist is maintained via [${appName}](${appBaseUrl})`,
           })
-          .then(bind(gistNameState.setGistName))
+          .then(bind(gistSelection.setGistName))
       );
 
       setCreateModal(false);
     },
-    [creationState]
+    [creationSender]
   );
 
   const openGist = useCallback((gistName: string) => {
-    gistNameState.setGistName(gistName);
+    gistSelection.setGistName(gistName);
     setOpenModal(false);
   }, []);
 
-  const gistOverviewState = useGistOverview({authState});
+  const gistOverviewReceiver = useGistOverviewReceiver({auth});
 
-  if (gistOverviewState.status === 'failed') {
+  if (gistOverviewReceiver.state === 'failed') {
     return (
       <BulmaText color="danger">
         <BulmaIcon definition={faExclamationTriangle}>
@@ -87,7 +87,7 @@ export function NoGistView({
     );
   }
 
-  if (creationState.status === 'failed') {
+  if (creationSender.state === 'failed') {
     return (
       <BulmaText color="danger">
         <BulmaIcon definition={faExclamationTriangle}>
@@ -117,13 +117,13 @@ export function NoGistView({
 
             <BulmaField isGrouped>
               <OpenGistDropdown
-                gistNameState={gistNameState}
-                gistOverviewState={gistOverviewState}
-                isDisabled={creationState.status === 'sending'}
+                gistSelection={gistSelection}
+                gistOverviewReceiver={gistOverviewReceiver}
+                isDisabled={creationSender.state === 'sending'}
               />
 
               <BulmaButton
-                isDisabled={creationState.status === 'sending'}
+                isDisabled={creationSender.state === 'sending'}
                 onClick={toggleOpenModal}
               >
                 <BulmaIcon definition={faEdit}>Enter URL</BulmaIcon>
@@ -137,7 +137,7 @@ export function NoGistView({
             <BulmaTitle size="4">Create a new gist.</BulmaTitle>
 
             <BulmaButton
-              isDisabled={creationState.status === 'sending'}
+              isDisabled={creationSender.state === 'sending'}
               onClick={toggleCreateModal}
             >
               <BulmaIcon definition={faEdit}>Enter description</BulmaIcon>

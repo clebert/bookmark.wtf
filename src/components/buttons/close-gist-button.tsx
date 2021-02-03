@@ -3,23 +3,23 @@ import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {JSX, h} from 'preact';
 import {useCallback} from 'preact/hooks';
-import {SetGistNameState} from '../../hooks/use-gist-name';
+import {SetGistSelection} from '../../hooks/use-gist-selection';
 
 export interface CloseGistButtonProps {
-  readonly gistNameState: SetGistNameState;
+  readonly gistSelection: SetGistSelection;
 }
 
 export function CloseGistButton({
-  gistNameState,
+  gistSelection,
 }: CloseGistButtonProps): JSX.Element {
   const viewOnGithub = useCallback(
     () =>
       (window.location.href =
-        'https://gist.github.com/' + gistNameState.gistName),
-    [gistNameState]
+        'https://gist.github.com/' + gistSelection.gistName),
+    [gistSelection]
   );
 
-  const closeGist = useCallback(() => gistNameState.setGistName(undefined), []);
+  const closeGist = useCallback(() => gistSelection.setGistName(undefined), []);
 
   return (
     <BulmaField hasAddons>

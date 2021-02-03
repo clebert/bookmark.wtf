@@ -1,36 +1,35 @@
 import cookie from 'cookie';
-import {useEffect, useMemo, useState} from 'preact/hooks';
+import {useCallback, useEffect, useMemo, useState} from 'preact/hooks';
 import {assertIsString} from '../utils/assert-is-string';
 import {createRandomValue} from '../utils/create-random-value';
 import {useTransition} from './use-transition';
 
-export type AuthState =
-  | AuthorizedAuthState
-  | AuthorizingAuthState
-  | UnauthorizedAuthState;
+export type Auth = AuthorizedAuth | AuthorizingAuth | UnauthorizedAuth;
 
-export type AuthorizedAuthState = {
-  readonly status: 'authorized';
+export type AuthorizedAuth = {
+  readonly state: 'authorized';
   readonly token: string;
   readonly signIn?: undefined;
-  readonly signOut: () => void;
+
+  signOut(): boolean;
 };
 
-export type AuthorizingAuthState = {
-  readonly status: 'authorizing';
+export type AuthorizingAuth = {
+  readonly state: 'authorizing';
   readonly token?: undefined;
   readonly signIn?: undefined;
   readonly signOut?: undefined;
 };
 
-export type UnauthorizedAuthState = {
-  readonly status: 'unauthorized';
+export type UnauthorizedAuth = {
+  readonly state: 'unauthorized';
   readonly token?: undefined;
-  readonly signIn: () => void;
   readonly signOut?: undefined;
+
+  signIn(): boolean;
 };
 
-export function useAuth(): AuthState {
+export function useAuth(): Auth {
   const [token, setToken] = useState(
     localStorage.getItem('token') ?? undefined
   );
@@ -44,43 +43,50 @@ export function useAuth(): AuthState {
   }, [token]);
 
   const [authorizing, setAuthorizing] = useState(false);
+  const transition = useTransition(token, authorizing);
 
-  const signIn = useTransition(() => {
-    setAuthorizing(true);
+  const signIn = useCallback(
+    () =>
+      transition(() => {
+        setAuthorizing(true);
 
-    const transactionId = createRandomValue();
+        const transactionId = createRandomValue();
 
-    document.cookie = cookie.serialize('transactionId', transactionId, {
-      path: '/',
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV !== 'development',
-    });
+        document.cookie = cookie.serialize('transactionId', transactionId, {
+          path: '/',
+          sameSite: 'lax',
+          secure: process.env.NODE_ENV !== 'development',
+        });
 
-    sessionStorage.setItem('originalPathname', window.location.pathname);
-    sessionStorage.setItem('originalSearch', window.location.search);
+        sessionStorage.setItem('originalPathname', window.location.pathname);
+        sessionStorage.setItem('originalSearch', window.location.search);
 
-    const clientId = process.env.CLIENT_ID;
+        const clientId = process.env.CLIENT_ID;
 
-    assertIsString(clientId, 'process.env.CLIENT_ID');
+        assertIsString(clientId, 'process.env.CLIENT_ID');
 
-    const url = new URL('https://github.com/login/oauth/authorize');
+        const url = new URL('https://github.com/login/oauth/authorize');
 
-    url.searchParams.set('client_id', clientId);
-    url.searchParams.set('scope', 'gist');
-    url.searchParams.set('state', transactionId);
+        url.searchParams.set('client_id', clientId);
+        url.searchParams.set('scope', 'gist');
+        url.searchParams.set('state', transactionId);
 
-    window.location.href = url.href;
-  }, []);
+        window.location.href = url.href;
+      }),
+    [transition]
+  );
 
-  const signOut = useTransition(() => setToken(undefined), []);
+  const signOut = useCallback(() => transition(() => setToken(undefined)), [
+    transition,
+  ]);
 
   return useMemo(
     () =>
       token
-        ? {status: 'authorized', token, signOut}
+        ? {state: 'authorized', token, signOut}
         : authorizing
-        ? {status: 'authorizing'}
-        : {status: 'unauthorized', signIn},
+        ? {state: 'authorizing'}
+        : {state: 'unauthorized', signIn},
     [token, authorizing]
   );
 }

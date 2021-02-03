@@ -1,51 +1,53 @@
-import {SuccessfulReceiverState} from 'loxia';
+import {SuccessfulReceiver} from 'loxia';
 import {useCallback, useMemo, useState} from 'preact/hooks';
 import {GistData} from '../apis/fetch-gist-data';
 import {GistRestApi} from '../apis/gist-rest-api';
 import {assertIsString} from '../utils/assert-is-string';
-import {AuthorizedAuthState} from './use-auth';
+import {AuthorizedAuth} from './use-auth';
 import {useBinder} from './use-binder';
-import {SetGistNameState} from './use-gist-name';
+import {SetGistSelection} from './use-gist-selection';
 import {useSender} from './use-sender';
+import {useTransition} from './use-transition';
 
 export interface GistDependencies {
-  readonly authState: AuthorizedAuthState;
-  readonly userState: SuccessfulReceiverState<string>;
-  readonly gistNameState: SetGistNameState;
-  readonly gistDataState: SuccessfulReceiverState<GistData>;
+  readonly auth: AuthorizedAuth;
+  readonly userReceiver: SuccessfulReceiver<string>;
+  readonly gistSelection: SetGistSelection;
+  readonly gistDataReceiver: SuccessfulReceiver<GistData>;
 }
 
-export type GistState<TModel> =
-  | ReadyGistState<TModel>
-  | UpdatingGistState<TModel>
-  | LockedGistState<TModel>
-  | FailedGistState; // TODO: rename
+export type Gist<TModel> =
+  | IdleGist<TModel>
+  | UpdatingGist<TModel>
+  | LockedGist<TModel>
+  | FailedGist;
 
-export interface ReadyGistState<TModel> {
-  readonly status: 'ready';
+export interface IdleGist<TModel> {
+  readonly state: 'idle';
   readonly owner: string;
   readonly description: string;
   readonly files: readonly GistFile<TModel>[];
-  readonly error: undefined;
-  readonly createFile: (filename: string, newModel: TModel) => void;
+  readonly reason?: undefined;
 
-  readonly updateFile: (
+  createFile(filename: string, newModel: TModel): boolean;
+
+  updateFile(
     file: GistFile<TModel>,
     newModel: TModel,
     silent?: boolean
-  ) => void;
+  ): boolean;
 
-  readonly deleteFile: (file: GistFile<TModel>) => void;
-  readonly updateGist: (newDescription: string) => void;
-  readonly deleteGist: () => void;
+  deleteFile(file: GistFile<TModel>): boolean;
+  updateGist(newDescription: string): boolean;
+  deleteGist(): boolean;
 }
 
-export interface UpdatingGistState<TModel> {
-  readonly status: 'updating';
+export interface UpdatingGist<TModel> {
+  readonly state: 'updating';
   readonly owner: string;
   readonly description: string;
   readonly files: readonly GistFile<TModel>[];
-  readonly error?: undefined;
+  readonly reason?: undefined;
   readonly createFile?: undefined;
   readonly updateFile?: undefined;
   readonly deleteFile?: undefined;
@@ -53,12 +55,12 @@ export interface UpdatingGistState<TModel> {
   readonly deleteGist?: undefined;
 }
 
-export interface LockedGistState<TModel> {
-  readonly status: 'locked';
+export interface LockedGist<TModel> {
+  readonly state: 'locked';
   readonly owner: string;
   readonly description: string;
   readonly files: readonly GistFile<TModel>[];
-  readonly error?: undefined;
+  readonly reason?: undefined;
   readonly createFile?: undefined;
   readonly updateFile?: undefined;
   readonly deleteFile?: undefined;
@@ -66,12 +68,12 @@ export interface LockedGistState<TModel> {
   readonly deleteGist?: undefined;
 }
 
-export interface FailedGistState {
-  readonly status: 'failed';
+export interface FailedGist {
+  readonly state: 'failed';
   readonly owner?: undefined;
   readonly description?: undefined;
   readonly files?: undefined;
-  readonly error: Error;
+  readonly reason: unknown;
   readonly createFile?: undefined;
   readonly updateFile?: undefined;
   readonly deleteFile?: undefined;
@@ -93,46 +95,53 @@ export interface ModelBackend<TModel> {
 export function useGist<TModel>(
   dependencies: GistDependencies,
   modelBackend: ModelBackend<TModel>
-): GistState<TModel> {
-  const {authState, userState, gistNameState, gistDataState} = dependencies;
+): Gist<TModel> {
+  const {auth, userReceiver, gistSelection, gistDataReceiver} = dependencies;
 
   const owner = useMemo(() => {
-    assertIsString(gistDataState.value.owner?.login, 'owner');
+    assertIsString(gistDataReceiver.value.owner?.login, 'owner');
 
-    return gistDataState.value.owner.login;
+    return gistDataReceiver.value.owner.login;
   }, []);
 
-  const locked = useMemo(() => userState.value !== owner, []);
-  const restApi = useMemo(() => new GistRestApi(authState.token), []);
-  const updateState = useSender();
+  const locked = useMemo(() => userReceiver.value !== owner, []);
+  const restApi = useMemo(() => new GistRestApi(auth.token), []);
+  const updateSender = useSender();
 
   const [description, setDescription] = useState(
-    gistDataState.value.description ?? ''
+    gistDataReceiver.value.description ?? ''
   );
 
-  const updateGist = useCallback(
-    (newDescription: string) => {
-      setDescription(newDescription);
+  const transition = useTransition(updateSender);
 
-      updateState.send?.(
-        restApi.updateGist(gistDataState.value.name, newDescription)
-      );
-    },
-    [updateState]
+  const updateGist = useCallback(
+    (newDescription: string) =>
+      transition(() => {
+        setDescription(newDescription);
+
+        updateSender.send?.(
+          restApi.updateGist(gistDataReceiver.value.name, newDescription)
+        );
+      }),
+    [transition]
   );
 
   const bind = useBinder();
 
-  const deleteGist = useCallback(() => {
-    updateState.send?.(
-      restApi
-        .deleteGist(gistDataState.value.name)
-        .then(bind(() => gistNameState.setGistName(undefined)))
-    );
-  }, [updateState]);
+  const deleteGist = useCallback(
+    () =>
+      transition(() => {
+        updateSender.send?.(
+          restApi
+            .deleteGist(gistDataReceiver.value.name)
+            .then(bind(() => gistSelection.setGistName(undefined)))
+        );
+      }),
+    [transition]
+  );
 
   const [files, setFiles] = useState<readonly GistFile<TModel>[]>(() =>
-    (gistDataState.value.files ?? []).reduce((accu, file) => {
+    (gistDataReceiver.value.files ?? []).reduce((accu, file) => {
       if (file && file.name && file.text) {
         const model = modelBackend.parseModel(file.text);
 
@@ -146,91 +155,94 @@ export function useGist<TModel>(
   );
 
   const createFile = useCallback(
-    (filename: string, model: TModel) => {
-      if (updateState.status === 'idle') {
-        setFiles((prevFiles) => [...prevFiles, {filename, model}]);
+    (filename: string, model: TModel) =>
+      transition(() => {
+        if (updateSender.state === 'idle') {
+          setFiles((prevFiles) => [...prevFiles, {filename, model}]);
 
-        updateState.send(
-          restApi.updateFile(
-            gistDataState.value.name,
-            filename,
-            modelBackend.serializeModel(model)
-          )
-        );
-      }
-    },
-    [updateState]
+          updateSender.send(
+            restApi.updateFile(
+              gistDataReceiver.value.name,
+              filename,
+              modelBackend.serializeModel(model)
+            )
+          );
+        }
+      }),
+    [transition]
   );
 
   const updateFile = useCallback(
-    (file: GistFile<TModel>, newModel: TModel, silent: boolean = false) => {
-      if (updateState.status !== 'idle') {
-        return;
-      }
+    (file: GistFile<TModel>, newModel: TModel, silent: boolean = false) =>
+      transition(() => {
+        if (updateSender.state !== 'idle') {
+          return;
+        }
 
-      if (silent) {
-        restApi
-          .updateFile(
-            gistDataState.value.name,
-            file.filename,
-            modelBackend.serializeModel(newModel)
-          )
-          .catch();
-      } else {
-        setFiles((prevFiles) =>
-          prevFiles.map((prevFile) => {
-            if (prevFile !== file) {
-              return prevFile;
-            }
+        if (silent) {
+          restApi
+            .updateFile(
+              gistDataReceiver.value.name,
+              file.filename,
+              modelBackend.serializeModel(newModel)
+            )
+            .catch();
+        } else {
+          setFiles((prevFiles) =>
+            prevFiles.map((prevFile) => {
+              if (prevFile !== file) {
+                return prevFile;
+              }
 
-            return {...prevFile, model: newModel};
-          })
-        );
+              return {...prevFile, model: newModel};
+            })
+          );
 
-        updateState.send(
-          restApi.updateFile(
-            gistDataState.value.name,
-            file.filename,
-            modelBackend.serializeModel(newModel)
-          )
-        );
-      }
-    },
-    [updateState]
+          updateSender.send(
+            restApi.updateFile(
+              gistDataReceiver.value.name,
+              file.filename,
+              modelBackend.serializeModel(newModel)
+            )
+          );
+        }
+      }),
+    [transition]
   );
 
   const deleteFile = useCallback(
-    (file: GistFile<TModel>) => {
-      if (updateState.status === 'idle') {
-        setFiles((prevFiles) =>
-          prevFiles.filter((prevFile) => prevFile !== file)
-        );
+    (file: GistFile<TModel>) =>
+      transition(() => {
+        if (updateSender.state === 'idle') {
+          setFiles((prevFiles) =>
+            prevFiles.filter((prevFile) => prevFile !== file)
+          );
 
-        updateState.send(
-          restApi.deleteFile(gistDataState.value.name, file.filename)
-        );
-      }
-    },
-    [updateState]
+          updateSender.send(
+            restApi.deleteFile(gistDataReceiver.value.name, file.filename)
+          );
+        }
+      }),
+    [transition]
   );
 
   return useMemo(() => {
-    if (updateState.status === 'failed') {
-      return {status: 'failed', error: updateState.error};
+    if (updateSender.state === 'failed') {
+      return updateSender;
     }
 
     const sortedFiles = [...files].sort((a, b) =>
       modelBackend.compareModels(a.model, b.model)
     );
 
-    if (locked || updateState.status === 'sending') {
-      const status = locked ? 'locked' : 'updating';
+    if (locked || updateSender.state === 'sending') {
+      const state = locked ? 'locked' : 'updating';
 
-      return {status, owner, description, files: sortedFiles};
+      return {state, owner, description, files: sortedFiles};
     }
 
     return {
-      status: 'ready',
+      state: 'idle',
       owner,
       description,
       files: sortedFiles,
@@ -240,5 +252,5 @@ export function useGist<TModel>(
       updateGist,
       deleteGist,
     };
-  }, [updateState, description, files]);
+  }, [updateSender, description, files]);
 }

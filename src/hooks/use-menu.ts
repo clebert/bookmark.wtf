@@ -4,7 +4,8 @@ import {toggle} from '../utils/toggle';
 
 export interface Menu {
   readonly visible: boolean;
-  readonly trigger: (event?: JSX.TargetedEvent) => void;
+
+  trigger(event?: JSX.TargetedEvent): void;
 }
 
 export function useMenu(): Menu {

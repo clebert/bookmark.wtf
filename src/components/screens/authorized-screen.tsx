@@ -1,31 +1,33 @@
 import {BulmaField, BulmaInput, BulmaLevel} from '@clebert/bulma-preact';
 import {JSX, h} from 'preact';
-import {useGistName} from '../../hooks/use-gist-name';
+import {useGistSelection} from '../../hooks/use-gist-selection';
 import {useInputCallback} from '../../hooks/use-input-callback';
 import {useSearchTerm} from '../../hooks/use-search-term';
-import {UserContext, UserDependencies, useUser} from '../../hooks/use-user';
+import {
+  UserReceiverContext,
+  UserReceiverDependencies,
+  useUserReceiver,
+} from '../../hooks/use-user-receiver';
 import {AppName} from '../app-name';
 import {CloseGistButton} from '../buttons/close-gist-button';
 import {SignOutButton} from '../buttons/sign-out-button';
 import {GistView} from '../views/gist-view';
 import {NoGistView} from '../views/no-gist-view';
 
-export interface AuthorizedScreenProps extends UserDependencies {}
+export interface AuthorizedScreenProps extends UserReceiverDependencies {}
 
-export function AuthorizedScreen({
-  authState,
-}: AuthorizedScreenProps): JSX.Element {
-  const gistNameState = useGistName();
-  const userState = useUser({authState});
+export function AuthorizedScreen({auth}: AuthorizedScreenProps): JSX.Element {
+  const gistSelection = useGistSelection();
+  const userReceiver = useUserReceiver({auth});
   const searchTerm = useSearchTerm();
   const handleSearchTermChange = useInputCallback(searchTerm.setValue);
 
   return (
-    <UserContext.Provider value={userState}>
+    <UserReceiverContext.Provider value={userReceiver}>
       <BulmaLevel
-        items={[<AppName />, <SignOutButton authState={authState} />]}
+        items={[<AppName />, <SignOutButton auth={auth} />]}
         rightItems={
-          gistNameState.status === 'set'
+          gistSelection.state === 'set'
             ? [
                 <BulmaField isHidden="touch">
                   <BulmaInput
@@ -38,17 +40,17 @@ export function AuthorizedScreen({
                     onChange={handleSearchTermChange}
                   />
                 </BulmaField>,
-                <CloseGistButton gistNameState={gistNameState} />,
+                <CloseGistButton gistSelection={gistSelection} />,
               ]
             : []
         }
       />
 
-      {gistNameState.status === 'set' ? (
-        <GistView authState={authState} gistNameState={gistNameState} />
+      {gistSelection.state === 'set' ? (
+        <GistView auth={auth} gistSelection={gistSelection} />
       ) : (
-        <NoGistView authState={authState} gistNameState={gistNameState} />
+        <NoGistView auth={auth} gistSelection={gistSelection} />
       )}
-    </UserContext.Provider>
+    </UserReceiverContext.Provider>
   );
 }

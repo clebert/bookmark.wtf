@@ -1,11 +1,11 @@
-import {ReceiverState} from 'loxia';
+import {Receiver} from 'loxia';
 import {useMemo} from 'preact/hooks';
 import {fetchGistsData} from '../apis/fetch-gists-data';
-import {AuthorizedAuthState} from './use-auth';
+import {AuthorizedAuth} from './use-auth';
 import {useReceiver} from './use-receiver';
 
-export interface GistOverviewDependencies {
-  readonly authState: AuthorizedAuthState;
+export interface GistOverviewReceiverDependencies {
+  readonly auth: AuthorizedAuth;
 }
 
 export type GistOverview = readonly GistOverviewItem[];
@@ -16,10 +16,12 @@ export interface GistOverviewItem {
   readonly description: string;
 }
 
-export function useGistOverview(
-  dependencies: GistOverviewDependencies
-): ReceiverState<GistOverview> {
-  const {token} = dependencies.authState;
+export function useGistOverviewReceiver(
+  dependencies: GistOverviewReceiverDependencies
+): Receiver<GistOverview> {
+  const {
+    auth: {token},
+  } = dependencies;
 
   return useReceiver(
     useMemo(
