@@ -112,7 +112,22 @@ export function useGist<TModel>(
     gistDataReceiver.value.description ?? ''
   );
 
-  const transition = useTransition(updateSender);
+  const [files, setFiles] = useState<readonly GistFile<TModel>[]>(() =>
+    (gistDataReceiver.value.files ?? []).reduce((accu, file) => {
+      if (file && file.name && file.text) {
+        const model = modelBackend.parseModel(file.text);
+
+        if (model) {
+          accu.push({filename: file.name, model});
+        }
+      }
+
+      return accu;
+    }, [] as GistFile<TModel>[])
+  );
+
+  const bind = useBinder();
+  const transition = useTransition(updateSender, description, files);
 
   const updateGist = useCallback(
     (newDescription: string) =>
@@ -126,8 +141,6 @@ export function useGist<TModel>(
     [transition]
   );
 
-  const bind = useBinder();
-
   const deleteGist = useCallback(
     () =>
       transition(() => {
@@ -138,20 +151,6 @@ export function useGist<TModel>(
         );
       }),
     [transition]
-  );
-
-  const [files, setFiles] = useState<readonly GistFile<TModel>[]>(() =>
-    (gistDataReceiver.value.files ?? []).reduce((accu, file) => {
-      if (file && file.name && file.text) {
-        const model = modelBackend.parseModel(file.text);
-
-        if (model) {
-          accu.push({filename: file.name, model});
-        }
-      }
-
-      return accu;
-    }, [] as GistFile<TModel>[])
   );
 
   const createFile = useCallback(
@@ -252,5 +251,5 @@ export function useGist<TModel>(
       updateGist,
       deleteGist,
     };
-  }, [updateSender, description, files]);
+  }, [transition]);
 }

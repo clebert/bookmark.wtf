@@ -87,7 +87,7 @@ export function useAuth(): Auth {
         : authorizing
         ? {state: 'authorizing'}
         : {state: 'unauthorized', signIn},
-    [token, authorizing]
+    [transition]
   );
 }
 
