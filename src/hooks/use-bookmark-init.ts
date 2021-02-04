@@ -12,8 +12,7 @@ export function useBookmarkInit(): BookmarkInit | undefined {
 
   useEffect(
     () =>
-      history.scheduleUpdate(
-        'replace',
+      history.replace(
         {type: 'param', key: 'title'},
         {type: 'param', key: 'url'},
         {type: 'param', key: 'version'}

@@ -12,8 +12,7 @@ export function useSearchTerm(): SearchTerm {
   const history = useContext(HistoryContext);
 
   const setValue = useCallback(
-    (value: string) =>
-      history.scheduleUpdate('replace', {type: 'param', key: 'search', value}),
+    (value: string) => history.replace({type: 'param', key: 'search', value}),
     []
   );
 

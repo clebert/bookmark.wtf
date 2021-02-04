@@ -1,23 +1,12 @@
 import {createContext} from 'preact';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'preact/hooks';
-
-export interface HistoryBackend {
-  readonly url: string;
-
-  push(url: string): void;
-  replace(url: string): void;
-}
+import {useCallback, useEffect, useMemo, useState} from 'preact/hooks';
 
 export interface History {
   readonly url: string;
   readonly initialUrl: string;
 
-  scheduleUpdate(
-    action: 'push' | 'replace',
-    ...changes: readonly [HistoryChange, ...HistoryChange[]]
-  ): void;
-
-  cancelUpdate(): void;
+  push(...changes: readonly [HistoryChange, ...HistoryChange[]]): void;
+  replace(...changes: readonly [HistoryChange, ...HistoryChange[]]): void;
 }
 
 export type HistoryChange = PathnameChange | ParamChange;
@@ -33,100 +22,49 @@ export interface ParamChange {
   readonly value?: string;
 }
 
-interface Update {
-  action: 'push' | 'replace';
-  changes: readonly HistoryChange[];
-}
-
 export const HistoryContext = createContext<History>(undefined as any);
 
-export function useHistory(backend: HistoryBackend): History {
-  const initialUrl = useMemo(() => backend.url, []);
+export function useHistory(): History {
+  const initialUrl = useMemo(() => window.location.href, []);
   const [url, setUrl] = useState(initialUrl);
-  const updateRef = useRef<Update | undefined>(undefined);
 
-  const scheduleUpdate = useCallback<History['scheduleUpdate']>(
-    (action, ...changes) => {
-      if (!updateRef.current) {
-        updateRef.current = {action, changes};
+  const push = useCallback<History['push']>((...changes) => {
+    window.history.pushState(undefined, '', applyChanges(changes));
+    setUrl(window.location.href);
+  }, []);
 
-        Promise.resolve()
-          .then(() => {
-            if (!updateRef.current) {
-              return;
-            }
-
-            const update = updateRef.current;
-            const urlObject = new URL(backend.url);
-
-            for (const change of update.changes) {
-              if (change.type === 'pathname') {
-                urlObject.pathname = change.pathname;
-              } else if (change.value) {
-                urlObject.searchParams.set(change.key, change.value);
-              } else {
-                urlObject.searchParams.delete(change.key);
-              }
-            }
-
-            updateRef.current = undefined;
-
-            if (urlObject.href === backend.url) {
-              return;
-            }
-
-            if (update.action === 'push') {
-              backend.push(urlObject.href);
-            } else {
-              backend.replace(urlObject.href);
-            }
-
-            setUrl(backend.url);
-          })
-          .catch((error) => console.error('Failed to update history.', error));
-      } else {
-        if (action === 'push') {
-          updateRef.current.action = action;
-        }
-
-        updateRef.current.changes = [...updateRef.current.changes, ...changes];
-      }
-    },
-    []
-  );
-
-  const cancelUpdate = useCallback(
-    () => void (updateRef.current = undefined),
-    []
-  );
+  const replace = useCallback<History['replace']>((...changes) => {
+    window.history.replaceState(undefined, '', applyChanges(changes));
+    setUrl(window.location.href);
+  }, []);
 
   useEffect(() => {
-    const synchronize = () => setUrl(backend.url);
+    const synchronize = () => setUrl(window.location.href);
 
-    if (isBrowser()) {
-      window.addEventListener('pageshow', synchronize);
-      window.addEventListener('popstate', synchronize);
-    }
+    window.addEventListener('pageshow', synchronize);
+    window.addEventListener('popstate', synchronize);
 
     return () => {
-      cancelUpdate();
-
-      if (isBrowser()) {
-        window.removeEventListener('pageshow', synchronize);
-        window.removeEventListener('popstate', synchronize);
-      }
+      window.removeEventListener('pageshow', synchronize);
+      window.removeEventListener('popstate', synchronize);
     };
   }, []);
 
-  return useMemo(() => ({url, initialUrl, scheduleUpdate, cancelUpdate}), [
-    url,
-  ]);
+  return useMemo(() => ({url, initialUrl, push, replace}), [url]);
 }
 
-function isBrowser(): boolean {
-  return Boolean(
-    typeof window !== 'undefined' &&
-      window.addEventListener &&
-      window.removeEventListener
-  );
+function applyChanges(changes: readonly HistoryChange[]): string {
+  const urlObject = new URL(window.location.href);
+
+  for (const change of changes) {
+    if (change.type === 'pathname') {
+      urlObject.pathname = change.pathname;
+    } else if (change.value) {
+      urlObject.searchParams.set(change.key, change.value);
+    } else {
+      urlObject.searchParams.delete(change.key);
+    }
+  }
+
+  return urlObject.href;
 }

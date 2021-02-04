@@ -24,11 +24,7 @@ export function useGistSelection(): GistSelection {
 
   const setGistName = useCallback((gistName: string | undefined) => {
     searchTerm.setValue('');
-
-    history.scheduleUpdate('push', {
-      type: 'pathname',
-      pathname: '/' + (gistName ?? ''),
-    });
+    history.push({type: 'pathname', pathname: '/' + (gistName ?? '')});
   }, []);
 
   return useMemo(() => {
