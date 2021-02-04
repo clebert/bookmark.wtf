@@ -86,15 +86,15 @@ export interface GistFile<TModel> {
   readonly model: TModel;
 }
 
-export interface ModelBackend<TModel> {
-  parseModel(data: string): TModel | undefined;
-  serializeModel(model: TModel): string;
-  compareModels(modelA: TModel, modelB: TModel): -1 | 0 | 1;
+export interface ModelAdapter<TModel> {
+  parse(data: string): TModel | undefined;
+  serialize(model: TModel): string;
+  compare(modelA: TModel, modelB: TModel): -1 | 0 | 1;
 }
 
 export function useGist<TModel>(
   dependencies: GistDependencies,
-  modelBackend: ModelBackend<TModel>
+  modelAdapter: ModelAdapter<TModel>
 ): Gist<TModel> {
   const {auth, userReceiver, gistSelection, gistDataReceiver} = dependencies;
 
@@ -115,7 +115,7 @@ export function useGist<TModel>(
   const [files, setFiles] = useState<readonly GistFile<TModel>[]>(() =>
     (gistDataReceiver.value.files ?? []).reduce((accu, file) => {
       if (file && file.name && file.text) {
-        const model = modelBackend.parseModel(file.text);
+        const model = modelAdapter.parse(file.text);
 
         if (model) {
           accu.push({filename: file.name, model});
@@ -163,7 +163,7 @@ export function useGist<TModel>(
             restApi.updateFile(
               gistDataReceiver.value.name,
               filename,
-              modelBackend.serializeModel(model)
+              modelAdapter.serialize(model)
             )
           );
         }
@@ -183,7 +183,7 @@ export function useGist<TModel>(
             .updateFile(
               gistDataReceiver.value.name,
               file.filename,
-              modelBackend.serializeModel(newModel)
+              modelAdapter.serialize(newModel)
             )
             .catch();
         } else {
@@ -201,7 +201,7 @@ export function useGist<TModel>(
             restApi.updateFile(
               gistDataReceiver.value.name,
               file.filename,
-              modelBackend.serializeModel(newModel)
+              modelAdapter.serialize(newModel)
             )
           );
         }
@@ -231,7 +231,7 @@ export function useGist<TModel>(
     }
 
     const sortedFiles = [...files].sort((a, b) =>
-      modelBackend.compareModels(a.model, b.model)
+      modelAdapter.compare(a.model, b.model)
     );
 
     if (locked || updateSender.state === 'sending') {

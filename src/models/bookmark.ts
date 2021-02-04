@@ -1,5 +1,5 @@
 import {lexer} from 'marked';
-import {ModelBackend} from '../hooks/use-gist';
+import {ModelAdapter} from '../hooks/use-gist';
 import {isNumber} from '../utils/is-number';
 import {isObject} from '../utils/is-object';
 import {isString} from '../utils/is-string';
@@ -16,8 +16,8 @@ export interface BookmarkProperties {
   readonly clickCount?: number;
 }
 
-export class BookmarkBackend implements ModelBackend<Bookmark> {
-  parseModel(data: string): Bookmark | undefined {
+export class BookmarkAdapter implements ModelAdapter<Bookmark> {
+  parse(data: string): Bookmark | undefined {
     const paragraphToken: unknown = lexer(data)[0];
 
     if (
@@ -77,13 +77,13 @@ export class BookmarkBackend implements ModelBackend<Bookmark> {
     return {title: text, url: href, properties: {ctime, mtime, clickCount}};
   }
 
-  serializeModel(bookmark: Bookmark): string {
+  serialize(bookmark: Bookmark): string {
     return `[${bookmark.title.replace(/\[/g, '\\[').replace(/\]/g, '\\]')}](${
       bookmark.url
     }) \`${JSON.stringify(bookmark.properties)}\``;
   }
 
-  compareModels(bookmarkA: Bookmark, bookmarkB: Bookmark): -1 | 0 | 1 {
+  compare(bookmarkA: Bookmark, bookmarkB: Bookmark): -1 | 0 | 1 {
     const {
       ctime: ctimeA,
       mtime: timeA = ctimeA,

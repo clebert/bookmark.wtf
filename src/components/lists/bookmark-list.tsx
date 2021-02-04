@@ -26,7 +26,7 @@ import {useBookmarkInit} from '../../hooks/use-bookmark-init';
 import {useConfirmation} from '../../hooks/use-confirmation';
 import {GistDependencies, useGist} from '../../hooks/use-gist';
 import {useSearchTerm} from '../../hooks/use-search-term';
-import {BookmarkBackend} from '../../models/bookmark';
+import {BookmarkAdapter} from '../../models/bookmark';
 import {createBookmarklet} from '../../utils/create-bookmarklet';
 import {createRandomValue} from '../../utils/create-random-value';
 import {preventDefault} from '../../utils/prevent-default';
@@ -43,7 +43,7 @@ const breakpointSizes: BulmaColumnBreakpointSizes = {
   fullHd: '3',
 };
 
-const bookmarkBackend = new BookmarkBackend();
+const bookmarkAdapter = new BookmarkAdapter();
 
 export function BookmarkList({
   auth,
@@ -53,7 +53,7 @@ export function BookmarkList({
 }: BookmarkListProps): JSX.Element {
   const gist = useGist(
     {auth, userReceiver, gistSelection, gistDataReceiver},
-    bookmarkBackend
+    bookmarkAdapter
   );
 
   const searchTerm = useSearchTerm();

@@ -1,20 +1,18 @@
-import {BookmarkBackend} from './bookmark';
+import {BookmarkAdapter} from './bookmark';
 
-describe('BookmarkBackend', () => {
-  const backend = new BookmarkBackend();
+describe('BookmarkAdapter', () => {
+  const adapter = new BookmarkAdapter();
 
-  describe('parseModel()', () => {
+  describe('parse()', () => {
     it('returns a bookmark', () => {
-      expect(
-        backend.parseModel('[foo](https://bar.baz) `{"ctime":123}`')
-      ).toEqual({
+      expect(adapter.parse('[foo](https://bar.baz) `{"ctime":123}`')).toEqual({
         title: 'foo',
         url: 'https://bar.baz',
         properties: {ctime: 123},
       });
 
       expect(
-        backend.parseModel(
+        adapter.parse(
           '[foo](https://bar.baz) `{"ctime":123,"mtime":456,"clickCount":789}`'
         )
       ).toEqual({
@@ -24,7 +22,7 @@ describe('BookmarkBackend', () => {
       });
 
       expect(
-        backend.parseModel(
+        adapter.parse(
           '[foo](https://bar.baz) `{"ctime":123,"mtime":456,"unknown":789}`'
         )
       ).toEqual({
@@ -34,9 +32,7 @@ describe('BookmarkBackend', () => {
       });
 
       expect(
-        backend.parseModel(
-          '[\\[\\["foo"\\]\\]](https://bar.baz) `{"ctime":123}`'
-        )
+        adapter.parse('[\\[\\["foo"\\]\\]](https://bar.baz) `{"ctime":123}`')
       ).toEqual({
         title: '[["foo"]]',
         url: 'https://bar.baz',
@@ -45,42 +41,37 @@ describe('BookmarkBackend', () => {
     });
 
     it('returns undefined', () => {
-      expect(backend.parseModel('')).toBe(undefined);
-      expect(backend.parseModel('[foo](https://bar.baz)')).toBe(undefined);
-      expect(backend.parseModel('`{"ctime":123}`')).toBe(undefined);
+      expect(adapter.parse('')).toBe(undefined);
+      expect(adapter.parse('[foo](https://bar.baz)')).toBe(undefined);
+      expect(adapter.parse('`{"ctime":123}`')).toBe(undefined);
 
-      expect(backend.parseModel('[foo](https://bar.baz)`{"ctime":123}`')).toBe(
+      expect(adapter.parse('[foo](https://bar.baz)`{"ctime":123}`')).toBe(
         undefined
       );
 
-      expect(backend.parseModel('[foo](https://bar.baz) `qux`')).toBe(
+      expect(adapter.parse('[foo](https://bar.baz) `qux`')).toBe(undefined);
+      expect(adapter.parse('[foo](https://bar.baz) `{}`')).toBe(undefined);
+
+      expect(adapter.parse('[foo](https://bar.baz) `{"ctime":"123"}`')).toEqual(
         undefined
       );
 
-      expect(backend.parseModel('[foo](https://bar.baz) `{}`')).toBe(undefined);
-
       expect(
-        backend.parseModel('[foo](https://bar.baz) `{"ctime":"123"}`')
+        adapter.parse('[foo](https://bar.baz) `{"ctime":123,"mtime":"456"}`')
       ).toEqual(undefined);
 
       expect(
-        backend.parseModel(
-          '[foo](https://bar.baz) `{"ctime":123,"mtime":"456"}`'
-        )
-      ).toEqual(undefined);
-
-      expect(
-        backend.parseModel(
+        adapter.parse(
           '[foo](https://bar.baz) `{"ctime":123,"clickCount":"789"}`'
         )
       ).toEqual(undefined);
     });
   });
 
-  describe('serializeModel()', () => {
+  describe('serialize()', () => {
     it('returns a string', () => {
       expect(
-        backend.serializeModel({
+        adapter.serialize({
           title: 'foo',
           url: 'https://bar.baz',
           properties: {ctime: 123},
@@ -88,7 +79,7 @@ describe('BookmarkBackend', () => {
       ).toBe('[foo](https://bar.baz) `{"ctime":123}`');
 
       expect(
-        backend.serializeModel({
+        adapter.serialize({
           title: 'foo',
           url: 'https://bar.baz',
           properties: {ctime: 123, mtime: 456, clickCount: 789},
@@ -98,7 +89,7 @@ describe('BookmarkBackend', () => {
       );
 
       expect(
-        backend.serializeModel({
+        adapter.serialize({
           title: '[["foo"]]',
           url: 'https://bar.baz',
           properties: {ctime: 123},
@@ -107,52 +98,52 @@ describe('BookmarkBackend', () => {
     });
   });
 
-  describe('compareModels()', () => {
+  describe('compare()', () => {
     it('returns -1', () => {
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 1}},
           {title: '', url: '', properties: {ctime: 0}}
         )
       ).toBe(-1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 2}},
           {title: '', url: '', properties: {ctime: 0, mtime: 1}}
         )
       ).toBe(-1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 0, mtime: 3}},
           {title: '', url: '', properties: {ctime: 1, mtime: 2}}
         )
       ).toBe(-1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 0, clickCount: 1}},
           {title: '', url: '', properties: {ctime: 1}}
         )
       ).toBe(-1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 0, clickCount: 2}},
           {title: '', url: '', properties: {ctime: 1, clickCount: 1}}
         )
       ).toBe(-1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 1, clickCount: 1}},
           {title: '', url: '', properties: {ctime: 0, clickCount: 1}}
         )
       ).toBe(-1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 0, mtime: 3, clickCount: 1}},
           {title: '', url: '', properties: {ctime: 1, mtime: 2, clickCount: 1}}
         )
@@ -161,28 +152,28 @@ describe('BookmarkBackend', () => {
 
     it('returns 0', () => {
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 1}},
           {title: '', url: '', properties: {ctime: 1}}
         )
       ).toBe(0);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 1}},
           {title: '', url: '', properties: {ctime: 0, mtime: 1}}
         )
       ).toBe(0);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 0, mtime: 2}},
           {title: '', url: '', properties: {ctime: 1, mtime: 2}}
         )
       ).toBe(0);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 0, clickCount: 1}},
           {title: '', url: '', properties: {ctime: 0, clickCount: 1}}
         )
@@ -191,49 +182,49 @@ describe('BookmarkBackend', () => {
 
     it('returns 1', () => {
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 0}},
           {title: '', url: '', properties: {ctime: 1}}
         )
       ).toBe(1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 1}},
           {title: '', url: '', properties: {ctime: 0, mtime: 2}}
         )
       ).toBe(1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 1, mtime: 2}},
           {title: '', url: '', properties: {ctime: 0, mtime: 3}}
         )
       ).toBe(1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 1}},
           {title: '', url: '', properties: {ctime: 0, clickCount: 1}}
         )
       ).toBe(1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 1, clickCount: 1}},
           {title: '', url: '', properties: {ctime: 0, clickCount: 2}}
         )
       ).toBe(1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 0, clickCount: 1}},
           {title: '', url: '', properties: {ctime: 1, clickCount: 1}}
         )
       ).toBe(1);
 
       expect(
-        backend.compareModels(
+        adapter.compare(
           {title: '', url: '', properties: {ctime: 1, mtime: 2, clickCount: 1}},
           {title: '', url: '', properties: {ctime: 0, mtime: 3, clickCount: 1}}
         )
