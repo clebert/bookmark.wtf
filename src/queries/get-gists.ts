@@ -13,6 +13,9 @@ export const GET_GISTS = gql`
           id
           name
           description
+          files(limit: 300) {
+            name
+          }
         }
       }
     }

@@ -1,29 +1,24 @@
-import {BulmaContainer, BulmaSection} from '@clebert/bulma-preact';
 import {JSX, h} from 'preact';
-import {useAuth} from '../hooks/use-auth';
+import {useAuthStore} from '../hooks/use-auth-store';
 import {HistoryContext, useHistory} from '../hooks/use-history';
+import {AuthorizedPage} from './authorized-page';
 import {ErrorBoundary} from './error-boundary';
-import {AuthorizedScreen} from './screens/authorized-screen';
-import {ErrorScreen} from './screens/error-screen';
-import {UnauthorizedScreen} from './screens/unauthorized-screen';
+import {ErrorPage} from './error-page';
+import {UnauthorizedPage} from './unauthorized-page';
 
 export function App(): JSX.Element {
+  const authStore = useAuthStore();
   const history = useHistory();
-  const auth = useAuth();
 
   return (
     <HistoryContext.Provider value={history}>
-      <BulmaSection>
-        <BulmaContainer isWidescreen>
-          <ErrorBoundary fallback={<ErrorScreen />}>
-            {auth.state === 'authorized' ? (
-              <AuthorizedScreen auth={auth} />
-            ) : (
-              <UnauthorizedScreen auth={auth} />
-            )}
-          </ErrorBoundary>
-        </BulmaContainer>
-      </BulmaSection>
+      <ErrorBoundary fallback={<ErrorPage />}>
+        {authStore.state === 'authorized' ? (
+          <AuthorizedPage authStore={authStore} />
+        ) : (
+          <UnauthorizedPage authStore={authStore} />
+        )}
+      </ErrorBoundary>
     </HistoryContext.Provider>
   );
 }

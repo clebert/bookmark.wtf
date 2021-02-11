@@ -1,12 +1,5 @@
 // @ts-check
 
-const {createHash} = require('crypto');
-const {readFileSync} = require('fs');
-
-const screenshotHash = createHash('md5')
-  .update(readFileSync('screenshot.png'))
-  .digest('hex');
-
 /**
  * @type {import('aws-simple').App}
  */
@@ -26,12 +19,6 @@ exports.default = {
     '/app': {
       kind: 'folder',
       dirname: 'dist/app',
-      cacheControl: 'max-age=157680000', // 5 years
-    },
-    [`/app/screenshot.${screenshotHash}.png`]: {
-      kind: 'file',
-      filename: 'screenshot.png',
-      binaryMediaType: 'image/png',
       cacheControl: 'max-age=157680000', // 5 years
     },
     '/api/redirect': {

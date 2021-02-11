@@ -1,22 +1,10 @@
 // @ts-check
 
-const {createHash} = require('crypto');
-const {readFileSync} = require('fs');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const webpack = require('webpack');
-
-// https://github.com/settings/applications/1238959
-const devClientId = '11fad4b65813aa89347e';
-const devClientSecret = process.env.DEV_CLIENT_SECRET;
-
-// https://github.com/settings/applications/1181805
-const prodClientId = 'fae9329e8bd2e706c920';
-const prodClientSecret = process.env.PROD_CLIENT_SECRET;
-
-const screenshotHash = createHash('md5')
-  .update(readFileSync('screenshot.png'))
-  .digest('hex');
 
 /**
  * @param {boolean} dev
@@ -25,32 +13,26 @@ const screenshotHash = createHash('md5')
 function createAppConfig(dev) {
   return {
     target: 'web',
-    entry: './src/index.tsx',
+    entry: {index: './src/index.tsx'},
     output: {
-      filename: 'index.[contenthash].js',
+      filename: '[name].[contenthash].js',
       path: path.join(__dirname, 'dist/app'),
       publicPath: '/app/',
     },
     plugins: [
       new HtmlWebpackPlugin({
-        filename: 'index.html',
+        filename: '[name].html',
         title: 'bookmark.wtf',
         template: './src/index.html',
       }),
       new webpack.DefinePlugin({
-        'process.env.CLIENT_ID': JSON.stringify(
-          dev ? devClientId : prodClientId
-        ),
-        'process.env.APP_NAME': JSON.stringify('bookmark.wtf'),
-        'process.env.APP_BASE_URL': JSON.stringify(
-          dev ? 'http://localhost:3000' : 'https://bookmark.wtf'
-        ),
-        'process.env.SCREENSHOT_HASH': JSON.stringify(screenshotHash),
+        'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
       }),
       new webpack.SourceMapDevToolPlugin({
         filename: '[file].map',
         publicPath: '/app/',
       }),
+      new MiniCssExtractPlugin(),
     ],
     module: {
       rules: [
@@ -59,16 +41,33 @@ function createAppConfig(dev) {
           use: {loader: 'ts-loader', options: {transpileOnly: dev}},
           exclude: [/node_modules/],
         },
+        {
+          test: /\.css$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {plugins: ['tailwindcss', 'autoprefixer']},
+              },
+            },
+          ],
+        },
       ],
     },
     resolve: {extensions: ['.js', '.json', '.ts', '.tsx']},
     devtool: dev ? 'eval-source-map' : 'source-map',
+    optimization: {
+      minimize: !dev,
+      minimizer: ['...', new CssMinimizerPlugin()],
+    },
   };
 }
 
 /**
  * @param {boolean} dev
- * @param {string} dev
+ * @param {string} apiName
  * @returns {import('webpack').Configuration}
  */
 function createLambdaConfig(dev, apiName) {
@@ -82,12 +81,8 @@ function createLambdaConfig(dev, apiName) {
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env.CLIENT_ID': JSON.stringify(
-          dev ? devClientId : prodClientId
-        ),
-        'process.env.CLIENT_SECRET': JSON.stringify(
-          dev ? devClientSecret : prodClientSecret
-        ),
+        'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
+        'process.env.CLIENT_SECRET': JSON.stringify(process.env.CLIENT_SECRET),
       }),
     ],
     module: {
@@ -108,6 +103,8 @@ function createLambdaConfig(dev, apiName) {
  */
 module.exports = (_env, argv) => {
   const dev = argv.mode !== 'production';
+
+  process.env.NODE_ENV = dev ? 'development' : argv.mode;
 
   return [createAppConfig(dev), createLambdaConfig(dev, 'redirect')];
 };

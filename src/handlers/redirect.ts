@@ -17,14 +17,16 @@ export async function handler(
   }
 
   const url = new URL('https://github.com/login/oauth/access_token');
+  const clientId = process.env.CLIENT_ID;
+  const clientSecret = process.env.CLIENT_SECRET;
   const code = getLambdaParam(event, 'code');
 
-  assertIsString(process.env.CLIENT_ID, 'process.env.CLIENT_ID');
-  assertIsString(process.env.CLIENT_SECRET, 'process.env.CLIENT_SECRET');
+  assertIsString(clientId, 'process.env.CLIENT_ID');
+  assertIsString(clientSecret, 'process.env.CLIENT_SECRET');
   assertIsString(code, 'code');
 
-  url.searchParams.set('client_id', process.env.CLIENT_ID);
-  url.searchParams.set('client_secret', process.env.CLIENT_SECRET);
+  url.searchParams.set('client_id', clientId);
+  url.searchParams.set('client_secret', clientSecret);
   url.searchParams.set('code', code);
   url.searchParams.set('state', transactionId);
 
