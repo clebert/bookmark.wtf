@@ -1,6 +1,6 @@
 import {Fragment, JSX, h} from 'preact';
 import {useMemo} from 'preact/hooks';
-import {ReadyGistStore, UpdatingGistStore} from '../hooks/use-gist-store';
+import {FailedGistStore, GistStore} from '../hooks/use-gist-store';
 import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
 import {Bookmark} from '../models/parse-bookmark';
@@ -14,7 +14,7 @@ import {Icon} from './icon';
 import {Link} from './link';
 
 export interface BookmarkItemProps {
-  readonly gistStore: ReadyGistStore | UpdatingGistStore;
+  readonly gistStore: Exclude<GistStore, FailedGistStore>;
   readonly bookmarkFile: BookmarkFile;
 }
 
@@ -68,21 +68,22 @@ export function BookmarkItem({
       leftCol={<BookmarkIcon linkUrl={bookmark.url} />}
       row1={<Link url={bookmark.url}>{bookmark.title}</Link>}
       row2={
-        <>
-          <Button onClick={toggleEditMode}>
-            <Icon type="pencil" />
-            Edit
-          </Button>
-
-          <Button
-            theme={deletable ? Theme.danger() : undefined}
-            disabled={!deleteBookmark}
-            onClick={deleteBookmark}
-          >
-            <Icon type="trash" />
-            Delete
-          </Button>
-        </>
+        gistStore.state !== 'locked' && (
+          <>
+            <Button onClick={toggleEditMode}>
+              <Icon type="pencil" />
+              Edit
+            </Button>
+            <Button
+              theme={deletable ? Theme.danger() : undefined}
+              disabled={!deleteBookmark}
+              onClick={deleteBookmark}
+            >
+              <Icon type="trash" />
+              Delete
+            </Button>{' '}
+          </>
+        )
       }
       background
       highlight={useTimer(1500, bookmark.mtime ?? bookmark.ctime)}

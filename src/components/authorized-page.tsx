@@ -25,7 +25,13 @@ export function AuthorizedPage({authStore}: AuthorizedPageProps): JSX.Element {
       <AuthorizedTopbar authStore={authStore} userReceiver={userReceiver} />
 
       {gistName ? (
-        <BookmarkList authStore={authStore} gistName={gistName} />
+        userReceiver.state === 'successful' && (
+          <BookmarkList
+            authStore={authStore}
+            gistName={gistName}
+            user={userReceiver.value}
+          />
+        )
       ) : (
         <CollectionList authStore={authStore} />
       )}

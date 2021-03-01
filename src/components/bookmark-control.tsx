@@ -62,10 +62,17 @@ export function BookmarkControl({
             Close
           </Button>
 
-          <Button onClick={toggleCreationMode}>
-            <Icon type="gridAdd" />
-            New bookmark
-          </Button>
+          {gistStore.state !== 'locked' ? (
+            <Button onClick={toggleCreationMode}>
+              <Icon type="gridAdd" />
+              New bookmark
+            </Button>
+          ) : (
+            <Text static>
+              <Icon type="lockClosed" />
+              Owned by <Text bold>{gistStore.gist.owner}</Text>
+            </Text>
+          )}
         </>
       }
     />

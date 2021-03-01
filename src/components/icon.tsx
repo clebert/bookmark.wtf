@@ -4,6 +4,7 @@ export interface IconProps {
   readonly type:
     | 'check'
     | 'gridAdd'
+    | 'lockClosed'
     | 'login'
     | 'logout'
     | 'pencil'
@@ -25,6 +26,10 @@ export function Icon({type}: IconProps): JSX.Element {
 
         {type === 'gridAdd' && (
           <path d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
+        )}
+
+        {type === 'lockClosed' && (
+          <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         )}
 
         {type === 'login' && (

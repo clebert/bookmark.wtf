@@ -10,6 +10,7 @@ export type GistStore =
   | LoadingGistStore
   | ReadyGistStore
   | UpdatingGistStore
+  | LockedGistStore
   | FailedGistStore;
 
 export interface LoadingGistStore {
@@ -43,6 +44,16 @@ export interface UpdatingGistStore {
   readonly deleteFile?: undefined;
 }
 
+export interface LockedGistStore {
+  readonly state: 'locked';
+  readonly gist: Gist;
+
+  readonly reason?: undefined;
+  readonly createFile?: undefined;
+  readonly updateFile?: undefined;
+  readonly deleteFile?: undefined;
+}
+
 export interface FailedGistStore {
   readonly state: 'failed';
   readonly reason: unknown;
@@ -53,14 +64,18 @@ export interface FailedGistStore {
   readonly deleteFile?: undefined;
 }
 
-export function useGistStore(token: string, gistName: string): GistStore {
+export function useGistStore(
+  token: string,
+  gistName: string,
+  user: string
+): GistStore {
   const gistReceiver = useReceiver(
     useMemo(() => fetchGist(token, gistName), [token, gistName])
   );
 
   const gistMemory = useMemory(gistReceiver.value, [gistReceiver]);
   const sender = useSender();
-  const transition = useTransition(gistReceiver, sender);
+  const transition = useTransition(user, gistReceiver, sender);
 
   const createFile = useCallback(
     (filename: string, text: string) =>
@@ -151,6 +166,10 @@ export function useGistStore(token: string, gistName: string): GistStore {
     }
 
     const gist = gistMemory.value!;
+
+    if (gist.owner !== user) {
+      return {state: 'locked', gist};
+    }
 
     if (sender.state === 'sending') {
       return {state: 'updating', gist};

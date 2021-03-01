@@ -11,13 +11,15 @@ import {Grid} from './grid';
 export interface BookmarkListProps {
   readonly authStore: AuthorizedAuthStore;
   readonly gistName: string;
+  readonly user: string;
 }
 
 export function BookmarkList({
   authStore,
   gistName,
+  user,
 }: BookmarkListProps): JSX.Element {
-  const gistStore = useGistStore(authStore.token, gistName);
+  const gistStore = useGistStore(authStore.token, gistName, user);
 
   if (gistStore.state === 'failed') {
     throw gistStore.reason;
