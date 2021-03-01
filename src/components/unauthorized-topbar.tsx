@@ -6,6 +6,7 @@ import {
 import {Button} from './button';
 import {Icon} from './icon';
 import {Topbar} from './topbar';
+import {TopbarItem} from './topbar-item';
 
 export interface UnauthorizedTopbarProps {
   readonly authStore: AuthorizingAuthStore | UnauthorizedAuthStore;
@@ -16,10 +17,12 @@ export function UnauthorizedTopbar({
 }: UnauthorizedTopbarProps): JSX.Element {
   return (
     <Topbar>
-      <Button disabled={!authStore.signIn} onClick={authStore.signIn}>
-        <Icon type="login" />
-        Sign in with GitHub
-      </Button>
+      <TopbarItem>
+        <Button disabled={!authStore.signIn} onClick={authStore.signIn}>
+          <Icon type="login" />
+          Sign in with GitHub
+        </Button>
+      </TopbarItem>
     </Topbar>
   );
 }
