@@ -30,31 +30,17 @@ export class App {
   }
 
   async signIn(): Promise<void> {
-    await Promise.all([
-      this.page.waitForNavigation({url: /^https:\/\/github\.com\/login/}),
-      this.page.click('"Sign in"'),
-    ]);
-
+    await this.page.click('button:has-text("Sign in")');
     await this.page.fill('#login_field', this.#login);
     await this.page.fill('#password', this.#password);
+    await this.page.click('.btn-primary:has-text("Sign in")');
 
-    await Promise.all([
-      this.page.waitForNavigation({
-        url: /^https:\/\/github\.com\/sessions\/two-factor/,
-      }),
+    await this.page.fill(
+      '#otp',
+      speakeasy.totp({secret: this.#secret, encoding: 'base32'})
+    );
 
-      this.page.click('"Sign in"'),
-    ]);
-
-    const token = speakeasy.totp({secret: this.#secret, encoding: 'base32'});
-
-    await this.page.fill('#otp', token);
-
-    await Promise.all([
-      this.page.waitForNavigation(),
-      this.page.click('"Verify"'),
-    ]);
-
+    await this.page.click('.btn-primary:has-text("Verify")');
     await this.page.waitForSelector(`"Signed in as ${this.#login}."`);
   }
 }
