@@ -1,6 +1,7 @@
 import {useCallback, useMemo} from 'preact/hooks';
 import {ShallowGist, fetchGists} from '../apis/fetch-gists';
 import {fetchGithubApi} from '../apis/fetch-github-api';
+import {AuthorizedAuthStore} from './use-auth-store';
 import {useBinder} from './use-binder';
 import {useMemory} from './use-memory';
 import {useReceiver} from './use-receiver';
@@ -54,7 +55,10 @@ export interface FailedGistsStore {
   readonly deleteGist?: undefined;
 }
 
-export function useGistsStore(token: string, appUrl: string): GistsStore {
+export function useGistsStore(
+  authStore: AuthorizedAuthStore,
+  appUrl: string
+): GistsStore {
   const mainFilename = useMemo(() => `.${new URL(appUrl).hostname}.md`, [
     appUrl,
   ]);
@@ -62,10 +66,10 @@ export function useGistsStore(token: string, appUrl: string): GistsStore {
   const gistsReceiver = useReceiver(
     useMemo(
       () =>
-        fetchGists(token).then((gists) =>
+        fetchGists(authStore.token).then((gists) =>
           gists.filter(({filenames}) => filenames.includes(mainFilename))
         ),
-      [token, mainFilename]
+      [authStore, mainFilename]
     )
   );
 
@@ -93,7 +97,7 @@ export function useGistsStore(token: string, appUrl: string): GistsStore {
                 return accu;
               }, {} as Record<string, {content: string}>),
             },
-            token,
+            token: authStore.token,
           }).then(
             bind(
               ({data}) =>
@@ -121,7 +125,7 @@ export function useGistsStore(token: string, appUrl: string): GistsStore {
             method: 'PATCH',
             pathname: `/gists/${gistName}`,
             params: {description},
-            token,
+            token: authStore.token,
           })
         );
 
@@ -151,7 +155,7 @@ export function useGistsStore(token: string, appUrl: string): GistsStore {
             method: 'DELETE',
             pathname: `/gists/${gistName}`,
             params: {},
-            token,
+            token: authStore.token,
           })
         );
 

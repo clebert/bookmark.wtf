@@ -45,10 +45,12 @@ export function CollectionControl({
         </Text>
       }
       row2={
-        <Button onClick={toggleCreationMode}>
-          <Icon type="gridAdd" />
-          New collection
-        </Button>
+        gistsStore.state !== 'loading' && (
+          <Button onClick={toggleCreationMode}>
+            <Icon type="gridAdd" />
+            New collection
+          </Button>
+        )
       }
     />
   );

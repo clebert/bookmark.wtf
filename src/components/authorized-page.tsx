@@ -12,7 +12,7 @@ export interface AuthorizedPageProps {
 }
 
 export function AuthorizedPage({authStore}: AuthorizedPageProps): JSX.Element {
-  const userReceiver = useUserReceiver(authStore.token);
+  const userReceiver = useUserReceiver(authStore);
 
   if (userReceiver.state === 'failed') {
     throw userReceiver.reason;
@@ -28,8 +28,8 @@ export function AuthorizedPage({authStore}: AuthorizedPageProps): JSX.Element {
         userReceiver.state === 'successful' && (
           <BookmarkList
             authStore={authStore}
+            userReceiver={userReceiver}
             gistName={gistName}
-            user={userReceiver.value}
           />
         )
       ) : (

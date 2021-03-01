@@ -10,7 +10,7 @@ export interface CollectionListProps {
 }
 
 export function CollectionList({authStore}: CollectionListProps): JSX.Element {
-  const gistsStore = useGistsStore(authStore.token, 'https://bookmark.wtf');
+  const gistsStore = useGistsStore(authStore, 'https://bookmark.wtf');
 
   if (gistsStore.state === 'failed') {
     throw gistsStore.reason;

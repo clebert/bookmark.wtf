@@ -1,6 +1,8 @@
+import {SuccessfulReceiver} from 'loxia';
 import {useCallback, useMemo} from 'preact/hooks';
 import {Gist, fetchGist} from '../apis/fetch-gist';
 import {fetchGithubApi} from '../apis/fetch-github-api';
+import {AuthorizedAuthStore} from './use-auth-store';
 import {useMemory} from './use-memory';
 import {useReceiver} from './use-receiver';
 import {useSender} from './use-sender';
@@ -65,17 +67,17 @@ export interface FailedGistStore {
 }
 
 export function useGistStore(
-  token: string,
-  gistName: string,
-  user: string
+  authStore: AuthorizedAuthStore,
+  userReceiver: SuccessfulReceiver<string>,
+  gistName: string
 ): GistStore {
   const gistReceiver = useReceiver(
-    useMemo(() => fetchGist(token, gistName), [token, gistName])
+    useMemo(() => fetchGist(authStore.token, gistName), [authStore, gistName])
   );
 
   const gistMemory = useMemory(gistReceiver.value, [gistReceiver]);
   const sender = useSender();
-  const transition = useTransition(user, gistReceiver, sender);
+  const transition = useTransition(userReceiver, gistReceiver, sender);
 
   const createFile = useCallback(
     (filename: string, text: string) =>
@@ -85,7 +87,7 @@ export function useGistStore(
             method: 'PATCH',
             pathname: `/gists/${gistName}`,
             params: {files: {[filename]: {content: text}}},
-            token,
+            token: authStore.token,
           })
         );
 
@@ -109,7 +111,7 @@ export function useGistStore(
             method: 'PATCH',
             pathname: `/gists/${gistName}`,
             params: {files: {[filename]: {content: text}}},
-            token,
+            token: authStore.token,
           })
         );
 
@@ -136,7 +138,7 @@ export function useGistStore(
             method: 'PATCH',
             pathname: `/gists/${gistName}`,
             params: {files: {[filename]: null}},
-            token,
+            token: authStore.token,
           })
         );
 
@@ -167,7 +169,7 @@ export function useGistStore(
 
     const gist = gistMemory.value!;
 
-    if (gist.owner !== user) {
+    if (gist.owner !== userReceiver.value) {
       return {state: 'locked', gist};
     }
 

@@ -1,3 +1,4 @@
+import {SuccessfulReceiver} from 'loxia';
 import {JSX, h} from 'preact';
 import {useMemo} from 'preact/hooks';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
@@ -10,16 +11,16 @@ import {Grid} from './grid';
 
 export interface BookmarkListProps {
   readonly authStore: AuthorizedAuthStore;
+  readonly userReceiver: SuccessfulReceiver<string>;
   readonly gistName: string;
-  readonly user: string;
 }
 
 export function BookmarkList({
   authStore,
+  userReceiver,
   gistName,
-  user,
 }: BookmarkListProps): JSX.Element {
-  const gistStore = useGistStore(authStore.token, gistName, user);
+  const gistStore = useGistStore(authStore, userReceiver, gistName);
 
   if (gistStore.state === 'failed') {
     throw gistStore.reason;
