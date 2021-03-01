@@ -19,7 +19,15 @@ export function Topbar({children}: TopbarProps): JSX.Element {
         'md:space-x-4',
       ])}
     >
-      <h1 class="text-3xl font-bold whitespace-nowrap cursor-default select-none">
+      <h1
+        class={join([
+          'text-3xl',
+          'font-bold',
+          'whitespace-nowrap',
+          'cursor-default',
+          'select-none',
+        ])}
+      >
         <span class="text-black">bookmark.</span>
         <span class="text-red-600">w</span>
         <span class="text-green-600">t</span>
