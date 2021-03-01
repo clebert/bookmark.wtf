@@ -35,10 +35,10 @@ jobs:
         run: npm run itest:dev
 
       - name: Deploy to AWS
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/preview'
         env:
-          CLIENT_ID: ${{ secrets.PROD_CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.PROD_CLIENT_SECRET }}
+          CLIENT_ID: ${{ secrets.PREVIEW_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.PREVIEW_CLIENT_SECRET }}
           AWS_REGION: 'eu-central-1'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -47,9 +47,9 @@ jobs:
         run: npm run deploy -- --require-approval never
 
       - name: Run integration tests on bookmark.wtf
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/preview'
         env:
-          ITEST_BASE_URL: 'https://bookmark.wtf'
+          ITEST_BASE_URL: 'https://preview.bookmark.wtf'
           ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
           ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
           ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
