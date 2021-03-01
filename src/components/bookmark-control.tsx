@@ -52,7 +52,7 @@ export function BookmarkControl({
         gistStore.state === 'loading' ? (
           <Text static>Loading bookmarks</Text>
         ) : (
-          <Text>{gistStore.gist.description ?? gistName}</Text>
+          <Text bold>{gistStore.gist.description ?? gistName}</Text>
         )
       }
       row2={
