@@ -9,8 +9,6 @@ import {parseBookmark} from '../models/parse-bookmark';
 import {BookmarkControl} from './bookmark-control';
 import {BookmarkFile, BookmarkItem} from './bookmark-item';
 import {Grid} from './grid';
-import {GridItem} from './grid-item';
-import {Label} from './label';
 
 export interface BookmarkListProps {
   readonly authStore: AuthorizedAuthStore;
@@ -22,7 +20,7 @@ export function BookmarkList({
   authStore,
   userReceiver,
   gistName,
-}: BookmarkListProps): JSX.Element {
+}: BookmarkListProps): JSX.Element | null {
   const gistStore = useGistStore(authStore, userReceiver, gistName);
 
   if (gistStore.state === 'failed') {
@@ -46,11 +44,7 @@ export function BookmarkList({
     [gistStore, regex]
   );
 
-  return gistStore.state === 'loading' ? (
-    <Grid>
-      <GridItem row1={<Label static>Loading bookmarks...</Label>} />
-    </Grid>
-  ) : (
+  return gistStore.state !== 'loading' ? (
     <Grid>
       <BookmarkControl gistName={gistName} gistStore={gistStore} />
 
@@ -62,5 +56,5 @@ export function BookmarkList({
         />
       ))}
     </Grid>
-  );
+  ) : null;
 }
