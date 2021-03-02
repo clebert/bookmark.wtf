@@ -67,7 +67,8 @@ export function BookmarkItem({
         ...bookmark,
         mtime: Date.now(),
         clickCount: (bookmark.clickCount ?? 0) + 1,
-      })
+      }),
+      true
     );
 
     window.location.href = bookmark.url;

@@ -30,7 +30,7 @@ export interface ReadyGistStore {
   readonly gist: Gist;
 
   createFile(filename: string, text: string): boolean;
-  updateFile(filename: string, text: string): boolean;
+  updateFile(filename: string, text: string, hidden?: boolean): boolean;
   deleteFile(filename: string): boolean;
 
   readonly reason?: undefined;
@@ -104,7 +104,7 @@ export function useGistStore(
   );
 
   const updateFile = useCallback(
-    (filename: string, text: string) =>
+    (filename: string, text: string, hidden: boolean = false) =>
       transition(() => {
         const sent = sender.send?.(
           fetchGithubApi({
@@ -115,7 +115,7 @@ export function useGistStore(
           })
         );
 
-        if (sent) {
+        if (sent && !hidden) {
           const gist = gistMemory.value!;
 
           gistMemory.value = {
