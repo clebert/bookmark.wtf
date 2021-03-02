@@ -3,7 +3,7 @@ import {JSX, h} from 'preact';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {Button} from './button';
 import {Icon} from './icon';
-import {Text} from './text';
+import {Label} from './label';
 import {Topbar} from './topbar';
 import {TopbarItem} from './topbar-item';
 
@@ -25,9 +25,9 @@ export function AuthorizedTopbar({
         </Button>
 
         {userReceiver.state === 'successful' && (
-          <Text static>
-            Signed in as <Text bold>{userReceiver.value}</Text>
-          </Text>
+          <Label static>
+            Signed in as <Label bold>{userReceiver.value}</Label>
+          </Label>
         )}
       </TopbarItem>
     </Topbar>

@@ -5,8 +5,8 @@ import {useToggle} from '../hooks/use-toggle';
 import {Button} from './button';
 import {GridItem} from './grid-item';
 import {Icon} from './icon';
+import {Label} from './label';
 import {NewCollectionForm} from './new-collection-form';
-import {Text} from './text';
 
 export interface CollectionControlProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
@@ -38,9 +38,9 @@ export function CollectionControl({
   ) : (
     <GridItem
       row1={
-        <Text static>
+        <Label static>
           {gistCount} collection{gistCount === 1 ? '' : 's'} found
-        </Text>
+        </Label>
       }
       row2={
         <Button onClick={toggleCreationMode}>

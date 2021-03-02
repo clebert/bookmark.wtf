@@ -9,17 +9,16 @@ export interface TextProps {
   readonly static?: boolean;
 }
 
-export function Text({
+export function Label({
   children,
   theme = Theme.default(),
   bold,
   static: isStatic,
 }: TextProps): JSX.Element {
   return (
-    <span
+    <label
       class={join([
         theme.textColor,
-        Theme.outlineColor,
         bold ? Theme.boldFont : Theme.normalFont,
         'border',
         'border-transparent',
@@ -31,6 +30,6 @@ export function Text({
       ])}
     >
       {children}
-    </span>
+    </label>
   );
 }

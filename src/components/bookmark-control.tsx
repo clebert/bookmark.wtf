@@ -20,9 +20,9 @@ import {createRandomValue} from '../utils/create-random-value';
 import {Button} from './button';
 import {GridItem} from './grid-item';
 import {Icon} from './icon';
+import {Label} from './label';
 import {Link} from './link';
 import {NewBookmarkForm} from './new-bookmark-form';
-import {Text} from './text';
 
 export interface BookmarkControlProps {
   readonly gistName: string;
@@ -122,7 +122,7 @@ export function BookmarkControl({
             {gistStore.gist.description ?? gistName}
           </Link>
         ) : (
-          <Text>{gistStore.gist.description ?? gistName}</Text>
+          <Label>{gistStore.gist.description ?? gistName}</Label>
         )
       }
       row2={
@@ -138,10 +138,10 @@ export function BookmarkControl({
               New bookmark
             </Button>
           ) : (
-            <Text static>
+            <Label static>
               <Icon type="lockClosed" />
-              Owned by <Text bold>{gistStore.gist.owner}</Text>
-            </Text>
+              Owned by <Label bold>{gistStore.gist.owner}</Label>
+            </Label>
           )}
         </>
       }

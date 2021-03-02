@@ -1,6 +1,6 @@
 import {ComponentChildren, JSX, h} from 'preact';
 import {join} from '../utils/join';
-import {Text} from './text';
+import {Label} from './label';
 
 export interface GridItemProps {
   readonly leftCol?: ComponentChildren;
@@ -14,7 +14,7 @@ export interface GridItemProps {
 export function GridItem({
   leftCol,
   row1,
-  row2 = <Text static>{'\u00A0'}</Text>,
+  row2 = <Label static>{'\u00A0'}</Label>,
   rightCol,
   background,
   highlight,

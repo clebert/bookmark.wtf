@@ -10,7 +10,7 @@ import {BookmarkControl} from './bookmark-control';
 import {BookmarkFile, BookmarkItem} from './bookmark-item';
 import {Grid} from './grid';
 import {GridItem} from './grid-item';
-import {Text} from './text';
+import {Label} from './label';
 
 export interface BookmarkListProps {
   readonly authStore: AuthorizedAuthStore;
@@ -48,7 +48,7 @@ export function BookmarkList({
 
   return gistStore.state === 'loading' ? (
     <Grid>
-      <GridItem row1={<Text static>Loading bookmarks...</Text>} />
+      <GridItem row1={<Label static>Loading bookmarks...</Label>} />
     </Grid>
   ) : (
     <Grid>

@@ -5,7 +5,7 @@ import {CollectionControl} from './collection-control';
 import {CollectionItem} from './collection-item';
 import {Grid} from './grid';
 import {GridItem} from './grid-item';
-import {Text} from './text';
+import {Label} from './label';
 
 export interface CollectionListProps {
   readonly authStore: AuthorizedAuthStore;
@@ -20,7 +20,7 @@ export function CollectionList({authStore}: CollectionListProps): JSX.Element {
 
   return gistsStore.state === 'loading' ? (
     <Grid>
-      <GridItem row1={<Text static>Loading collections...</Text>} />
+      <GridItem row1={<Label static>Loading collections...</Label>} />
     </Grid>
   ) : (
     <Grid>
