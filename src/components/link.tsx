@@ -1,5 +1,5 @@
 import {ComponentChildren, JSX, h} from 'preact';
-import {useMemo} from 'preact/hooks';
+import {useCallback} from 'preact/hooks';
 import {join} from '../utils/join';
 import {Theme} from '../utils/theme';
 
@@ -8,7 +8,7 @@ export interface LinkProps {
   readonly url: string;
   readonly theme?: Theme;
 
-  onClick?(): void;
+  onClick(): void;
 }
 
 export function Link({
@@ -20,14 +20,11 @@ export function Link({
   return (
     <a
       href={url}
-      onClick={useMemo(
-        () =>
-          onClick
-            ? (event: Event) => {
-                event.preventDefault();
-                onClick();
-              }
-            : undefined,
+      onClick={useCallback(
+        (event: Event) => {
+          event.preventDefault();
+          onClick();
+        },
         [onClick]
       )}
       class={join([

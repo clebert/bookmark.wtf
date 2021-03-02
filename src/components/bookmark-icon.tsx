@@ -6,7 +6,7 @@ import {createIdenticon} from '../utils/create-identicon';
 export interface BookmarkIconProps {
   readonly linkUrl: string;
 
-  onClick?(): void;
+  onClick(): void;
 }
 
 export function BookmarkIcon({
@@ -41,14 +41,11 @@ export function BookmarkIcon({
       class="focus:outline-blue-400 select-none"
       href={linkUrl}
       tabIndex={-1}
-      onClick={useMemo(
-        () =>
-          onClick
-            ? (event: Event) => {
-                event.preventDefault();
-                onClick();
-              }
-            : undefined,
+      onClick={useCallback(
+        (event: Event) => {
+          event.preventDefault();
+          onClick();
+        },
         [onClick]
       )}
     >

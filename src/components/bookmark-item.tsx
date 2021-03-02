@@ -1,5 +1,5 @@
 import {Fragment, JSX, h} from 'preact';
-import {useMemo} from 'preact/hooks';
+import {useCallback, useMemo} from 'preact/hooks';
 import {
   LockedGistStore,
   ReadyGistStore,
@@ -60,6 +60,19 @@ export function BookmarkItem({
     [gistStore, filename, deletable]
   );
 
+  const openBookmark = useCallback(() => {
+    gistStore.updateFile?.(
+      filename,
+      serializeBookmark({
+        ...bookmark,
+        mtime: Date.now(),
+        clickCount: (bookmark.clickCount ?? 0) + 1,
+      })
+    );
+
+    window.location.href = bookmark.url;
+  }, [filename, bookmark]);
+
   return editMode ? (
     <EditBookmarkForm
       initialTitle={bookmark.title}
@@ -69,8 +82,12 @@ export function BookmarkItem({
     />
   ) : (
     <GridItem
-      leftCol={<BookmarkIcon linkUrl={bookmark.url} />}
-      row1={<Link url={bookmark.url}>{bookmark.title}</Link>}
+      leftCol={<BookmarkIcon linkUrl={bookmark.url} onClick={openBookmark} />}
+      row1={
+        <Link url={bookmark.url} onClick={openBookmark}>
+          {bookmark.title}
+        </Link>
+      }
       row2={
         gistStore.state !== 'locked' && (
           <>
