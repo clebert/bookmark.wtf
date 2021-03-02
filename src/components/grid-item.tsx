@@ -1,5 +1,6 @@
 import {ComponentChildren, JSX, h} from 'preact';
 import {join} from '../utils/join';
+import {Text} from './text';
 
 export interface GridItemProps {
   readonly leftCol?: ComponentChildren;
@@ -13,7 +14,7 @@ export interface GridItemProps {
 export function GridItem({
   leftCol,
   row1,
-  row2,
+  row2 = <Text static>{'\u00A0'}</Text>,
   rightCol,
   background,
   highlight,
@@ -21,11 +22,11 @@ export function GridItem({
   return (
     <div
       class={join([
-        'flex space-x-4 p-2',
+        'flex space-x-4 p-2 shadow',
         background &&
           (highlight
-            ? 'bg-gradient-to-r from-gray-200 to-gray-300 shadow'
-            : 'bg-gradient-to-r from-gray-50 to-gray-100 shadow'),
+            ? 'bg-gradient-to-r from-gray-200 to-gray-300'
+            : 'bg-gradient-to-r from-gray-50 to-gray-100'),
       ])}
     >
       {leftCol && <div class="flex flex-shrink-0 items-center">{leftCol}</div>}

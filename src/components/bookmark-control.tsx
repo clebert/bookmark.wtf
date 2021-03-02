@@ -14,6 +14,7 @@ import {
 import {HistoryContext} from '../hooks/use-history';
 import {useToggle} from '../hooks/use-toggle';
 import {serializeBookmark} from '../models/serialize-bookmark';
+import {changeGistName} from '../utils/change-gist-name';
 import {createBookmarklet} from '../utils/create-bookmarklet';
 import {createRandomValue} from '../utils/create-random-value';
 import {Button} from './button';
@@ -35,7 +36,7 @@ export function BookmarkControl({
   const history = useContext(HistoryContext);
 
   const closeCollection = useCallback(
-    () => history.push({type: 'pathname', pathname: '/'}),
+    () => history.push(changeGistName(undefined)),
     []
   );
 

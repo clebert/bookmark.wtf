@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {Fragment, JSX, h} from 'preact';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useGistName} from '../hooks/use-gist-name';
 import {useUserReceiver} from '../hooks/use-user-receiver';
@@ -6,6 +6,7 @@ import {AuthorizedTopbar} from './authorized-topbar';
 import {BookmarkList} from './bookmark-list';
 import {CollectionList} from './collection-list';
 import {Page} from './page';
+import {SearchForm} from './search-form';
 
 export interface AuthorizedPageProps {
   readonly authStore: AuthorizedAuthStore;
@@ -25,13 +26,17 @@ export function AuthorizedPage({authStore}: AuthorizedPageProps): JSX.Element {
       <AuthorizedTopbar authStore={authStore} userReceiver={userReceiver} />
 
       {gistName ? (
-        userReceiver.state === 'successful' && (
-          <BookmarkList
-            authStore={authStore}
-            userReceiver={userReceiver}
-            gistName={gistName}
-          />
-        )
+        <>
+          <SearchForm />
+
+          {userReceiver.state === 'successful' && (
+            <BookmarkList
+              authStore={authStore}
+              userReceiver={userReceiver}
+              gistName={gistName}
+            />
+          )}
+        </>
       ) : (
         <CollectionList authStore={authStore} />
       )}

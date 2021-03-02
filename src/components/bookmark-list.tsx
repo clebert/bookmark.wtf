@@ -3,6 +3,7 @@ import {JSX, h} from 'preact';
 import {useMemo} from 'preact/hooks';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useGistStore} from '../hooks/use-gist-store';
+import {useSearchTerm} from '../hooks/use-search-term';
 import {compareBookmarks} from '../models/compare-bookmarks';
 import {parseBookmark} from '../models/parse-bookmark';
 import {BookmarkControl} from './bookmark-control';
@@ -28,16 +29,21 @@ export function BookmarkList({
     throw gistStore.reason;
   }
 
+  const {regex} = useSearchTerm();
+
   const bookmarkFiles: readonly BookmarkFile[] = useMemo(
     () =>
       (gistStore.gist?.files ?? [])
-        .reduce((accu, {filename, text}) => {
+        .reduce((files, {filename, text}) => {
           const bookmark = parseBookmark(text);
 
-          return bookmark ? [{filename, bookmark}, ...accu] : accu;
+          return !bookmark ||
+            (regex && !regex.test(bookmark.title) && !regex.test(bookmark.url))
+            ? files
+            : [{filename, bookmark}, ...files];
         }, [] as BookmarkFile[])
         .sort((a, b) => compareBookmarks(a.bookmark, b.bookmark)),
-    [gistStore]
+    [gistStore, regex]
   );
 
   return gistStore.state === 'loading' ? (

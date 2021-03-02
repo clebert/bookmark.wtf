@@ -5,6 +5,7 @@ import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {HistoryContext} from '../hooks/use-history';
 import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
+import {changeGistName} from '../utils/change-gist-name';
 import {Theme} from '../utils/theme';
 import {Button} from './button';
 import {EditCollectionForm} from './edit-collection-form';
@@ -24,7 +25,7 @@ export function CollectionItem({
   const history = useContext(HistoryContext);
 
   const openCollection = useCallback(
-    () => history.push({type: 'pathname', pathname: '/' + gistName}),
+    () => history.push(changeGistName(gistName)),
     [gistName]
   );
 
