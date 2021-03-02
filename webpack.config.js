@@ -27,7 +27,7 @@ function createAppConfig(dev) {
       }),
       new webpack.DefinePlugin({
         'process.env.APP_BASE_URL': JSON.stringify(
-          dev ? 'http://localhost:3000' : 'https://preview.bookmark.wtf'
+          dev ? 'http://localhost:3000' : 'https://bookmark.wtf'
         ),
         'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
       }),

@@ -4,11 +4,11 @@
  * @type {import('aws-simple').App}
  */
 exports.default = {
-  appName: 'previewbookmarkwtf',
+  appName: 'bookmarkwtf',
   customDomain: {
     certificateArn: process.env.CERTIFICATE_ARN,
     hostedZoneId: process.env.HOSTED_ZONE_ID,
-    hostedZoneName: 'preview.bookmark.wtf',
+    hostedZoneName: 'bookmark.wtf',
   },
   routes: () => ({
     '/': {
