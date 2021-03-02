@@ -8,6 +8,8 @@ import {parseBookmark} from '../models/parse-bookmark';
 import {BookmarkControl} from './bookmark-control';
 import {BookmarkFile, BookmarkItem} from './bookmark-item';
 import {Grid} from './grid';
+import {GridItem} from './grid-item';
+import {Text} from './text';
 
 export interface BookmarkListProps {
   readonly authStore: AuthorizedAuthStore;
@@ -38,18 +40,21 @@ export function BookmarkList({
     [gistStore]
   );
 
-  return (
+  return gistStore.state === 'loading' ? (
+    <Grid>
+      <GridItem row1={<Text static>Loading bookmarks...</Text>} />
+    </Grid>
+  ) : (
     <Grid>
       <BookmarkControl gistName={gistName} gistStore={gistStore} />
 
-      {gistStore.state !== 'loading' &&
-        bookmarkFiles.map((bookmarkFile) => (
-          <BookmarkItem
-            key={bookmarkFile.filename}
-            gistStore={gistStore}
-            bookmarkFile={bookmarkFile}
-          />
-        ))}
+      {bookmarkFiles.map((bookmarkFile) => (
+        <BookmarkItem
+          key={bookmarkFile.filename}
+          gistStore={gistStore}
+          bookmarkFile={bookmarkFile}
+        />
+      ))}
     </Grid>
   );
 }

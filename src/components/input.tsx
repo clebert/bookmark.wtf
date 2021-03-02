@@ -58,6 +58,7 @@ export function Input({
         'placeholder-opacity-25',
         'border',
         'w-full',
+        'px-2',
       ])}
     />
   );

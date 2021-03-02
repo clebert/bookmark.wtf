@@ -1,6 +1,6 @@
 import {JSX, h} from 'preact';
 import {useMemo} from 'preact/hooks';
-import {FailedGistsStore, GistsStore} from '../hooks/use-gists-store';
+import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {useToggle} from '../hooks/use-toggle';
 import {Button} from './button';
 import {GridItem} from './grid-item';
@@ -9,13 +9,13 @@ import {NewCollectionForm} from './new-collection-form';
 import {Text} from './text';
 
 export interface CollectionControlProps {
-  readonly gistsStore: Exclude<GistsStore, FailedGistsStore>;
+  readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
 }
 
 export function CollectionControl({
   gistsStore,
 }: CollectionControlProps): JSX.Element {
-  const [creationMode, toggleCreationMode] = useToggle();
+  const [creationMode, toggleCreationMode] = useToggle(false);
 
   const createCollection = useMemo(
     () =>
@@ -39,18 +39,14 @@ export function CollectionControl({
     <GridItem
       row1={
         <Text static>
-          {gistsStore.state === 'loading'
-            ? 'Loading collections'
-            : `${gistCount} collection${gistCount === 1 ? '' : 's'} found`}
+          {gistCount} collection{gistCount === 1 ? '' : 's'} found
         </Text>
       }
       row2={
-        gistsStore.state !== 'loading' && (
-          <Button onClick={toggleCreationMode}>
-            <Icon type="gridAdd" />
-            New collection
-          </Button>
-        )
+        <Button onClick={toggleCreationMode}>
+          <Icon type="gridAdd" />
+          New collection
+        </Button>
       }
     />
   );

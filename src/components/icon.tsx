@@ -2,6 +2,7 @@ import {JSX, h} from 'preact';
 
 export interface IconProps {
   readonly type:
+    | 'bookmark'
     | 'check'
     | 'gridAdd'
     | 'lockClosed'
@@ -22,6 +23,10 @@ export function Icon({type}: IconProps): JSX.Element {
         stroke-linecap="round"
         stroke-linejoin="round"
       >
+        {type === 'bookmark' && (
+          <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+        )}
+
         {type === 'check' && <path d="M5 13l4 4L19 7" />}
 
         {type === 'gridAdd' && (

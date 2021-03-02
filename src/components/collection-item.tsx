@@ -28,7 +28,7 @@ export function CollectionItem({
     [gistName]
   );
 
-  const [editMode, toggleEditMode] = useToggle();
+  const [editMode, toggleEditMode] = useToggle(false);
 
   const updateCollection = useMemo(
     () =>
@@ -41,7 +41,7 @@ export function CollectionItem({
     [gistsStore, gistName]
   );
 
-  const [deletable, toggleDeletable] = useToggle(3000);
+  const [deletable, toggleDeletable] = useToggle(false, 3000);
 
   const deleteGist = useMemo(
     () =>

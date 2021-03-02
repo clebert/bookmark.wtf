@@ -1,6 +1,10 @@
 import {Fragment, JSX, h} from 'preact';
 import {useMemo} from 'preact/hooks';
-import {FailedGistStore, GistStore} from '../hooks/use-gist-store';
+import {
+  LockedGistStore,
+  ReadyGistStore,
+  UpdatingGistStore,
+} from '../hooks/use-gist-store';
 import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
 import {Bookmark} from '../models/parse-bookmark';
@@ -14,7 +18,7 @@ import {Icon} from './icon';
 import {Link} from './link';
 
 export interface BookmarkItemProps {
-  readonly gistStore: Exclude<GistStore, FailedGistStore>;
+  readonly gistStore: ReadyGistStore | UpdatingGistStore | LockedGistStore;
   readonly bookmarkFile: BookmarkFile;
 }
 
@@ -28,7 +32,7 @@ export function BookmarkItem({
   bookmarkFile,
 }: BookmarkItemProps): JSX.Element {
   const {filename, bookmark} = bookmarkFile;
-  const [editMode, toggleEditMode] = useToggle();
+  const [editMode, toggleEditMode] = useToggle(false);
 
   const updateBookmark = useMemo(
     () =>
@@ -44,7 +48,7 @@ export function BookmarkItem({
     [gistStore, filename, bookmark]
   );
 
-  const [deletable, toggleDeletable] = useToggle(3000);
+  const [deletable, toggleDeletable] = useToggle(false, 3000);
 
   const deleteBookmark = useMemo(
     () =>

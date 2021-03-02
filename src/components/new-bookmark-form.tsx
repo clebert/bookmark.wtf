@@ -8,16 +8,21 @@ import {Icon} from './icon';
 import {Input} from './input';
 
 export interface NewBookmarkFormProps {
+  readonly initialTitle: string;
+  readonly initialUrl: string;
+
   onCancel(): void;
   onCreate?(title: string, url: string): void;
 }
 
 export function NewBookmarkForm({
+  initialTitle,
+  initialUrl,
   onCancel,
   onCreate,
 }: NewBookmarkFormProps): JSX.Element {
-  const [currentTitle, setCurrentTitle] = useState('');
-  const [currentUrl, setCurrentUrl] = useState('');
+  const [currentTitle, setCurrentTitle] = useState(initialTitle);
+  const [currentUrl, setCurrentUrl] = useState(initialUrl);
 
   const create = useMemo(() => {
     const title = currentTitle.trim();

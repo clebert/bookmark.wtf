@@ -1,7 +1,10 @@
 import {useCallback, useEffect, useState} from 'preact/hooks';
 
-export function useToggle(timeout?: number): [boolean, () => void] {
-  const [toggle, setToggle] = useState(false);
+export function useToggle(
+  initialValue: boolean,
+  timeout?: number
+): [boolean, () => void] {
+  const [toggle, setToggle] = useState(initialValue);
 
   useEffect(() => {
     if (!toggle || timeout === undefined) {
