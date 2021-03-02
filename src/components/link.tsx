@@ -1,5 +1,5 @@
 import {ComponentChildren, JSX, h} from 'preact';
-import {useCallback} from 'preact/hooks';
+import {useMemo} from 'preact/hooks';
 import {join} from '../utils/join';
 import {Theme} from '../utils/theme';
 
@@ -7,24 +7,29 @@ export interface LinkProps {
   readonly children: ComponentChildren;
   readonly url: string;
   readonly theme?: Theme;
+  readonly static?: boolean;
 
-  onClick(): void;
+  onClick?(): void;
 }
 
 export function Link({
   children,
   url,
   theme = Theme.link(),
+  static: isStatic,
   onClick,
 }: LinkProps): JSX.Element {
   return (
     <a
       href={url}
-      onClick={useCallback(
-        (event: Event) => {
-          event.preventDefault();
-          onClick();
-        },
+      onClick={useMemo(
+        () =>
+          onClick
+            ? (event: Event) => {
+                event.preventDefault();
+                onClick();
+              }
+            : undefined,
         [onClick]
       )}
       class={join([
@@ -38,6 +43,7 @@ export function Link({
         'overflow-ellipsis',
         'hover:underline',
         'whitespace-nowrap',
+        isStatic && 'select-none',
       ])}
     >
       {children}
