@@ -9,14 +9,14 @@ export interface History {
   replace(...changes: readonly [HistoryChange, ...HistoryChange[]]): void;
 }
 
-export type HistoryChange = PathnameChange | ParamChange;
+export type HistoryChange = PathnameHistoryChange | ParamHistoryChange;
 
-export interface PathnameChange {
+export interface PathnameHistoryChange {
   readonly type: 'pathname';
   readonly pathname: string;
 }
 
-export interface ParamChange {
+export interface ParamHistoryChange {
   readonly type: 'param';
   readonly key: string;
   readonly value?: string;

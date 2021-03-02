@@ -1,24 +1,11 @@
 import {Receiver} from 'loxia';
-import {createContext} from 'preact';
 import {useMemo} from 'preact/hooks';
-import {fetchUserData} from '../apis/fetch-user-data';
-import {AuthorizedAuth} from './use-auth';
+import {fetchUser} from '../apis/fetch-user';
+import {AuthorizedAuthStore} from './use-auth-store';
 import {useReceiver} from './use-receiver';
 
-export interface UserReceiverDependencies {
-  readonly auth: AuthorizedAuth;
-}
-
-export const UserReceiverContext = createContext<Receiver<string>>(
-  undefined as any
-);
-
 export function useUserReceiver(
-  dependencies: UserReceiverDependencies
+  authStore: AuthorizedAuthStore
 ): Receiver<string> {
-  const {token} = dependencies.auth;
-
-  return useReceiver(
-    useMemo(() => fetchUserData(token).then(({login}) => login), [token])
-  );
+  return useReceiver(useMemo(() => fetchUser(authStore.token), [authStore]));
 }

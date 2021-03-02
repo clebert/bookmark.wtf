@@ -1,9 +1,6 @@
-export async function createHash(
-  message: string,
-  algorithm: 'SHA-256' | 'SHA-384' | 'SHA-512' = 'SHA-256'
-): Promise<string> {
+export async function createHash(message: string): Promise<string> {
   const hashBuffer = await crypto.subtle.digest(
-    algorithm,
+    'SHA-256',
     new TextEncoder().encode(message)
   );
 

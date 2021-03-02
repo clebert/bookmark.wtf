@@ -19,12 +19,21 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-modules-${{ github.ref }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+            ${{ runner.os }}-
+
       - name: Install dependencies
         run: npm install
 
       - name: Run integration tests on bookmark.wtf
         env:
-          APP_BASE_URL: 'https://bookmark.wtf'
+          ITEST_BASE_URL: 'https://bookmark.wtf'
           ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
           ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
           ITEST_SECRET: ${{ secrets.ITEST_SECRET }}

@@ -13,12 +13,12 @@ export class App {
   constructor(page: Page) {
     this.page = page;
 
-    const baseUrl = process.env.APP_BASE_URL;
+    const baseUrl = process.env.ITEST_BASE_URL;
     const login = process.env.ITEST_LOGIN;
     const password = process.env.ITEST_PASSWORD;
     const secret = process.env.ITEST_SECRET;
 
-    assertIsString(baseUrl, 'process.env.APP_BASE_URL');
+    assertIsString(baseUrl, 'process.env.ITEST_BASE_URL');
     assertIsString(login, 'process.env.ITEST_LOGIN');
     assertIsString(password, 'process.env.ITEST_PASSWORD');
     assertIsString(secret, 'process.env.ITEST_SECRET');
@@ -41,6 +41,6 @@ export class App {
     );
 
     await this.page.click('.btn-primary:has-text("Verify")');
-    await this.page.waitForSelector(`"Signed in as ${this.#login}."`);
+    await this.page.waitForSelector(`"Signed in as ${this.#login}"`);
   }
 }

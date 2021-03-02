@@ -32,12 +32,6 @@ describe('App', () => {
       waitUntil: 'networkidle',
     });
 
-    await app.page.click('"Edit bookmarks"');
-
-    await app.page.screenshot({
-      path: 'screenshot.png',
-      fullPage: true,
-      omitBackground: true,
-    });
+    await app.page.screenshot({path: 'screenshot.png', fullPage: true});
   });
 });
