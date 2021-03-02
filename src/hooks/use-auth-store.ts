@@ -2,6 +2,7 @@ import cookie from 'cookie';
 import {useCallback, useEffect, useMemo, useState} from 'preact/hooks';
 import {assertIsString} from '../utils/assert-is-string';
 import {createRandomValue} from '../utils/create-random-value';
+import {deauthorize} from '../utils/deauthorize';
 import {useTransition} from './use-transition';
 
 export type AuthStore =
@@ -41,7 +42,7 @@ export function useAuthStore(): AuthStore {
     if (token) {
       localStorage.setItem('token', token);
     } else {
-      localStorage.removeItem('token');
+      deauthorize();
     }
   }, [token]);
 

@@ -1,6 +1,7 @@
 import {GET_GIST} from '../queries/get-gist';
 import {GetGistQuery, GetGistQueryVariables} from '../queries/types';
 import {createGithubClient} from '../utils/create-github-client';
+import {deauthorize} from '../utils/deauthorize';
 
 export interface Gist {
   readonly owner: string;
@@ -19,26 +20,30 @@ export async function fetchGist(
 ): Promise<Gist> {
   const client = createGithubClient(token);
 
-  const result = await client
+  const {error, data} = await client
     .query<GetGistQuery, GetGistQueryVariables>(GET_GIST, {gistName})
     .toPromise();
 
-  if (result.error) {
-    throw result.error;
+  if (error) {
+    if (error.response?.status === 401) {
+      deauthorize();
+    }
+
+    throw error;
   }
 
-  const data = result.data!.viewer!.gist!;
+  const gist = data!.viewer!.gist!;
   const files: GistFile[] = [];
 
-  for (const file of data.files ?? []) {
+  for (const file of gist.files ?? []) {
     if (file && file.name && file.text && !file.isTruncated) {
       files.push({filename: file.name, text: file.text});
     }
   }
 
   return {
-    owner: data.owner!.login,
-    description: data.description?.trim() || undefined,
+    owner: gist.owner!.login,
+    description: gist.description?.trim() || undefined,
     files,
   };
 }

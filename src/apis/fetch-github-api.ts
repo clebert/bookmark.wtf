@@ -1,3 +1,5 @@
+import {deauthorize} from '../utils/deauthorize';
+
 export interface GithubApiRequest {
   readonly method: 'POST' | 'PATCH' | 'DELETE';
   readonly pathname: string;
@@ -34,6 +36,10 @@ export async function fetchGithubApi<TData>(
 
   if (response.status === 200 || response.status === 201) {
     return {data: body, eTag: response.headers.get('etag') ?? undefined};
+  }
+
+  if (response.status === 401) {
+    deauthorize();
   }
 
   throw new Error(

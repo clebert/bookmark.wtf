@@ -1,6 +1,7 @@
 import {GET_GISTS} from '../queries/get-gists';
 import {GetGistsQuery, GetGistsQueryVariables} from '../queries/types';
 import {createGithubClient} from '../utils/create-github-client';
+import {deauthorize} from '../utils/deauthorize';
 
 export interface ShallowGist {
   readonly gistName: string;
@@ -14,18 +15,22 @@ export async function fetchGists(
 ): Promise<readonly ShallowGist[]> {
   const client = createGithubClient(token);
 
-  const result = await client
+  const {error, data} = await client
     .query<GetGistsQuery, GetGistsQueryVariables>(GET_GISTS, {})
     .toPromise();
 
-  if (result.error) {
-    throw result.error;
+  if (error) {
+    if (error.response?.status === 401) {
+      deauthorize();
+    }
+
+    throw error;
   }
 
-  const data = result.data!.viewer!.gists;
+  const {nodes} = data!.viewer!.gists;
   const gists: ShallowGist[] = [];
 
-  for (const node of data.nodes ?? []) {
+  for (const node of nodes ?? []) {
     if (node) {
       const filenames: string[] = [];
 
