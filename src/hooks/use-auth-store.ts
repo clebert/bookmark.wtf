@@ -1,6 +1,5 @@
 import cookie from 'cookie';
 import {useCallback, useEffect, useMemo, useState} from 'preact/hooks';
-import {assertIsString} from '../utils/assert-is-string';
 import {createRandomValue} from '../utils/create-random-value';
 import {deauthorize} from '../utils/deauthorize';
 import {useTransition} from './use-transition';
@@ -65,13 +64,9 @@ export function useAuthStore(): AuthStore {
         sessionStorage.setItem('originalPathname', window.location.pathname);
         sessionStorage.setItem('originalSearch', window.location.search);
 
-        const clientId = process.env.CLIENT_ID;
-
-        assertIsString(clientId, 'process.env.CLIENT_ID');
-
         const url = new URL('https://github.com/login/oauth/authorize');
 
-        url.searchParams.set('client_id', clientId);
+        url.searchParams.set('client_id', process.env.CLIENT_ID!);
         url.searchParams.set('scope', 'gist');
         url.searchParams.set('state', transactionId);
 

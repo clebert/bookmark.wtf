@@ -9,7 +9,10 @@ import {Topbar} from './topbar';
 import {TopbarItem} from './topbar-item';
 
 export function ErrorPage(): JSX.Element {
-  const reload = useCallback(() => window.location.reload(), []);
+  const reload = useCallback(
+    () => (window.location.href = new URL(window.location.href).origin),
+    []
+  );
 
   return (
     <Page>
