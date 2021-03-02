@@ -19,7 +19,7 @@ export function SearchForm(): JSX.Element {
   }, []);
 
   return (
-    <div class="flex space-x-4 px-2">
+    <div class="flex space-x-4">
       <Button disabled={!searchTerm.value} onClick={clearSearch}>
         Clear search
       </Button>

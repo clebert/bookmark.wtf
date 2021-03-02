@@ -13,7 +13,6 @@ export function Topbar({children}: TopbarProps): JSX.Element {
         'flex-col',
         'md:flex-row',
         'md:items-center',
-        'px-2',
         'space-y-4',
         'md:space-y-0',
         'md:space-x-4',
