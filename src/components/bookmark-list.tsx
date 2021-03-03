@@ -4,6 +4,7 @@ import {useMemo} from 'preact/hooks';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useGistStore} from '../hooks/use-gist-store';
 import {useSearchTerm} from '../hooks/use-search-term';
+import {useToggle} from '../hooks/use-toggle';
 import {compareBookmarks} from '../models/compare-bookmarks';
 import {parseBookmark} from '../models/parse-bookmark';
 import {BookmarkControl} from './bookmark-control';
@@ -44,15 +45,23 @@ export function BookmarkList({
     [gistStore, regex]
   );
 
+  const [zenMode, toggleZenMode] = useToggle(true);
+
   return gistStore.state !== 'loading' ? (
     <Grid>
-      <BookmarkControl gistName={gistName} gistStore={gistStore} />
+      <BookmarkControl
+        gistName={gistName}
+        gistStore={gistStore}
+        zenMode={zenMode}
+        onToggleZenMode={toggleZenMode}
+      />
 
       {bookmarkFiles.map((bookmarkFile) => (
         <BookmarkItem
           key={bookmarkFile.filename}
           gistStore={gistStore}
           bookmarkFile={bookmarkFile}
+          zenMode={zenMode}
         />
       ))}
     </Grid>

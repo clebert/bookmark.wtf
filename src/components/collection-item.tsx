@@ -16,11 +16,13 @@ import {Link} from './link';
 export interface CollectionItemProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
   readonly gist: ShallowGist;
+  readonly zenMode: boolean;
 }
 
 export function CollectionItem({
   gistsStore,
   gist: {gistName, description, mtime},
+  zenMode,
 }: CollectionItemProps): JSX.Element {
   const history = useContext(HistoryContext);
 
@@ -68,21 +70,23 @@ export function CollectionItem({
         </Link>
       }
       row2={
-        <>
-          <Button onClick={toggleEditMode}>
-            <Icon type="pencil" />
-            Edit
-          </Button>
+        !zenMode && (
+          <>
+            <Button onClick={toggleEditMode}>
+              <Icon type="pencil" />
+              Edit
+            </Button>
 
-          <Button
-            theme={deletable ? Theme.danger() : undefined}
-            disabled={!deleteGist}
-            onClick={deleteGist}
-          >
-            <Icon type="trash" />
-            Delete
-          </Button>
-        </>
+            <Button
+              theme={deletable ? Theme.danger() : undefined}
+              disabled={!deleteGist}
+              onClick={deleteGist}
+            >
+              <Icon type="trash" />
+              Delete
+            </Button>
+          </>
+        )
       }
       background
       highlight={useTimer(1500, mtime)}

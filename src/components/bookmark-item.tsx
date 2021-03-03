@@ -20,6 +20,7 @@ import {Link} from './link';
 export interface BookmarkItemProps {
   readonly gistStore: ReadyGistStore | UpdatingGistStore | LockedGistStore;
   readonly bookmarkFile: BookmarkFile;
+  readonly zenMode: boolean;
 }
 
 export interface BookmarkFile {
@@ -30,6 +31,7 @@ export interface BookmarkFile {
 export function BookmarkItem({
   gistStore,
   bookmarkFile,
+  zenMode,
 }: BookmarkItemProps): JSX.Element {
   const {filename, bookmark} = bookmarkFile;
   const [editMode, toggleEditMode] = useToggle(false);
@@ -90,7 +92,8 @@ export function BookmarkItem({
         </Link>
       }
       row2={
-        gistStore.state !== 'locked' && (
+        gistStore.state !== 'locked' &&
+        !zenMode && (
           <>
             <Button onClick={toggleEditMode}>
               <Icon type="pencil" />

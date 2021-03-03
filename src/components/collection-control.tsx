@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {Fragment, JSX, h} from 'preact';
 import {useMemo} from 'preact/hooks';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {useToggle} from '../hooks/use-toggle';
@@ -10,10 +10,15 @@ import {NewCollectionForm} from './new-collection-form';
 
 export interface CollectionControlProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
+  readonly zenMode: boolean;
+
+  onToggleZenMode(): void;
 }
 
 export function CollectionControl({
   gistsStore,
+  zenMode,
+  onToggleZenMode,
 }: CollectionControlProps): JSX.Element {
   const [creationMode, toggleCreationMode] = useToggle(false);
 
@@ -43,10 +48,19 @@ export function CollectionControl({
         </Label>
       }
       row2={
-        <Button onClick={toggleCreationMode}>
-          <Icon type="gridAdd" />
-          New collection
-        </Button>
+        <>
+          <Button onClick={toggleCreationMode}>
+            <Icon type="gridAdd" />
+            New
+          </Button>
+
+          {zenMode && (
+            <Button onClick={onToggleZenMode}>
+              <Icon type="pencil" />
+              Edit
+            </Button>
+          )}
+        </>
       }
     />
   );

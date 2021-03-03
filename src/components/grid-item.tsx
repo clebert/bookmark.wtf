@@ -14,7 +14,7 @@ export interface GridItemProps {
 export function GridItem({
   leftCol,
   row1,
-  row2 = <Label static>{'\u00A0'}</Label>,
+  row2,
   rightCol,
   background,
   highlight,
@@ -33,7 +33,10 @@ export function GridItem({
 
       <div class="flex flex-col space-y-4 w-full overflow-hidden">
         <div class="flex space-x-4 w-full">{row1}</div>
-        {row2 && <div class="flex space-x-4 w-full">{row2}</div>}
+
+        <div class="flex space-x-4 w-full">
+          {row2 || <Label static>{'\u00A0'}</Label>}
+        </div>
       </div>
 
       {rightCol && (
