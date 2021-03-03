@@ -48,7 +48,7 @@
     "@types/node-fetch": "^2.5.8",
     "@types/speakeasy": "^2.0.5",
     "autoprefixer": "^10.2.4",
-    "aws-simple": "^4.3.0",
+    "aws-simple": "^5.0.0",
     "css-loader": "^5.0.2",
     "css-minimizer-webpack-plugin": "^1.2.0",
     "fkill-cli": "^6.1.0",
