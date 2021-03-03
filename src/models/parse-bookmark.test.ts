@@ -8,6 +8,12 @@ describe('parseBookmark()', () => {
       ctime: 123,
     });
 
+    expect(parseBookmark('[ foo ](https://bar.baz) `{"ctime":123}`')).toEqual({
+      title: 'foo',
+      url: 'https://bar.baz',
+      ctime: 123,
+    });
+
     expect(
       parseBookmark(
         '[foo](https://bar.baz) `{"ctime":123,"mtime":456,"clickCount":789}`'
@@ -41,6 +47,8 @@ describe('parseBookmark()', () => {
   });
 
   it('returns undefined', () => {
+    expect(parseBookmark('[foo](bar) `{"ctime":123}`')).toEqual(undefined);
+    expect(parseBookmark('[  ](bar) `{"ctime":123}`')).toEqual(undefined);
     expect(parseBookmark('')).toBe(undefined);
     expect(parseBookmark('[foo](https://bar.baz)')).toBe(undefined);
     expect(parseBookmark('`{"ctime":123}`')).toBe(undefined);
