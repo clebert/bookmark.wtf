@@ -3,7 +3,7 @@ import {useCallback, useMemo} from 'preact/hooks';
 import {Gist, fetchGist} from '../apis/fetch-gist';
 import {fetchGithubApi} from '../apis/fetch-github-api';
 import {AuthorizedAuthStore} from './use-auth-store';
-import {useMemory} from './use-memory';
+import {useDependentRef} from './use-dependent-ref';
 import {useReceiver} from './use-receiver';
 import {useSender} from './use-sender';
 import {useTransition} from './use-transition';
@@ -75,7 +75,7 @@ export function useGistStore(
     useMemo(() => fetchGist(authStore.token, gistName), [authStore, gistName])
   );
 
-  const gistMemory = useMemory(gistReceiver.value, [gistReceiver]);
+  const gistRef = useDependentRef(gistReceiver.value, [gistReceiver]);
   const sender = useSender();
   const transition = useTransition(userReceiver, gistReceiver, sender);
 
@@ -92,12 +92,9 @@ export function useGistStore(
         );
 
         if (sent) {
-          const gist = gistMemory.value!;
+          const gist = gistRef.value!;
 
-          gistMemory.value = {
-            ...gist,
-            files: [{filename, text}, ...gist.files],
-          };
+          gistRef.value = {...gist, files: [{filename, text}, ...gist.files]};
         }
       }),
     [transition]
@@ -116,9 +113,9 @@ export function useGistStore(
         );
 
         if (sent && !hidden) {
-          const gist = gistMemory.value!;
+          const gist = gistRef.value!;
 
-          gistMemory.value = {
+          gistRef.value = {
             ...gist,
             files: [
               {filename, text},
@@ -143,9 +140,9 @@ export function useGistStore(
         );
 
         if (sent) {
-          const gist = gistMemory.value!;
+          const gist = gistRef.value!;
 
-          gistMemory.value = {
+          gistRef.value = {
             ...gist,
             files: gist.files.filter((file) => file.filename !== filename),
           };
@@ -167,7 +164,7 @@ export function useGistStore(
       return {state: 'loading'};
     }
 
-    const gist = gistMemory.value!;
+    const gist = gistRef.value!;
 
     if (gist.owner !== userReceiver.value) {
       return {state: 'locked', gist};

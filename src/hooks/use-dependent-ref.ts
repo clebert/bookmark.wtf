@@ -1,6 +1,6 @@
 import {useMemo} from 'preact/hooks';
 
-export function useMemory<TValue>(
+export function useDependentRef<TValue>(
   initialValue: TValue,
   dependencies: readonly unknown[]
 ): {value: TValue} {

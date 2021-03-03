@@ -3,7 +3,7 @@ import {ShallowGist, fetchGists} from '../apis/fetch-gists';
 import {fetchGithubApi} from '../apis/fetch-github-api';
 import {AuthorizedAuthStore} from './use-auth-store';
 import {useBinder} from './use-binder';
-import {useMemory} from './use-memory';
+import {useDependentRef} from './use-dependent-ref';
 import {useReceiver} from './use-receiver';
 import {useSender} from './use-sender';
 import {useTransition} from './use-transition';
@@ -73,7 +73,7 @@ export function useGistsStore(
     )
   );
 
-  const gistsMemory = useMemory(gistsReceiver.value, [gistsReceiver]);
+  const gistRef = useDependentRef(gistsReceiver.value, [gistsReceiver]);
   const sender = useSender();
   const transition = useTransition(gistsReceiver, sender);
   const bind = useBinder();
@@ -101,14 +101,14 @@ export function useGistsStore(
           }).then(
             bind(
               ({data}) =>
-                (gistsMemory.value = [
+                (gistRef.value = [
                   {
                     gistName: data?.id,
                     description,
                     filenames: Object.keys(files),
                     mtime: Date.now(),
                   },
-                  ...gistsMemory.value!,
+                  ...gistRef.value!,
                 ])
             )
           )
@@ -130,14 +130,14 @@ export function useGistsStore(
         );
 
         if (sent) {
-          const gists = gistsMemory.value!;
+          const gists = gistRef.value!;
 
           const gist = gists.find(
             (otherGist) => otherGist.gistName === gistName
           );
 
           if (gist) {
-            gistsMemory.value = [
+            gistRef.value = [
               {...gist, description, mtime: Date.now()},
               ...gists.filter((otherGist) => otherGist !== gist),
             ];
@@ -160,8 +160,8 @@ export function useGistsStore(
         );
 
         if (sent) {
-          gistsMemory.value = [
-            ...gistsMemory.value!.filter((gist) => gist.gistName !== gistName),
+          gistRef.value = [
+            ...gistRef.value!.filter((gist) => gist.gistName !== gistName),
           ];
         }
       }),
@@ -181,7 +181,7 @@ export function useGistsStore(
       return {state: 'loading'};
     }
 
-    const gists = gistsMemory.value!;
+    const gists = gistRef.value!;
 
     if (sender.state === 'sending') {
       return {state: 'updating', gists};
