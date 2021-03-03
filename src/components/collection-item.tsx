@@ -6,7 +6,6 @@ import {HistoryContext} from '../hooks/use-history';
 import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
 import {changeGistName} from '../utils/change-gist-name';
-import {Theme} from '../utils/theme';
 import {Button} from './button';
 import {EditCollectionForm} from './edit-collection-form';
 import {GridItem} from './grid-item';
@@ -66,6 +65,7 @@ export function CollectionItem({
     <GridItem
       row1={
         <Link url={'/' + gistName} onClick={openCollection}>
+          <Icon type="link" />
           {description ?? gistName}
         </Link>
       }
@@ -78,7 +78,7 @@ export function CollectionItem({
             </Button>
 
             <Button
-              theme={deletable ? Theme.danger() : undefined}
+              theme={deletable ? 'danger' : undefined}
               disabled={!deleteGist}
               onClick={deleteGist}
             >
@@ -88,7 +88,6 @@ export function CollectionItem({
           </>
         )
       }
-      background
       highlight={useTimer(1500, mtime)}
     />
   );

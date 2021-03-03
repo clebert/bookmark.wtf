@@ -1,22 +1,18 @@
 import {ComponentChildren, JSX, h} from 'preact';
+import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
-import {Theme} from '../utils/theme';
 
 export interface ParagraphProps {
   readonly children: ComponentChildren;
-  readonly theme?: Theme;
+  readonly theme?: 'danger';
 }
 
-export function Paragraph({
-  children,
-  theme = Theme.default(),
-}: ParagraphProps): JSX.Element {
+export function Paragraph({children, theme}: ParagraphProps): JSX.Element {
   return (
     <p
       class={join([
-        theme.textColor,
-        'border',
-        'border-transparent',
+        Colors.text(theme),
+        Colors.border('hidden'),
         'cursor-default',
         'select-none',
       ])}

@@ -1,12 +1,11 @@
 import {ComponentChildren, JSX, h} from 'preact';
 import {useMemo} from 'preact/hooks';
+import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
-import {Theme} from '../utils/theme';
 
 export interface LinkProps {
   readonly children: ComponentChildren;
   readonly url: string;
-  readonly theme?: Theme;
   readonly static?: boolean;
 
   onClick?(): void;
@@ -15,7 +14,6 @@ export interface LinkProps {
 export function Link({
   children,
   url,
-  theme = Theme.link(),
   static: isStatic,
   onClick,
 }: LinkProps): JSX.Element {
@@ -33,14 +31,14 @@ export function Link({
         [onClick]
       )}
       class={join([
-        theme.textColor,
-        Theme.activeTextColor,
-        Theme.outlineColor,
-        'border',
-        'border-transparent',
+        Colors.text('link'),
+        Colors.activeText('link'),
+        Colors.focusOutline(),
+        Colors.border('hidden'),
+        Colors.activeBackground(),
+        'pr-1',
         'overflow-hidden',
         'overflow-ellipsis',
-        'hover:underline',
         'whitespace-nowrap',
         isStatic && 'select-none',
       ])}

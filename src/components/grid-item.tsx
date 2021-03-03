@@ -1,4 +1,5 @@
 import {ComponentChildren, JSX, h} from 'preact';
+import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 import {Label} from './label';
 
@@ -7,7 +8,6 @@ export interface GridItemProps {
   readonly row1: ComponentChildren;
   readonly row2?: ComponentChildren;
   readonly rightCol?: ComponentChildren;
-  readonly background?: boolean;
   readonly highlight?: boolean;
 }
 
@@ -16,17 +16,13 @@ export function GridItem({
   row1,
   row2,
   rightCol,
-  background,
   highlight,
 }: GridItemProps): JSX.Element {
   return (
     <div
       class={join([
         'flex space-x-4 p-2 shadow',
-        background &&
-          (highlight
-            ? 'bg-gradient-to-r from-gray-200 to-gray-300'
-            : 'bg-gradient-to-r from-gray-50 to-gray-100'),
+        highlight ? Colors.background() : Colors.shadedBackground(),
       ])}
     >
       {leftCol && <div class="flex flex-shrink-0 items-center">{leftCol}</div>}

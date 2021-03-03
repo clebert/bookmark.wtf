@@ -14,7 +14,7 @@ module.exports = {
   },
   variants: {
     extend: {
-      borderColor: ['active'],
+      backgroundColor: ['active'],
       textColor: ['active'],
     },
   },

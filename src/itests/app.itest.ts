@@ -25,13 +25,31 @@ describe('App', () => {
     expect(await app.page.url()).toBe(url);
   });
 
-  test('take screenshot', async () => {
+  test('take screenshot in light mode', async () => {
+    await app.page.evaluate(() => localStorage.setItem('colorScheme', 'light'));
     await app.page.setViewportSize({width: 1024, height: 500});
 
     await app.page.goto(app.baseUrl + '/9803bde974539a8992c0515b28db439b', {
       waitUntil: 'networkidle',
     });
 
-    await app.page.screenshot({path: 'screenshot.png', fullPage: true});
+    await app.page.screenshot({
+      path: 'screenshot-light-mode.png',
+      fullPage: true,
+    });
+  });
+
+  test('take screenshot in dark mode', async () => {
+    await app.page.evaluate(() => localStorage.setItem('colorScheme', 'dark'));
+    await app.page.setViewportSize({width: 1024, height: 500});
+
+    await app.page.goto(app.baseUrl + '/9803bde974539a8992c0515b28db439b', {
+      waitUntil: 'networkidle',
+    });
+
+    await app.page.screenshot({
+      path: 'screenshot-dark-mode.png',
+      fullPage: true,
+    });
   });
 });

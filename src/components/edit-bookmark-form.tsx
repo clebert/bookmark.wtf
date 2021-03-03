@@ -1,6 +1,5 @@
 import {Fragment, JSX, h} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
-import {Theme} from '../utils/theme';
 import {Button} from './button';
 import {Form} from './form';
 import {GridItem} from './grid-item';
@@ -64,13 +63,12 @@ export function EditBookmarkForm({
               Cancel
             </Button>
 
-            <Button type="submit" theme={Theme.success()} disabled={!update}>
+            <Button type="submit" theme={'success'} disabled={!update}>
               <Icon type="check" />
               Update
             </Button>
           </>
         }
-        background
       />
     </Form>
   );

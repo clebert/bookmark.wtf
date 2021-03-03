@@ -2,7 +2,9 @@ import {JSX, h} from 'preact';
 import {useCallback, useMemo} from 'preact/hooks';
 import {useBinder} from '../hooks/use-binder';
 import {useDependentState} from '../hooks/use-dependent-state';
+import {Colors} from '../utils/colors';
 import {createIdenticon} from '../utils/create-identicon';
+import {join} from '../utils/join';
 
 export interface BookmarkIconProps {
   readonly linkUrl: string;
@@ -48,7 +50,7 @@ export function BookmarkIcon({
 
   return (
     <a
-      class="focus:outline-blue-400 select-none"
+      class={join(['select-none bg-white', Colors.focusOutline()])}
       href={linkUrl}
       tabIndex={-1}
       onClick={useCallback(

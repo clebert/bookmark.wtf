@@ -1,6 +1,5 @@
 import {Fragment, JSX, h} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
-import {Theme} from '../utils/theme';
 import {Button} from './button';
 import {Form} from './form';
 import {GridItem} from './grid-item';
@@ -43,7 +42,7 @@ export function NewCollectionForm({
               Cancel
             </Button>
 
-            <Button type="submit" theme={Theme.success()} disabled={!create}>
+            <Button type="submit" theme={'success'} disabled={!create}>
               <Icon type="check" />
               Create
             </Button>

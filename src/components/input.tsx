@@ -1,13 +1,12 @@
 import {JSX, h} from 'preact';
 import {useCallback, useEffect, useRef} from 'preact/hooks';
+import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
-import {Theme} from '../utils/theme';
 
 export interface InputProps {
   readonly type?: 'url';
   readonly value: string;
   readonly placeholder?: string;
-  readonly theme?: Theme;
   readonly autoFocus?: boolean;
   readonly disabled?: boolean;
   readonly required?: boolean;
@@ -19,7 +18,6 @@ export function Input({
   type,
   value,
   placeholder,
-  theme = Theme.default(),
   autoFocus,
   required,
   onInput,
@@ -50,12 +48,11 @@ export function Input({
         [onInput]
       )}
       class={join([
-        theme.textColor,
-        theme.placeholderColor,
-        theme.borderColor,
-        Theme.outlineColor,
-        'placeholder-opacity-25',
-        'border',
+        Colors.text(),
+        Colors.placeholderText(),
+        Colors.border(),
+        Colors.background(),
+        Colors.focusOutline(),
         'w-full',
         'px-2',
       ])}

@@ -1,12 +1,12 @@
 import {ComponentChildren, JSX, h} from 'preact';
 import {useCallback} from 'preact/hooks';
+import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
-import {Theme} from '../utils/theme';
 
 export interface ButtonProps {
   readonly children: ComponentChildren;
   readonly type?: 'button' | 'submit';
-  readonly theme?: Theme;
+  readonly theme?: 'danger' | 'success';
   readonly disabled?: boolean;
 
   onClick?(): void;
@@ -15,7 +15,7 @@ export interface ButtonProps {
 export function Button({
   children,
   type = 'button',
-  theme = Theme.default(),
+  theme,
   disabled,
   onClick,
 }: ButtonProps): JSX.Element {
@@ -25,17 +25,14 @@ export function Button({
       onClick={useCallback(() => onClick?.(), [onClick])}
       disabled={disabled}
       class={join([
-        theme.textColor,
-        theme.borderColor,
-        Theme.outlineColor,
-        !disabled && Theme.activeTextColor,
-        !disabled && Theme.activeBorderColor,
-        !disabled && theme.hoverBorderColor,
-        disabled && 'opacity-50',
-        'bg-white',
-        'border',
+        Colors.text(theme),
+        !disabled && Colors.activeText(theme),
+        !disabled && Colors.focusOutline(),
+        Colors.border(theme),
+        Colors.background(),
+        !disabled && Colors.activeBackground(),
+        disabled && 'border-dashed',
         'px-2',
-        'text-left',
         'whitespace-nowrap',
         disabled && 'cursor-default',
         'select-none',

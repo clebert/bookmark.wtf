@@ -1,4 +1,5 @@
 import {ComponentChildren, JSX, h} from 'preact';
+import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 
 export interface TopbarProps {
@@ -27,10 +28,10 @@ export function Topbar({children}: TopbarProps): JSX.Element {
           'select-none',
         ])}
       >
-        <span class="text-black">bookmark.</span>
-        <span class="text-red-600">w</span>
-        <span class="text-green-600">t</span>
-        <span class="text-blue-600">f</span>
+        <span class={Colors.text()}>bookmark.</span>
+        <span class={Colors.text('danger')}>w</span>
+        <span class={Colors.text('success')}>t</span>
+        <span class={Colors.text('link')}>f</span>
       </h1>
 
       {children}

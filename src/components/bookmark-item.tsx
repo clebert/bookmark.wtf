@@ -9,7 +9,6 @@ import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
 import {Bookmark} from '../models/parse-bookmark';
 import {serializeBookmark} from '../models/serialize-bookmark';
-import {Theme} from '../utils/theme';
 import {BookmarkIcon} from './bookmark-icon';
 import {Button} from './button';
 import {EditBookmarkForm} from './edit-bookmark-form';
@@ -88,6 +87,7 @@ export function BookmarkItem({
       leftCol={<BookmarkIcon linkUrl={bookmark.url} onClick={openBookmark} />}
       row1={
         <Link url={bookmark.url} onClick={openBookmark}>
+          <Icon type="externalLink" />
           {bookmark.title}
         </Link>
       }
@@ -100,7 +100,7 @@ export function BookmarkItem({
               Edit
             </Button>
             <Button
-              theme={deletable ? Theme.danger() : undefined}
+              theme={deletable ? 'danger' : undefined}
               disabled={!deleteBookmark}
               onClick={deleteBookmark}
             >
@@ -110,7 +110,6 @@ export function BookmarkItem({
           </>
         )
       }
-      background
       highlight={useTimer(1500, bookmark.mtime ?? bookmark.ctime)}
     />
   );
