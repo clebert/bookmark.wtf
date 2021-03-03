@@ -28,7 +28,6 @@ export function Button({
         theme.textColor,
         theme.borderColor,
         Theme.outlineColor,
-        Theme.normalFont,
         !disabled && Theme.activeTextColor,
         !disabled && Theme.activeBorderColor,
         !disabled && theme.hoverBorderColor,

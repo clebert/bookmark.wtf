@@ -36,7 +36,6 @@ export function Link({
         theme.textColor,
         Theme.activeTextColor,
         Theme.outlineColor,
-        Theme.normalFont,
         'border',
         'border-transparent',
         'overflow-hidden',

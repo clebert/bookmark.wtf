@@ -2,8 +2,6 @@ export class Theme {
   static readonly activeTextColor: string = 'active:text-black';
   static readonly activeBorderColor: string = 'active:border-black';
   static readonly outlineColor: string = 'focus:outline-blue-400';
-  static readonly normalFont: string = 'font-light';
-  static readonly boldFont: string = 'font-medium';
 
   static default(): Theme {
     return new Theme(

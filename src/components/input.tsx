@@ -54,7 +54,6 @@ export function Input({
         theme.placeholderColor,
         theme.borderColor,
         Theme.outlineColor,
-        Theme.normalFont,
         'placeholder-opacity-25',
         'border',
         'w-full',

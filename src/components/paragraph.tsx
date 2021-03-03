@@ -15,7 +15,6 @@ export function Paragraph({
     <p
       class={join([
         theme.textColor,
-        Theme.normalFont,
         'border',
         'border-transparent',
         'cursor-default',

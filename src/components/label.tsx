@@ -19,7 +19,7 @@ export function Label({
     <label
       class={join([
         theme.textColor,
-        bold ? Theme.boldFont : Theme.normalFont,
+        bold && 'font-bold',
         'border',
         'border-transparent',
         'overflow-hidden',
