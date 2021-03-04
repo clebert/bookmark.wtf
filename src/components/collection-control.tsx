@@ -10,14 +10,12 @@ import {NewCollectionForm} from './new-collection-form';
 
 export interface CollectionControlProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
-  readonly zenMode: boolean;
 
-  onToggleZenMode(): void;
+  onToggleZenMode?(): void;
 }
 
 export function CollectionControl({
   gistsStore,
-  zenMode,
   onToggleZenMode,
 }: CollectionControlProps): JSX.Element {
   const [creationMode, toggleCreationMode] = useToggle(false);
@@ -54,7 +52,7 @@ export function CollectionControl({
             New
           </Button>
 
-          {zenMode && (
+          {onToggleZenMode && (
             <Button onClick={onToggleZenMode}>
               <Icon type="pencil" />
               Edit

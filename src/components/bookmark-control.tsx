@@ -27,15 +27,13 @@ import {NewBookmarkForm} from './new-bookmark-form';
 export interface BookmarkControlProps {
   readonly gistName: string;
   readonly gistStore: ReadyGistStore | UpdatingGistStore | LockedGistStore;
-  readonly zenMode: boolean;
 
-  onToggleZenMode(): void;
+  onToggleZenMode?(): void;
 }
 
 export function BookmarkControl({
   gistName,
   gistStore,
-  zenMode,
   onToggleZenMode,
 }: BookmarkControlProps): JSX.Element {
   const history = useContext(HistoryContext);
@@ -144,7 +142,7 @@ export function BookmarkControl({
                 New
               </Button>
 
-              {zenMode && (
+              {onToggleZenMode && (
                 <Button onClick={onToggleZenMode}>
                   <Icon type="pencil" />
                   Edit
