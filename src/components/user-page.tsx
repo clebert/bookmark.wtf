@@ -2,17 +2,17 @@ import {Fragment, JSX, h} from 'preact';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useGistName} from '../hooks/use-gist-name';
 import {useUserReceiver} from '../hooks/use-user-receiver';
-import {AuthorizedTopbar} from './authorized-topbar';
 import {BookmarkList} from './bookmark-list';
 import {CollectionList} from './collection-list';
 import {Page} from './page';
 import {SearchForm} from './search-form';
+import {UserTopbar} from './user-topbar';
 
-export interface AuthorizedPageProps {
+export interface UserPageProps {
   readonly authStore: AuthorizedAuthStore;
 }
 
-export function AuthorizedPage({authStore}: AuthorizedPageProps): JSX.Element {
+export function UserPage({authStore}: UserPageProps): JSX.Element {
   const userReceiver = useUserReceiver(authStore);
 
   if (userReceiver.state === 'failed') {
@@ -23,7 +23,7 @@ export function AuthorizedPage({authStore}: AuthorizedPageProps): JSX.Element {
 
   return (
     <Page>
-      <AuthorizedTopbar authStore={authStore} userReceiver={userReceiver} />
+      <UserTopbar authStore={authStore} userReceiver={userReceiver} />
 
       {gistName ? (
         <>

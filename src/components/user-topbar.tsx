@@ -7,15 +7,15 @@ import {Label} from './label';
 import {Topbar} from './topbar';
 import {TopbarItem} from './topbar-item';
 
-export interface AuthorizedTopbarProps {
+export interface UserTopbarProps {
   readonly authStore: AuthorizedAuthStore;
   readonly userReceiver: SuccessfulReceiver<string> | ReceivingReceiver;
 }
 
-export function AuthorizedTopbar({
+export function UserTopbar({
   authStore,
   userReceiver,
-}: AuthorizedTopbarProps): JSX.Element {
+}: UserTopbarProps): JSX.Element {
   return (
     <Topbar>
       <TopbarItem>

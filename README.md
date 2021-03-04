@@ -1,6 +1,6 @@
 # bookmark.wtf
 
-A bookmark manager that uses GitHub Gist as data back end.
+A free and open-source bookmark manager that uses GitHub Gist as database.
 
 ## Dark mode
 
