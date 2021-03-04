@@ -35,7 +35,7 @@ function createAppConfig(dev) {
         filename: '[file].map',
         publicPath: '/app/',
       }),
-      new MiniCssExtractPlugin(),
+      new MiniCssExtractPlugin({filename: '[name].[contenthash].css'}),
     ],
     module: {
       rules: [
