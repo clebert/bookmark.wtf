@@ -5,6 +5,8 @@ import {
   UnauthorizedAuthStore,
 } from '../hooks/use-auth-store';
 import {UIModeContext} from '../hooks/use-ui-mode';
+import {Colors} from '../utils/colors';
+import {join} from '../utils/join';
 import {Button} from './button';
 import {Icon} from './icon';
 import {Link} from './link';
@@ -43,9 +45,8 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
         database.
       </Paragraph>
 
-      <div class="max-w-5xl">
+      <div class={join(['max-w-5xl p-1 shadow', Colors.highlightRing()])}>
         <img
-          class="transform skew-y-12 translate-y-1/4 shadow-2xl"
           src={`https://raw.githubusercontent.com/clebert/bookmark.wtf/main/screenshot-${
             colorScheme === 'dark' ? 'light' : 'dark'
           }-mode.png`}

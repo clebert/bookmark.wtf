@@ -22,7 +22,8 @@ export function GridItem({
     <div
       class={join([
         'flex space-x-4 p-2 shadow',
-        highlight ? Colors.background() : Colors.shadedBackground(),
+        Colors.shadedBackground(),
+        highlight && Colors.highlightRing(),
       ])}
     >
       {leftCol && <div class="flex flex-shrink-0 items-center">{leftCol}</div>}

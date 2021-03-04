@@ -36,6 +36,10 @@ export class Colors {
     return 'focus:outline-blue-400';
   }
 
+  static highlightRing(): string {
+    return 'ring-inset ring-4 ring-yellow-400 dark:ring-yellow-200';
+  }
+
   static background(): string {
     return 'bg-white dark:bg-gray-900';
   }
