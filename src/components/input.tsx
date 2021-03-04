@@ -53,6 +53,8 @@ export function Input({
         Colors.border(),
         Colors.background(),
         Colors.focusOutline(),
+        'appearance-none',
+        'rounded-none',
         'w-full',
         'px-2',
       ])}

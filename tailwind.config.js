@@ -1,7 +1,5 @@
 module.exports = {
   purge: {
-    mode: 'all',
-    preserveHtmlElements: false,
     content: ['./src/**/*.html', './src/**/*.ts', './src/**/*.tsx'],
   },
   darkMode: 'class',
