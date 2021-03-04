@@ -16,6 +16,12 @@ exports.default = {
       filename: 'dist/app/index.html',
       catchAll: true,
     },
+    '/apple-touch-icon.png': {
+      kind: 'file',
+      filename: 'src/apple-touch-icon.png',
+      binaryMediaType: 'image/png',
+      cacheControl: 'max-age=86400', // 24 hours
+    },
     '/app': {
       kind: 'folder',
       dirname: 'dist/app',

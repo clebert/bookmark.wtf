@@ -1,11 +1,12 @@
 import {JSX, h} from 'preact';
-import {useLayoutEffect} from 'preact/hooks';
+import {useLayoutEffect, useMemo} from 'preact/hooks';
 import {useAuthStore} from '../hooks/use-auth-store';
 import {HistoryContext, useHistory} from '../hooks/use-history';
 import {Colors} from '../utils/colors';
 import {AuthorizedPage} from './authorized-page';
 import {ErrorBoundary} from './error-boundary';
 import {ErrorPage} from './error-page';
+import {Logo} from './logo';
 import {UnauthorizedPage} from './unauthorized-page';
 
 export function App(): JSX.Element {
@@ -28,7 +29,17 @@ export function App(): JSX.Element {
       ?.classList.add(...Colors.background().split(' '));
   }, []);
 
-  return (
+  const renderLogo = useMemo(() => {
+    const {hostname, searchParams} = new URL(history.url);
+
+    return (
+      hostname === 'localhost' && searchParams.get('renderLogo') === 'true'
+    );
+  }, []);
+
+  return renderLogo ? (
+    <Logo />
+  ) : (
     <HistoryContext.Provider value={history}>
       <ErrorBoundary fallback={<ErrorPage />}>
         {authStore.state === 'authorized' ? (

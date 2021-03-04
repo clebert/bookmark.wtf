@@ -23,8 +23,8 @@ export function BookmarkIcon({
     const {hostname, origin} = new URL(linkUrl);
 
     return [
-      `https://c.1password.com/richicons/images/login/120/${hostname}.png`,
       `${origin}/apple-touch-icon.png`,
+      `https://c.1password.com/richicons/images/login/120/${hostname}.png`,
       `${origin}/favicon.ico`,
     ];
   }, [linkUrl]);
@@ -50,7 +50,7 @@ export function BookmarkIcon({
 
   return (
     <a
-      class={join(['select-none bg-white', Colors.focusOutline()])}
+      class={join(['select-none', Colors.background(), Colors.focusOutline()])}
       href={linkUrl}
       tabIndex={-1}
       onClick={useCallback(
