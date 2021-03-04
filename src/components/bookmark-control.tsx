@@ -7,6 +7,7 @@ import {
   useState,
 } from 'preact/hooks';
 import {
+  ForkingGistStore,
   LockedGistStore,
   ReadyGistStore,
   UpdatingGistStore,
@@ -26,7 +27,12 @@ import {NewBookmarkForm} from './new-bookmark-form';
 
 export interface BookmarkControlProps {
   readonly gistName: string;
-  readonly gistStore: ReadyGistStore | UpdatingGistStore | LockedGistStore;
+
+  readonly gistStore:
+    | ReadyGistStore
+    | UpdatingGistStore
+    | LockedGistStore
+    | ForkingGistStore;
 
   onToggleZenMode?(): void;
 }
@@ -52,7 +58,9 @@ export function BookmarkControl({
   );
 
   const [creationMode, toggleCreationMode] = useToggle(
-    gistStore.state !== 'locked' && Boolean(initialTitle || initialUrl)
+    gistStore.state !== 'locked' &&
+      gistStore.state !== 'forking' &&
+      Boolean(initialTitle || initialUrl)
   );
 
   useEffect(() => {
@@ -71,7 +79,7 @@ export function BookmarkControl({
       {type: 'param', key: 'version'}
     );
 
-    if (gistStore.state === 'locked') {
+    if (gistStore.state === 'locked' || gistStore.state === 'forking') {
       return;
     }
 
@@ -119,13 +127,16 @@ export function BookmarkControl({
   ) : (
     <GridItem
       row1={
-        gistStore.state !== 'locked' ? (
+        gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
           <Link url={bookmarklet.url} onClick={showBookmarkletHelp}>
             <Icon type="bookmark" />
             {gistStore.gist.description ?? gistName}
           </Link>
         ) : (
-          <Label>{gistStore.gist.description ?? gistName}</Label>
+          <Label>
+            <Icon type="lockClosed" />
+            {gistStore.gist.description ?? gistName}
+          </Label>
         )
       }
       row2={
@@ -135,7 +146,7 @@ export function BookmarkControl({
             Close
           </Button>
 
-          {gistStore.state !== 'locked' ? (
+          {gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
             <>
               <Button onClick={toggleCreationMode}>
                 <Icon type="gridAdd" />
@@ -150,10 +161,10 @@ export function BookmarkControl({
               )}
             </>
           ) : (
-            <Label static>
-              <Icon type="lockClosed" />
-              Owned by <Label bold>{gistStore.gist.owner}</Label>
-            </Label>
+            <Button disabled={!gistStore.forkGist} onClick={gistStore.forkGist}>
+              <Icon type="duplicate" />
+              Fork
+            </Button>
           )}
         </>
       }

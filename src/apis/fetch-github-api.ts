@@ -7,14 +7,14 @@ export interface GithubApiRequest {
   readonly token: string;
 }
 
-export interface GithubApiResponse<TData> {
-  readonly data?: TData;
+export interface GithubApiResponse {
+  readonly data?: unknown;
   readonly eTag?: string;
 }
 
-export async function fetchGithubApi<TData>(
+export async function fetchGithubApi(
   request: GithubApiRequest
-): Promise<GithubApiResponse<TData>> {
+): Promise<GithubApiResponse> {
   const {method, pathname, params, token} = request;
 
   const response = await fetch(`https://api.github.com${pathname}`, {

@@ -103,7 +103,7 @@ export function useGistsStore(
               ({data}) =>
                 (gistRef.value = [
                   {
-                    gistName: data?.id,
+                    gistName: data!.id,
                     description,
                     filenames: Object.keys(files),
                     mtime: Date.now(),

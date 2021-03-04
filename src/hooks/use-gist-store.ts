@@ -1,9 +1,12 @@
 import {SuccessfulReceiver} from 'loxia';
-import {useCallback, useMemo} from 'preact/hooks';
+import {useCallback, useContext, useMemo} from 'preact/hooks';
 import {Gist, fetchGist} from '../apis/fetch-gist';
 import {fetchGithubApi} from '../apis/fetch-github-api';
+import {changeGistName} from '../utils/change-gist-name';
 import {AuthorizedAuthStore} from './use-auth-store';
+import {useBinder} from './use-binder';
 import {useDependentRef} from './use-dependent-ref';
+import {HistoryContext} from './use-history';
 import {useReceiver} from './use-receiver';
 import {useSender} from './use-sender';
 import {useTransition} from './use-transition';
@@ -13,6 +16,7 @@ export type GistStore =
   | ReadyGistStore
   | UpdatingGistStore
   | LockedGistStore
+  | ForkingGistStore
   | FailedGistStore;
 
 export interface LoadingGistStore {
@@ -23,6 +27,7 @@ export interface LoadingGistStore {
   readonly createFile?: undefined;
   readonly updateFile?: undefined;
   readonly deleteFile?: undefined;
+  readonly forkGist?: undefined;
 }
 
 export interface ReadyGistStore {
@@ -34,6 +39,7 @@ export interface ReadyGistStore {
   deleteFile(filename: string): boolean;
 
   readonly reason?: undefined;
+  readonly forkGist?: undefined;
 }
 
 export interface UpdatingGistStore {
@@ -44,16 +50,30 @@ export interface UpdatingGistStore {
   readonly createFile?: undefined;
   readonly updateFile?: undefined;
   readonly deleteFile?: undefined;
+  readonly forkGist?: undefined;
 }
 
 export interface LockedGistStore {
   readonly state: 'locked';
   readonly gist: Gist;
 
+  forkGist(): boolean;
+
   readonly reason?: undefined;
   readonly createFile?: undefined;
   readonly updateFile?: undefined;
   readonly deleteFile?: undefined;
+}
+
+export interface ForkingGistStore {
+  readonly state: 'forking';
+  readonly gist: Gist;
+
+  readonly reason?: undefined;
+  readonly createFile?: undefined;
+  readonly updateFile?: undefined;
+  readonly deleteFile?: undefined;
+  readonly forkGist?: undefined;
 }
 
 export interface FailedGistStore {
@@ -64,6 +84,7 @@ export interface FailedGistStore {
   readonly createFile?: undefined;
   readonly updateFile?: undefined;
   readonly deleteFile?: undefined;
+  readonly forkGist?: undefined;
 }
 
 export function useGistStore(
@@ -151,6 +172,24 @@ export function useGistStore(
     [transition]
   );
 
+  const bind = useBinder();
+  const history = useContext(HistoryContext);
+
+  const forkGist = useCallback(
+    () =>
+      transition(() => {
+        sender.send?.(
+          fetchGithubApi({
+            method: 'POST',
+            pathname: `/gists/${gistName}/forks`,
+            params: {},
+            token: authStore.token,
+          }).then(bind(({data}) => history.push(changeGistName(data!.id))))
+        );
+      }),
+    [transition]
+  );
+
   return useMemo(() => {
     if (gistReceiver.state === 'failed') {
       return {state: 'failed', reason: gistReceiver.reason};
@@ -167,7 +206,9 @@ export function useGistStore(
     const gist = gistRef.value!;
 
     if (gist.owner !== userReceiver.value) {
-      return {state: 'locked', gist};
+      return sender.state === 'sending'
+        ? {state: 'forking', gist}
+        : {state: 'locked', gist, forkGist};
     }
 
     if (sender.state === 'sending') {

@@ -1,6 +1,7 @@
 import {Fragment, JSX, h} from 'preact';
 import {useCallback, useMemo} from 'preact/hooks';
 import {
+  ForkingGistStore,
   LockedGistStore,
   ReadyGistStore,
   UpdatingGistStore,
@@ -17,7 +18,12 @@ import {Icon} from './icon';
 import {Link} from './link';
 
 export interface BookmarkItemProps {
-  readonly gistStore: ReadyGistStore | UpdatingGistStore | LockedGistStore;
+  readonly gistStore:
+    | ReadyGistStore
+    | UpdatingGistStore
+    | LockedGistStore
+    | ForkingGistStore;
+
   readonly bookmarkFile: BookmarkFile;
   readonly zenMode: boolean;
 }
@@ -93,6 +99,7 @@ export function BookmarkItem({
       }
       row2={
         gistStore.state !== 'locked' &&
+        gistStore.state !== 'forking' &&
         !zenMode && (
           <>
             <Button onClick={toggleEditMode}>
