@@ -8,6 +8,7 @@ export function createBookmarklet(gistName: string): Bookmarklet {
 
   const url = `javascript:(${addBookmark
     .toString()
+    .replace('<ORIGIN>', window.location.origin)
     .replace('<GIST_NAME>', gistName)
     .replace('<VERSION>', version)})()`;
 
@@ -15,7 +16,7 @@ export function createBookmarklet(gistName: string): Bookmarklet {
 }
 
 function addBookmark(): void {
-  const url = new URL(process.env.APP_BASE_URL! + '/<GIST_NAME>');
+  const url = new URL('<ORIGIN>/<GIST_NAME>');
 
   const titleElement: HTMLMetaElement | null = document.querySelector(
     'meta[property="title"]'
