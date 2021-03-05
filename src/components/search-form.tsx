@@ -4,6 +4,7 @@ import {HistoryContext} from '../hooks/use-history';
 import {useSearchTerm} from '../hooks/use-search-term';
 import {changeSearchTerm} from '../utils/change-search-term';
 import {Button} from './button';
+import {Icon} from './icon';
 import {Input} from './input';
 
 export function SearchForm(): JSX.Element {
@@ -21,7 +22,8 @@ export function SearchForm(): JSX.Element {
   return (
     <div class="flex space-x-4">
       <Button disabled={!searchTerm.value} onClick={clearSearch}>
-        Clear search
+        <Icon type="search" />
+        Clear
       </Button>
 
       <Input

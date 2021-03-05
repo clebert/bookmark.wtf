@@ -8,7 +8,7 @@ export interface IconProps {
     | 'duplicate'
     | 'externalLink'
     | 'gridAdd'
-    | 'lightBulb'
+    | 'lightningBolt'
     | 'link'
     | 'lockClosed'
     | 'login'
@@ -16,6 +16,7 @@ export interface IconProps {
     | 'moon'
     | 'pencil'
     | 'refresh'
+    | 'search'
     | 'sun'
     | 'trash'
     | 'x';
@@ -51,9 +52,7 @@ export function Icon({type, standalone}: IconProps): JSX.Element {
           <path d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
         )}
 
-        {type === 'lightBulb' && (
-          <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-        )}
+        {type === 'lightningBolt' && <path d="M13 10V3L4 14h7v7l9-11h-7z" />}
 
         {type === 'link' && (
           <path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
@@ -81,6 +80,10 @@ export function Icon({type, standalone}: IconProps): JSX.Element {
 
         {type === 'refresh' && (
           <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        )}
+
+        {type === 'search' && (
+          <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         )}
 
         {type === 'sun' && (
