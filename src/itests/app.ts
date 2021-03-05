@@ -41,6 +41,6 @@ export class App {
     );
 
     await this.page.click('.btn-primary:has-text("Verify")');
-    await this.page.waitForSelector(`"Signed in as ${this.#login}"`);
+    await this.page.waitForSelector('button:has-text("Sign out")');
   }
 }

@@ -1,8 +1,5 @@
 import {ComponentChildren, JSX, h} from 'preact';
-import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
-import {ColorSchemeButton} from './color-scheme-button';
-import {TopbarItem} from './topbar-item';
 
 export interface TopbarProps {
   readonly children?: ComponentChildren;
@@ -21,25 +18,6 @@ export function Topbar({children}: TopbarProps): JSX.Element {
         'md:space-x-4',
       ])}
     >
-      <TopbarItem>
-        <h1
-          class={join([
-            'text-3xl',
-            'font-bold',
-            'whitespace-nowrap',
-            'cursor-default',
-            'select-none',
-          ])}
-        >
-          <span class={Colors.text()}>bookmark.</span>
-          <span class={Colors.text('danger')}>w</span>
-          <span class={Colors.text('success')}>t</span>
-          <span class={Colors.text('link')}>f</span>
-        </h1>
-
-        <ColorSchemeButton />
-      </TopbarItem>
-
       {children}
     </div>
   );

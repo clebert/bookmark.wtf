@@ -1,35 +1,41 @@
-import {ReceivingReceiver, SuccessfulReceiver} from 'loxia';
 import {JSX, h} from 'preact';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
+import {useGistName} from '../hooks/use-gist-name';
 import {Button} from './button';
+import {ColorSchemeButton} from './color-scheme-button';
+import {Headline} from './headline';
 import {Icon} from './icon';
-import {Label} from './label';
+import {SearchForm} from './search-form';
 import {Topbar} from './topbar';
 import {TopbarItem} from './topbar-item';
 
 export interface UserTopbarProps {
   readonly authStore: AuthorizedAuthStore;
-  readonly userReceiver: SuccessfulReceiver<string> | ReceivingReceiver;
 }
 
-export function UserTopbar({
-  authStore,
-  userReceiver,
-}: UserTopbarProps): JSX.Element {
+export function UserTopbar({authStore}: UserTopbarProps): JSX.Element {
+  const gistName = useGistName();
+
   return (
     <Topbar>
       <TopbarItem>
+        <Headline />
+      </TopbarItem>
+
+      <TopbarItem>
+        <ColorSchemeButton />
+
         <Button onClick={authStore.signOut}>
           <Icon type="logout" />
           Sign out
         </Button>
-
-        {userReceiver.state === 'successful' && (
-          <Label static>
-            Signed in as <Label bold>{userReceiver.value}</Label>
-          </Label>
-        )}
       </TopbarItem>
+
+      {gistName && (
+        <TopbarItem>
+          <SearchForm />
+        </TopbarItem>
+      )}
     </Topbar>
   );
 }

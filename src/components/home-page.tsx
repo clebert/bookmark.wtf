@@ -8,6 +8,8 @@ import {UIModeContext} from '../hooks/use-ui-mode';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 import {Button} from './button';
+import {ColorSchemeButton} from './color-scheme-button';
+import {Headline} from './headline';
 import {Icon} from './icon';
 import {Link} from './link';
 import {Page} from './page';
@@ -26,26 +28,29 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
     <Page>
       <Topbar>
         <TopbarItem>
+          <Headline />
+        </TopbarItem>
+
+        <TopbarItem>
+          <ColorSchemeButton />
+
           <Button disabled={!authStore.signIn} onClick={authStore.signIn}>
             <Icon type="login" />
             Sign in with GitHub
           </Button>
         </TopbarItem>
-
-        <TopbarItem>
-          <Link
-            url="https://github.com/clebert/bookmark.wtf/blob/main/README.md"
-            static
-          >
-            <Icon type="externalLink" />
-            README
-          </Link>
-        </TopbarItem>
       </Topbar>
 
       <Paragraph>
         A free and open-source bookmark manager that uses GitHub Gist as
-        database.
+        database.{' '}
+        <Link
+          url="https://github.com/clebert/bookmark.wtf/blob/main/README.md"
+          static
+        >
+          <Icon type="externalLink" />
+          README
+        </Link>
       </Paragraph>
 
       <div class={join(['max-w-5xl p-1 shadow', Colors.highlightRing()])}>

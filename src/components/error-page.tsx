@@ -1,6 +1,8 @@
 import {JSX, h} from 'preact';
 import {useCallback} from 'preact/hooks';
 import {Button} from './button';
+import {ColorSchemeButton} from './color-scheme-button';
+import {Headline} from './headline';
 import {Icon} from './icon';
 import {Page} from './page';
 import {Paragraph} from './paragraph';
@@ -17,6 +19,12 @@ export function ErrorPage(): JSX.Element {
     <Page>
       <Topbar>
         <TopbarItem>
+          <Headline />
+        </TopbarItem>
+
+        <TopbarItem>
+          <ColorSchemeButton />
+
           <Button onClick={reload}>
             <Icon type="refresh" />
             Reload

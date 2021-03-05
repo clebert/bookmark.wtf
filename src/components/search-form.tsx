@@ -20,18 +20,18 @@ export function SearchForm(): JSX.Element {
   }, []);
 
   return (
-    <div class="flex space-x-4">
-      <Button disabled={!searchTerm.value} onClick={clearSearch}>
-        <Icon type="search" />
-        Clear
-      </Button>
-
+    <div class="flex space-x-4 max-w-xs">
       <Input
         value={searchTerm.value}
         placeholder="Enter search term"
         autoFocus
         onInput={search}
       />
+
+      <Button disabled={!searchTerm.value} onClick={clearSearch}>
+        <Icon type="search" />
+        Clear
+      </Button>
     </div>
   );
 }
