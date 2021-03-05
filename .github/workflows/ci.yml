@@ -28,7 +28,7 @@ jobs:
           DEBUG: 'pw:api'
           CLIENT_ID: ${{ secrets.DEV_CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.DEV_CLIENT_SECRET }}
-          ITEST_BASE_URL: 'http://localhost:3000'
+          ITEST_ORIGIN: 'http://localhost:3000'
           ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
           ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
           ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
@@ -49,7 +49,7 @@ jobs:
       - name: Run integration tests on bookmark.wtf
         if: github.ref == 'refs/heads/main'
         env:
-          ITEST_BASE_URL: 'https://bookmark.wtf'
+          ITEST_ORIGIN: 'https://bookmark.wtf'
           ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
           ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
           ITEST_SECRET: ${{ secrets.ITEST_SECRET }}

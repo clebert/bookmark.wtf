@@ -17,7 +17,7 @@ describe('App', () => {
   });
 
   test('signing in', async () => {
-    const url = app.baseUrl + '/9803bde974539a8992c0515b28db439b?foo=bar';
+    const url = app.origin + '/9803bde974539a8992c0515b28db439b?foo=bar';
 
     await app.page.goto(url);
     await app.signIn();
@@ -32,7 +32,7 @@ describe('App', () => {
 
     await app.page.setViewportSize({width: 1024, height: 500});
 
-    await app.page.goto(app.baseUrl + '/9803bde974539a8992c0515b28db439b', {
+    await app.page.goto(app.origin + '/9803bde974539a8992c0515b28db439b', {
       waitUntil: 'networkidle',
     });
 
@@ -52,7 +52,7 @@ describe('App', () => {
 
     await app.page.setViewportSize({width: 1024, height: 500});
 
-    await app.page.goto(app.baseUrl + '/9803bde974539a8992c0515b28db439b', {
+    await app.page.goto(app.origin + '/9803bde974539a8992c0515b28db439b', {
       waitUntil: 'networkidle',
     });
 

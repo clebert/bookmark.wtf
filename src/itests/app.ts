@@ -4,7 +4,7 @@ import {assertIsString} from '../utils/assert-is-string';
 
 export class App {
   readonly page: Page;
-  readonly baseUrl: string;
+  readonly origin: string;
 
   readonly #login: string;
   readonly #password: string;
@@ -13,17 +13,17 @@ export class App {
   constructor(page: Page) {
     this.page = page;
 
-    const baseUrl = process.env.ITEST_BASE_URL;
+    const origin = process.env.ITEST_ORIGIN;
     const login = process.env.ITEST_LOGIN;
     const password = process.env.ITEST_PASSWORD;
     const secret = process.env.ITEST_SECRET;
 
-    assertIsString(baseUrl, 'process.env.ITEST_BASE_URL');
+    assertIsString(origin, 'process.env.ITEST_ORIGIN');
     assertIsString(login, 'process.env.ITEST_LOGIN');
     assertIsString(password, 'process.env.ITEST_PASSWORD');
     assertIsString(secret, 'process.env.ITEST_SECRET');
 
-    this.baseUrl = baseUrl;
+    this.origin = origin;
     this.#login = login;
     this.#password = password;
     this.#secret = secret;
