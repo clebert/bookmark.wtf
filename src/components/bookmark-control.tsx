@@ -99,7 +99,7 @@ export function BookmarkControl({
   const showBookmarkletHelp = useCallback(
     () =>
       alert(
-        'You can save the bookmarklet in the Favorites bar of your browser. ' +
+        'You can save this bookmarklet in the Favorites bar of your browser. ' +
           'This allows you to add new bookmarks without having to enter the title and URL yourself.'
       ),
     []

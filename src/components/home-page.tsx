@@ -48,9 +48,7 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
       <div class={join(['max-w-5xl p-1 shadow', Colors.highlightRing()])}>
         <img
           class="select-none"
-          src={`https://raw.githubusercontent.com/clebert/bookmark.wtf/main/screenshot-${
-            colorScheme === 'dark' ? 'light' : 'dark'
-          }-mode.png`}
+          src={`https://raw.githubusercontent.com/clebert/bookmark.wtf/main/screenshot-${colorScheme}-mode.png`}
         ></img>
       </div>
     </Page>
