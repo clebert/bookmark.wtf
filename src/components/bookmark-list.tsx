@@ -52,6 +52,7 @@ export function BookmarkList({
       <BookmarkControl
         gistName={gistName}
         gistStore={gistStore}
+        zenMode={zenMode}
         onToggleZenMode={bookmarkFiles.length > 0 ? toggleZenMode : undefined}
       />
 

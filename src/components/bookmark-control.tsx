@@ -34,12 +34,15 @@ export interface BookmarkControlProps {
     | LockedGistStore
     | ForkingGistStore;
 
+  readonly zenMode: boolean;
+
   onToggleZenMode?(): void;
 }
 
 export function BookmarkControl({
   gistName,
   gistStore,
+  zenMode,
   onToggleZenMode,
 }: BookmarkControlProps): JSX.Element {
   const history = useContext(HistoryContext);
@@ -155,8 +158,8 @@ export function BookmarkControl({
 
               {onToggleZenMode && (
                 <Button onClick={onToggleZenMode}>
-                  <Icon type="pencil" />
-                  Edit
+                  <Icon type={zenMode ? 'eye' : 'eyeOff'} />
+                  Zen
                 </Button>
               )}
             </>
