@@ -5,8 +5,8 @@ A free and open-source bookmark manager that uses GitHub Gist as database.
 ## Getting started
 
 To get started, all you need to do is create a free GitHub account and allow
-**bookmark.wtf** to access your [gists](https://gist.github.com). You can do
-both in one go by clicking on the `"Sign in with GitHub"` button.
+[bookmark.wtf](https://bookmark.wtf) to access your gists. You can do both in
+one go by clicking on the `"Sign in with GitHub"` button.
 
 **Disclaimer:** I do not know your account, nor do I have access to your
 bookmark collections unless you explicitly share them with me via link. This
