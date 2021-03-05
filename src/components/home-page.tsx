@@ -33,9 +33,12 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
         </TopbarItem>
 
         <TopbarItem>
-          <Link url="https://github.com/clebert/bookmark.wtf" static>
+          <Link
+            url="https://github.com/clebert/bookmark.wtf/blob/main/README.md"
+            static
+          >
             <Icon type="externalLink" />
-            Open source
+            README
           </Link>
         </TopbarItem>
       </Topbar>
