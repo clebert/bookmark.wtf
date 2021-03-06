@@ -12,7 +12,7 @@ export function ColorSchemeButton(): JSX.Element {
       <Icon
         type={
           colorSchemeSelection === 'auto'
-            ? 'cog'
+            ? 'colorSwatch'
             : colorSchemeSelection === 'light'
             ? 'sun'
             : 'moon'
