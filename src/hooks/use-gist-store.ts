@@ -1,8 +1,10 @@
 import {SuccessfulReceiver} from 'loxia';
 import {useCallback, useContext, useMemo} from 'preact/hooks';
 import {Gist, fetchGist} from '../apis/fetch-gist';
-import {fetchGithubApi} from '../apis/fetch-github-api';
+import {GithubApiResponse, fetchGithubApi} from '../apis/fetch-github-api';
 import {changeGistName} from '../utils/change-gist-name';
+import {isObject} from '../utils/is-object';
+import {isString} from '../utils/is-string';
 import {AuthorizedAuthStore} from './use-auth-store';
 import {useBinder} from './use-binder';
 import {useDependentRef} from './use-dependent-ref';
@@ -184,7 +186,13 @@ export function useGistStore(
             pathname: `/gists/${gistName}/forks`,
             params: {},
             token: authStore.token,
-          }).then(bind(({data}) => history.push(changeGistName(data!.id))))
+          }).then(
+            bind(({data}: GithubApiResponse) => {
+              if (isObject(data) && isString(data.id)) {
+                history.push(changeGistName(data.id));
+              }
+            })
+          )
         );
       }),
     [transition]

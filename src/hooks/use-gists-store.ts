@@ -1,6 +1,8 @@
 import {useCallback, useMemo} from 'preact/hooks';
 import {ShallowGist, fetchGists} from '../apis/fetch-gists';
-import {fetchGithubApi} from '../apis/fetch-github-api';
+import {GithubApiResponse, fetchGithubApi} from '../apis/fetch-github-api';
+import {isObject} from '../utils/is-object';
+import {isString} from '../utils/is-string';
 import {AuthorizedAuthStore} from './use-auth-store';
 import {useBinder} from './use-binder';
 import {useDependentRef} from './use-dependent-ref';
@@ -99,18 +101,19 @@ export function useGistsStore(
             },
             token: authStore.token,
           }).then(
-            bind(
-              ({data}) =>
-                (gistRef.value = [
+            bind(({data}: GithubApiResponse) => {
+              if (isObject(data) && isString(data.id)) {
+                gistRef.value = [
                   {
-                    gistName: data!.id,
+                    gistName: data.id,
                     description,
                     filenames: Object.keys(files),
                     mtime: Date.now(),
                   },
                   ...gistRef.value!,
-                ])
-            )
+                ];
+              }
+            })
           )
         );
       }),
