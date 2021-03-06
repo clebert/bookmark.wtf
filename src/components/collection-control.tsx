@@ -44,13 +44,14 @@ export function CollectionControl({
     <GridItem
       row1={
         <Label static>
+          <Icon type="viewGrid" />
           {gistCount} collection{gistCount === 1 ? '' : 's'} found
         </Label>
       }
       row2={
         <>
           <Button onClick={toggleCreationMode}>
-            <Icon type="gridAdd" />
+            <Icon type="viewGridAdd" />
             New
           </Button>
 

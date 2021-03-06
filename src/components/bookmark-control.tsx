@@ -152,7 +152,7 @@ export function BookmarkControl({
           {gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
             <>
               <Button onClick={toggleCreationMode}>
-                <Icon type="gridAdd" />
+                <Icon type="viewGridAdd" />
                 New
               </Button>
 
