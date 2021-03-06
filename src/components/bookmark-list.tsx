@@ -28,21 +28,27 @@ export function BookmarkList({
     throw gistStore.reason;
   }
 
-  const {regex} = useSearchTerm();
-
   const bookmarkFiles: readonly BookmarkFile[] = useMemo(
     () =>
       (gistStore.gist?.files ?? [])
         .reduce((files, {filename, text}) => {
           const bookmark = parseBookmark(text);
 
-          return !bookmark ||
-            (regex && !regex.test(bookmark.title) && !regex.test(bookmark.url))
-            ? files
-            : [{filename, bookmark}, ...files];
+          return !bookmark ? files : [{filename, bookmark}, ...files];
         }, [] as BookmarkFile[])
         .sort((a, b) => compareBookmarks(a.bookmark, b.bookmark)),
-    [gistStore, regex]
+    [gistStore]
+  );
+
+  const {regex} = useSearchTerm();
+
+  const filteredBookmarkFiles = useMemo(
+    () =>
+      bookmarkFiles.filter(
+        ({bookmark}) =>
+          !regex || regex.test(bookmark.title) || regex.test(bookmark.url)
+      ),
+    [bookmarkFiles, regex]
   );
 
   const [zenMode, toggleZenMode] = useToggle(true);
@@ -53,10 +59,12 @@ export function BookmarkList({
         gistName={gistName}
         gistStore={gistStore}
         zenMode={zenMode}
-        onToggleZenMode={bookmarkFiles.length > 0 ? toggleZenMode : undefined}
+        onToggleZenMode={
+          filteredBookmarkFiles.length > 0 ? toggleZenMode : undefined
+        }
       />
 
-      {bookmarkFiles.map((bookmarkFile) => (
+      {filteredBookmarkFiles.map((bookmarkFile) => (
         <BookmarkItem
           key={bookmarkFile.filename}
           gistStore={gistStore}
