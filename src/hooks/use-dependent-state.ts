@@ -1,12 +1,22 @@
-import {useCallback, useState} from 'preact/hooks';
+import {useCallback, useMemo, useState} from 'preact/hooks';
 import {useDependentRef} from './use-dependent-ref';
 
 export function useDependentState<TState>(
-  initialState: TState,
+  initialState: TState | (() => TState),
   dependencies: readonly unknown[]
 ): [TState, (value: TState) => void] {
   const [, rerender] = useState({});
-  const stateRef = useDependentRef(initialState, dependencies);
+
+  const stateRef = useDependentRef(
+    useMemo(
+      () =>
+        typeof initialState === 'function'
+          ? (initialState as () => TState)()
+          : initialState,
+      dependencies
+    ),
+    dependencies
+  );
 
   const setState = useCallback(
     (value: TState) => {

@@ -17,36 +17,29 @@ export function BookmarkIcon({
   onClick,
 }: BookmarkIconProps): JSX.Element {
   const bind = useBinder();
-  const [imageUrlIndex, setImageUrlIndex] = useDependentState(0, [linkUrl]);
+  const {origin, hostname} = useMemo(() => new URL(linkUrl), [linkUrl]);
 
-  const imageUrls = useMemo(() => {
-    const {hostname, origin} = new URL(linkUrl);
-
-    return [
-      `${origin}/apple-touch-icon.png`,
-      `https://c.1password.com/richicons/images/login/120/${hostname}.png`,
-      `${origin}/favicon.ico`,
-    ];
-  }, [linkUrl]);
-
-  const handleError = useCallback(
-    (event: JSX.TargetedEvent<HTMLImageElement>) => {
-      const {currentTarget} = event;
-
-      if (imageUrlIndex < imageUrls.length - 1) {
-        setImageUrlIndex(imageUrlIndex + 1);
-      } else {
-        createIdenticon(linkUrl)
-          .then(
-            bind((identicon) => currentTarget.setAttribute('src', identicon))
-          )
-          .catch(
-            bind((error) => console.error('Failed to create identicon.', error))
-          );
-      }
-    },
-    [linkUrl, imageUrlIndex]
+  const [imageUrl, setImageUrl] = useDependentState(
+    () => `https://c.1password.com/richicons/images/login/120/${hostname}.png`,
+    [hostname]
   );
+
+  const handleError = useCallback(() => {
+    if (imageUrl.includes('/richicons/images/login/120')) {
+      setImageUrl(origin + '/apple-touch-icon.png');
+    } else if (imageUrl.includes('/apple-touch-icon.png')) {
+      setImageUrl(origin + '/favicon.ico');
+    } else {
+      createIdenticon(linkUrl)
+        .then(bind(setImageUrl))
+        .catch(
+          bind((error) => console.error('Failed to create identicon.', error))
+        );
+    }
+  }, [origin, imageUrl]);
+
+  const [hidden, setHidden] = useDependentState(true, [linkUrl]);
+  const handleLoad = useCallback(() => setHidden(false), [setHidden]);
 
   return (
     <a
@@ -62,9 +55,10 @@ export function BookmarkIcon({
       )}
     >
       <img
-        class="w-16 h-16"
-        src={imageUrls[imageUrlIndex]}
+        class={join(['w-16 h-16', hidden && 'opacity-0'])}
+        src={imageUrl}
         onError={handleError}
+        onLoad={handleLoad}
       />
     </a>
   );
