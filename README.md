@@ -15,14 +15,15 @@ of the service.
 
 ## Features
 
-- You can create as many bookmark collections as you want. Each collection can
-  contain a maximum of 300 bookmarks.
-- Your bookmark collections are stored in Markdown format as GitHub gists.
-- Others can see your bookmark collections and also fork if they know the link.
-- You can easily add bookmarks to a collection using a bookmarklet.
-- You can search for bookmarks within a collection. The search is stored in the
-  URL and is therefore also linkable.
-- Your bookmarks are automatically sorted by click count.
+- Unlimited number of bookmark collections, 300 bookmarks per collection.
+- **No vendor lock-in.** Bookmark collections are stored in
+  [Markdown format](https://en.wikipedia.org/wiki/Markdown) as GitHub Gists.
+- Bookmark collections are **shareable** via link and also **forkable** by
+  others.
+- [Bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) functionality for
+  quickly adding new bookmarks.
+- Full text search within bookmark collections.
+- Bookmarks are automatically sorted by click count.
 
 ## Dark mode
 
