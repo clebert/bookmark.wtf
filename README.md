@@ -22,6 +22,7 @@ of the service.
 - You can easily add bookmarks to a collection using a bookmarklet.
 - You can search for bookmarks within a collection. The search is stored in the
   URL and is therefore also linkable.
+- Your bookmarks are automatically sorted by click count.
 
 ## Dark mode
 
