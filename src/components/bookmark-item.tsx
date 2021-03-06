@@ -68,15 +68,17 @@ export function BookmarkItem({
   );
 
   const openBookmark = useCallback(() => {
-    gistStore.updateFile?.(
-      filename,
-      serializeBookmark({
-        ...bookmark,
-        mtime: Date.now(),
-        clickCount: (bookmark.clickCount ?? 0) + 1,
-      }),
-      true
-    );
+    if (!window.navigator.userAgent.includes('Firefox')) {
+      gistStore.updateFile?.(
+        filename,
+        serializeBookmark({
+          ...bookmark,
+          mtime: Date.now(),
+          clickCount: (bookmark.clickCount ?? 0) + 1,
+        }),
+        true
+      );
+    }
 
     window.location.href = bookmark.url;
   }, [filename, bookmark]);
