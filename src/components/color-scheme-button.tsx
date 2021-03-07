@@ -8,7 +8,7 @@ export function ColorSchemeButton(): JSX.Element {
   const {colorSchemeSelection, changeColorScheme} = useContext(UIModeContext);
 
   return (
-    <Button onClick={changeColorScheme}>
+    <Button title="Change color scheme" onClick={changeColorScheme}>
       <Icon
         type={
           colorSchemeSelection === 'auto'

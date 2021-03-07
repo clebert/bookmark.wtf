@@ -162,7 +162,7 @@ export function BookmarkControl({
               </Button>
 
               {onChangeZenMode && (
-                <Button onClick={onChangeZenMode}>
+                <Button title="Change Zen mode" onClick={onChangeZenMode}>
                   <Icon type={zenMode ? 'eye' : 'eyeOff'} standalone />
                 </Button>
               )}
@@ -185,7 +185,7 @@ export function BookmarkControl({
           )}
 
           {onChangeSortOrder && (
-            <Button onClick={onChangeSortOrder}>
+            <Button title="Change sort order" onClick={onChangeSortOrder}>
               <Icon
                 type={
                   sortOrder === 'timeAsc'

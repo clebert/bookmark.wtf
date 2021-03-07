@@ -56,7 +56,7 @@ export function CollectionControl({
           </Button>
 
           {onChangeZenMode && (
-            <Button onClick={onChangeZenMode}>
+            <Button title="Change Zen mode" onClick={onChangeZenMode}>
               <Icon type={zenMode ? 'eye' : 'eyeOff'} standalone />
             </Button>
           )}

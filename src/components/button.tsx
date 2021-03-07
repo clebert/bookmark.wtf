@@ -7,6 +7,7 @@ export interface ButtonProps {
   readonly children: ComponentChildren;
   readonly type?: 'button' | 'submit';
   readonly theme?: 'danger' | 'success';
+  readonly title?: string;
   readonly disabled?: boolean;
 
   onClick?(): void;
@@ -16,14 +17,12 @@ export function Button({
   children,
   type = 'button',
   theme,
+  title,
   disabled,
   onClick,
 }: ButtonProps): JSX.Element {
   return (
     <button
-      type={type}
-      onClick={useCallback(() => onClick?.(), [onClick])}
-      disabled={disabled}
       class={join([
         Colors.text(theme),
         !disabled && Colors.activeText(theme),
@@ -37,6 +36,10 @@ export function Button({
         disabled && 'cursor-default',
         'select-none',
       ])}
+      type={type}
+      title={title}
+      disabled={disabled}
+      onClick={useCallback(() => onClick?.(), [onClick])}
     >
       {children}
     </button>
