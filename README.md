@@ -17,13 +17,18 @@ of the service.
 
 - Unlimited number of bookmark collections, 300 bookmarks per collection.
 - **No vendor lock-in.** Bookmark collections are stored in
-  [Markdown format](https://en.wikipedia.org/wiki/Markdown) as GitHub Gists.
+  [Markdown format](https://en.wikipedia.org/wiki/Markdown) as
+  secret<sup>1</sup> GitHub gists.
 - Bookmark collections are **shareable** via link and also **forkable** by
   others.
 - [Bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) functionality for
   quickly adding new bookmarks.
 - Full text search within bookmark collections.
 - Bookmarks are automatically sorted by click count.
+
+_1 Secret gists aren't private. If you send the URL of a secret gist to a friend
+, they'll be able to see it. However, if someone you don't know discovers the
+URL, they'll also be able to see your gist._
 
 ## Dark mode
 
