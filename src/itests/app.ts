@@ -29,6 +29,29 @@ export class App {
     this.#secret = secret;
   }
 
+  async setColorScheme(colorScheme: 'dark' | 'light'): Promise<void> {
+    await this.page.evaluate(
+      (_colorScheme) =>
+        localStorage.setItem('colorSchemeSelection', _colorScheme),
+      colorScheme
+    );
+  }
+
+  async setSortOrder(sortOrder: 'timeAsc'): Promise<void> {
+    await this.page.evaluate(
+      (_sortOrder) => localStorage.setItem('sortOrder', _sortOrder),
+      sortOrder
+    );
+  }
+
+  async setOptimalViewportSize(): Promise<void> {
+    await this.page.setViewportSize({width: 1024, height: 468});
+  }
+
+  async blurAllControls(): Promise<void> {
+    await this.page.click('body');
+  }
+
   async signIn(): Promise<void> {
     await this.page.click('button:has-text("Sign in")');
     await this.page.fill('#login_field', this.#login);

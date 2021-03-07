@@ -26,19 +26,15 @@ describe('App', () => {
   });
 
   test('take screenshot in light mode', async () => {
-    await app.page.evaluate(() => {
-      localStorage.setItem('colorSchemeSelection', 'light');
-      localStorage.setItem('sortOrder', 'timeAsc');
-    });
-
-    await app.page.setViewportSize({width: 1024, height: 500});
+    await app.setColorScheme('light');
+    await app.setSortOrder('timeAsc');
+    await app.setOptimalViewportSize();
 
     await app.page.goto(app.origin + '/9803bde974539a8992c0515b28db439b', {
       waitUntil: 'networkidle',
     });
 
-    // Blur search field
-    await app.page.click('body');
+    await app.blurAllControls();
 
     await app.page.screenshot({
       path: 'screenshot-light-mode.png',
@@ -47,19 +43,15 @@ describe('App', () => {
   });
 
   test('take screenshot in dark mode', async () => {
-    await app.page.evaluate(() => {
-      localStorage.setItem('colorSchemeSelection', 'dark');
-      localStorage.setItem('sortOrder', 'timeAsc');
-    });
-
-    await app.page.setViewportSize({width: 1024, height: 500});
+    await app.setColorScheme('dark');
+    await app.setSortOrder('timeAsc');
+    await app.setOptimalViewportSize();
 
     await app.page.goto(app.origin + '/9803bde974539a8992c0515b28db439b', {
       waitUntil: 'networkidle',
     });
 
-    // Blur search field
-    await app.page.click('body');
+    await app.blurAllControls();
 
     await app.page.screenshot({
       path: 'screenshot-dark-mode.png',
