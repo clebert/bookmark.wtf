@@ -1,4 +1,5 @@
 import {Browser, webkit} from 'playwright-webkit';
+import {hasText} from '../pageobjects/has-text';
 import {App} from './app';
 
 describe('App', () => {
@@ -57,5 +58,28 @@ describe('App', () => {
       path: 'screenshot-dark-mode.png',
       fullPage: true,
     });
+  });
+
+  test('create a collection and then delete it again', async () => {
+    await app.page.goto(app.origin);
+    await app.page.click(app.CollectionControl().$$.NewButton().$);
+
+    const description = 'Collection' + Date.now();
+
+    await app.page.type(
+      app.NewCollectionForm().$$.DescriptionInput().$,
+      description,
+      {delay: 100}
+    );
+
+    await app.page.click(app.NewCollectionForm().$$.CreateButton().$);
+
+    const collectionItem = app.CollectionItems(hasText(description));
+
+    await app.page.waitForSelector(collectionItem.$);
+    await app.page.click(app.CollectionControl().$$.ZenButton().$);
+    await app.page.click(collectionItem.$$.DeleteButton().$);
+    await app.page.waitForTimeout(100);
+    await app.page.click(collectionItem.$$.DeleteButton().$);
   });
 });

@@ -32,11 +32,7 @@ jobs:
           ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
           ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
           ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
-        run: |
-          npx fkill :3000 --silent
-          npm run build:dev
-          (npm start &) && npm run itest
-          npx fkill :3000 --silent
+        run: npm run build:dev && (npm start &) && npm run itest
 
       - name: Deploy to AWS
         if: github.ref == 'refs/heads/main'

@@ -63,6 +63,7 @@ export function CollectionItem({
     />
   ) : (
     <GridItem
+      id="CollectionItem"
       row1={
         <Link url={'/' + gistName} onClick={openCollection}>
           <Icon type="link" />
@@ -78,6 +79,7 @@ export function CollectionItem({
             </Button>
 
             <Button
+              id="DeleteButton"
               theme={deletable ? 'danger' : undefined}
               disabled={!deleteGist}
               onClick={deleteGist}

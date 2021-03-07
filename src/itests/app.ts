@@ -1,5 +1,7 @@
 import {Page} from 'playwright-webkit';
 import speakeasy from 'speakeasy';
+import {decendant} from '../pageobjects/decendant';
+import {parent} from '../pageobjects/parent';
 import {assertIsString} from '../utils/assert-is-string';
 
 export class App {
@@ -28,6 +30,20 @@ export class App {
     this.#password = password;
     this.#secret = secret;
   }
+
+  readonly CollectionControl = parent('#CollectionControl', {
+    NewButton: decendant('#NewButton', {}),
+    ZenButton: decendant('#ZenButton', {}),
+  });
+
+  readonly NewCollectionForm = parent('#NewCollectionForm', {
+    DescriptionInput: decendant('#DescriptionInput', {}),
+    CreateButton: decendant('#CreateButton', {}),
+  });
+
+  readonly CollectionItems = parent('#CollectionItem', {
+    DeleteButton: decendant('#DeleteButton', {}),
+  });
 
   async setColorScheme(colorScheme: 'dark' | 'light'): Promise<void> {
     await this.page.evaluate(

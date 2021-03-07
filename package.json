@@ -16,6 +16,7 @@
     "format:test": "prettier --list-different '**/*.{html,js,json,md,ts,tsx,yml}'",
     "itest": "jest --config jest-itest.config.js",
     "lint": "tslint --config tslint.json --project tsconfig.json --format verbose",
+    "prestart": "fkill :3000 --silent",
     "start": "aws-simple start",
     "test": "jest",
     "watch": "run-p start watch:*",

@@ -4,6 +4,7 @@ import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 
 export interface InputProps {
+  readonly id?: string;
   readonly type?: 'url';
   readonly value: string;
   readonly placeholder?: string;
@@ -15,6 +16,7 @@ export interface InputProps {
 }
 
 export function Input({
+  id,
   type,
   value,
   placeholder,
@@ -33,6 +35,7 @@ export function Input({
   return (
     <input
       ref={inputRef}
+      id={id}
       type={type}
       value={value}
       placeholder={placeholder}
