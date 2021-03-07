@@ -53,14 +53,14 @@ export function NewBookmarkForm({
         }
         rightCol={
           <>
-            <Button onClick={onCancel}>
-              <Icon type="x" />
-              Cancel
-            </Button>
-
             <Button type="submit" theme={'success'} disabled={!create}>
               <Icon type="check" />
               Create
+            </Button>
+
+            <Button onClick={onCancel}>
+              <Icon type="x" />
+              Cancel
             </Button>
           </>
         }

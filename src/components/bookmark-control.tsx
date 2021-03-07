@@ -149,16 +149,16 @@ export function BookmarkControl({
       }
       row2={
         <>
-          <Button onClick={closeCollection}>
-            <Icon type="x" />
-            Close
-          </Button>
-
           {gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
             <>
               <Button onClick={toggleCreationMode}>
                 <Icon type="viewGridAdd" />
                 New
+              </Button>
+
+              <Button onClick={closeCollection}>
+                <Icon type="x" />
+                Close
               </Button>
 
               {onChangeZenMode && (
@@ -168,10 +168,20 @@ export function BookmarkControl({
               )}
             </>
           ) : (
-            <Button disabled={!gistStore.forkGist} onClick={gistStore.forkGist}>
-              <Icon type="duplicate" />
-              Fork
-            </Button>
+            <>
+              <Button
+                disabled={!gistStore.forkGist}
+                onClick={gistStore.forkGist}
+              >
+                <Icon type="duplicate" />
+                Fork
+              </Button>
+
+              <Button onClick={closeCollection}>
+                <Icon type="x" />
+                Close
+              </Button>
+            </>
           )}
 
           {onChangeSortOrder && (

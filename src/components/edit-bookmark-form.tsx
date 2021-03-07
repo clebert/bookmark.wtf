@@ -58,14 +58,14 @@ export function EditBookmarkForm({
         }
         rightCol={
           <>
-            <Button onClick={onCancel}>
-              <Icon type="x" />
-              Cancel
-            </Button>
-
             <Button type="submit" theme={'success'} disabled={!update}>
               <Icon type="check" />
               Update
+            </Button>
+
+            <Button onClick={onCancel}>
+              <Icon type="x" />
+              Cancel
             </Button>
           </>
         }
