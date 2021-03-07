@@ -26,7 +26,7 @@ export function CollectionList({
       <CollectionControl
         gistsStore={gistsStore}
         zenMode={zenMode}
-        onToggleZenMode={
+        onChangeZenMode={
           gistsStore.gists.length > 0 ? toggleZenMode : undefined
         }
       />

@@ -2,10 +2,10 @@ import {SuccessfulReceiver} from 'loxia';
 import {JSX, h} from 'preact';
 import {useMemo} from 'preact/hooks';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
+import {useBookmarkSort} from '../hooks/use-bookmark-sort';
 import {useGistStore} from '../hooks/use-gist-store';
 import {useSearchTerm} from '../hooks/use-search-term';
 import {useToggle} from '../hooks/use-toggle';
-import {compareBookmarks} from '../models/compare-bookmarks';
 import {parseBookmark} from '../models/parse-bookmark';
 import {BookmarkControl} from './bookmark-control';
 import {BookmarkFile, BookmarkItem} from './bookmark-item';
@@ -28,27 +28,35 @@ export function BookmarkList({
     throw gistStore.reason;
   }
 
-  const bookmarkFiles: readonly BookmarkFile[] = useMemo(
+  const bookmarkFiles = useMemo<readonly BookmarkFile[]>(
     () =>
-      (gistStore.gist?.files ?? [])
-        .reduce((files, {filename, text}) => {
-          const bookmark = parseBookmark(text);
+      (gistStore.gist?.files ?? []).reduce((files, {filename, text}) => {
+        const bookmark = parseBookmark(text);
 
-          return !bookmark ? files : [{filename, bookmark}, ...files];
-        }, [] as BookmarkFile[])
-        .sort((a, b) => compareBookmarks(a.bookmark, b.bookmark)),
+        return !bookmark ? files : [{filename, bookmark}, ...files];
+      }, [] as BookmarkFile[]),
     [gistStore]
+  );
+
+  const bookmarkSort = useBookmarkSort();
+
+  const sortedBookmarkFiles = useMemo<readonly BookmarkFile[]>(
+    () =>
+      [...bookmarkFiles].sort(({bookmark: a}, {bookmark: b}) =>
+        bookmarkSort.compare(a, b)
+      ),
+    [bookmarkFiles, bookmarkSort]
   );
 
   const {regex} = useSearchTerm();
 
-  const filteredBookmarkFiles = useMemo(
+  const filteredBookmarkFiles = useMemo<readonly BookmarkFile[]>(
     () =>
-      bookmarkFiles.filter(
+      sortedBookmarkFiles.filter(
         ({bookmark}) =>
           !regex || regex.test(bookmark.title) || regex.test(bookmark.url)
       ),
-    [bookmarkFiles, regex]
+    [sortedBookmarkFiles, regex]
   );
 
   const [zenMode, toggleZenMode] = useToggle(true);
@@ -58,8 +66,14 @@ export function BookmarkList({
       <BookmarkControl
         gistName={gistName}
         gistStore={gistStore}
+        sortOrder={bookmarkSort.sortOrder}
         zenMode={zenMode}
-        onToggleZenMode={
+        onChangeSortOrder={
+          filteredBookmarkFiles.length > 0
+            ? bookmarkSort.changeSortOrder
+            : undefined
+        }
+        onChangeZenMode={
           filteredBookmarkFiles.length > 0 ? toggleZenMode : undefined
         }
       />

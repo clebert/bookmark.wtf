@@ -73,7 +73,6 @@ export function BookmarkItem({
         filename,
         serializeBookmark({
           ...bookmark,
-          mtime: Date.now(),
           clickCount: (bookmark.clickCount ?? 0) + 1,
         }),
         true

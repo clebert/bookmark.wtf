@@ -34,6 +34,19 @@ export function useUIMode(): UIMode {
       : 'light';
   }, [colorSchemeSelection]);
 
+  const changeColorScheme = () => {
+    if (colorSchemeSelection === 'auto') {
+      localStorage.setItem('colorSchemeSelection', 'dark');
+      setColorSchemeSelection('dark');
+    } else if (colorSchemeSelection === 'dark') {
+      localStorage.setItem('colorSchemeSelection', 'light');
+      setColorSchemeSelection('light');
+    } else {
+      localStorage.setItem('colorSchemeSelection', 'auto');
+      setColorSchemeSelection('auto');
+    }
+  };
+
   useLayoutEffect(() => {
     if (colorScheme === 'dark') {
       document.documentElement.classList.add('dark');
@@ -43,22 +56,7 @@ export function useUIMode(): UIMode {
   }, [colorScheme]);
 
   return useMemo(
-    () => ({
-      colorSchemeSelection,
-      colorScheme,
-      changeColorScheme: () => {
-        if (colorSchemeSelection === 'auto') {
-          localStorage.setItem('colorSchemeSelection', 'dark');
-          setColorSchemeSelection('dark');
-        } else if (colorSchemeSelection === 'dark') {
-          localStorage.setItem('colorSchemeSelection', 'light');
-          setColorSchemeSelection('light');
-        } else {
-          localStorage.setItem('colorSchemeSelection', 'auto');
-          setColorSchemeSelection('auto');
-        }
-      },
-    }),
+    () => ({colorSchemeSelection, colorScheme, changeColorScheme}),
     [colorSchemeSelection]
   );
 }

@@ -12,13 +12,13 @@ export interface CollectionControlProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
   readonly zenMode: boolean;
 
-  onToggleZenMode?(): void;
+  onChangeZenMode?(): void;
 }
 
 export function CollectionControl({
   gistsStore,
   zenMode,
-  onToggleZenMode,
+  onChangeZenMode,
 }: CollectionControlProps): JSX.Element {
   const [creationMode, toggleCreationMode] = useToggle(false);
 
@@ -55,10 +55,9 @@ export function CollectionControl({
             New
           </Button>
 
-          {onToggleZenMode && (
-            <Button onClick={onToggleZenMode}>
-              <Icon type={zenMode ? 'eye' : 'eyeOff'} />
-              Zen
+          {onChangeZenMode && (
+            <Button onClick={onChangeZenMode}>
+              <Icon type={zenMode ? 'eye' : 'eyeOff'} standalone />
             </Button>
           )}
         </>

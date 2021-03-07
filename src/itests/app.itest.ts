@@ -26,9 +26,10 @@ describe('App', () => {
   });
 
   test('take screenshot in light mode', async () => {
-    await app.page.evaluate(() =>
-      localStorage.setItem('colorSchemeSelection', 'light')
-    );
+    await app.page.evaluate(() => {
+      localStorage.setItem('colorSchemeSelection', 'light');
+      localStorage.setItem('sortOrder', 'timeAsc');
+    });
 
     await app.page.setViewportSize({width: 1024, height: 500});
 
@@ -46,9 +47,10 @@ describe('App', () => {
   });
 
   test('take screenshot in dark mode', async () => {
-    await app.page.evaluate(() =>
-      localStorage.setItem('colorSchemeSelection', 'dark')
-    );
+    await app.page.evaluate(() => {
+      localStorage.setItem('colorSchemeSelection', 'dark');
+      localStorage.setItem('sortOrder', 'timeAsc');
+    });
 
     await app.page.setViewportSize({width: 1024, height: 500});
 

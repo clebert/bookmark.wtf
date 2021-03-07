@@ -1,5 +1,5 @@
 import {SuccessfulReceiver} from 'loxia';
-import {useCallback, useContext, useMemo} from 'preact/hooks';
+import {useContext, useMemo} from 'preact/hooks';
 import {Gist, fetchGist} from '../apis/fetch-gist';
 import {GithubApiResponse, fetchGithubApi} from '../apis/fetch-github-api';
 import {changeGistName} from '../utils/change-gist-name';
@@ -102,101 +102,93 @@ export function useGistStore(
   const sender = useSender();
   const transition = useTransition(userReceiver, gistReceiver, sender);
 
-  const createFile = useCallback(
-    (filename: string, text: string) =>
-      transition(() => {
-        const sent = sender.send?.(
-          fetchGithubApi({
-            method: 'PATCH',
-            pathname: `/gists/${gistName}`,
-            params: {files: {[filename]: {content: text}}},
-            token: authStore.token,
-          })
-        );
+  const createFile = (filename: string, text: string) =>
+    transition(() => {
+      const sent = sender.send?.(
+        fetchGithubApi({
+          method: 'PATCH',
+          pathname: `/gists/${gistName}`,
+          params: {files: {[filename]: {content: text}}},
+          token: authStore.token,
+        })
+      );
 
-        if (sent) {
-          const gist = gistRef.value!;
+      if (sent) {
+        const gist = gistRef.value!;
 
-          gistRef.value = {...gist, files: [{filename, text}, ...gist.files]};
-        }
-      }),
-    [transition]
-  );
+        gistRef.value = {...gist, files: [{filename, text}, ...gist.files]};
+      }
+    });
 
-  const updateFile = useCallback(
-    (filename: string, text: string, hidden: boolean = false) =>
-      transition(() => {
-        const sent = sender.send?.(
-          fetchGithubApi({
-            method: 'PATCH',
-            pathname: `/gists/${gistName}`,
-            params: {files: {[filename]: {content: text}}},
-            token: authStore.token,
-          })
-        );
+  const updateFile = (
+    filename: string,
+    text: string,
+    hidden: boolean = false
+  ) =>
+    transition(() => {
+      const sent = sender.send?.(
+        fetchGithubApi({
+          method: 'PATCH',
+          pathname: `/gists/${gistName}`,
+          params: {files: {[filename]: {content: text}}},
+          token: authStore.token,
+        })
+      );
 
-        if (sent && !hidden) {
-          const gist = gistRef.value!;
+      if (sent && !hidden) {
+        const gist = gistRef.value!;
 
-          gistRef.value = {
-            ...gist,
-            files: [
-              {filename, text},
-              ...gist.files.filter((file) => file.filename !== filename),
-            ],
-          };
-        }
-      }),
-    [transition]
-  );
+        gistRef.value = {
+          ...gist,
+          files: [
+            {filename, text},
+            ...gist.files.filter((file) => file.filename !== filename),
+          ],
+        };
+      }
+    });
 
-  const deleteFile = useCallback(
-    (filename: string) =>
-      transition(() => {
-        const sent = sender.send?.(
-          fetchGithubApi({
-            method: 'PATCH',
-            pathname: `/gists/${gistName}`,
-            params: {files: {[filename]: null}},
-            token: authStore.token,
-          })
-        );
+  const deleteFile = (filename: string) =>
+    transition(() => {
+      const sent = sender.send?.(
+        fetchGithubApi({
+          method: 'PATCH',
+          pathname: `/gists/${gistName}`,
+          params: {files: {[filename]: null}},
+          token: authStore.token,
+        })
+      );
 
-        if (sent) {
-          const gist = gistRef.value!;
+      if (sent) {
+        const gist = gistRef.value!;
 
-          gistRef.value = {
-            ...gist,
-            files: gist.files.filter((file) => file.filename !== filename),
-          };
-        }
-      }),
-    [transition]
-  );
+        gistRef.value = {
+          ...gist,
+          files: gist.files.filter((file) => file.filename !== filename),
+        };
+      }
+    });
 
   const bind = useBinder();
   const history = useContext(HistoryContext);
 
-  const forkGist = useCallback(
-    () =>
-      transition(() => {
-        sender.send?.(
-          fetchGithubApi({
-            method: 'POST',
-            pathname: `/gists/${gistName}/forks`,
-            params: {},
-            token: authStore.token,
-          }).then(
-            bind(({data}: GithubApiResponse) => {
-              if (isObject(data) && isString(data.id)) {
-                history.push(changeGistName(data.id));
-              }
-            })
-          )
-        );
-      }),
-    [transition]
-  );
+  const forkGist = () =>
+    transition(() => {
+      sender.send?.(
+        fetchGithubApi({
+          method: 'POST',
+          pathname: `/gists/${gistName}/forks`,
+          params: {},
+          token: authStore.token,
+        }).then(
+          bind(({data}: GithubApiResponse) => {
+            if (isObject(data) && isString(data.id)) {
+              history.push(changeGistName(data.id));
+            }
+          })
+        )
+      );
+    });
 
   return useMemo(() => {
     if (gistReceiver.state === 'failed') {

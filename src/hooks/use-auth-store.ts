@@ -1,5 +1,5 @@
 import cookie from 'cookie';
-import {useCallback, useEffect, useMemo, useState} from 'preact/hooks';
+import {useEffect, useMemo, useState} from 'preact/hooks';
 import {createRandomValue} from '../utils/create-random-value';
 import {deauthorize} from '../utils/deauthorize';
 import {useTransition} from './use-transition';
@@ -48,36 +48,31 @@ export function useAuthStore(): AuthStore {
   const [authorizing, setAuthorizing] = useState(false);
   const transition = useTransition(token, authorizing);
 
-  const signIn = useCallback(
-    () =>
-      transition(() => {
-        setAuthorizing(true);
+  const signIn = () =>
+    transition(() => {
+      setAuthorizing(true);
 
-        const transactionId = createRandomValue();
+      const transactionId = createRandomValue();
 
-        document.cookie = cookie.serialize('transactionId', transactionId, {
-          path: '/',
-          sameSite: 'lax',
-          secure: process.env.NODE_ENV !== 'development',
-        });
+      document.cookie = cookie.serialize('transactionId', transactionId, {
+        path: '/',
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV !== 'development',
+      });
 
-        sessionStorage.setItem('originalPathname', window.location.pathname);
-        sessionStorage.setItem('originalSearch', window.location.search);
+      sessionStorage.setItem('originalPathname', window.location.pathname);
+      sessionStorage.setItem('originalSearch', window.location.search);
 
-        const url = new URL('https://github.com/login/oauth/authorize');
+      const url = new URL('https://github.com/login/oauth/authorize');
 
-        url.searchParams.set('client_id', process.env.CLIENT_ID!);
-        url.searchParams.set('scope', 'gist');
-        url.searchParams.set('state', transactionId);
+      url.searchParams.set('client_id', process.env.CLIENT_ID!);
+      url.searchParams.set('scope', 'gist');
+      url.searchParams.set('state', transactionId);
 
-        window.location.href = url.href;
-      }),
-    [transition]
-  );
+      window.location.href = url.href;
+    });
 
-  const signOut = useCallback(() => transition(() => setToken(undefined)), [
-    transition,
-  ]);
+  const signOut = () => transition(() => setToken(undefined));
 
   return useMemo(
     () =>

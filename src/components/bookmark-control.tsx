@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from 'preact/hooks';
+import {BookmarkSortOrder} from '../hooks/use-bookmark-sort';
 import {
   ForkingGistStore,
   LockedGistStore,
@@ -34,16 +35,20 @@ export interface BookmarkControlProps {
     | LockedGistStore
     | ForkingGistStore;
 
+  readonly sortOrder: BookmarkSortOrder;
   readonly zenMode: boolean;
 
-  onToggleZenMode?(): void;
+  onChangeSortOrder?(): void;
+  onChangeZenMode?(): void;
 }
 
 export function BookmarkControl({
   gistName,
   gistStore,
+  sortOrder,
   zenMode,
-  onToggleZenMode,
+  onChangeSortOrder,
+  onChangeZenMode,
 }: BookmarkControlProps): JSX.Element {
   const history = useContext(HistoryContext);
 
@@ -156,10 +161,9 @@ export function BookmarkControl({
                 New
               </Button>
 
-              {onToggleZenMode && (
-                <Button onClick={onToggleZenMode}>
-                  <Icon type={zenMode ? 'eye' : 'eyeOff'} />
-                  Zen
+              {onChangeZenMode && (
+                <Button onClick={onChangeZenMode}>
+                  <Icon type={zenMode ? 'eye' : 'eyeOff'} standalone />
                 </Button>
               )}
             </>
@@ -167,6 +171,21 @@ export function BookmarkControl({
             <Button disabled={!gistStore.forkGist} onClick={gistStore.forkGist}>
               <Icon type="duplicate" />
               Fork
+            </Button>
+          )}
+
+          {onChangeSortOrder && (
+            <Button onClick={onChangeSortOrder}>
+              <Icon
+                type={
+                  sortOrder === 'timeAsc'
+                    ? 'sortAscending'
+                    : sortOrder === 'timeDesc'
+                    ? 'sortDescending'
+                    : 'cursorClick'
+                }
+                standalone
+              />
             </Button>
           )}
         </>
