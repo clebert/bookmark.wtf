@@ -4,7 +4,7 @@ import {join} from '../utils/join';
 import {Label} from './label';
 
 export interface GridItemProps {
-  readonly id?: string;
+  readonly class?: string;
   readonly leftCol?: ComponentChildren;
   readonly row1: ComponentChildren;
   readonly row2?: ComponentChildren;
@@ -13,7 +13,7 @@ export interface GridItemProps {
 }
 
 export function GridItem({
-  id,
+  class: className,
   leftCol,
   row1,
   row2,
@@ -22,8 +22,8 @@ export function GridItem({
 }: GridItemProps): JSX.Element {
   return (
     <div
-      id={id}
       class={join([
+        className,
         'flex space-x-4 p-2 shadow',
         Colors.shadedBackground(),
         highlight && Colors.highlightRing(),

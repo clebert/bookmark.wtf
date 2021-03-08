@@ -26,10 +26,10 @@ export function NewCollectionForm({
   return (
     <Form onSubmit={create}>
       <GridItem
-        id="NewCollectionForm"
+        class="NewCollectionForm"
         row1={
           <Input
-            id="DescriptionInput"
+            class="DescriptionInput"
             value={currentDescription}
             placeholder="Enter description"
             autoFocus
@@ -40,7 +40,7 @@ export function NewCollectionForm({
         row2={
           <>
             <Button
-              id="CreateButton"
+              class="CreateButton"
               type="submit"
               theme={'success'}
               disabled={!create}

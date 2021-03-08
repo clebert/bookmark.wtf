@@ -4,7 +4,7 @@ import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 
 export interface InputProps {
-  readonly id?: string;
+  readonly class?: string;
   readonly type?: 'url';
   readonly value: string;
   readonly placeholder?: string;
@@ -16,7 +16,7 @@ export interface InputProps {
 }
 
 export function Input({
-  id,
+  class: className,
   type,
   value,
   placeholder,
@@ -35,7 +35,18 @@ export function Input({
   return (
     <input
       ref={inputRef}
-      id={id}
+      class={join([
+        className,
+        Colors.text(),
+        Colors.placeholderText(),
+        Colors.border(),
+        Colors.background(),
+        Colors.focusOutline(),
+        'appearance-none',
+        'rounded-none',
+        'w-full',
+        'px-2',
+      ])}
       type={type}
       value={value}
       placeholder={placeholder}
@@ -50,17 +61,6 @@ export function Input({
         },
         [onInput]
       )}
-      class={join([
-        Colors.text(),
-        Colors.placeholderText(),
-        Colors.border(),
-        Colors.background(),
-        Colors.focusOutline(),
-        'appearance-none',
-        'rounded-none',
-        'w-full',
-        'px-2',
-      ])}
     />
   );
 }

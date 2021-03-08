@@ -31,18 +31,18 @@ export class App {
     this.#secret = secret;
   }
 
-  readonly CollectionControl = query('#CollectionControl', {
-    NewButton: descendant('#NewButton', {}),
-    ZenButton: descendant('#ZenButton', {}),
+  readonly CollectionControl = query('.CollectionControl', {
+    NewButton: descendant('.NewButton', {}),
+    ZenButton: descendant('.ZenButton', {}),
   });
 
-  readonly NewCollectionForm = query('#NewCollectionForm', {
-    DescriptionInput: descendant('#DescriptionInput', {}),
-    CreateButton: descendant('#CreateButton', {}),
+  readonly NewCollectionForm = query('.NewCollectionForm', {
+    DescriptionInput: descendant('.DescriptionInput', {}),
+    CreateButton: descendant('.CreateButton', {}),
   });
 
-  readonly CollectionItems = query('#CollectionItem', {
-    DeleteButton: descendant('#DeleteButton', {}),
+  readonly CollectionItems = query('.CollectionItem', {
+    DeleteButton: descendant('.DeleteButton', {}),
   });
 
   async setColorScheme(colorScheme: 'dark' | 'light'): Promise<void> {

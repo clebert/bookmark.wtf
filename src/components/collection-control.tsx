@@ -42,7 +42,7 @@ export function CollectionControl({
     />
   ) : (
     <GridItem
-      id="CollectionControl"
+      class="CollectionControl"
       row1={
         <Label static>
           <Icon type="viewGrid" />
@@ -51,14 +51,14 @@ export function CollectionControl({
       }
       row2={
         <>
-          <Button id="NewButton" onClick={toggleCreationMode}>
+          <Button class="NewButton" onClick={toggleCreationMode}>
             <Icon type="viewGridAdd" />
             New
           </Button>
 
           {onChangeZenMode && (
             <Button
-              id="ZenButton"
+              class="ZenButton"
               title="Change Zen mode"
               onClick={onChangeZenMode}
             >

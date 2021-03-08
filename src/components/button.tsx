@@ -5,7 +5,7 @@ import {join} from '../utils/join';
 
 export interface ButtonProps {
   readonly children: ComponentChildren;
-  readonly id?: string;
+  readonly class?: string;
   readonly type?: 'button' | 'submit';
   readonly theme?: 'danger' | 'success';
   readonly title?: string;
@@ -16,7 +16,7 @@ export interface ButtonProps {
 
 export function Button({
   children,
-  id,
+  class: className,
   type = 'button',
   theme,
   title,
@@ -25,8 +25,8 @@ export function Button({
 }: ButtonProps): JSX.Element {
   return (
     <button
-      id={id}
       class={join([
+        className,
         Colors.text(theme),
         !disabled && Colors.activeText(theme),
         !disabled && Colors.focusOutline(),
