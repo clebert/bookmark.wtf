@@ -26,7 +26,7 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
 
   return (
     <Page>
-      <Topbar>
+      <Topbar class="Topbar">
         <TopbarItem>
           <Headline />
         </TopbarItem>
@@ -34,7 +34,11 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
         <TopbarItem>
           <ColorSchemeButton />
 
-          <Button disabled={!authStore.signIn} onClick={authStore.signIn}>
+          <Button
+            class="SignInButton"
+            disabled={!authStore.signIn}
+            onClick={authStore.signIn}
+          >
             <Icon type="login" />
             Sign in with GitHub
           </Button>

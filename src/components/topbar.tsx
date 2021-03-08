@@ -3,12 +3,14 @@ import {join} from '../utils/join';
 
 export interface TopbarProps {
   readonly children?: ComponentChildren;
+  readonly class?: string;
 }
 
-export function Topbar({children}: TopbarProps): JSX.Element {
+export function Topbar({children, class: className}: TopbarProps): JSX.Element {
   return (
     <div
       class={join([
+        className,
         'flex',
         'flex-col',
         'md:flex-row',
