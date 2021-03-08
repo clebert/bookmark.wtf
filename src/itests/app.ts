@@ -1,7 +1,7 @@
 import {Page} from 'playwright-webkit';
 import speakeasy from 'speakeasy';
-import {decendant} from '../pageobjects/decendant';
-import {parent} from '../pageobjects/parent';
+import {descendant} from '../pageobjects/descendant';
+import {query} from '../pageobjects/query';
 import {assertIsString} from '../utils/assert-is-string';
 
 export class App {
@@ -31,18 +31,18 @@ export class App {
     this.#secret = secret;
   }
 
-  readonly CollectionControl = parent('#CollectionControl', {
-    NewButton: decendant('#NewButton', {}),
-    ZenButton: decendant('#ZenButton', {}),
+  readonly CollectionControl = query('#CollectionControl', {
+    NewButton: descendant('#NewButton', {}),
+    ZenButton: descendant('#ZenButton', {}),
   });
 
-  readonly NewCollectionForm = parent('#NewCollectionForm', {
-    DescriptionInput: decendant('#DescriptionInput', {}),
-    CreateButton: decendant('#CreateButton', {}),
+  readonly NewCollectionForm = query('#NewCollectionForm', {
+    DescriptionInput: descendant('#DescriptionInput', {}),
+    CreateButton: descendant('#CreateButton', {}),
   });
 
-  readonly CollectionItems = parent('#CollectionItem', {
-    DeleteButton: decendant('#DeleteButton', {}),
+  readonly CollectionItems = query('#CollectionItem', {
+    DeleteButton: descendant('#DeleteButton', {}),
   });
 
   async setColorScheme(colorScheme: 'dark' | 'light'): Promise<void> {
