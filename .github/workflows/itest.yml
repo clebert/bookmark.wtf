@@ -24,6 +24,7 @@ jobs:
 
       - name: Run integration tests on bookmark.wtf
         env:
+          DEBUG: 'pw:api'
           ITEST_ORIGIN: 'https://bookmark.wtf'
           ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
           ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
