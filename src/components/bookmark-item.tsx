@@ -91,7 +91,13 @@ export function BookmarkItem({
     />
   ) : (
     <GridItem
-      leftCol={<BookmarkIcon linkUrl={bookmark.url} onClick={openBookmark} />}
+      leftCol={
+        <BookmarkIcon
+          key={bookmark.url}
+          initialLinkUrl={bookmark.url}
+          onClick={openBookmark}
+        />
+      }
       row1={
         <Link url={bookmark.url} onClick={openBookmark}>
           <Icon type="externalLink" />
