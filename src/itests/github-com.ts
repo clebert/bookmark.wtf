@@ -1,5 +1,4 @@
-import {descendant} from '../pageobjects/descendant';
-import {query} from '../pageobjects/query';
+import {descendant, query} from 'sonnar';
 
 export class GithubCOM {
   static readonly LoginPage = query('body', {

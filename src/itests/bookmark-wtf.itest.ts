@@ -1,9 +1,9 @@
 import {Browser, Page, webkit} from 'playwright-webkit';
 import speakeasy from 'speakeasy';
-import {hasText} from '../pageobjects/has-text';
 import {assertIsString} from '../utils/assert-is-string';
 import {BookmarkWTF} from './bookmark-wtf';
 import {GithubCOM} from './github-com';
+import {hasText} from './has-text';
 import {takeScreenshot} from './take-screenshot';
 
 const origin = process.env.ITEST_ORIGIN;
@@ -39,18 +39,18 @@ describe('bookmark.wtf', () => {
     const url = origin + '/9803bde974539a8992c0515b28db439b?foo=bar';
 
     await page.goto(url);
-    await page.click(BookmarkWTF.Topbar().$$.SignInButton().$);
-    await page.fill(GithubCOM.LoginPage().$$.LoginInput().$, login);
-    await page.fill(GithubCOM.LoginPage().$$.PasswordInput().$, password);
-    await page.click(GithubCOM.LoginPage().$$.SignInButton().$);
+    await page.click(BookmarkWTF.Topbar().SignInButton().selector);
+    await page.fill(GithubCOM.LoginPage().LoginInput().selector, login);
+    await page.fill(GithubCOM.LoginPage().PasswordInput().selector, password);
+    await page.click(GithubCOM.LoginPage().SignInButton().selector);
 
     await page.fill(
-      GithubCOM.TwoFactorPage().$$.OTPInput().$,
+      GithubCOM.TwoFactorPage().OTPInput().selector,
       speakeasy.totp({secret, encoding: 'base32'})
     );
 
-    await page.click(GithubCOM.TwoFactorPage().$$.VerifyButton().$);
-    await page.waitForSelector(BookmarkWTF.Topbar().$$.SignOutButton().$);
+    await page.click(GithubCOM.TwoFactorPage().VerifyButton().selector);
+    await page.waitForSelector(BookmarkWTF.Topbar().SignOutButton().selector);
 
     expect(await page.url()).toBe(url);
   });
@@ -65,21 +65,21 @@ describe('bookmark.wtf', () => {
 
   test('creating a collection', async () => {
     await page.goto(origin);
-    await page.click(BookmarkWTF.CollectionControl().$$.NewButton().$);
+    await page.click(BookmarkWTF.CollectionControl().NewButton().selector);
 
     await page.type(
-      BookmarkWTF.NewCollectionForm().$$.DescriptionInput().$,
+      BookmarkWTF.NewCollectionForm().DescriptionInput().selector,
       collectionDescription,
       {delay: 100}
     );
 
-    await page.click(BookmarkWTF.NewCollectionForm().$$.CreateButton().$);
+    await page.click(BookmarkWTF.NewCollectionForm().CreateButton().selector);
 
     const collectionItem = BookmarkWTF.CollectionItems(
       hasText(collectionDescription)
     );
 
-    await page.waitForSelector(collectionItem.$);
+    await page.waitForSelector(collectionItem.selector);
   });
 
   test('deleting a collection', async () => {
@@ -89,12 +89,12 @@ describe('bookmark.wtf', () => {
       hasText(collectionDescription)
     );
 
-    await page.click(BookmarkWTF.CollectionControl().$$.ZenButton().$);
-    await page.click(collectionItem.$$.DeleteButton().$);
+    await page.click(BookmarkWTF.CollectionControl().ZenButton().selector);
+    await page.click(collectionItem.DeleteButton().selector);
     await page.waitForTimeout(100);
-    await page.click(collectionItem.$$.DeleteButton().$);
+    await page.click(collectionItem.DeleteButton().selector);
     await page.waitForTimeout(100);
 
-    expect(await page.$(collectionItem.$)).toBeNull();
+    expect(await page.$(collectionItem.selector)).toBeNull();
   });
 });

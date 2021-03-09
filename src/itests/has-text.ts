@@ -1,5 +1,4 @@
-import {pseudoClass} from './pseudo-class';
-import {Discriminator} from './query';
+import {Discriminator, pseudoClass} from 'sonnar';
 
 export function hasText(value: string): Discriminator {
   return pseudoClass(`:has-text(${JSON.stringify(value)})`);
