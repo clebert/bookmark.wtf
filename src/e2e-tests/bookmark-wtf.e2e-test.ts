@@ -6,9 +6,9 @@ import {GithubCOM} from './github-com';
 import {hasText} from './has-text';
 import {takeScreenshot} from './take-screenshot';
 
-const origin = process.env.ITEST_ORIGIN;
+const origin = process.env.E2E_TEST_ORIGIN;
 
-assertIsString(origin, 'process.env.ITEST_ORIGIN');
+assertIsString(origin, 'process.env.E2E_TEST_ORIGIN');
 
 describe('bookmark.wtf', () => {
   let browser: Browser;
@@ -28,13 +28,13 @@ describe('bookmark.wtf', () => {
   });
 
   test('signing in', async () => {
-    const login = process.env.ITEST_LOGIN;
-    const password = process.env.ITEST_PASSWORD;
-    const secret = process.env.ITEST_SECRET;
+    const login = process.env.E2E_TEST_LOGIN;
+    const password = process.env.E2E_TEST_PASSWORD;
+    const secret = process.env.E2E_TEST_SECRET;
 
-    assertIsString(login, 'process.env.ITEST_LOGIN');
-    assertIsString(password, 'process.env.ITEST_PASSWORD');
-    assertIsString(secret, 'process.env.ITEST_SECRET');
+    assertIsString(login, 'process.env.E2E_TEST_LOGIN');
+    assertIsString(password, 'process.env.E2E_TEST_PASSWORD');
+    assertIsString(secret, 'process.env.E2E_TEST_SECRET');
 
     const url = origin + '/9803bde974539a8992c0515b28db439b?foo=bar';
 
@@ -67,10 +67,9 @@ describe('bookmark.wtf', () => {
     await page.goto(origin);
     await page.click(BookmarkWTF.CollectionControl().NewButton().selector);
 
-    await page.type(
+    await page.fill(
       BookmarkWTF.NewCollectionForm().DescriptionInput().selector,
-      collectionDescription,
-      {delay: 100}
+      collectionDescription
     );
 
     await page.click(BookmarkWTF.NewCollectionForm().CreateButton().selector);

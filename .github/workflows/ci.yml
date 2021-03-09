@@ -1,4 +1,4 @@
-name: CI
+name: Continuous Integration
 on: [push, pull_request]
 
 jobs:
@@ -23,16 +23,16 @@ jobs:
       - name: Run CI checks
         run: npm run ci
 
-      - name: Run integration tests on localhost
+      - name: Run end-to-end tests on localhost
         env:
           DEBUG: 'pw:api'
           CLIENT_ID: ${{ secrets.DEV_CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.DEV_CLIENT_SECRET }}
-          ITEST_ORIGIN: 'http://localhost:3000'
-          ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
-          ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
-          ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
-        run: npm run build:dev && (npm start &) && npm run itest
+          E2E_TEST_ORIGIN: 'http://localhost:3000'
+          E2E_TEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
+          E2E_TEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
+          E2E_TEST_SECRET: ${{ secrets.ITEST_SECRET }}
+        run: npm run build:dev && (npm start &) && npm run e2e-test
 
       - name: Deploy to AWS
         if: github.ref == 'refs/heads/main'
@@ -46,12 +46,12 @@ jobs:
           HOSTED_ZONE_ID: ${{ secrets.HOSTED_ZONE_ID }}
         run: npm run deploy -- --require-approval never
 
-      - name: Run integration tests on bookmark.wtf
+      - name: Run end-to-end tests on bookmark.wtf
         if: github.ref == 'refs/heads/main'
         env:
           DEBUG: 'pw:api'
-          ITEST_ORIGIN: 'https://bookmark.wtf'
-          ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
-          ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
-          ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
-        run: npm run itest
+          E2E_TEST_ORIGIN: 'https://bookmark.wtf'
+          E2E_TEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
+          E2E_TEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
+          E2E_TEST_SECRET: ${{ secrets.ITEST_SECRET }}
+        run: npm run e2e-test

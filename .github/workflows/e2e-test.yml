@@ -1,10 +1,10 @@
-name: Nightly integration tests
+name: Nightly end-to-end tests
 on:
   schedule:
     - cron: '0 0 * * *'
 
 jobs:
-  itest:
+  e2e-test:
     runs-on: macos-latest
 
     steps:
@@ -22,11 +22,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run integration tests on bookmark.wtf
+      - name: Run end-to-end tests on bookmark.wtf
         env:
           DEBUG: 'pw:api'
-          ITEST_ORIGIN: 'https://bookmark.wtf'
-          ITEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
-          ITEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
-          ITEST_SECRET: ${{ secrets.ITEST_SECRET }}
-        run: npm run itest
+          E2E_TEST_ORIGIN: 'https://bookmark.wtf'
+          E2E_TEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
+          E2E_TEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
+          E2E_TEST_SECRET: ${{ secrets.ITEST_SECRET }}
+        run: npm run e2e-test
