@@ -2,7 +2,7 @@ import {Browser, Page, webkit} from 'playwright-webkit';
 import speakeasy from 'speakeasy';
 import {assertIsString} from '../utils/assert-is-string';
 import {BookmarkWTF} from './bookmark-wtf';
-import {GithubCOM} from './github-com';
+import {Github} from './github';
 import {hasText} from './has-text';
 import {takeScreenshot} from './take-screenshot';
 
@@ -40,16 +40,16 @@ describe('bookmark.wtf', () => {
 
     await page.goto(url);
     await page.click(BookmarkWTF.Topbar().SignInButton().selector);
-    await page.fill(GithubCOM.LoginPage().LoginField().selector, login);
-    await page.fill(GithubCOM.LoginPage().PasswordField().selector, password);
-    await page.click(GithubCOM.LoginPage().SignInButton().selector);
+    await page.fill(Github.LoginPage().LoginField().selector, login);
+    await page.fill(Github.LoginPage().PasswordField().selector, password);
+    await page.click(Github.LoginPage().SignInButton().selector);
 
     await page.fill(
-      GithubCOM.TwoFactorPage().OTPField().selector,
+      Github.TwoFactorPage().OTPField().selector,
       speakeasy.totp({secret, encoding: 'base32'})
     );
 
-    await page.click(GithubCOM.TwoFactorPage().VerifyButton().selector);
+    await page.click(Github.TwoFactorPage().VerifyButton().selector);
     await page.waitForSelector(BookmarkWTF.Topbar().SignOutButton().selector);
 
     expect(await page.url()).toBe(url);
