@@ -40,12 +40,12 @@ describe('bookmark.wtf', () => {
 
     await page.goto(url);
     await page.click(BookmarkWTF.Topbar().SignInButton().selector);
-    await page.fill(GithubCOM.LoginPage().LoginInput().selector, login);
-    await page.fill(GithubCOM.LoginPage().PasswordInput().selector, password);
+    await page.fill(GithubCOM.LoginPage().LoginField().selector, login);
+    await page.fill(GithubCOM.LoginPage().PasswordField().selector, password);
     await page.click(GithubCOM.LoginPage().SignInButton().selector);
 
     await page.fill(
-      GithubCOM.TwoFactorPage().OTPInput().selector,
+      GithubCOM.TwoFactorPage().OTPField().selector,
       speakeasy.totp({secret, encoding: 'base32'})
     );
 
@@ -68,7 +68,7 @@ describe('bookmark.wtf', () => {
     await page.click(BookmarkWTF.CollectionControl().NewButton().selector);
 
     await page.fill(
-      BookmarkWTF.NewCollectionForm().DescriptionInput().selector,
+      BookmarkWTF.NewCollectionForm().DescriptionField().selector,
       collectionDescription
     );
 

@@ -5,7 +5,7 @@ import {useSearchTerm} from '../hooks/use-search-term';
 import {changeSearchTerm} from '../utils/change-search-term';
 import {Button} from './button';
 import {Icon} from './icon';
-import {Input} from './input';
+import {TextField} from './text-field';
 
 export function SearchForm(): JSX.Element {
   const searchTerm = useSearchTerm();
@@ -21,7 +21,7 @@ export function SearchForm(): JSX.Element {
 
   return (
     <div class="flex space-x-4 max-w-xs">
-      <Input
+      <TextField
         value={searchTerm.value}
         placeholder="Enter search term"
         autoFocus

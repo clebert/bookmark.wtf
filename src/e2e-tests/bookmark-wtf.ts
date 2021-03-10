@@ -13,7 +13,7 @@ export class BookmarkWTF {
   });
 
   static readonly NewCollectionForm = query('.NewCollectionForm', {
-    DescriptionInput: descendant('.DescriptionInput', {}),
+    DescriptionField: descendant('.DescriptionField', {}),
     CreateButton: descendant('.CreateButton', {}),
   });
 

@@ -4,7 +4,7 @@ import {Button} from './button';
 import {Form} from './form';
 import {GridItem} from './grid-item';
 import {Icon} from './icon';
-import {Input} from './input';
+import {TextField} from './text-field';
 
 export interface NewCollectionFormProps {
   onCancel(): void;
@@ -28,8 +28,8 @@ export function NewCollectionForm({
       <GridItem
         class="NewCollectionForm"
         row1={
-          <Input
-            class="DescriptionInput"
+          <TextField
+            class="DescriptionField"
             value={currentDescription}
             placeholder="Enter description"
             autoFocus

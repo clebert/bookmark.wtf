@@ -4,7 +4,7 @@ import {Button} from './button';
 import {Form} from './form';
 import {GridItem} from './grid-item';
 import {Icon} from './icon';
-import {Input} from './input';
+import {TextField} from './text-field';
 
 export interface NewBookmarkFormProps {
   readonly initialTitle: string;
@@ -34,7 +34,7 @@ export function NewBookmarkForm({
     <Form onSubmit={create}>
       <GridItem
         row1={
-          <Input
+          <TextField
             value={currentTitle}
             placeholder="Enter title"
             autoFocus
@@ -43,7 +43,7 @@ export function NewBookmarkForm({
           />
         }
         row2={
-          <Input
+          <TextField
             type="url"
             value={currentUrl}
             placeholder="Enter URL"

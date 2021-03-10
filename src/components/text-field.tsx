@@ -3,7 +3,7 @@ import {useCallback, useEffect, useRef} from 'preact/hooks';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 
-export interface InputProps {
+export interface TextFieldProps {
   readonly class?: string;
   readonly type?: 'url';
   readonly value: string;
@@ -15,7 +15,7 @@ export interface InputProps {
   onInput(value: string): void;
 }
 
-export function Input({
+export function TextField({
   class: className,
   type,
   value,
@@ -23,7 +23,7 @@ export function Input({
   autoFocus,
   required,
   onInput,
-}: InputProps): JSX.Element {
+}: TextFieldProps): JSX.Element {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export function Input({
         'w-full',
         'px-2',
       ])}
-      type={type}
+      type={type ?? 'text'}
       value={value}
       placeholder={placeholder}
       autocomplete="off"

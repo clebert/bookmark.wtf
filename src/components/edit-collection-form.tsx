@@ -4,7 +4,7 @@ import {Button} from './button';
 import {Form} from './form';
 import {GridItem} from './grid-item';
 import {Icon} from './icon';
-import {Input} from './input';
+import {TextField} from './text-field';
 
 export interface EditCollectionFormProps {
   readonly initialDescription: string;
@@ -34,7 +34,7 @@ export function EditCollectionForm({
     <Form onSubmit={update}>
       <GridItem
         row1={
-          <Input
+          <TextField
             value={currentDescription}
             placeholder="Enter description"
             autoFocus
