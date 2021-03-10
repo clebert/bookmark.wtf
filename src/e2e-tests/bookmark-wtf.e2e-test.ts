@@ -90,9 +90,7 @@ describe('bookmark.wtf', () => {
 
     await page.click(BookmarkWTF.CollectionControl().ZenButton().selector);
     await page.click(collectionItem.DeleteButton().selector);
-    await page.waitForTimeout(100);
     await page.click(collectionItem.DeleteButton().selector);
-    await page.waitForTimeout(100);
 
     expect(await page.$(collectionItem.selector)).toBeNull();
   });
