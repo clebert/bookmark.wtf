@@ -23,13 +23,6 @@ export type GistStore =
 
 export interface LoadingGistStore {
   readonly state: 'loading';
-
-  readonly gist?: undefined;
-  readonly reason?: undefined;
-  readonly createFile?: undefined;
-  readonly updateFile?: undefined;
-  readonly deleteFile?: undefined;
-  readonly forkGist?: undefined;
 }
 
 export interface ReadyGistStore {
@@ -39,20 +32,11 @@ export interface ReadyGistStore {
   createFile(filename: string, text: string): boolean;
   updateFile(filename: string, text: string, hidden?: boolean): boolean;
   deleteFile(filename: string): boolean;
-
-  readonly reason?: undefined;
-  readonly forkGist?: undefined;
 }
 
 export interface UpdatingGistStore {
   readonly state: 'updating';
   readonly gist: Gist;
-
-  readonly reason?: undefined;
-  readonly createFile?: undefined;
-  readonly updateFile?: undefined;
-  readonly deleteFile?: undefined;
-  readonly forkGist?: undefined;
 }
 
 export interface LockedGistStore {
@@ -60,33 +44,16 @@ export interface LockedGistStore {
   readonly gist: Gist;
 
   forkGist(): boolean;
-
-  readonly reason?: undefined;
-  readonly createFile?: undefined;
-  readonly updateFile?: undefined;
-  readonly deleteFile?: undefined;
 }
 
 export interface ForkingGistStore {
   readonly state: 'forking';
   readonly gist: Gist;
-
-  readonly reason?: undefined;
-  readonly createFile?: undefined;
-  readonly updateFile?: undefined;
-  readonly deleteFile?: undefined;
-  readonly forkGist?: undefined;
 }
 
 export interface FailedGistStore {
   readonly state: 'failed';
   readonly reason: unknown;
-
-  readonly gist?: undefined;
-  readonly createFile?: undefined;
-  readonly updateFile?: undefined;
-  readonly deleteFile?: undefined;
-  readonly forkGist?: undefined;
 }
 
 export function useGistStore(

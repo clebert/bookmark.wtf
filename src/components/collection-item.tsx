@@ -34,7 +34,7 @@ export function CollectionItem({
 
   const updateCollection = useMemo(
     () =>
-      gistsStore.updateGist
+      'updateGist' in gistsStore
         ? (newDescription: string) => {
             gistsStore.updateGist(gistName, newDescription);
             toggleEditMode();
@@ -49,7 +49,7 @@ export function CollectionItem({
     () =>
       !deletable
         ? toggleDeletable
-        : gistsStore.deleteGist
+        : 'deleteGist' in gistsStore
         ? () => gistsStore.deleteGist(gistName)
         : undefined,
     [gistsStore, gistName, deletable]
@@ -81,7 +81,6 @@ export function CollectionItem({
             <Button
               class="DeleteButton"
               theme={deletable ? 'danger' : undefined}
-              disabled={!deleteGist}
               onClick={deleteGist}
             >
               <Icon type="trash" />

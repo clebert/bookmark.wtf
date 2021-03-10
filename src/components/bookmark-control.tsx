@@ -112,7 +112,7 @@ export function BookmarkControl({
 
   const createBookmark = useMemo(
     () =>
-      gistStore.createFile
+      'createFile' in gistStore
         ? (title: string, url: string) => {
             gistStore.createFile(
               createRandomValue() + '.md',
@@ -171,8 +171,9 @@ export function BookmarkControl({
           ) : (
             <>
               <Button
-                disabled={!gistStore.forkGist}
-                onClick={gistStore.forkGist}
+                onClick={
+                  'forkGist' in gistStore ? gistStore.forkGist : undefined
+                }
               >
                 <Icon type="duplicate" />
                 Fork

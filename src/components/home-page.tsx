@@ -36,8 +36,7 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
 
           <Button
             class="SignInButton"
-            disabled={!authStore.signIn}
-            onClick={authStore.signIn}
+            onClick={'signIn' in authStore ? authStore.signIn : undefined}
           >
             <Icon type="login" />
             Sign in with GitHub

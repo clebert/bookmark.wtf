@@ -12,22 +12,16 @@ export type AuthStore =
 export type AuthorizedAuthStore = {
   readonly state: 'authorized';
   readonly token: string;
-  readonly signIn?: undefined;
 
   signOut(): boolean;
 };
 
 export type AuthorizingAuthStore = {
   readonly state: 'authorizing';
-  readonly token?: undefined;
-  readonly signIn?: undefined;
-  readonly signOut?: undefined;
 };
 
 export type UnauthorizedAuthStore = {
   readonly state: 'unauthorized';
-  readonly token?: undefined;
-  readonly signOut?: undefined;
 
   signIn(): boolean;
 };

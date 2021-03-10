@@ -41,7 +41,7 @@ export function Button({
       ])}
       type={type}
       title={title}
-      disabled={disabled}
+      disabled={disabled ?? !onClick}
       onClick={useCallback(() => onClick?.(), [onClick])}
     >
       {children}

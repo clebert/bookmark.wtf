@@ -24,7 +24,7 @@ export function CollectionControl({
 
   const createCollection = useMemo(
     () =>
-      gistsStore.createGist
+      'createGist' in gistsStore
         ? (description: string) => {
             gistsStore.createGist(description);
             toggleCreationMode();

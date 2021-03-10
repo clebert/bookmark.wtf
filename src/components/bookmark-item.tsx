@@ -43,7 +43,7 @@ export function BookmarkItem({
 
   const updateBookmark = useMemo(
     () =>
-      gistStore.updateFile
+      'updateFile' in gistStore
         ? (title: string, url: string) => {
             gistStore.updateFile(
               filename,
@@ -61,15 +61,18 @@ export function BookmarkItem({
     () =>
       !deletable
         ? toggleDeletable
-        : gistStore.deleteFile
+        : 'deleteFile' in gistStore
         ? () => gistStore.deleteFile(filename)
         : undefined,
     [gistStore, filename, deletable]
   );
 
   const openBookmark = useCallback(() => {
-    if (!window.navigator.userAgent.includes('Firefox')) {
-      gistStore.updateFile?.(
+    if (
+      !window.navigator.userAgent.includes('Firefox') &&
+      'updateFile' in gistStore
+    ) {
+      gistStore.updateFile(
         filename,
         serializeBookmark({
           ...bookmark,
@@ -115,7 +118,6 @@ export function BookmarkItem({
             </Button>
             <Button
               theme={deletable ? 'danger' : undefined}
-              disabled={!deleteBookmark}
               onClick={deleteBookmark}
             >
               <Icon type="trash" />

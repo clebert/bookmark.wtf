@@ -18,12 +18,6 @@ export type GistsStore =
 
 export interface LoadingGistsStore {
   readonly state: 'loading';
-
-  readonly gists?: undefined;
-  readonly reason?: undefined;
-  readonly createGist?: undefined;
-  readonly updateGist?: undefined;
-  readonly deleteGist?: undefined;
 }
 
 export interface ReadyGistsStore {
@@ -33,28 +27,16 @@ export interface ReadyGistsStore {
   createGist(description: string): boolean;
   updateGist(gistName: string, description: string): boolean;
   deleteGist(gistName: string): boolean;
-
-  readonly reason?: undefined;
 }
 
 export interface UpdatingGistsStore {
   readonly state: 'updating';
   readonly gists: readonly ShallowGist[];
-
-  readonly reason?: undefined;
-  readonly createGist?: undefined;
-  readonly updateGist?: undefined;
-  readonly deleteGist?: undefined;
 }
 
 export interface FailedGistsStore {
   readonly state: 'failed';
   readonly reason: unknown;
-
-  readonly gists?: undefined;
-  readonly createGist?: undefined;
-  readonly updateGist?: undefined;
-  readonly deleteGist?: undefined;
 }
 
 export function useGistsStore(

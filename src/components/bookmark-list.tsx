@@ -30,11 +30,14 @@ export function BookmarkList({
 
   const bookmarkFiles = useMemo<readonly BookmarkFile[]>(
     () =>
-      (gistStore.gist?.files ?? []).reduce((files, {filename, text}) => {
-        const bookmark = parseBookmark(text);
+      ('gist' in gistStore ? gistStore.gist.files : []).reduce(
+        (files, {filename, text}) => {
+          const bookmark = parseBookmark(text);
 
-        return !bookmark ? files : [{filename, bookmark}, ...files];
-      }, [] as BookmarkFile[]),
+          return !bookmark ? files : [{filename, bookmark}, ...files];
+        },
+        [] as BookmarkFile[]
+      ),
     [gistStore]
   );
 
