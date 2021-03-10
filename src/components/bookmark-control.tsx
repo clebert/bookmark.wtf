@@ -134,6 +134,7 @@ export function BookmarkControl({
     />
   ) : (
     <GridItem
+      class="BookmarkControl"
       row1={
         gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
           <Link url={bookmarklet.url} onClick={showBookmarkletHelp}>
@@ -185,7 +186,11 @@ export function BookmarkControl({
           )}
 
           {onChangeSortOrder && (
-            <Button title="Change sort order" onClick={onChangeSortOrder}>
+            <Button
+              class="SortOrderButton"
+              title="Change sort order"
+              onClick={onChangeSortOrder}
+            >
               <Icon
                 type={
                   sortOrder === 'timeAsc'

@@ -2,6 +2,7 @@ import {descendant, query} from 'sonnar';
 
 export class BookmarkWTF {
   static readonly Topbar = query('.Topbar', {
+    ColorSchemeButton: descendant('.ColorSchemeButton', {}),
     SignInButton: descendant('.SignInButton', {}),
     SignOutButton: descendant('.SignOutButton', {}),
   });
@@ -18,5 +19,9 @@ export class BookmarkWTF {
 
   static readonly CollectionItems = query('.CollectionItem', {
     DeleteButton: descendant('.DeleteButton', {}),
+  });
+
+  static readonly BookmarkControl = query('.BookmarkControl', {
+    SortOrderButton: descendant('.SortOrderButton', {}),
   });
 }
