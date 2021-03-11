@@ -1,36 +1,36 @@
-import {Page} from 'playwright-webkit';
-import {BookmarkWTF} from './bookmark-wtf';
+import {API} from './api';
+import {App} from './app';
 
 export async function takeScreenshot(
+  api: API,
   origin: string,
-  page: Page,
   colorScheme: 'light' | 'dark'
 ): Promise<void> {
-  await page.setViewportSize({width: 1024, height: 200});
+  await api.page.setViewportSize({width: 1024, height: 200});
 
-  await page.goto(origin + '/9803bde974539a8992c0515b28db439b', {
+  await api.page.goto(origin + '/9803bde974539a8992c0515b28db439b', {
     waitUntil: 'networkidle',
   });
 
-  await page.click('body'); // Blur search input
-  await page.click(BookmarkWTF.Topbar().ColorSchemeButton().selector);
+  await api.page.click('body'); // Blur search input
+  await api.click(App().Topbar().ColorSchemeButton());
 
   if (colorScheme === 'light') {
-    await page.click(BookmarkWTF.Topbar().ColorSchemeButton().selector);
+    await api.click(App().Topbar().ColorSchemeButton());
   }
 
-  await page.click(BookmarkWTF.BookmarkControl().SortOrderButton().selector);
+  await api.click(App().BookmarkControl().SortOrderButton());
 
-  await page.screenshot({
+  await api.page.screenshot({
     path: `screenshot-${colorScheme}-mode.png`,
     fullPage: true,
   });
 
-  await page.click(BookmarkWTF.BookmarkControl().SortOrderButton().selector);
-  await page.click(BookmarkWTF.BookmarkControl().SortOrderButton().selector);
-  await page.click(BookmarkWTF.Topbar().ColorSchemeButton().selector);
+  await api.click(App().BookmarkControl().SortOrderButton());
+  await api.click(App().BookmarkControl().SortOrderButton());
+  await api.click(App().Topbar().ColorSchemeButton());
 
   if (colorScheme === 'dark') {
-    await page.click(BookmarkWTF.Topbar().ColorSchemeButton().selector);
+    await api.click(App().Topbar().ColorSchemeButton());
   }
 }

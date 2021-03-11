@@ -1,14 +1,14 @@
 import {descendant, query} from 'sonnar';
 
-export class Github {
-  static readonly LoginPage = query('body', {
+export const Github = query('body', {
+  LoginPage: descendant('.application-main', {
     LoginField: descendant('#login_field', {}),
     PasswordField: descendant('#password', {}),
     SignInButton: descendant('.btn-primary', {}),
-  });
+  }),
 
-  static readonly TwoFactorPage = query('body', {
+  TwoFactorPage: descendant('.application-main', {
     OTPField: descendant('#otp', {}),
     VerifyButton: descendant('.btn-primary', {}),
-  });
-}
+  }),
+});

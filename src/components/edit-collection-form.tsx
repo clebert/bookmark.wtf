@@ -33,8 +33,10 @@ export function EditCollectionForm({
   return (
     <Form onSubmit={update}>
       <GridItem
+        class="EditCollectionForm"
         row1={
           <TextField
+            class="DescriptionField"
             value={currentDescription}
             placeholder="Enter description"
             autoFocus
@@ -44,12 +46,17 @@ export function EditCollectionForm({
         }
         row2={
           <>
-            <Button type="submit" theme={'success'} disabled={!update}>
+            <Button
+              class="UpdateButton"
+              type="submit"
+              theme={'success'}
+              disabled={!update}
+            >
               <Icon type="check" />
               Update
             </Button>
 
-            <Button onClick={onCancel}>
+            <Button class="CancelButton" onClick={onCancel}>
               <Icon type="x" />
               Cancel
             </Button>

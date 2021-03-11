@@ -49,7 +49,7 @@ export function NewCollectionForm({
               Create
             </Button>
 
-            <Button onClick={onCancel}>
+            <Button class="CancelButton" onClick={onCancel}>
               <Icon type="x" />
               Cancel
             </Button>

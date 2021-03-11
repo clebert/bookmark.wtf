@@ -73,7 +73,7 @@ export function CollectionItem({
       row2={
         !zenMode && (
           <>
-            <Button onClick={toggleEditMode}>
+            <Button class="EditButton" onClick={toggleEditMode}>
               <Icon type="pencil" />
               Edit
             </Button>
