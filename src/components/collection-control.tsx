@@ -7,6 +7,7 @@ import {GridItem} from './grid-item';
 import {Icon} from './icon';
 import {Label} from './label';
 import {NewCollectionForm} from './new-collection-form';
+import {ZenButton} from './zen-button';
 
 export interface CollectionControlProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
@@ -57,13 +58,7 @@ export function CollectionControl({
           </Button>
 
           {onChangeZenMode && (
-            <Button
-              class="ZenButton"
-              title="Change Zen mode"
-              onClick={onChangeZenMode}
-            >
-              <Icon type={zenMode ? 'eye' : 'eyeOff'} standalone />
-            </Button>
+            <ZenButton zenMode={zenMode} onChangeZenMode={onChangeZenMode} />
           )}
         </>
       }

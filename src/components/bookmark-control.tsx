@@ -25,6 +25,8 @@ import {Icon} from './icon';
 import {Label} from './label';
 import {Link} from './link';
 import {NewBookmarkForm} from './new-bookmark-form';
+import {SortOrderButton} from './sort-order-button';
+import {ZenButton} from './zen-button';
 
 export interface BookmarkControlProps {
   readonly gistName: string;
@@ -149,62 +151,51 @@ export function BookmarkControl({
         )
       }
       row2={
-        <>
-          {gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
-            <>
-              <Button onClick={toggleCreationMode}>
-                <Icon type="viewGridAdd" />
-                New
-              </Button>
-
-              <Button onClick={closeCollection}>
-                <Icon type="x" />
-                Close
-              </Button>
-
-              {onChangeZenMode && (
-                <Button title="Change Zen mode" onClick={onChangeZenMode}>
-                  <Icon type={zenMode ? 'eye' : 'eyeOff'} standalone />
-                </Button>
-              )}
-            </>
-          ) : (
-            <>
-              <Button
-                onClick={
-                  'forkGist' in gistStore ? gistStore.forkGist : undefined
-                }
-              >
-                <Icon type="duplicate" />
-                Fork
-              </Button>
-
-              <Button onClick={closeCollection}>
-                <Icon type="x" />
-                Close
-              </Button>
-            </>
-          )}
-
-          {onChangeSortOrder && (
-            <Button
-              class="SortOrderButton"
-              title="Change sort order"
-              onClick={onChangeSortOrder}
-            >
-              <Icon
-                type={
-                  sortOrder === 'timeAsc'
-                    ? 'sortAscending'
-                    : sortOrder === 'timeDesc'
-                    ? 'sortDescending'
-                    : 'cursorClick'
-                }
-                standalone
-              />
+        gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
+          <>
+            <Button onClick={toggleCreationMode}>
+              <Icon type="viewGridAdd" />
+              New
             </Button>
-          )}
-        </>
+
+            <Button onClick={closeCollection}>
+              <Icon type="x" />
+              Close
+            </Button>
+
+            {onChangeSortOrder && (
+              <SortOrderButton
+                sortOrder={sortOrder}
+                onChangeSortOrder={onChangeSortOrder}
+              />
+            )}
+
+            {onChangeZenMode && (
+              <ZenButton zenMode={zenMode} onChangeZenMode={onChangeZenMode} />
+            )}
+          </>
+        ) : (
+          <>
+            <Button
+              onClick={'forkGist' in gistStore ? gistStore.forkGist : undefined}
+            >
+              <Icon type="duplicate" />
+              Fork
+            </Button>
+
+            <Button onClick={closeCollection}>
+              <Icon type="x" />
+              Close
+            </Button>
+
+            {onChangeSortOrder && (
+              <SortOrderButton
+                sortOrder={sortOrder}
+                onChangeSortOrder={onChangeSortOrder}
+              />
+            )}
+          </>
+        )
       }
     />
   );
