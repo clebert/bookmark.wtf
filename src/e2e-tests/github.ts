@@ -1,14 +1,19 @@
-import {descendant, query} from 'sonnar';
+import {select} from 'sonnar';
+import {is} from './is';
 
-export const Github = query('body', {
-  LoginPage: descendant('.application-main', {
-    LoginField: descendant('#login_field', {}),
-    PasswordField: descendant('#password', {}),
-    SignInButton: descendant('.btn-primary', {}),
-  }),
+const Page = select('descendant', '*').filter(is('.application-main'));
 
-  TwoFactorPage: descendant('.application-main', {
-    OTPField: descendant('#otp', {}),
-    VerifyButton: descendant('.btn-primary', {}),
-  }),
-});
+export const github = {
+  LoginPage: Page,
+  loginPage: {
+    LoginField: Page.select('descendant', '*').filter(is('#login_field')),
+    PasswordField: Page.select('descendant', '*').filter(is('#password')),
+    SignInButton: Page.select('descendant', '*').filter(is('.btn-primary')),
+  },
+
+  TwoFactorPage: Page,
+  twoFactorPage: {
+    OTPField: Page.select('descendant', '*').filter(is('#otp')),
+    VerifyButton: Page.select('descendant', '*').filter(is('.btn-primary')),
+  },
+};

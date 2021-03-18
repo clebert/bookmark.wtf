@@ -1,35 +1,96 @@
-import {descendant, query} from 'sonnar';
+import {NodeSet, select} from 'sonnar';
+import {is} from './is';
 
-export const App = query('body', {
-  Topbar: descendant('.Topbar', {
-    ColorSchemeButton: descendant('.ColorSchemeButton', {}),
-    SignInButton: descendant('.SignInButton', {}),
-    SignOutButton: descendant('.SignOutButton', {}),
+const Topbar = select('descendant', '*').filter(is('.Topbar'));
+
+const CollectionControl = select('descendant', '*').filter(
+  is('.CollectionControl')
+);
+
+const NewCollectionForm = select('descendant', '*').filter(
+  is('.NewCollectionForm')
+);
+
+const CollectionItems = select('descendant', '*').filter(is('.CollectionItem'));
+
+const EditCollectionForms = select('descendant', '*').filter(
+  is('.EditCollectionForm')
+);
+
+const BookmarkControl = select('descendant', '*').filter(
+  is('.BookmarkControl')
+);
+
+export const app = {
+  Topbar,
+  topbar: {
+    ColorSchemeButton: Topbar.select('descendant', '*').filter(
+      is('.ColorSchemeButton')
+    ),
+
+    SignInButton: Topbar.select('descendant', '*').filter(is('.SignInButton')),
+
+    SignOutButton: Topbar.select('descendant', '*').filter(
+      is('.SignOutButton')
+    ),
+  },
+
+  CollectionControl,
+  collectionControl: {
+    NewButton: CollectionControl.select('descendant', '*').filter(
+      is('.NewButton')
+    ),
+
+    ZenButton: CollectionControl.select('descendant', '*').filter(
+      is('.ZenButton')
+    ),
+  },
+
+  NewCollectionForm,
+  newCollectionForm: {
+    DescriptionField: NewCollectionForm.select('descendant', '*').filter(
+      is('.DescriptionField')
+    ),
+
+    CreateButton: NewCollectionForm.select('descendant', '*').filter(
+      is('.CreateButton')
+    ),
+
+    CancelButton: NewCollectionForm.select('descendant', '*').filter(
+      is('.CancelButton')
+    ),
+  },
+
+  CollectionItems,
+  collectionItems: (CollectionItem: NodeSet) => ({
+    EditButton: CollectionItem.select('descendant', '*').filter(
+      is('.EditButton')
+    ),
+
+    DeleteButton: CollectionItem.select('descendant', '*').filter(
+      is('.DeleteButton')
+    ),
   }),
 
-  CollectionControl: descendant('.CollectionControl', {
-    NewButton: descendant('.NewButton', {}),
-    ZenButton: descendant('.ZenButton', {}),
+  EditCollectionForms,
+  editCollectionForms: (EditCollectionForm: NodeSet) => ({
+    DescriptionField: EditCollectionForm.select('descendant', '*').filter(
+      is('.DescriptionField')
+    ),
+
+    UpdateButton: EditCollectionForm.select('descendant', '*').filter(
+      is('.UpdateButton')
+    ),
+
+    CancelButton: EditCollectionForm.select('descendant', '*').filter(
+      is('.CancelButton')
+    ),
   }),
 
-  NewCollectionForm: descendant('.NewCollectionForm', {
-    DescriptionField: descendant('.DescriptionField', {}),
-    CreateButton: descendant('.CreateButton', {}),
-    CancelButton: descendant('.CancelButton', {}),
-  }),
-
-  CollectionItems: descendant('.CollectionItem', {
-    EditButton: descendant('.EditButton', {}),
-    DeleteButton: descendant('.DeleteButton', {}),
-  }),
-
-  EditCollectionForms: descendant('.EditCollectionForm', {
-    DescriptionField: descendant('.DescriptionField', {}),
-    UpdateButton: descendant('.UpdateButton', {}),
-    CancelButton: descendant('.CancelButton', {}),
-  }),
-
-  BookmarkControl: descendant('.BookmarkControl', {
-    SortOrderButton: descendant('.SortOrderButton', {}),
-  }),
-});
+  BookmarkControl,
+  bookmarkControl: {
+    SortOrderButton: BookmarkControl.select('descendant', '*').filter(
+      is('.SortOrderButton')
+    ),
+  },
+};
