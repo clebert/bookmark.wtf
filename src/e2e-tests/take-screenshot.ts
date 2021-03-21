@@ -13,24 +13,24 @@ export async function takeScreenshot(
   });
 
   await api.page.click('body'); // Blur search input
-  await api.click(app.topbar.ColorSchemeButton);
+  await api.click(app.topbar.colorSchemeButton);
 
   if (colorScheme === 'light') {
-    await api.click(app.topbar.ColorSchemeButton);
+    await api.click(app.topbar.colorSchemeButton);
   }
 
-  await api.click(app.bookmarkControl.SortOrderButton);
+  await api.click(app.bookmarkControl.sortOrderButton);
 
   await api.page.screenshot({
     path: `screenshot-${colorScheme}-mode.png`,
     fullPage: true,
   });
 
-  await api.click(app.bookmarkControl.SortOrderButton);
-  await api.click(app.bookmarkControl.SortOrderButton);
-  await api.click(app.topbar.ColorSchemeButton);
+  await api.click(app.bookmarkControl.sortOrderButton);
+  await api.click(app.bookmarkControl.sortOrderButton);
+  await api.click(app.topbar.colorSchemeButton);
 
   if (colorScheme === 'dark') {
-    await api.click(app.topbar.ColorSchemeButton);
+    await api.click(app.topbar.colorSchemeButton);
   }
 }

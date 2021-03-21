@@ -2,7 +2,6 @@ import speakeasy from 'speakeasy';
 import {assertIsString} from '../utils/assert-is-string';
 import {API} from './api';
 import {app} from './app';
-import {containsText} from './contains-text';
 import {github} from './github';
 import {takeScreenshot} from './take-screenshot';
 
@@ -35,18 +34,18 @@ describe('bookmark.wtf', () => {
     const url = origin + '/9803bde974539a8992c0515b28db439b?foo=bar';
 
     await api.page.goto(url);
-    await api.click(app.topbar.SignInButton);
-    await api.fill(github.loginPage.LoginField, login);
-    await api.fill(github.loginPage.PasswordField, password);
-    await api.click(github.loginPage.SignInButton);
+    await api.click(app.topbar.signInButton);
+    await api.fill(github.loginField, login);
+    await api.fill(github.passwordField, password);
+    await api.click(github.primaryButton);
 
     await api.fill(
-      github.twoFactorPage.OTPField,
+      github.otpField,
       speakeasy.totp({secret, encoding: 'base32'})
     );
 
-    await api.click(github.twoFactorPage.VerifyButton);
-    await api.exists(app.topbar.SignOutButton);
+    await api.click(github.primaryButton);
+    await api.exists(app.topbar.signOutButton);
 
     expect(await api.page.url()).toBe(url);
   });
@@ -61,101 +60,59 @@ describe('bookmark.wtf', () => {
 
   test('cancel creating a collection', async () => {
     await api.page.goto(origin);
-    await api.click(app.collectionControl.NewButton);
-    await api.doesNotExist(app.CollectionControl);
-    await api.fill(app.newCollectionForm.DescriptionField, 'foo' + uid);
-    await api.click(app.newCollectionForm.CancelButton);
-    await api.doesNotExist(app.NewCollectionForm);
-
-    await api.doesNotExist(
-      app.CollectionItems.filter(containsText('foo' + uid))
-    );
-
-    await api.exists(app.CollectionControl);
+    await api.click(app.collectionControl.newButton);
+    await api.fill(app.newCollectionForm.descriptionField, 'foo' + uid);
+    await api.click(app.newCollectionForm.cancelButton);
+    await api.doesNotExist(app.collectionItem('foo' + uid).self);
   });
 
   test('creating a collection', async () => {
     await api.page.goto(origin);
-    await api.click(app.collectionControl.NewButton);
-    await api.doesNotExist(app.CollectionControl);
-    await api.fill(app.newCollectionForm.DescriptionField, 'foo' + uid);
+    await api.click(app.collectionControl.newButton);
+    await api.fill(app.newCollectionForm.descriptionField, 'foo' + uid);
 
     const response = api.page.waitForResponse(/github/);
 
-    await api.click(app.newCollectionForm.CreateButton);
-    await api.doesNotExist(app.NewCollectionForm);
-    await api.exists(app.CollectionItems.filter(containsText('foo' + uid)));
-    await api.exists(app.CollectionControl);
+    await api.click(app.newCollectionForm.createButton);
+    await api.exists(app.collectionItem('foo' + uid).self);
 
     await response;
   });
 
   test('cancel editing a collection', async () => {
-    const CollectionItem = app.CollectionItems.filter(
-      containsText('foo' + uid)
-    );
-
-    const EditCollectionForm = app.EditCollectionForms.filter(1);
-
     await api.page.goto(origin);
-    await api.click(app.collectionControl.ZenButton);
-    await api.click(app.collectionItems(CollectionItem).EditButton);
-    await api.doesNotExist(CollectionItem);
-
-    await api.fill(
-      app.editCollectionForms(EditCollectionForm).DescriptionField,
-      'bar' + uid
-    );
-
-    await api.click(app.editCollectionForms(EditCollectionForm).CancelButton);
-    await api.doesNotExist(EditCollectionForm);
-
-    await api.doesNotExist(
-      app.CollectionItems.filter(containsText('bar' + uid))
-    );
-
-    await api.exists(CollectionItem);
+    await api.click(app.collectionControl.zenButton);
+    await api.click(app.collectionItem('foo' + uid).editButton);
+    await api.fill(app.editCollectionForm(1).descriptionField, 'bar' + uid);
+    await api.click(app.editCollectionForm(1).cancelButton);
+    await api.doesNotExist(app.collectionItem('bar' + uid).self);
+    await api.exists(app.collectionItem('foo' + uid).self);
   });
 
   test('editing a collection', async () => {
-    const CollectionItem = app.CollectionItems.filter(
-      containsText('foo' + uid)
-    );
-
-    const EditCollectionForm = app.EditCollectionForms.filter(1);
-
     await api.page.goto(origin);
-    await api.click(app.collectionControl.ZenButton);
-    await api.click(app.collectionItems(CollectionItem).EditButton);
-    await api.doesNotExist(CollectionItem);
+    await api.click(app.collectionControl.zenButton);
+    await api.click(app.collectionItem('foo' + uid).editButton);
+    await api.fill(app.editCollectionForm(1).descriptionField, 'bar' + uid);
 
-    await api.fill(
-      app.editCollectionForms(EditCollectionForm).DescriptionField,
-      'bar' + uid
-    );
     const response = api.page.waitForResponse(/github/);
 
-    await api.click(app.editCollectionForms(EditCollectionForm).UpdateButton);
-    await api.doesNotExist(EditCollectionForm);
-    await api.exists(app.CollectionItems.filter(containsText('bar' + uid)));
-    await api.doesNotExist(CollectionItem);
+    await api.click(app.editCollectionForm(1).updateButton);
+    await api.doesNotExist(app.collectionItem('foo' + uid).self);
+    await api.exists(app.collectionItem('bar' + uid).self);
 
     await response;
   });
 
   test('deleting a collection', async () => {
-    const CollectionItem = app.CollectionItems.filter(
-      containsText('bar' + uid)
-    );
-
     await api.page.goto(origin);
-    await api.click(app.collectionControl.ZenButton);
-    await api.click(app.collectionItems(CollectionItem).DeleteButton);
+    await api.click(app.collectionControl.zenButton);
+    await api.click(app.collectionItem('bar' + uid).deleteButton);
 
     const response = api.page.waitForResponse(/github/);
 
-    await api.click(app.collectionItems(CollectionItem).DeleteButton);
-    await api.doesNotExist(CollectionItem);
+    await api.click(app.collectionItem('bar' + uid).deleteButton);
+    await api.doesNotExist(app.collectionItem('bar' + uid).self);
 
     await response;
   });

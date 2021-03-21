@@ -1,19 +1,11 @@
-import {select} from 'sonnar';
-import {is} from './is';
+import {NodeSet} from 'sonnar';
 
-const Page = select('descendant', '*').filter(is('.application-main'));
+const {any, attribute} = NodeSet;
+const page = any().filter(attribute('.application-main'));
 
 export const github = {
-  LoginPage: Page,
-  loginPage: {
-    LoginField: Page.select('descendant', '*').filter(is('#login_field')),
-    PasswordField: Page.select('descendant', '*').filter(is('#password')),
-    SignInButton: Page.select('descendant', '*').filter(is('.btn-primary')),
-  },
-
-  TwoFactorPage: Page,
-  twoFactorPage: {
-    OTPField: Page.select('descendant', '*').filter(is('#otp')),
-    VerifyButton: Page.select('descendant', '*').filter(is('.btn-primary')),
-  },
+  loginField: page.path(any().filter(attribute('#login_field'))),
+  passwordField: page.path(any().filter(attribute('#password'))),
+  primaryButton: page.path(any().filter(attribute('.btn-primary'))),
+  otpField: page.path(any().filter(attribute('#otp'))),
 };
