@@ -1,6 +1,6 @@
 import {SuccessfulReceiver} from 'loxia';
 import {JSX, h} from 'preact';
-import {useMemo} from 'preact/hooks';
+import {useEffect, useMemo} from 'preact/hooks';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useBookmarkSort} from '../hooks/use-bookmark-sort';
 import {useGistStore} from '../hooks/use-gist-store';
@@ -27,6 +27,18 @@ export function BookmarkList({
   if (gistStore.state === 'failed') {
     throw gistStore.reason;
   }
+
+  useEffect(() => {
+    if ('gist' in gistStore) {
+      const {description} = gistStore.gist;
+
+      if (description) {
+        document.title = description;
+      }
+    }
+
+    return () => (document.title = 'bookmark.wtf');
+  }, [gistStore]);
 
   const bookmarkFiles = useMemo<readonly BookmarkFile[]>(
     () =>
