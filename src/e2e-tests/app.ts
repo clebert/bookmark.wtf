@@ -1,6 +1,6 @@
-import {Literal, NodeSet, Primitive, fn} from 'sonnar';
+import {Literal, NodeSet, Primitive} from 'sonnar';
 
-const {any, attribute, node} = NodeSet;
+const {any, attribute} = NodeSet;
 const topbar = any().filter(attribute('.Topbar'));
 const collectionControl = any().filter(attribute('.CollectionControl'));
 const newCollectionForm = any().filter(attribute('.NewCollectionForm'));
@@ -37,10 +37,8 @@ export const app = {
     ),
   },
 
-  collectionItem: (title: string) => {
-    const self = collectionItems.filter(
-      fn('contains', fn('normalize-space', node('self')), title)
-    );
+  collectionItem: (predicate: Literal | Primitive) => {
+    const self = collectionItems.filter(predicate).filter(1);
 
     return {
       self,
@@ -49,8 +47,8 @@ export const app = {
     };
   },
 
-  editCollectionForm: (position: Literal | Primitive) => {
-    const self = editCollectionForms.filter(position);
+  editCollectionForm: (predicate: Literal | Primitive) => {
+    const self = editCollectionForms.filter(predicate).filter(1);
 
     return {
       self,

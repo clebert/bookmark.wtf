@@ -2,6 +2,7 @@ import speakeasy from 'speakeasy';
 import {assertIsString} from '../utils/assert-is-string';
 import {API} from './api';
 import {app} from './app';
+import {containsText} from './contains-text';
 import {github} from './github';
 import {takeScreenshot} from './take-screenshot';
 
@@ -63,7 +64,7 @@ describe('bookmark.wtf', () => {
     await api.click(app.collectionControl.newButton);
     await api.fill(app.newCollectionForm.descriptionField, 'foo' + uid);
     await api.click(app.newCollectionForm.cancelButton);
-    await api.doesNotExist(app.collectionItem('foo' + uid).self);
+    await api.doesNotExist(app.collectionItem(containsText('foo' + uid)).self);
   });
 
   test('creating a collection', async () => {
@@ -74,7 +75,7 @@ describe('bookmark.wtf', () => {
     const response = api.page.waitForResponse(/github/);
 
     await api.click(app.newCollectionForm.createButton);
-    await api.exists(app.collectionItem('foo' + uid).self);
+    await api.exists(app.collectionItem(containsText('foo' + uid)).self);
 
     await response;
   });
@@ -82,24 +83,24 @@ describe('bookmark.wtf', () => {
   test('cancel editing a collection', async () => {
     await api.page.goto(origin);
     await api.click(app.collectionControl.zenButton);
-    await api.click(app.collectionItem('foo' + uid).editButton);
+    await api.click(app.collectionItem(containsText('foo' + uid)).editButton);
     await api.fill(app.editCollectionForm(1).descriptionField, 'bar' + uid);
     await api.click(app.editCollectionForm(1).cancelButton);
-    await api.doesNotExist(app.collectionItem('bar' + uid).self);
-    await api.exists(app.collectionItem('foo' + uid).self);
+    await api.doesNotExist(app.collectionItem(containsText('bar' + uid)).self);
+    await api.exists(app.collectionItem(containsText('foo' + uid)).self);
   });
 
   test('editing a collection', async () => {
     await api.page.goto(origin);
     await api.click(app.collectionControl.zenButton);
-    await api.click(app.collectionItem('foo' + uid).editButton);
+    await api.click(app.collectionItem(containsText('foo' + uid)).editButton);
     await api.fill(app.editCollectionForm(1).descriptionField, 'bar' + uid);
 
     const response = api.page.waitForResponse(/github/);
 
     await api.click(app.editCollectionForm(1).updateButton);
-    await api.doesNotExist(app.collectionItem('foo' + uid).self);
-    await api.exists(app.collectionItem('bar' + uid).self);
+    await api.doesNotExist(app.collectionItem(containsText('foo' + uid)).self);
+    await api.exists(app.collectionItem(containsText('bar' + uid)).self);
 
     await response;
   });
@@ -107,12 +108,12 @@ describe('bookmark.wtf', () => {
   test('deleting a collection', async () => {
     await api.page.goto(origin);
     await api.click(app.collectionControl.zenButton);
-    await api.click(app.collectionItem('bar' + uid).deleteButton);
+    await api.click(app.collectionItem(containsText('bar' + uid)).deleteButton);
 
     const response = api.page.waitForResponse(/github/);
 
-    await api.click(app.collectionItem('bar' + uid).deleteButton);
-    await api.doesNotExist(app.collectionItem('bar' + uid).self);
+    await api.click(app.collectionItem(containsText('bar' + uid)).deleteButton);
+    await api.doesNotExist(app.collectionItem(containsText('bar' + uid)).self);
 
     await response;
   });
