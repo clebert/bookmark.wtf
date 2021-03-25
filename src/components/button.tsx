@@ -23,25 +23,27 @@ export function Button({
   disabled,
   onClick,
 }: ButtonProps): JSX.Element {
+  const enabled = disabled === undefined ? onClick !== undefined : !disabled;
+
   return (
     <button
       class={join([
         className,
         Colors.text(theme),
-        !disabled && Colors.activeText(theme),
-        !disabled && Colors.focusOutline(),
+        enabled && Colors.activeText(theme),
+        enabled && Colors.focusOutline(),
         Colors.border(theme),
         Colors.background(),
-        !disabled && Colors.activeBackground(),
-        disabled && 'border-dashed',
+        enabled && Colors.activeBackground(),
+        !enabled && 'border-dashed',
         'px-2',
         'whitespace-nowrap',
-        disabled && 'cursor-default',
+        !enabled && 'cursor-default',
         'select-none',
       ])}
       type={type}
       title={title}
-      disabled={disabled ?? !onClick}
+      disabled={!enabled}
       onClick={useCallback(() => onClick?.(), [onClick])}
     >
       {children}
