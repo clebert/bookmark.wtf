@@ -1,20 +1,20 @@
 import {deauthorize} from '../utils/deauthorize';
 
-export interface GithubApiRequest {
+export interface GithubAPIRequest {
   readonly method: 'POST' | 'PATCH' | 'DELETE';
   readonly pathname: string;
   readonly params: object;
   readonly token: string;
 }
 
-export interface GithubApiResponse {
+export interface GithubAPIResponse {
   readonly data?: unknown;
   readonly eTag?: string;
 }
 
-export async function fetchGithubApi(
-  request: GithubApiRequest
-): Promise<GithubApiResponse> {
+export async function fetchGithubAPI(
+  request: GithubAPIRequest
+): Promise<GithubAPIResponse> {
   const {method, pathname, params, token} = request;
 
   const response = await fetch(`https://api.github.com${pathname}`, {

@@ -1,6 +1,6 @@
 import {Fragment, JSX, h} from 'preact';
 import {useCallback, useContext, useMemo} from 'preact/hooks';
-import {ShallowGist} from '../apis/fetch-gists';
+import {ShallowGist} from '../apis/gists-api';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {HistoryContext} from '../hooks/use-history';
 import {useTimer} from '../hooks/use-timer';
