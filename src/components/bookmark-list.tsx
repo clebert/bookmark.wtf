@@ -5,7 +5,7 @@ import {useBookmarkSort} from '../hooks/use-bookmark-sort';
 import {useGistStore} from '../hooks/use-gist-store';
 import {useSearchTerm} from '../hooks/use-search-term';
 import {useToggle} from '../hooks/use-toggle';
-import {parseBookmark} from '../models/parse-bookmark';
+import {parseBookmark} from '../utils/parse-bookmark';
 import {BookmarkControl} from './bookmark-control';
 import {BookmarkFile, BookmarkItem} from './bookmark-item';
 import {Grid} from './grid';

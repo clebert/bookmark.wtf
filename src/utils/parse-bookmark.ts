@@ -1,5 +1,5 @@
-import {isNumber} from '../utils/is-number';
-import {isObject} from '../utils/is-object';
+import {isNumber} from './is-number';
+import {isObject} from './is-object';
 
 export interface Bookmark {
   readonly title: string;

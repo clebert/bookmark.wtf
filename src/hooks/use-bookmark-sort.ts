@@ -1,7 +1,7 @@
 import {useMemo, useState} from 'preact/hooks';
-import {compareClickCount} from '../models/compare-click-count';
-import {compareTime} from '../models/compare-time';
-import {Bookmark} from '../models/parse-bookmark';
+import {compareClickCount} from '../utils/compare-click-count';
+import {compareTime} from '../utils/compare-time';
+import {Bookmark} from '../utils/parse-bookmark';
 
 export interface BookmarkSort {
   readonly sortOrder: BookmarkSortOrder;

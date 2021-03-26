@@ -8,8 +8,8 @@ import {
 } from '../hooks/use-gist-store';
 import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
-import {Bookmark} from '../models/parse-bookmark';
-import {serializeBookmark} from '../models/serialize-bookmark';
+import {Bookmark} from '../utils/parse-bookmark';
+import {serializeBookmark} from '../utils/serialize-bookmark';
 import {BookmarkIcon} from './bookmark-icon';
 import {Button} from './button';
 import {EditBookmarkForm} from './edit-bookmark-form';

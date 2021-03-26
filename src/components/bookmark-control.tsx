@@ -15,10 +15,10 @@ import {
 } from '../hooks/use-gist-store';
 import {HistoryContext} from '../hooks/use-history';
 import {useToggle} from '../hooks/use-toggle';
-import {serializeBookmark} from '../models/serialize-bookmark';
 import {changeGistName} from '../utils/change-gist-name';
 import {createBookmarklet} from '../utils/create-bookmarklet';
 import {createRandomValue} from '../utils/create-random-value';
+import {serializeBookmark} from '../utils/serialize-bookmark';
 import {Button} from './button';
 import {GridItem} from './grid-item';
 import {Icon} from './icon';
