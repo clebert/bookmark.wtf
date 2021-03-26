@@ -1,7 +1,9 @@
 import {JSX, h} from 'preact';
+import {useMemo} from 'preact/hooks';
+import {UserAPI} from '../apis/user-api';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useGistName} from '../hooks/use-gist-name';
-import {useUserReceiver} from '../hooks/use-user-receiver';
+import {useReceiver} from '../hooks/use-receiver';
 import {BookmarkList} from './bookmark-list';
 import {CollectionList} from './collection-list';
 import {Page} from './page';
@@ -12,7 +14,11 @@ export interface UserPageProps {
 }
 
 export function UserPage({authStore}: UserPageProps): JSX.Element {
-  const userReceiver = useUserReceiver(authStore);
+  const userReceiver = useReceiver(
+    useMemo(() => UserAPI.init(authStore.token).then(({user}) => user), [
+      authStore,
+    ])
+  );
 
   if (userReceiver.state === 'failed') {
     throw userReceiver.reason;
@@ -28,7 +34,7 @@ export function UserPage({authStore}: UserPageProps): JSX.Element {
         userReceiver.state === 'successful' && (
           <BookmarkList
             authStore={authStore}
-            userReceiver={userReceiver}
+            user={userReceiver.value}
             gistName={gistName}
           />
         )

@@ -1,4 +1,3 @@
-import {SuccessfulReceiver} from 'loxia';
 import {useContext, useMemo} from 'preact/hooks';
 import {Gist, GistAPI} from '../apis/gist-api';
 import {changeGistName} from '../utils/change-gist-name';
@@ -60,7 +59,7 @@ export interface FailedGistStore {
 
 export function useGistStore(
   authStore: AuthorizedAuthStore,
-  userReceiver: SuccessfulReceiver<string>,
+  user: string,
   gistName: string
 ): GistStore {
   const gistAPIReceiver = useReceiver(
@@ -70,12 +69,12 @@ export function useGistStore(
     ])
   );
 
-  const sender = useSender();
-  const transition = useTransition(userReceiver, gistAPIReceiver, sender);
+  const gistAPISender = useSender();
+  const transition = useTransition(user, gistAPIReceiver, gistAPISender);
 
   const createFile = (filename: string, text: string) =>
     transition(() =>
-      sender.send?.(gistAPIReceiver.value!.createFile(filename, text))
+      gistAPISender.send?.(gistAPIReceiver.value!.createFile(filename, text))
     );
 
   const updateFile = (
@@ -84,14 +83,14 @@ export function useGistStore(
     skipLocalUpdate?: boolean
   ) =>
     transition(() =>
-      sender.send?.(
+      gistAPISender.send?.(
         gistAPIReceiver.value!.updateFile(filename, text, skipLocalUpdate)
       )
     );
 
   const deleteFile = (filename: string) =>
     transition(() =>
-      sender.send?.(gistAPIReceiver.value!.deleteFile(filename))
+      gistAPISender.send?.(gistAPIReceiver.value!.deleteFile(filename))
     );
 
   const bind = useBinder();
@@ -99,7 +98,7 @@ export function useGistStore(
 
   const forkGist = () =>
     transition(() =>
-      sender.send?.(
+      gistAPISender.send?.(
         gistAPIReceiver
           .value!.fork()
           .then(
@@ -115,8 +114,8 @@ export function useGistStore(
       return {state: 'failed', reason: gistAPIReceiver.reason};
     }
 
-    if (sender.state === 'failed') {
-      return {state: 'failed', reason: sender.reason};
+    if (gistAPISender.state === 'failed') {
+      return {state: 'failed', reason: gistAPISender.reason};
     }
 
     if (gistAPIReceiver.state === 'receiving') {
@@ -125,13 +124,13 @@ export function useGistStore(
 
     const {gist} = gistAPIReceiver.value;
 
-    if (gist.owner !== userReceiver.value) {
-      return sender.state === 'sending'
+    if (gist.owner !== user) {
+      return gistAPISender.state === 'sending'
         ? {state: 'forking', gist}
         : {state: 'locked', gist, forkGist};
     }
 
-    if (sender.state === 'sending') {
+    if (gistAPISender.state === 'sending') {
       return {state: 'updating', gist};
     }
 

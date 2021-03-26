@@ -8,7 +8,7 @@ export class API {
     return new API(browser, await browser.newPage());
   }
 
-  constructor(readonly browser: Browser, readonly page: Page) {}
+  private constructor(readonly browser: Browser, readonly page: Page) {}
 
   async click(nodeSet: NodeSet): Promise<void> {
     await this.page.click('xpath=' + nodeSet.expression);

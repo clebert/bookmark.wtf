@@ -4,7 +4,7 @@ import {createGithubClient} from '../utils/create-github-client';
 import {deauthorize} from '../utils/deauthorize';
 import {isObject} from '../utils/is-object';
 import {isString} from '../utils/is-string';
-import {fetchGithubAPI} from './fetch-github-api';
+import {GithubAPI} from './github-api';
 
 export interface Gist {
   readonly owner: string;
@@ -17,7 +17,7 @@ export interface GistFile {
   readonly text: string;
 }
 
-export class GistAPI {
+export class GistAPI extends GithubAPI {
   static async init(token: string, gistName: string): Promise<GistAPI> {
     const client = createGithubClient(token);
 
@@ -33,17 +33,7 @@ export class GistAPI {
       throw error;
     }
 
-    return new GistAPI(token, gistName, data!);
-  }
-
-  #gist: Gist;
-
-  constructor(
-    readonly token: string,
-    readonly gistName: string,
-    data: GetGistQuery
-  ) {
-    const {gist} = data.viewer;
+    const {gist} = data!.viewer;
 
     if (!gist || !gist.owner) {
       throw new Error('Failed to fetch gist.');
@@ -57,11 +47,22 @@ export class GistAPI {
       }
     }
 
-    this.#gist = {
+    return new GistAPI(token, gistName, {
       owner: gist.owner.login,
       description: gist.description?.trim() || undefined,
       files,
-    };
+    });
+  }
+
+  readonly #gistName: string;
+
+  #gist: Gist;
+
+  protected constructor(token: string, gistName: string, gist: Gist) {
+    super(token);
+
+    this.#gistName = gistName;
+    this.#gist = gist;
   }
 
   get gist(): Gist {
@@ -74,11 +75,10 @@ export class GistAPI {
       files: [{filename, text}, ...this.#gist.files],
     };
 
-    await fetchGithubAPI({
+    await this.fetch({
       method: 'PATCH',
-      pathname: `/gists/${this.gistName}`,
+      pathname: `/gists/${this.#gistName}`,
       params: {files: {[filename]: {content: text}}},
-      token: this.token,
     });
   }
 
@@ -97,11 +97,10 @@ export class GistAPI {
       };
     }
 
-    await fetchGithubAPI({
+    await this.fetch({
       method: 'PATCH',
-      pathname: `/gists/${this.gistName}`,
+      pathname: `/gists/${this.#gistName}`,
       params: {files: {[filename]: {content: text}}},
-      token: this.token,
     });
   }
 
@@ -111,20 +110,18 @@ export class GistAPI {
       files: this.#gist.files.filter((file) => file.filename !== filename),
     };
 
-    await fetchGithubAPI({
+    await this.fetch({
       method: 'PATCH',
-      pathname: `/gists/${this.gistName}`,
+      pathname: `/gists/${this.#gistName}`,
       params: {files: {[filename]: null}},
-      token: this.token,
     });
   }
 
   async fork(): Promise<string> {
-    const {data} = await fetchGithubAPI({
+    const {data} = await this.fetch({
       method: 'POST',
-      pathname: `/gists/${this.gistName}/forks`,
+      pathname: `/gists/${this.#gistName}/forks`,
       params: {},
-      token: this.token,
     });
 
     if (!isObject(data) || !isString(data.id)) {

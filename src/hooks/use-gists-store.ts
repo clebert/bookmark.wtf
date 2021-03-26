@@ -34,30 +34,29 @@ export interface FailedGistsStore {
   readonly reason: unknown;
 }
 
-export function useGistsStore(
-  authStore: AuthorizedAuthStore,
-  appUrl: string
-): GistsStore {
+export function useGistsStore(authStore: AuthorizedAuthStore): GistsStore {
   const gistsAPIReceiver = useReceiver(
-    useMemo(() => GistsAPI.init(authStore.token, appUrl), [authStore, appUrl])
+    useMemo(() => GistsAPI.init(authStore.token), [authStore])
   );
 
-  const sender = useSender();
-  const transition = useTransition(gistsAPIReceiver, sender);
+  const gistsAPISender = useSender();
+  const transition = useTransition(gistsAPIReceiver, gistsAPISender);
 
   const createGist = (description: string) =>
     transition(() =>
-      sender.send?.(gistsAPIReceiver.value!.createGist(description))
+      gistsAPISender.send?.(gistsAPIReceiver.value!.createGist(description))
     );
 
   const updateGist = (gistName: string, description: string) =>
     transition(() =>
-      sender.send?.(gistsAPIReceiver.value!.updateGist(gistName, description))
+      gistsAPISender.send?.(
+        gistsAPIReceiver.value!.updateGist(gistName, description)
+      )
     );
 
   const deleteGist = (gistName: string) =>
     transition(() =>
-      sender.send?.(gistsAPIReceiver.value!.deleteGist(gistName))
+      gistsAPISender.send?.(gistsAPIReceiver.value!.deleteGist(gistName))
     );
 
   return useMemo(() => {
@@ -65,8 +64,8 @@ export function useGistsStore(
       return {state: 'failed', reason: gistsAPIReceiver.reason};
     }
 
-    if (sender.state === 'failed') {
-      return {state: 'failed', reason: sender.reason};
+    if (gistsAPISender.state === 'failed') {
+      return {state: 'failed', reason: gistsAPISender.reason};
     }
 
     if (gistsAPIReceiver.state === 'receiving') {
@@ -75,7 +74,7 @@ export function useGistsStore(
 
     const {gists} = gistsAPIReceiver.value;
 
-    if (sender.state === 'sending') {
+    if (gistsAPISender.state === 'sending') {
       return {state: 'updating', gists};
     }
 
