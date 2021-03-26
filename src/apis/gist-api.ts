@@ -117,7 +117,7 @@ export class GistAPI extends GithubAPI {
     });
   }
 
-  async fork(): Promise<string> {
+  async forkGist(): Promise<string> {
     const {data} = await this.fetch({
       method: 'POST',
       pathname: `/gists/${this.#gistName}/forks`,

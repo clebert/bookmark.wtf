@@ -100,7 +100,7 @@ export function useGistStore(
     transition(() =>
       gistAPISender.send?.(
         gistAPIReceiver
-          .value!.fork()
+          .value!.forkGist()
           .then(
             bind((newGistName: string) =>
               history.push(changeGistName(newGistName))

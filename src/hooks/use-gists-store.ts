@@ -1,4 +1,5 @@
 import {useMemo} from 'preact/hooks';
+import {GistFile} from '../apis/gist-api';
 import {GistsAPI, ShallowGist} from '../apis/gists-api';
 import {AuthorizedAuthStore} from './use-auth-store';
 import {useReceiver} from './use-receiver';
@@ -34,9 +35,15 @@ export interface FailedGistsStore {
   readonly reason: unknown;
 }
 
-export function useGistsStore(authStore: AuthorizedAuthStore): GistsStore {
+export function useGistsStore(
+  authStore: AuthorizedAuthStore,
+  mainFile: GistFile
+): GistsStore {
   const gistsAPIReceiver = useReceiver(
-    useMemo(() => GistsAPI.init(authStore.token), [authStore])
+    useMemo(() => GistsAPI.init(authStore.token, mainFile), [
+      authStore,
+      mainFile,
+    ])
   );
 
   const gistsAPISender = useSender();
