@@ -45,7 +45,9 @@ describe('bookmark.wtf', () => {
       speakeasy.totp({secret, encoding: 'base32'})
     );
 
-    await api.click(github.primaryButton);
+    // After filling out the OTP, the primary button is now triggered automatically.
+    // await api.click(github.primaryButton);
+
     await api.exists(app.topbar.signOutButton);
 
     expect(await api.page.url()).toBe(url);
