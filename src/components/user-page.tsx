@@ -15,9 +15,10 @@ export interface UserPageProps {
 
 export function UserPage({authStore}: UserPageProps): JSX.Element {
   const userReceiver = useReceiver(
-    useMemo(() => UserAPI.init(authStore.token).then(({user}) => user), [
-      authStore,
-    ])
+    useMemo(
+      () => UserAPI.init(authStore.token).then(({user}) => user),
+      [authStore]
+    )
   );
 
   if (userReceiver.state === 'failed') {

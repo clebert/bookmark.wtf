@@ -14,14 +14,12 @@ export type ColorScheme = 'light' | 'dark';
 export const UIModeContext = createContext<UIMode>(undefined as any);
 
 export function useUIMode(): UIMode {
-  const [
-    colorSchemeSelection,
-    setColorSchemeSelection,
-  ] = useState<ColorSchemeSelection>(() => {
-    const item = localStorage.getItem('colorSchemeSelection');
+  const [colorSchemeSelection, setColorSchemeSelection] =
+    useState<ColorSchemeSelection>(() => {
+      const item = localStorage.getItem('colorSchemeSelection');
 
-    return item === 'light' || item === 'dark' ? item : 'auto';
-  });
+      return item === 'light' || item === 'dark' ? item : 'auto';
+    });
 
   const colorScheme = useMemo<ColorScheme>(() => {
     const {matches: prefersDark} = window.matchMedia(

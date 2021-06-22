@@ -2261,9 +2261,10 @@ export type ContributionsCollectionPullRequestReviewContributionsArgs = {
 };
 
 /** A contributions collection aggregates contributions such as opened issues and commits created by a user. */
-export type ContributionsCollectionPullRequestReviewContributionsByRepositoryArgs = {
-  maxRepositories?: Maybe<Scalars['Int']>;
-};
+export type ContributionsCollectionPullRequestReviewContributionsByRepositoryArgs =
+  {
+    maxRepositories?: Maybe<Scalars['Int']>;
+  };
 
 /** A contributions collection aggregates contributions such as opened issues and commits created by a user. */
 export type ContributionsCollectionRepositoryContributionsArgs = {
@@ -2288,16 +2289,18 @@ export type ContributionsCollectionTotalPullRequestContributionsArgs = {
 };
 
 /** A contributions collection aggregates contributions such as opened issues and commits created by a user. */
-export type ContributionsCollectionTotalRepositoriesWithContributedIssuesArgs = {
-  excludeFirst?: Maybe<Scalars['Boolean']>;
-  excludePopular?: Maybe<Scalars['Boolean']>;
-};
+export type ContributionsCollectionTotalRepositoriesWithContributedIssuesArgs =
+  {
+    excludeFirst?: Maybe<Scalars['Boolean']>;
+    excludePopular?: Maybe<Scalars['Boolean']>;
+  };
 
 /** A contributions collection aggregates contributions such as opened issues and commits created by a user. */
-export type ContributionsCollectionTotalRepositoriesWithContributedPullRequestsArgs = {
-  excludeFirst?: Maybe<Scalars['Boolean']>;
-  excludePopular?: Maybe<Scalars['Boolean']>;
-};
+export type ContributionsCollectionTotalRepositoriesWithContributedPullRequestsArgs =
+  {
+    excludeFirst?: Maybe<Scalars['Boolean']>;
+    excludePopular?: Maybe<Scalars['Boolean']>;
+  };
 
 /** A contributions collection aggregates contributions such as opened issues and commits created by a user. */
 export type ContributionsCollectionTotalRepositoryContributionsArgs = {
@@ -4149,24 +4152,26 @@ export type EnterpriseOwnerInfoAffiliatedUsersWithTwoFactorDisabledArgs = {
 };
 
 /** Enterprise information only visible to enterprise owners. */
-export type EnterpriseOwnerInfoAllowPrivateRepositoryForkingSettingOrganizationsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  value: Scalars['Boolean'];
-  orderBy?: Maybe<OrganizationOrder>;
-};
+export type EnterpriseOwnerInfoAllowPrivateRepositoryForkingSettingOrganizationsArgs =
+  {
+    after?: Maybe<Scalars['String']>;
+    before?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
+    last?: Maybe<Scalars['Int']>;
+    value: Scalars['Boolean'];
+    orderBy?: Maybe<OrganizationOrder>;
+  };
 
 /** Enterprise information only visible to enterprise owners. */
-export type EnterpriseOwnerInfoDefaultRepositoryPermissionSettingOrganizationsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  value: DefaultRepositoryPermissionField;
-  orderBy?: Maybe<OrganizationOrder>;
-};
+export type EnterpriseOwnerInfoDefaultRepositoryPermissionSettingOrganizationsArgs =
+  {
+    after?: Maybe<Scalars['String']>;
+    before?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
+    last?: Maybe<Scalars['Int']>;
+    value: DefaultRepositoryPermissionField;
+    orderBy?: Maybe<OrganizationOrder>;
+  };
 
 /** Enterprise information only visible to enterprise owners. */
 export type EnterpriseOwnerInfoDomainsArgs = {
@@ -4198,74 +4203,81 @@ export type EnterpriseOwnerInfoIpAllowListEntriesArgs = {
 };
 
 /** Enterprise information only visible to enterprise owners. */
-export type EnterpriseOwnerInfoMembersCanChangeRepositoryVisibilitySettingOrganizationsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  value: Scalars['Boolean'];
-  orderBy?: Maybe<OrganizationOrder>;
-};
+export type EnterpriseOwnerInfoMembersCanChangeRepositoryVisibilitySettingOrganizationsArgs =
+  {
+    after?: Maybe<Scalars['String']>;
+    before?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
+    last?: Maybe<Scalars['Int']>;
+    value: Scalars['Boolean'];
+    orderBy?: Maybe<OrganizationOrder>;
+  };
 
 /** Enterprise information only visible to enterprise owners. */
-export type EnterpriseOwnerInfoMembersCanCreateRepositoriesSettingOrganizationsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  value: OrganizationMembersCanCreateRepositoriesSettingValue;
-  orderBy?: Maybe<OrganizationOrder>;
-};
+export type EnterpriseOwnerInfoMembersCanCreateRepositoriesSettingOrganizationsArgs =
+  {
+    after?: Maybe<Scalars['String']>;
+    before?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
+    last?: Maybe<Scalars['Int']>;
+    value: OrganizationMembersCanCreateRepositoriesSettingValue;
+    orderBy?: Maybe<OrganizationOrder>;
+  };
 
 /** Enterprise information only visible to enterprise owners. */
-export type EnterpriseOwnerInfoMembersCanDeleteIssuesSettingOrganizationsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  value: Scalars['Boolean'];
-  orderBy?: Maybe<OrganizationOrder>;
-};
+export type EnterpriseOwnerInfoMembersCanDeleteIssuesSettingOrganizationsArgs =
+  {
+    after?: Maybe<Scalars['String']>;
+    before?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
+    last?: Maybe<Scalars['Int']>;
+    value: Scalars['Boolean'];
+    orderBy?: Maybe<OrganizationOrder>;
+  };
 
 /** Enterprise information only visible to enterprise owners. */
-export type EnterpriseOwnerInfoMembersCanDeleteRepositoriesSettingOrganizationsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  value: Scalars['Boolean'];
-  orderBy?: Maybe<OrganizationOrder>;
-};
+export type EnterpriseOwnerInfoMembersCanDeleteRepositoriesSettingOrganizationsArgs =
+  {
+    after?: Maybe<Scalars['String']>;
+    before?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
+    last?: Maybe<Scalars['Int']>;
+    value: Scalars['Boolean'];
+    orderBy?: Maybe<OrganizationOrder>;
+  };
 
 /** Enterprise information only visible to enterprise owners. */
-export type EnterpriseOwnerInfoMembersCanInviteCollaboratorsSettingOrganizationsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  value: Scalars['Boolean'];
-  orderBy?: Maybe<OrganizationOrder>;
-};
+export type EnterpriseOwnerInfoMembersCanInviteCollaboratorsSettingOrganizationsArgs =
+  {
+    after?: Maybe<Scalars['String']>;
+    before?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
+    last?: Maybe<Scalars['Int']>;
+    value: Scalars['Boolean'];
+    orderBy?: Maybe<OrganizationOrder>;
+  };
 
 /** Enterprise information only visible to enterprise owners. */
-export type EnterpriseOwnerInfoMembersCanUpdateProtectedBranchesSettingOrganizationsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  value: Scalars['Boolean'];
-  orderBy?: Maybe<OrganizationOrder>;
-};
+export type EnterpriseOwnerInfoMembersCanUpdateProtectedBranchesSettingOrganizationsArgs =
+  {
+    after?: Maybe<Scalars['String']>;
+    before?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
+    last?: Maybe<Scalars['Int']>;
+    value: Scalars['Boolean'];
+    orderBy?: Maybe<OrganizationOrder>;
+  };
 
 /** Enterprise information only visible to enterprise owners. */
-export type EnterpriseOwnerInfoMembersCanViewDependencyInsightsSettingOrganizationsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  value: Scalars['Boolean'];
-  orderBy?: Maybe<OrganizationOrder>;
-};
+export type EnterpriseOwnerInfoMembersCanViewDependencyInsightsSettingOrganizationsArgs =
+  {
+    after?: Maybe<Scalars['String']>;
+    before?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
+    last?: Maybe<Scalars['Int']>;
+    value: Scalars['Boolean'];
+    orderBy?: Maybe<OrganizationOrder>;
+  };
 
 /** Enterprise information only visible to enterprise owners. */
 export type EnterpriseOwnerInfoOrganizationProjectsSettingOrganizationsArgs = {
@@ -7962,9 +7974,10 @@ export type MutationUpdateEnterpriseDefaultRepositoryPermissionSettingArgs = {
 };
 
 /** The root query for implementing GraphQL mutations. */
-export type MutationUpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingArgs = {
-  input: UpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingInput;
-};
+export type MutationUpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingArgs =
+  {
+    input: UpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingInput;
+  };
 
 /** The root query for implementing GraphQL mutations. */
 export type MutationUpdateEnterpriseMembersCanCreateRepositoriesSettingArgs = {
@@ -7992,14 +8005,16 @@ export type MutationUpdateEnterpriseMembersCanMakePurchasesSettingArgs = {
 };
 
 /** The root query for implementing GraphQL mutations. */
-export type MutationUpdateEnterpriseMembersCanUpdateProtectedBranchesSettingArgs = {
-  input: UpdateEnterpriseMembersCanUpdateProtectedBranchesSettingInput;
-};
+export type MutationUpdateEnterpriseMembersCanUpdateProtectedBranchesSettingArgs =
+  {
+    input: UpdateEnterpriseMembersCanUpdateProtectedBranchesSettingInput;
+  };
 
 /** The root query for implementing GraphQL mutations. */
-export type MutationUpdateEnterpriseMembersCanViewDependencyInsightsSettingArgs = {
-  input: UpdateEnterpriseMembersCanViewDependencyInsightsSettingInput;
-};
+export type MutationUpdateEnterpriseMembersCanViewDependencyInsightsSettingArgs =
+  {
+    input: UpdateEnterpriseMembersCanViewDependencyInsightsSettingInput;
+  };
 
 /** The root query for implementing GraphQL mutations. */
 export type MutationUpdateEnterpriseOrganizationProjectsSettingArgs = {
@@ -8022,9 +8037,10 @@ export type MutationUpdateEnterpriseTeamDiscussionsSettingArgs = {
 };
 
 /** The root query for implementing GraphQL mutations. */
-export type MutationUpdateEnterpriseTwoFactorAuthenticationRequiredSettingArgs = {
-  input: UpdateEnterpriseTwoFactorAuthenticationRequiredSettingInput;
-};
+export type MutationUpdateEnterpriseTwoFactorAuthenticationRequiredSettingArgs =
+  {
+    input: UpdateEnterpriseTwoFactorAuthenticationRequiredSettingInput;
+  };
 
 /** The root query for implementing GraphQL mutations. */
 export type MutationUpdateIpAllowListEnabledSettingArgs = {
@@ -9292,43 +9308,46 @@ export type OrgRestoreMemberAuditEntryMembership =
   | OrgRestoreMemberMembershipTeamAuditEntryData;
 
 /** Metadata for an organization membership for org.restore_member actions */
-export type OrgRestoreMemberMembershipOrganizationAuditEntryData = OrganizationAuditEntryData & {
-  readonly __typename?: 'OrgRestoreMemberMembershipOrganizationAuditEntryData';
-  /** The Organization associated with the Audit Entry. */
-  readonly organization?: Maybe<Organization>;
-  /** The name of the Organization. */
-  readonly organizationName?: Maybe<Scalars['String']>;
-  /** The HTTP path for the organization */
-  readonly organizationResourcePath?: Maybe<Scalars['URI']>;
-  /** The HTTP URL for the organization */
-  readonly organizationUrl?: Maybe<Scalars['URI']>;
-};
+export type OrgRestoreMemberMembershipOrganizationAuditEntryData =
+  OrganizationAuditEntryData & {
+    readonly __typename?: 'OrgRestoreMemberMembershipOrganizationAuditEntryData';
+    /** The Organization associated with the Audit Entry. */
+    readonly organization?: Maybe<Organization>;
+    /** The name of the Organization. */
+    readonly organizationName?: Maybe<Scalars['String']>;
+    /** The HTTP path for the organization */
+    readonly organizationResourcePath?: Maybe<Scalars['URI']>;
+    /** The HTTP URL for the organization */
+    readonly organizationUrl?: Maybe<Scalars['URI']>;
+  };
 
 /** Metadata for a repository membership for org.restore_member actions */
-export type OrgRestoreMemberMembershipRepositoryAuditEntryData = RepositoryAuditEntryData & {
-  readonly __typename?: 'OrgRestoreMemberMembershipRepositoryAuditEntryData';
-  /** The repository associated with the action */
-  readonly repository?: Maybe<Repository>;
-  /** The name of the repository */
-  readonly repositoryName?: Maybe<Scalars['String']>;
-  /** The HTTP path for the repository */
-  readonly repositoryResourcePath?: Maybe<Scalars['URI']>;
-  /** The HTTP URL for the repository */
-  readonly repositoryUrl?: Maybe<Scalars['URI']>;
-};
+export type OrgRestoreMemberMembershipRepositoryAuditEntryData =
+  RepositoryAuditEntryData & {
+    readonly __typename?: 'OrgRestoreMemberMembershipRepositoryAuditEntryData';
+    /** The repository associated with the action */
+    readonly repository?: Maybe<Repository>;
+    /** The name of the repository */
+    readonly repositoryName?: Maybe<Scalars['String']>;
+    /** The HTTP path for the repository */
+    readonly repositoryResourcePath?: Maybe<Scalars['URI']>;
+    /** The HTTP URL for the repository */
+    readonly repositoryUrl?: Maybe<Scalars['URI']>;
+  };
 
 /** Metadata for a team membership for org.restore_member actions */
-export type OrgRestoreMemberMembershipTeamAuditEntryData = TeamAuditEntryData & {
-  readonly __typename?: 'OrgRestoreMemberMembershipTeamAuditEntryData';
-  /** The team associated with the action */
-  readonly team?: Maybe<Team>;
-  /** The name of the team */
-  readonly teamName?: Maybe<Scalars['String']>;
-  /** The HTTP path for this team */
-  readonly teamResourcePath?: Maybe<Scalars['URI']>;
-  /** The HTTP URL for this team */
-  readonly teamUrl?: Maybe<Scalars['URI']>;
-};
+export type OrgRestoreMemberMembershipTeamAuditEntryData =
+  TeamAuditEntryData & {
+    readonly __typename?: 'OrgRestoreMemberMembershipTeamAuditEntryData';
+    /** The team associated with the action */
+    readonly team?: Maybe<Team>;
+    /** The name of the team */
+    readonly teamName?: Maybe<Scalars['String']>;
+    /** The HTTP path for this team */
+    readonly teamResourcePath?: Maybe<Scalars['URI']>;
+    /** The HTTP URL for this team */
+    readonly teamUrl?: Maybe<Scalars['URI']>;
+  };
 
 /** Audit log entry for a org.unblock_user */
 export type OrgUnblockUserAuditEntry = Node &
@@ -18241,15 +18260,16 @@ export type UpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingInput = {
 };
 
 /** Autogenerated return type of UpdateEnterpriseMembersCanChangeRepositoryVisibilitySetting */
-export type UpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingPayload = {
-  readonly __typename?: 'UpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingPayload';
-  /** A unique identifier for the client performing the mutation. */
-  readonly clientMutationId?: Maybe<Scalars['String']>;
-  /** The enterprise with the updated members can change repository visibility setting. */
-  readonly enterprise?: Maybe<Enterprise>;
-  /** A message confirming the result of updating the members can change repository visibility setting. */
-  readonly message?: Maybe<Scalars['String']>;
-};
+export type UpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingPayload =
+  {
+    readonly __typename?: 'UpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingPayload';
+    /** A unique identifier for the client performing the mutation. */
+    readonly clientMutationId?: Maybe<Scalars['String']>;
+    /** The enterprise with the updated members can change repository visibility setting. */
+    readonly enterprise?: Maybe<Enterprise>;
+    /** A message confirming the result of updating the members can change repository visibility setting. */
+    readonly message?: Maybe<Scalars['String']>;
+  };
 
 /** Autogenerated input type of UpdateEnterpriseMembersCanCreateRepositoriesSetting */
 export type UpdateEnterpriseMembersCanCreateRepositoriesSettingInput = {

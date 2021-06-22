@@ -40,10 +40,10 @@ export function useGistsStore(
   mainFile: GistFile
 ): GistsStore {
   const gistsAPIReceiver = useReceiver(
-    useMemo(() => GistsAPI.init(authStore.token, mainFile), [
-      authStore,
-      mainFile,
-    ])
+    useMemo(
+      () => GistsAPI.init(authStore.token, mainFile),
+      [authStore, mainFile]
+    )
   );
 
   const gistsAPISender = useSender();

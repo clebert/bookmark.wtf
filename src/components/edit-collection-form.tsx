@@ -18,9 +18,8 @@ export function EditCollectionForm({
   onCancel,
   onUpdate,
 }: EditCollectionFormProps): JSX.Element {
-  const [currentDescription, setCurrentDescription] = useState(
-    initialDescription
-  );
+  const [currentDescription, setCurrentDescription] =
+    useState(initialDescription);
 
   const update = useMemo(() => {
     const description = currentDescription.trim();
