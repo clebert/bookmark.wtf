@@ -1,8 +1,9 @@
 module.exports = {
-  purge: {
-    content: ['./src/**/*.html', './src/**/*.ts', './src/**/*.tsx'],
-  },
   darkMode: 'class',
+  mode: 'jit',
+  purge: {
+    content: ['./src/**/*.{html,ts,tsx}'],
+  },
   theme: {
     extend: {
       outline: {
@@ -10,11 +11,4 @@ module.exports = {
       },
     },
   },
-  variants: {
-    extend: {
-      backgroundColor: ['active'],
-      textColor: ['active'],
-    },
-  },
-  plugins: [],
 };
