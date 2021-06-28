@@ -29,13 +29,9 @@ export function UserTopbar({authStore}: UserTopbarProps): JSX.Element {
           <Icon type="logout" />
           Sign out
         </Button>
-      </TopbarItem>
 
-      {gistName && (
-        <TopbarItem>
-          <SearchForm />
-        </TopbarItem>
-      )}
+        {gistName && <SearchForm />}
+      </TopbarItem>
     </Topbar>
   );
 }
