@@ -1,6 +1,5 @@
 import {Fragment, JSX, h} from 'preact';
 import {useCallback} from 'preact/hooks';
-import {useBookmarkItemView} from '../hooks/use-bookmark-item-view';
 import {
   ForkingGistStore,
   LockedGistStore,
@@ -8,6 +7,7 @@ import {
   UpdatingGistStore,
 } from '../hooks/use-gist-store';
 import {useTimer} from '../hooks/use-timer';
+import {useToggle} from '../hooks/use-toggle';
 import {Bookmark} from '../utils/parse-bookmark';
 import {serializeBookmark} from '../utils/serialize-bookmark';
 import {BookmarkIcon} from './bookmark-icon';
@@ -56,14 +56,36 @@ export function BookmarkItem({
     window.location.href = bookmark.url;
   }, [filename, bookmark]);
 
-  const view = useBookmarkItemView(gistStore, bookmarkFile);
+  const [editing, toggleEditing] = useToggle(false);
 
-  return view.state === 'editing' ? (
+  const updateBookmark = useCallback(
+    (title: string, url: string) => {
+      if ('updateFile' in gistStore) {
+        gistStore.updateFile(
+          filename,
+          serializeBookmark({...bookmark, title, url, mtime: Date.now()})
+        );
+
+        toggleEditing();
+      }
+    },
+    [gistStore, filename, bookmark]
+  );
+
+  const [deleting, toggleDeleting] = useToggle(false, 3000);
+
+  const deleteBookmark = useCallback(() => {
+    if ('deleteFile' in gistStore) {
+      gistStore.deleteFile(filename);
+    }
+  }, [gistStore, filename]);
+
+  return editing ? (
     <EditBookmarkForm
       initialTitle={bookmark.title}
       initialUrl={bookmark.url}
-      onCancel={view.cancelEditing}
-      onUpdate={view.updateBookmark}
+      onCancel={toggleEditing}
+      onUpdate={updateBookmark}
     />
   ) : (
     <GridItem
@@ -81,17 +103,7 @@ export function BookmarkItem({
         </Link>
       }
       row2={
-        view.state === 'mutable' ? (
-          <>
-            <Button class="EditButton" onClick={view.startEditing}>
-              <Icon type="pencil" standalone />
-            </Button>
-
-            <Button class="DeleteButton" onClick={view.startDeleting}>
-              <Icon type="trash" standalone />
-            </Button>
-          </>
-        ) : view.state === 'deleting' ? (
+        deleting ? (
           <>
             <Button class="EditButton">
               <Icon type="pencil" standalone />
@@ -100,13 +112,29 @@ export function BookmarkItem({
             <Button
               class="DeleteButton"
               theme="danger"
-              onClick={view.deleteBookmark}
+              onClick={deleteBookmark}
             >
               <Icon type="trash" />
               Delete
             </Button>
           </>
-        ) : undefined
+        ) : (
+          <>
+            <Button
+              class="EditButton"
+              onClick={gistStore.state === 'ready' ? toggleEditing : undefined}
+            >
+              <Icon type="pencil" standalone />
+            </Button>
+
+            <Button
+              class="DeleteButton"
+              onClick={gistStore.state === 'ready' ? toggleDeleting : undefined}
+            >
+              <Icon type="trash" standalone />
+            </Button>
+          </>
+        )
       }
       highlight={useTimer(1500, bookmark.mtime ?? bookmark.ctime)}
     />

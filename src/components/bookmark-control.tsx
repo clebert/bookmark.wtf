@@ -1,5 +1,5 @@
 import {Fragment, JSX, h} from 'preact';
-import {useCallback, useContext, useMemo} from 'preact/hooks';
+import {useCallback, useContext} from 'preact/hooks';
 import {BookmarkSortOrder} from '../hooks/use-bookmark-sort';
 import {
   ForkingGistStore,
@@ -46,45 +46,43 @@ export function BookmarkControl({
     []
   );
 
-  const [creationMode, toggleCreationMode] = useToggle(false);
+  const [newMode, toggleNewMode] = useToggle(false);
 
-  const createBookmark = useMemo(
-    () =>
-      'createFile' in gistStore
-        ? (title: string, url: string) => {
-            gistStore.createFile(
-              createRandomValue() + '.md',
-              serializeBookmark({title, url, ctime: Date.now()})
-            );
+  const createBookmark = useCallback(
+    (title: string, url: string) => {
+      if ('createFile' in gistStore) {
+        gistStore.createFile(
+          createRandomValue() + '.md',
+          serializeBookmark({title, url, ctime: Date.now()})
+        );
 
-            toggleCreationMode();
-          }
-        : undefined,
+        toggleNewMode();
+      }
+    },
     [gistStore]
   );
 
-  return creationMode ? (
-    <NewBookmarkForm onCancel={toggleCreationMode} onCreate={createBookmark} />
+  return newMode ? (
+    <NewBookmarkForm onCancel={toggleNewMode} onCreate={createBookmark} />
   ) : (
     <GridItem
       class="BookmarkControl"
       row1={
-        gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
-          <Label static>
-            <Icon type="viewGrid" />
-            {gistStore.gist.description ?? gistName}
-          </Label>
-        ) : (
-          <Label>
-            <Icon type="lockClosed" />
-            {gistStore.gist.description ?? gistName}
-          </Label>
-        )
+        <Label>
+          <Icon
+            type={
+              gistStore.state !== 'locked' && gistStore.state !== 'forking'
+                ? 'viewGrid'
+                : 'lockClosed'
+            }
+          />
+          {gistStore.gist.description ?? gistName}
+        </Label>
       }
       row2={
         gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
           <>
-            <Button onClick={toggleCreationMode}>
+            <Button onClick={toggleNewMode}>
               <Icon type="viewGridAdd" />
               New
             </Button>

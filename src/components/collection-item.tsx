@@ -1,10 +1,10 @@
 import {Fragment, JSX, h} from 'preact';
 import {useCallback, useContext} from 'preact/hooks';
 import {ShallowGist} from '../apis/gists-api';
-import {useCollectionItemView} from '../hooks/use-collection-item-view';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {HistoryContext} from '../hooks/use-history';
 import {useTimer} from '../hooks/use-timer';
+import {useToggle} from '../hooks/use-toggle';
 import {changeGistName} from '../utils/change-gist-name';
 import {Button} from './button';
 import {EditCollectionForm} from './edit-collection-form';
@@ -28,13 +28,31 @@ export function CollectionItem({
     [gistName]
   );
 
-  const view = useCollectionItemView(gistsStore, gistName);
+  const [editing, toggleEditing] = useToggle(false);
 
-  return view.state === 'editing' ? (
+  const updateCollection = useCallback(
+    (newDescription: string) => {
+      if ('updateGist' in gistsStore) {
+        gistsStore.updateGist(gistName, newDescription);
+        toggleEditing();
+      }
+    },
+    [gistsStore, gistName]
+  );
+
+  const [deleting, toggleDeleting] = useToggle(false, 3000);
+
+  const deleteCollection = useCallback(() => {
+    if ('deleteGist' in gistsStore) {
+      gistsStore.deleteGist(gistName);
+    }
+  }, [gistsStore, gistName]);
+
+  return editing ? (
     <EditCollectionForm
       initialDescription={description ?? ''}
-      onCancel={view.cancelEditing}
-      onUpdate={view.updateCollection}
+      onCancel={toggleEditing}
+      onUpdate={updateCollection}
     />
   ) : (
     <GridItem
@@ -46,17 +64,7 @@ export function CollectionItem({
         </Link>
       }
       row2={
-        view.state === 'mutable' ? (
-          <>
-            <Button class="EditButton" onClick={view.startEditing}>
-              <Icon type="pencil" standalone />
-            </Button>
-
-            <Button class="DeleteButton" onClick={view.startDeleting}>
-              <Icon type="trash" standalone />
-            </Button>
-          </>
-        ) : view.state === 'deleting' ? (
+        deleting ? (
           <>
             <Button class="EditButton">
               <Icon type="pencil" standalone />
@@ -65,13 +73,31 @@ export function CollectionItem({
             <Button
               class="DeleteButton"
               theme="danger"
-              onClick={view.deleteCollection}
+              onClick={deleteCollection}
             >
               <Icon type="trash" />
               Delete
             </Button>
           </>
-        ) : undefined
+        ) : (
+          <>
+            <Button
+              class="EditButton"
+              onClick={gistsStore.state === 'ready' ? toggleEditing : undefined}
+            >
+              <Icon type="pencil" standalone />
+            </Button>
+
+            <Button
+              class="DeleteButton"
+              onClick={
+                gistsStore.state === 'ready' ? toggleDeleting : undefined
+              }
+            >
+              <Icon type="trash" standalone />
+            </Button>
+          </>
+        )
       }
       highlight={useTimer(1500, mtime)}
     />

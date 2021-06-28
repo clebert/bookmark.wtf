@@ -1,5 +1,5 @@
-import {Fragment, JSX, h} from 'preact';
-import {useMemo} from 'preact/hooks';
+import {JSX, h} from 'preact';
+import {useCallback} from 'preact/hooks';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {useToggle} from '../hooks/use-toggle';
 import {Button} from './button';
@@ -15,26 +15,22 @@ export interface CollectionControlProps {
 export function CollectionControl({
   gistsStore,
 }: CollectionControlProps): JSX.Element {
-  const [creationMode, toggleCreationMode] = useToggle(false);
+  const [newMode, toggleNewMode] = useToggle(false);
 
-  const createCollection = useMemo(
-    () =>
-      'createGist' in gistsStore
-        ? (description: string) => {
-            gistsStore.createGist(description);
-            toggleCreationMode();
-          }
-        : undefined,
+  const createCollection = useCallback(
+    (description: string) => {
+      if ('createGist' in gistsStore) {
+        gistsStore.createGist(description);
+        toggleNewMode();
+      }
+    },
     [gistsStore]
   );
 
   const gistCount = gistsStore.gists?.length ?? 0;
 
-  return creationMode ? (
-    <NewCollectionForm
-      onCancel={toggleCreationMode}
-      onCreate={createCollection}
-    />
+  return newMode ? (
+    <NewCollectionForm onCancel={toggleNewMode} onCreate={createCollection} />
   ) : (
     <GridItem
       class="CollectionControl"
@@ -45,12 +41,10 @@ export function CollectionControl({
         </Label>
       }
       row2={
-        <>
-          <Button class="NewButton" onClick={toggleCreationMode}>
-            <Icon type="viewGridAdd" />
-            New
-          </Button>
-        </>
+        <Button class="NewButton" onClick={toggleNewMode}>
+          <Icon type="viewGridAdd" />
+          New
+        </Button>
       }
     />
   );

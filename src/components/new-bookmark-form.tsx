@@ -8,7 +8,7 @@ import {TextField} from './text-field';
 
 export interface NewBookmarkFormProps {
   onCancel(): void;
-  onCreate?(title: string, url: string): void; // TODO: make required
+  onCreate(title: string, url: string): void;
 }
 
 export function NewBookmarkForm({
@@ -22,7 +22,7 @@ export function NewBookmarkForm({
     const title = currentTitle.trim();
     const url = currentUrl.trim();
 
-    return onCreate && title && url ? () => onCreate(title, url) : undefined;
+    return title && url ? () => onCreate(title, url) : undefined;
   }, [onCreate, currentTitle, currentUrl]);
 
   return (
