@@ -1,11 +1,5 @@
 import {Fragment, JSX, h} from 'preact';
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'preact/hooks';
+import {useCallback, useContext, useMemo} from 'preact/hooks';
 import {BookmarkSortOrder} from '../hooks/use-bookmark-sort';
 import {
   ForkingGistStore,
@@ -16,14 +10,12 @@ import {
 import {HistoryContext} from '../hooks/use-history';
 import {useToggle} from '../hooks/use-toggle';
 import {changeGistName} from '../utils/change-gist-name';
-import {createBookmarklet} from '../utils/create-bookmarklet';
 import {createRandomValue} from '../utils/create-random-value';
 import {serializeBookmark} from '../utils/serialize-bookmark';
 import {Button} from './button';
 import {GridItem} from './grid-item';
 import {Icon} from './icon';
 import {Label} from './label';
-import {Link} from './link';
 import {NewBookmarkForm} from './new-bookmark-form';
 import {SortOrderButton} from './sort-order-button';
 
@@ -54,58 +46,7 @@ export function BookmarkControl({
     []
   );
 
-  const [initialTitle, setInitialTitle] = useState(
-    () => new URL(history.url).searchParams.get('title') ?? ''
-  );
-
-  const [initialUrl, setInitialUrl] = useState(
-    () => new URL(history.url).searchParams.get('url') ?? ''
-  );
-
-  const [creationMode, toggleCreationMode] = useToggle(
-    gistStore.state !== 'locked' &&
-      gistStore.state !== 'forking' &&
-      Boolean(initialTitle || initialUrl)
-  );
-
-  useEffect(() => {
-    if (!creationMode) {
-      setInitialTitle('');
-      setInitialUrl('');
-    }
-  }, [creationMode]);
-
-  const bookmarklet = useMemo(() => createBookmarklet(gistName), [gistName]);
-
-  useEffect(() => {
-    history.replace(
-      {type: 'param', key: 'title'},
-      {type: 'param', key: 'url'},
-      {type: 'param', key: 'version'}
-    );
-
-    if (gistStore.state === 'locked' || gistStore.state === 'forking') {
-      return;
-    }
-
-    const version = new URL(history.url).searchParams.get('version');
-
-    if (version && version !== bookmarklet.version) {
-      alert(
-        'Your bookmarklet is out of date. ' +
-          'Please replace it with the latest version.'
-      );
-    }
-  }, []);
-
-  const showBookmarkletHelp = useCallback(
-    () =>
-      alert(
-        'You can save this bookmarklet in the Favorites bar of your browser. ' +
-          'This allows you to add new bookmarks without having to enter the title and URL yourself.'
-      ),
-    []
-  );
+  const [creationMode, toggleCreationMode] = useToggle(false);
 
   const createBookmark = useMemo(
     () =>
@@ -123,21 +64,16 @@ export function BookmarkControl({
   );
 
   return creationMode ? (
-    <NewBookmarkForm
-      initialTitle={initialTitle}
-      initialUrl={initialUrl}
-      onCancel={toggleCreationMode}
-      onCreate={createBookmark}
-    />
+    <NewBookmarkForm onCancel={toggleCreationMode} onCreate={createBookmark} />
   ) : (
     <GridItem
       class="BookmarkControl"
       row1={
         gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
-          <Link url={bookmarklet.url} onClick={showBookmarkletHelp}>
-            <Icon type="bookmark" />
+          <Label static>
+            <Icon type="viewGrid" />
             {gistStore.gist.description ?? gistName}
-          </Link>
+          </Label>
         ) : (
           <Label>
             <Icon type="lockClosed" />

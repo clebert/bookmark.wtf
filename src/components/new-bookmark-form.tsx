@@ -7,21 +7,16 @@ import {Icon} from './icon';
 import {TextField} from './text-field';
 
 export interface NewBookmarkFormProps {
-  readonly initialTitle: string;
-  readonly initialUrl: string;
-
   onCancel(): void;
   onCreate?(title: string, url: string): void; // TODO: make required
 }
 
 export function NewBookmarkForm({
-  initialTitle,
-  initialUrl,
   onCancel,
   onCreate,
 }: NewBookmarkFormProps): JSX.Element {
-  const [currentTitle, setCurrentTitle] = useState(initialTitle);
-  const [currentUrl, setCurrentUrl] = useState(initialUrl);
+  const [currentTitle, setCurrentTitle] = useState('');
+  const [currentUrl, setCurrentUrl] = useState('');
 
   const create = useMemo(() => {
     const title = currentTitle.trim();
@@ -37,7 +32,6 @@ export function NewBookmarkForm({
           <TextField
             value={currentTitle}
             placeholder="Enter title"
-            autoFocus
             required
             onInput={setCurrentTitle}
           />
@@ -47,6 +41,7 @@ export function NewBookmarkForm({
             type="url"
             value={currentUrl}
             placeholder="Enter URL"
+            autoFocus
             required
             onInput={setCurrentUrl}
           />

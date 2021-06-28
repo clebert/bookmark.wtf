@@ -21,8 +21,6 @@ of the service.
   secret<sup>1</sup> GitHub gists.
 - Bookmark collections are **shareable** via link and also **forkable** by
   others.
-- [Bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) functionality for
-  quickly adding new bookmarks.
 - Full text search within bookmark collections.
 - Bookmarks are automatically sorted by click count.
 
