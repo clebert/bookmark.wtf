@@ -10,7 +10,7 @@ export interface EditCollectionFormProps {
   readonly initialDescription: string;
 
   onCancel(): void;
-  onUpdate?(description: string): void;
+  onUpdate(description: string): void;
 }
 
 export function EditCollectionForm({
@@ -24,7 +24,7 @@ export function EditCollectionForm({
   const update = useMemo(() => {
     const description = currentDescription.trim();
 
-    return onUpdate && description && description !== initialDescription
+    return description && description !== initialDescription
       ? () => onUpdate(description)
       : undefined;
   }, [onUpdate, currentDescription]);
@@ -48,7 +48,7 @@ export function EditCollectionForm({
             <Button
               class="UpdateButton"
               type="submit"
-              theme={'success'}
+              theme="success"
               disabled={!update}
             >
               <Icon type="check" />

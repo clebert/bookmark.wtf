@@ -7,19 +7,13 @@ import {GridItem} from './grid-item';
 import {Icon} from './icon';
 import {Label} from './label';
 import {NewCollectionForm} from './new-collection-form';
-import {ZenButton} from './zen-button';
 
 export interface CollectionControlProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
-  readonly zenMode: boolean;
-
-  onChangeZenMode?(): void;
 }
 
 export function CollectionControl({
   gistsStore,
-  zenMode,
-  onChangeZenMode,
 }: CollectionControlProps): JSX.Element {
   const [creationMode, toggleCreationMode] = useToggle(false);
 
@@ -56,10 +50,6 @@ export function CollectionControl({
             <Icon type="viewGridAdd" />
             New
           </Button>
-
-          {onChangeZenMode && (
-            <ZenButton zenMode={zenMode} onChangeZenMode={onChangeZenMode} />
-          )}
         </>
       }
     />

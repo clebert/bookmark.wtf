@@ -1,5 +1,6 @@
 import {Fragment, JSX, h} from 'preact';
-import {useCallback, useMemo} from 'preact/hooks';
+import {useCallback} from 'preact/hooks';
+import {useBookmarkItemView} from '../hooks/use-bookmark-item-view';
 import {
   ForkingGistStore,
   LockedGistStore,
@@ -7,7 +8,6 @@ import {
   UpdatingGistStore,
 } from '../hooks/use-gist-store';
 import {useTimer} from '../hooks/use-timer';
-import {useToggle} from '../hooks/use-toggle';
 import {Bookmark} from '../utils/parse-bookmark';
 import {serializeBookmark} from '../utils/serialize-bookmark';
 import {BookmarkIcon} from './bookmark-icon';
@@ -25,7 +25,6 @@ export interface BookmarkItemProps {
     | ForkingGistStore;
 
   readonly bookmarkFile: BookmarkFile;
-  readonly zenMode: boolean;
 }
 
 export interface BookmarkFile {
@@ -36,36 +35,8 @@ export interface BookmarkFile {
 export function BookmarkItem({
   gistStore,
   bookmarkFile,
-  zenMode,
 }: BookmarkItemProps): JSX.Element {
   const {filename, bookmark} = bookmarkFile;
-  const [editMode, toggleEditMode] = useToggle(false);
-
-  const updateBookmark = useMemo(
-    () =>
-      'updateFile' in gistStore
-        ? (title: string, url: string) => {
-            gistStore.updateFile(
-              filename,
-              serializeBookmark({...bookmark, title, url, mtime: Date.now()})
-            );
-            toggleEditMode();
-          }
-        : undefined,
-    [gistStore, filename, bookmark]
-  );
-
-  const [deletable, toggleDeletable] = useToggle(false, 3000);
-
-  const deleteBookmark = useMemo(
-    () =>
-      !deletable
-        ? toggleDeletable
-        : 'deleteFile' in gistStore
-        ? () => gistStore.deleteFile(filename)
-        : undefined,
-    [gistStore, filename, deletable]
-  );
 
   const openBookmark = useCallback(() => {
     if (
@@ -85,12 +56,14 @@ export function BookmarkItem({
     window.location.href = bookmark.url;
   }, [filename, bookmark]);
 
-  return editMode ? (
+  const view = useBookmarkItemView(gistStore, bookmarkFile);
+
+  return view.state === 'editing' ? (
     <EditBookmarkForm
       initialTitle={bookmark.title}
       initialUrl={bookmark.url}
-      onCancel={toggleEditMode}
-      onUpdate={updateBookmark}
+      onCancel={view.cancelEditing}
+      onUpdate={view.updateBookmark}
     />
   ) : (
     <GridItem
@@ -108,23 +81,32 @@ export function BookmarkItem({
         </Link>
       }
       row2={
-        gistStore.state !== 'locked' &&
-        gistStore.state !== 'forking' &&
-        !zenMode && (
+        view.state === 'mutable' ? (
           <>
-            <Button onClick={toggleEditMode}>
-              <Icon type="pencil" />
-              Edit
+            <Button class="EditButton" onClick={view.startEditing}>
+              <Icon type="pencil" standalone />
             </Button>
+
+            <Button class="DeleteButton" onClick={view.startDeleting}>
+              <Icon type="trash" standalone />
+            </Button>
+          </>
+        ) : view.state === 'deleting' ? (
+          <>
+            <Button class="EditButton">
+              <Icon type="pencil" standalone />
+            </Button>
+
             <Button
-              theme={deletable ? 'danger' : undefined}
-              onClick={deleteBookmark}
+              class="DeleteButton"
+              theme="danger"
+              onClick={view.deleteBookmark}
             >
               <Icon type="trash" />
               Delete
-            </Button>{' '}
+            </Button>
           </>
-        )
+        ) : undefined
       }
       highlight={useTimer(1500, bookmark.mtime ?? bookmark.ctime)}
     />

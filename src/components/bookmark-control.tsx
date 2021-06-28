@@ -26,7 +26,6 @@ import {Label} from './label';
 import {Link} from './link';
 import {NewBookmarkForm} from './new-bookmark-form';
 import {SortOrderButton} from './sort-order-button';
-import {ZenButton} from './zen-button';
 
 export interface BookmarkControlProps {
   readonly gistName: string;
@@ -38,19 +37,15 @@ export interface BookmarkControlProps {
     | ForkingGistStore;
 
   readonly sortOrder: BookmarkSortOrder;
-  readonly zenMode: boolean;
 
   onChangeSortOrder?(): void;
-  onChangeZenMode?(): void;
 }
 
 export function BookmarkControl({
   gistName,
   gistStore,
   sortOrder,
-  zenMode,
   onChangeSortOrder,
-  onChangeZenMode,
 }: BookmarkControlProps): JSX.Element {
   const history = useContext(HistoryContext);
 
@@ -168,10 +163,6 @@ export function BookmarkControl({
                 sortOrder={sortOrder}
                 onChangeSortOrder={onChangeSortOrder}
               />
-            )}
-
-            {onChangeZenMode && (
-              <ZenButton zenMode={zenMode} onChangeZenMode={onChangeZenMode} />
             )}
           </>
         ) : (

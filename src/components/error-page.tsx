@@ -32,7 +32,7 @@ export function ErrorPage(): JSX.Element {
         </TopbarItem>
       </Topbar>
 
-      <Paragraph theme={'danger'}>Oops, an error occurred!</Paragraph>
+      <Paragraph theme="danger">Oops, an error occurred!</Paragraph>
     </Page>
   );
 }

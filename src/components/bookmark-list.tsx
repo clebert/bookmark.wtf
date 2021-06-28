@@ -4,7 +4,6 @@ import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useBookmarkSort} from '../hooks/use-bookmark-sort';
 import {useGistStore} from '../hooks/use-gist-store';
 import {useSearchTerm} from '../hooks/use-search-term';
-import {useToggle} from '../hooks/use-toggle';
 import {parseBookmark} from '../utils/parse-bookmark';
 import {BookmarkControl} from './bookmark-control';
 import {BookmarkFile, BookmarkItem} from './bookmark-item';
@@ -73,22 +72,16 @@ export function BookmarkList({
     [sortedBookmarkFiles, regex]
   );
 
-  const [zenMode, toggleZenMode] = useToggle(true);
-
   return gistStore.state !== 'loading' ? (
     <Grid>
       <BookmarkControl
         gistName={gistName}
         gistStore={gistStore}
         sortOrder={bookmarkSort.sortOrder}
-        zenMode={zenMode}
         onChangeSortOrder={
           filteredBookmarkFiles.length > 0
             ? bookmarkSort.changeSortOrder
             : undefined
-        }
-        onChangeZenMode={
-          filteredBookmarkFiles.length > 0 ? toggleZenMode : undefined
         }
       />
 
@@ -97,7 +90,6 @@ export function BookmarkList({
           key={bookmarkFile.filename}
           gistStore={gistStore}
           bookmarkFile={bookmarkFile}
-          zenMode={zenMode}
         />
       ))}
     </Grid>

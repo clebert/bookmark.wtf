@@ -11,7 +11,7 @@ export interface NewBookmarkFormProps {
   readonly initialUrl: string;
 
   onCancel(): void;
-  onCreate?(title: string, url: string): void;
+  onCreate?(title: string, url: string): void; // TODO: make required
 }
 
 export function NewBookmarkForm({
@@ -53,7 +53,7 @@ export function NewBookmarkForm({
         }
         rightCol={
           <>
-            <Button type="submit" theme={'success'} disabled={!create}>
+            <Button type="submit" theme="success" disabled={!create}>
               <Icon type="check" />
               Create
             </Button>

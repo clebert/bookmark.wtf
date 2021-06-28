@@ -1,10 +1,10 @@
 import {Fragment, JSX, h} from 'preact';
-import {useCallback, useContext, useMemo} from 'preact/hooks';
+import {useCallback, useContext} from 'preact/hooks';
 import {ShallowGist} from '../apis/gists-api';
+import {useCollectionItemView} from '../hooks/use-collection-item-view';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {HistoryContext} from '../hooks/use-history';
 import {useTimer} from '../hooks/use-timer';
-import {useToggle} from '../hooks/use-toggle';
 import {changeGistName} from '../utils/change-gist-name';
 import {Button} from './button';
 import {EditCollectionForm} from './edit-collection-form';
@@ -15,13 +15,11 @@ import {Link} from './link';
 export interface CollectionItemProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
   readonly gist: ShallowGist;
-  readonly zenMode: boolean;
 }
 
 export function CollectionItem({
   gistsStore,
   gist: {gistName, description, mtime},
-  zenMode,
 }: CollectionItemProps): JSX.Element {
   const history = useContext(HistoryContext);
 
@@ -30,36 +28,13 @@ export function CollectionItem({
     [gistName]
   );
 
-  const [editMode, toggleEditMode] = useToggle(false);
+  const view = useCollectionItemView(gistsStore, gistName);
 
-  const updateCollection = useMemo(
-    () =>
-      'updateGist' in gistsStore
-        ? (newDescription: string) => {
-            gistsStore.updateGist(gistName, newDescription);
-            toggleEditMode();
-          }
-        : undefined,
-    [gistsStore, gistName]
-  );
-
-  const [deletable, toggleDeletable] = useToggle(false, 3000);
-
-  const deleteGist = useMemo(
-    () =>
-      !deletable
-        ? toggleDeletable
-        : 'deleteGist' in gistsStore
-        ? () => gistsStore.deleteGist(gistName)
-        : undefined,
-    [gistsStore, gistName, deletable]
-  );
-
-  return editMode ? (
+  return view.state === 'editing' ? (
     <EditCollectionForm
       initialDescription={description ?? ''}
-      onCancel={toggleEditMode}
-      onUpdate={updateCollection}
+      onCancel={view.cancelEditing}
+      onUpdate={view.updateCollection}
     />
   ) : (
     <GridItem
@@ -71,23 +46,32 @@ export function CollectionItem({
         </Link>
       }
       row2={
-        !zenMode && (
+        view.state === 'mutable' ? (
           <>
-            <Button class="EditButton" onClick={toggleEditMode}>
-              <Icon type="pencil" />
-              Edit
+            <Button class="EditButton" onClick={view.startEditing}>
+              <Icon type="pencil" standalone />
+            </Button>
+
+            <Button class="DeleteButton" onClick={view.startDeleting}>
+              <Icon type="trash" standalone />
+            </Button>
+          </>
+        ) : view.state === 'deleting' ? (
+          <>
+            <Button class="EditButton">
+              <Icon type="pencil" standalone />
             </Button>
 
             <Button
               class="DeleteButton"
-              theme={deletable ? 'danger' : undefined}
-              onClick={deleteGist}
+              theme="danger"
+              onClick={view.deleteCollection}
             >
               <Icon type="trash" />
               Delete
             </Button>
           </>
-        )
+        ) : undefined
       }
       highlight={useTimer(1500, mtime)}
     />

@@ -87,7 +87,6 @@ describe('bookmark.wtf', () => {
 
   test('cancel editing a collection', async () => {
     await api.page.goto(origin);
-    await api.click(app.collectionControl.zenButton);
     await api.click(app.collectionItem(containsText('foo' + uid)).editButton);
     await api.fill(app.editCollectionForm(1).descriptionField, 'bar' + uid);
     await api.click(app.editCollectionForm(1).cancelButton);
@@ -97,7 +96,6 @@ describe('bookmark.wtf', () => {
 
   test('editing a collection', async () => {
     await api.page.goto(origin);
-    await api.click(app.collectionControl.zenButton);
     await api.click(app.collectionItem(containsText('foo' + uid)).editButton);
     await api.fill(app.editCollectionForm(1).descriptionField, 'bar' + uid);
 
@@ -112,7 +110,6 @@ describe('bookmark.wtf', () => {
 
   test('deleting a collection', async () => {
     await api.page.goto(origin);
-    await api.click(app.collectionControl.zenButton);
     await api.click(app.collectionItem(containsText('bar' + uid)).deleteButton);
 
     const response = api.page.waitForResponse(/github/);

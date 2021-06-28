@@ -20,7 +20,6 @@ export const app = {
 
   collectionControl: {
     newButton: collectionControl.path(any().filter(attribute('.NewButton'))),
-    zenButton: collectionControl.path(any().filter(attribute('.ZenButton'))),
   },
 
   newCollectionForm: {

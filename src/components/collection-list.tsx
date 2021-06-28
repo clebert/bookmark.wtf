@@ -2,7 +2,6 @@ import {JSX, h} from 'preact';
 import {GistFile} from '../apis/gist-api';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useGistsStore} from '../hooks/use-gists-store';
-import {useToggle} from '../hooks/use-toggle';
 import {CollectionControl} from './collection-control';
 import {CollectionItem} from './collection-item';
 import {Grid} from './grid';
@@ -25,24 +24,15 @@ export function CollectionList({
     throw gistsStore.reason;
   }
 
-  const [zenMode, toggleZenMode] = useToggle(true);
-
   return gistsStore.state !== 'loading' ? (
     <Grid>
-      <CollectionControl
-        gistsStore={gistsStore}
-        zenMode={zenMode}
-        onChangeZenMode={
-          gistsStore.gists.length > 0 ? toggleZenMode : undefined
-        }
-      />
+      <CollectionControl gistsStore={gistsStore} />
 
       {gistsStore.gists.map((gist) => (
         <CollectionItem
           key={gist.gistName}
           gistsStore={gistsStore}
           gist={gist}
-          zenMode={zenMode}
         />
       ))}
     </Grid>

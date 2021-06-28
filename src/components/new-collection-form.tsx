@@ -8,7 +8,7 @@ import {TextField} from './text-field';
 
 export interface NewCollectionFormProps {
   onCancel(): void;
-  onCreate?(description: string): void;
+  onCreate?(description: string): void; // TODO: make required
 }
 
 export function NewCollectionForm({
@@ -42,7 +42,7 @@ export function NewCollectionForm({
             <Button
               class="CreateButton"
               type="submit"
-              theme={'success'}
+              theme="success"
               disabled={!create}
             >
               <Icon type="check" />
