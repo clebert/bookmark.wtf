@@ -25,9 +25,9 @@ export class Colors {
 
   static border(theme?: 'danger' | 'success' | 'hidden'): string {
     return join([
-      !theme && 'border border-gray-700 dark:border-gray-300',
-      theme === 'danger' && 'border border-red-700 dark:border-red-300',
-      theme === 'success' && 'border border-green-700 dark:border-green-300',
+      !theme && 'border border-gray-300 dark:border-gray-700',
+      theme === 'danger' && 'border border-red-300 dark:border-red-700',
+      theme === 'success' && 'border border-green-300 dark:border-green-700',
       theme === 'hidden' && 'border border-transparent',
     ]);
   }
@@ -37,7 +37,7 @@ export class Colors {
   }
 
   static highlightRing(): string {
-    return 'ring-inset ring-4 ring-yellow-400 dark:ring-yellow-200';
+    return 'ring-inset ring-1 ring-yellow-400';
   }
 
   static background(): string {
