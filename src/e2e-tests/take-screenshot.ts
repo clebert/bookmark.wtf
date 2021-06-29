@@ -6,7 +6,7 @@ export async function takeScreenshot(
   origin: string,
   colorScheme: 'light' | 'dark'
 ): Promise<void> {
-  await api.page.setViewportSize({width: 1024, height: 200});
+  await api.page.setViewportSize({width: 1280, height: 200});
 
   await api.page.goto(origin + '/9803bde974539a8992c0515b28db439b', {
     waitUntil: 'networkidle',
