@@ -14,7 +14,7 @@ export function SearchForm(): JSX.Element {
   }, []);
 
   return (
-    <div class="flex space-x-4 max-w-xs">
+    <div class="w-full md:w-64">
       <TextField
         value={searchTerm.value}
         placeholder="Enter search term"

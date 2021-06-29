@@ -24,7 +24,7 @@ export function GridItem({
     <div
       class={join([
         className,
-        'flex space-x-4 p-2 shadow',
+        'flex space-x-2 p-2 shadow',
         Colors.shadedBackground(),
         highlight && Colors.highlightRing(),
       ])}
@@ -32,9 +32,9 @@ export function GridItem({
       {leftCol && <div class="flex flex-shrink-0 items-center">{leftCol}</div>}
 
       <div class="flex flex-col space-y-4 w-full overflow-hidden">
-        <div class="flex space-x-4 w-full">{row1}</div>
+        <div class="flex space-x-2 w-full">{row1}</div>
 
-        <div class="flex space-x-4 w-full">
+        <div class="flex space-x-2 w-full">
           {row2 || <Label static>{'\u00A0'}</Label>}
         </div>
       </div>

@@ -5,5 +5,5 @@ export interface GridItemProps {
 }
 
 export function TopbarItem({children}: GridItemProps): JSX.Element {
-  return <div class="flex items-center space-x-4">{children}</div>;
+  return <div class="flex items-center space-x-2">{children}</div>;
 }
