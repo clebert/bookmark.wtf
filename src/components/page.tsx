@@ -5,5 +5,9 @@ export interface PageProps {
 }
 
 export function Page({children}: PageProps): JSX.Element {
-  return <div class="flex flex-col m-4 space-y-4">{children}</div>;
+  return (
+    <div class="2xl:container 2xl:mx-auto">
+      <div class="flex flex-col m-4 space-y-4">{children}</div>
+    </div>
+  );
 }
