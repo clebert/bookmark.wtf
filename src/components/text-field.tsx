@@ -11,6 +11,7 @@ export interface TextFieldProps {
   readonly autoFocus?: boolean;
   readonly disabled?: boolean;
   readonly required?: boolean;
+  readonly highlight?: boolean;
 
   onInput(value: string): void;
 }
@@ -22,6 +23,7 @@ export function TextField({
   placeholder,
   autoFocus,
   required,
+  highlight,
   onInput,
 }: TextFieldProps): JSX.Element {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -39,7 +41,7 @@ export function TextField({
         className,
         Colors.text(),
         Colors.placeholderText(),
-        Colors.border(),
+        Colors.border(highlight ? 'highlight' : undefined),
         Colors.background(),
         Colors.focusOutline(),
         'appearance-none',

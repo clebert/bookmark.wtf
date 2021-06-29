@@ -111,7 +111,7 @@ export function BookmarkItem({
             <DeleteButton
               targetName="bookmark"
               verbose
-              action={deleteBookmark}
+              action={gistStore.state === 'ready' ? deleteBookmark : undefined}
             />
           </>
         ) : (

@@ -19,6 +19,7 @@ export function SearchForm(): JSX.Element {
         value={searchTerm.value}
         placeholder="Enter search term"
         autoFocus
+        highlight={searchTerm.value.length > 0}
         onInput={search}
       />
     </div>

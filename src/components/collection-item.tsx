@@ -72,7 +72,9 @@ export function CollectionItem({
             <DeleteButton
               targetName="collection"
               verbose
-              action={deleteCollection}
+              action={
+                gistsStore.state === 'ready' ? deleteCollection : undefined
+              }
             />
           </>
         ) : (

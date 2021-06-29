@@ -1,20 +1,23 @@
 import {join} from './join';
 
+export type TextTheme = 'link' | 'danger' | 'success';
+export type BorderTheme = 'danger' | 'success' | 'highlight' | 'hidden';
+
 export class Colors {
-  static text(theme?: 'danger' | 'link' | 'success'): string {
+  static text(theme?: TextTheme): string {
     return join([
       !theme && 'text-black dark:text-white',
-      theme === 'danger' && 'text-red-800 dark:text-red-200',
       theme === 'link' && 'text-blue-800 dark:text-blue-200',
+      theme === 'danger' && 'text-red-800 dark:text-red-200',
       theme === 'success' && 'text-green-800 dark:text-green-200',
     ]);
   }
 
-  static activeText(theme?: 'danger' | 'link' | 'success'): string {
+  static activeText(theme?: TextTheme): string {
     return join([
       !theme && 'active:text-white dark:active:text-black',
-      theme === 'danger' && 'active:text-red-200 dark:active:text-red-800',
       theme === 'link' && 'active:text-blue-200 dark:active:text-blue-800',
+      theme === 'danger' && 'active:text-red-200 dark:active:text-red-800',
       theme === 'success' && 'active:text-green-200 dark:active:text-green-800',
     ]);
   }
@@ -23,11 +26,12 @@ export class Colors {
     return 'placeholder-gray-400';
   }
 
-  static border(theme?: 'danger' | 'success' | 'hidden'): string {
+  static border(theme?: BorderTheme): string {
     return join([
       !theme && 'border border-gray-300 dark:border-gray-700',
       theme === 'danger' && 'border border-red-300 dark:border-red-700',
       theme === 'success' && 'border border-green-300 dark:border-green-700',
+      theme === 'highlight' && 'border border-yellow-400',
       theme === 'hidden' && 'border border-transparent',
     ]);
   }
