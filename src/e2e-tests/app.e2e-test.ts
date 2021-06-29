@@ -85,7 +85,7 @@ describe('bookmark.wtf', () => {
     await response;
   });
 
-  test('cancel editing a collection', async () => {
+  test('cancel updating a collection', async () => {
     await api.page.goto(origin);
     await api.click(app.collectionItem(containsText('foo' + uid)).editButton);
     await api.fill(app.editCollectionForm(1).descriptionField, 'bar' + uid);
@@ -94,7 +94,7 @@ describe('bookmark.wtf', () => {
     await api.exists(app.collectionItem(containsText('foo' + uid)).self);
   });
 
-  test('editing a collection', async () => {
+  test('updating a collection', async () => {
     await api.page.goto(origin);
     await api.click(app.collectionItem(containsText('foo' + uid)).editButton);
     await api.fill(app.editCollectionForm(1).descriptionField, 'bar' + uid);

@@ -6,7 +6,8 @@ import {HistoryContext} from '../hooks/use-history';
 import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
 import {changeGistName} from '../utils/change-gist-name';
-import {Button} from './button';
+import {DeleteButton} from './delete-button';
+import {EditButton} from './edit-button';
 import {EditCollectionForm} from './edit-collection-form';
 import {GridItem} from './grid-item';
 import {Icon} from './icon';
@@ -66,36 +67,25 @@ export function CollectionItem({
       row2={
         deleting ? (
           <>
-            <Button class="EditButton">
-              <Icon type="pencil" standalone />
-            </Button>
+            <EditButton targetName="collection" />
 
-            <Button
-              class="DeleteButton"
-              theme="danger"
-              onClick={deleteCollection}
-            >
-              <Icon type="trash" />
-              Delete
-            </Button>
+            <DeleteButton
+              targetName="collection"
+              verbose
+              action={deleteCollection}
+            />
           </>
         ) : (
           <>
-            <Button
-              class="EditButton"
-              onClick={gistsStore.state === 'ready' ? toggleEditing : undefined}
-            >
-              <Icon type="pencil" standalone />
-            </Button>
+            <EditButton
+              targetName="collection"
+              action={gistsStore.state === 'ready' ? toggleEditing : undefined}
+            />
 
-            <Button
-              class="DeleteButton"
-              onClick={
-                gistsStore.state === 'ready' ? toggleDeleting : undefined
-              }
-            >
-              <Icon type="trash" standalone />
-            </Button>
+            <DeleteButton
+              targetName="collection"
+              action={gistsStore.state === 'ready' ? toggleDeleting : undefined}
+            />
           </>
         )
       }

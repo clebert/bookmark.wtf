@@ -25,7 +25,11 @@ export function UserTopbar({authStore}: UserTopbarProps): JSX.Element {
       <TopbarItem>
         <ColorSchemeButton />
 
-        <Button class="SignOutButton" onClick={authStore.signOut}>
+        <Button
+          class="SignOutButton"
+          title="Sign out"
+          onClick={authStore.signOut}
+        >
           <Icon type="logout" />
           Sign out
         </Button>

@@ -25,7 +25,7 @@ export function ErrorPage(): JSX.Element {
         <TopbarItem>
           <ColorSchemeButton />
 
-          <Button onClick={reload}>
+          <Button title="Reload page" onClick={reload}>
             <Icon type="refresh" />
             Reload
           </Button>

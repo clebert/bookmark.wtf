@@ -8,7 +8,7 @@ export interface ButtonProps {
   readonly class?: string;
   readonly type?: 'button' | 'submit';
   readonly theme?: 'danger' | 'success';
-  readonly title?: string;
+  readonly title: string;
   readonly disabled?: boolean;
 
   onClick?(): void;
@@ -43,6 +43,7 @@ export function Button({
       ])}
       type={type}
       title={title}
+      aria-label={title}
       disabled={!enabled}
       onClick={useCallback(() => onClick?.(), [onClick])}
     >

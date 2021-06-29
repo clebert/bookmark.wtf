@@ -48,12 +48,17 @@ export function NewBookmarkForm({
         }
         rightCol={
           <>
-            <Button type="submit" theme="success" disabled={!create}>
+            <Button
+              type="submit"
+              theme="success"
+              title="Create bookmark"
+              disabled={!create}
+            >
               <Icon type="check" />
               Create
             </Button>
 
-            <Button onClick={onCancel}>
+            <Button title="Cancel creating bookmark" onClick={onCancel}>
               <Icon type="x" />
               Cancel
             </Button>

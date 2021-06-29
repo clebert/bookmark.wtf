@@ -43,13 +43,18 @@ export function NewCollectionForm({
               class="CreateButton"
               type="submit"
               theme="success"
+              title="Create collection"
               disabled={!create}
             >
               <Icon type="check" />
               Create
             </Button>
 
-            <Button class="CancelButton" onClick={onCancel}>
+            <Button
+              class="CancelButton"
+              title="Cancel creating collection"
+              onClick={onCancel}
+            >
               <Icon type="x" />
               Cancel
             </Button>

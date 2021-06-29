@@ -11,8 +11,9 @@ import {useToggle} from '../hooks/use-toggle';
 import {Bookmark} from '../utils/parse-bookmark';
 import {serializeBookmark} from '../utils/serialize-bookmark';
 import {BookmarkIcon} from './bookmark-icon';
-import {Button} from './button';
+import {DeleteButton} from './delete-button';
 import {EditBookmarkForm} from './edit-bookmark-form';
+import {EditButton} from './edit-button';
 import {GridItem} from './grid-item';
 import {Icon} from './icon';
 import {Link} from './link';
@@ -105,34 +106,25 @@ export function BookmarkItem({
       row2={
         deleting ? (
           <>
-            <Button class="EditButton">
-              <Icon type="pencil" standalone />
-            </Button>
+            <EditButton targetName="bookmark" />
 
-            <Button
-              class="DeleteButton"
-              theme="danger"
-              onClick={deleteBookmark}
-            >
-              <Icon type="trash" />
-              Delete
-            </Button>
+            <DeleteButton
+              targetName="bookmark"
+              verbose
+              action={deleteBookmark}
+            />
           </>
         ) : (
           <>
-            <Button
-              class="EditButton"
-              onClick={gistStore.state === 'ready' ? toggleEditing : undefined}
-            >
-              <Icon type="pencil" standalone />
-            </Button>
+            <EditButton
+              targetName="bookmark"
+              action={gistStore.state === 'ready' ? toggleEditing : undefined}
+            />
 
-            <Button
-              class="DeleteButton"
-              onClick={gistStore.state === 'ready' ? toggleDeleting : undefined}
-            >
-              <Icon type="trash" standalone />
-            </Button>
+            <DeleteButton
+              targetName="bookmark"
+              action={gistStore.state === 'ready' ? toggleDeleting : undefined}
+            />
           </>
         )
       }

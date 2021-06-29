@@ -55,12 +55,17 @@ export function EditBookmarkForm({
         }
         rightCol={
           <>
-            <Button type="submit" theme="success" disabled={!update}>
+            <Button
+              type="submit"
+              theme="success"
+              title="Update bookmark"
+              disabled={!update}
+            >
               <Icon type="check" />
               Update
             </Button>
 
-            <Button onClick={onCancel}>
+            <Button title="Cancel updating bookmark" onClick={onCancel}>
               <Icon type="x" />
               Cancel
             </Button>

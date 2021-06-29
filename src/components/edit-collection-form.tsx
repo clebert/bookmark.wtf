@@ -49,13 +49,18 @@ export function EditCollectionForm({
               class="UpdateButton"
               type="submit"
               theme="success"
+              title="Update collection"
               disabled={!update}
             >
               <Icon type="check" />
               Update
             </Button>
 
-            <Button class="CancelButton" onClick={onCancel}>
+            <Button
+              class="CancelButton"
+              title="Cancel updating collection"
+              onClick={onCancel}
+            >
               <Icon type="x" />
               Cancel
             </Button>

@@ -41,7 +41,11 @@ export function CollectionControl({
         </Label>
       }
       row2={
-        <Button class="NewButton" onClick={toggleNewMode}>
+        <Button
+          class="NewButton"
+          title="New collection"
+          onClick={toggleNewMode}
+        >
           <Icon type="viewGridAdd" />
           New
         </Button>

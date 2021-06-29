@@ -82,12 +82,12 @@ export function BookmarkControl({
       row2={
         gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
           <>
-            <Button onClick={toggleNewMode}>
+            <Button title="New bookmark" onClick={toggleNewMode}>
               <Icon type="viewGridAdd" />
               New
             </Button>
 
-            <Button onClick={closeCollection}>
+            <Button title="Close collection" onClick={closeCollection}>
               <Icon type="x" />
               Close
             </Button>
@@ -102,13 +102,14 @@ export function BookmarkControl({
         ) : (
           <>
             <Button
+              title="Fork collection"
               onClick={'forkGist' in gistStore ? gistStore.forkGist : undefined}
             >
               <Icon type="duplicate" />
               Fork
             </Button>
 
-            <Button onClick={closeCollection}>
+            <Button title="Close collection" onClick={closeCollection}>
               <Icon type="x" />
               Close
             </Button>
