@@ -9,6 +9,18 @@ export interface SortOrderButtonProps {
   onChangeSortOrder(): void;
 }
 
+const titles = {
+  timeAsc: 'Sorting by time (ascending)',
+  timeDesc: 'Sorting by time (descending)',
+  clickCount: 'Sorting by click count',
+};
+
+const iconTypes = {
+  timeAsc: 'sortAscending',
+  timeDesc: 'sortDescending',
+  clickCount: 'cursorClick',
+} as const;
+
 export function SortOrderButton({
   sortOrder,
   onChangeSortOrder,
@@ -16,19 +28,10 @@ export function SortOrderButton({
   return (
     <Button
       class="SortOrderButton"
-      title="Change sort order"
+      title={titles[sortOrder]}
       onClick={onChangeSortOrder}
     >
-      <Icon
-        type={
-          sortOrder === 'timeAsc'
-            ? 'sortAscending'
-            : sortOrder === 'timeDesc'
-            ? 'sortDescending'
-            : 'cursorClick'
-        }
-        standalone
-      />
+      <Icon type={iconTypes[sortOrder]} standalone />
     </Button>
   );
 }
