@@ -36,6 +36,12 @@ export abstract class GithubAPI {
       return {};
     }
 
+    if (response.status === 500) {
+      throw new Error(
+        `Failed to fetch GitHub API: ${response.statusText || response.status}`
+      );
+    }
+
     const body = await response.json();
 
     if (response.status === 200 || response.status === 201) {
@@ -47,7 +53,9 @@ export abstract class GithubAPI {
     }
 
     throw new Error(
-      'Failed to fetch GitHub API: ' + (body.message || response.statusText)
+      `Failed to fetch GitHub API: ${
+        body.message || response.statusText || response.status
+      }`
     );
   }
 }
