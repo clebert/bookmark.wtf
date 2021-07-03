@@ -15,6 +15,7 @@ exports.default = {
       kind: 'file',
       filename: 'dist/app/index.html',
       catchAll: true,
+      cacheControl: 'no-store',
     },
     '/apple-touch-icon.png': {
       kind: 'file',
