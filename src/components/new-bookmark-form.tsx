@@ -32,6 +32,7 @@ export function NewBookmarkForm({
           <TextField
             value={currentTitle}
             placeholder="Enter title"
+            autoFocus
             required
             onInput={setCurrentTitle}
           />
@@ -41,7 +42,6 @@ export function NewBookmarkForm({
             type="url"
             value={currentUrl}
             placeholder="Enter URL"
-            autoFocus
             required
             onInput={setCurrentUrl}
           />
