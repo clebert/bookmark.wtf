@@ -1,4 +1,4 @@
-import {ComponentChildren, JSX, h} from 'preact';
+import {ComponentChildren, JSX} from 'preact';
 
 export interface GridItemProps {
   readonly children: ComponentChildren;

@@ -1,4 +1,4 @@
-import {ComponentChildren, JSX, h} from 'preact';
+import {ComponentChildren, JSX} from 'preact';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 import {Label} from './label';

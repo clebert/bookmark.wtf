@@ -1,4 +1,4 @@
-import {ComponentChildren, JSX, h} from 'preact';
+import {ComponentChildren, JSX} from 'preact';
 import {join} from '../utils/join';
 
 export interface TopbarProps {

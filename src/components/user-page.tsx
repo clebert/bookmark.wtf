@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {useMemo} from 'preact/hooks';
 import {UserAPI} from '../apis/user-api';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';

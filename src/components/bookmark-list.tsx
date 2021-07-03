@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {useEffect, useMemo} from 'preact/hooks';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useBookmarkSort} from '../hooks/use-bookmark-sort';

@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useGistName} from '../hooks/use-gist-name';
 import {Button} from './button';

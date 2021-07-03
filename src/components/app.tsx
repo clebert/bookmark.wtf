@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {useLayoutEffect} from 'preact/hooks';
 import {useAuthStore} from '../hooks/use-auth-store';
 import {HistoryContext, useHistory} from '../hooks/use-history';

@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {Colors} from '../utils/colors';
 
 export function Logo(): JSX.Element {

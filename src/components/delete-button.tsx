@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {Button} from './button';
 import {Icon} from './icon';
 

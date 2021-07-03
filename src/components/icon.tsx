@@ -1,4 +1,4 @@
-import {Fragment, JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {join} from '../utils/join';
 
 export interface IconProps {

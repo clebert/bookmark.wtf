@@ -1,4 +1,4 @@
-import {Fragment, JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
 import {
   ForkingGistStore,

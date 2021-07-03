@@ -1,4 +1,4 @@
-import {Fragment, JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
 import {Button} from './button';
 import {Form} from './form';

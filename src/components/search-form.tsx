@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {useCallback, useContext} from 'preact/hooks';
 import {HistoryContext} from '../hooks/use-history';
 import {useSearchTerm} from '../hooks/use-search-term';

@@ -1,4 +1,4 @@
-import {Fragment, JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {useCallback, useContext} from 'preact/hooks';
 import {ShallowGist} from '../apis/gists-api';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';

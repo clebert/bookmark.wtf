@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {useToggle} from '../hooks/use-toggle';

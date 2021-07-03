@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
 import {Button} from './button';
 import {ColorSchemeButton} from './color-scheme-button';

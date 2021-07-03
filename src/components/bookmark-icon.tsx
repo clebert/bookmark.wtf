@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {useCallback, useState} from 'preact/hooks';
 import {useBinder} from '../hooks/use-binder';
 import {Colors} from '../utils/colors';

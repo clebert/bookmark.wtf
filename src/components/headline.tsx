@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 

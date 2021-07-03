@@ -1,4 +1,4 @@
-import {JSX, h} from 'preact';
+import {JSX} from 'preact';
 import {useContext} from 'preact/hooks';
 import {UIModeContext} from '../hooks/use-ui-mode';
 import {Button} from './button';

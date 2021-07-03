@@ -1,4 +1,4 @@
-import {ComponentChildren, JSX, h} from 'preact';
+import {ComponentChildren, JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
