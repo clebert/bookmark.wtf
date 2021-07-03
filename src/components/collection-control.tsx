@@ -1,5 +1,5 @@
 import {JSX} from 'preact';
-import {useCallback} from 'preact/hooks';
+import {useMemo} from 'preact/hooks';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {useToggle} from '../hooks/use-toggle';
 import {Button} from './button';
@@ -17,13 +17,14 @@ export function CollectionControl({
 }: CollectionControlProps): JSX.Element {
   const [newMode, toggleNewMode] = useToggle(false);
 
-  const createCollection = useCallback(
-    (description: string) => {
-      if ('createGist' in gistsStore) {
-        gistsStore.createGist(description);
-        toggleNewMode();
-      }
-    },
+  const createCollection = useMemo(
+    () =>
+      'createGist' in gistsStore
+        ? (description: string) => {
+            gistsStore.createGist(description);
+            toggleNewMode();
+          }
+        : undefined,
     [gistsStore]
   );
 

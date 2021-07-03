@@ -10,7 +10,7 @@ export interface EditCollectionFormProps {
   readonly initialDescription: string;
 
   onCancel(): void;
-  onUpdate(description: string): void;
+  onUpdate?(description: string): void;
 }
 
 export function EditCollectionForm({
@@ -24,7 +24,7 @@ export function EditCollectionForm({
   const update = useMemo(() => {
     const description = currentDescription.trim();
 
-    return description && description !== initialDescription
+    return onUpdate && description && description !== initialDescription
       ? () => onUpdate(description)
       : undefined;
   }, [onUpdate, currentDescription]);

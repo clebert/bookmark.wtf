@@ -8,7 +8,7 @@ import {TextField} from './text-field';
 
 export interface NewCollectionFormProps {
   onCancel(): void;
-  onCreate(description: string): void;
+  onCreate?(description: string): void;
 }
 
 export function NewCollectionForm({
@@ -20,7 +20,7 @@ export function NewCollectionForm({
   const create = useMemo(() => {
     const description = currentDescription.trim();
 
-    return description ? () => onCreate(description) : undefined;
+    return onCreate && description ? () => onCreate(description) : undefined;
   }, [onCreate, currentDescription]);
 
   return (

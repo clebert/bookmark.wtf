@@ -1,5 +1,5 @@
 import {JSX} from 'preact';
-import {useCallback, useContext} from 'preact/hooks';
+import {useCallback, useContext, useMemo} from 'preact/hooks';
 import {BookmarkSortOrder} from '../hooks/use-bookmark-sort';
 import {
   ForkingGistStore,
@@ -48,17 +48,18 @@ export function BookmarkControl({
 
   const [newMode, toggleNewMode] = useToggle(false);
 
-  const createBookmark = useCallback(
-    (title: string, url: string) => {
-      if ('createFile' in gistStore) {
-        gistStore.createFile(
-          createRandomValue() + '.md',
-          serializeBookmark({title, url, ctime: Date.now()})
-        );
+  const createBookmark = useMemo(
+    () =>
+      'createFile' in gistStore
+        ? (title: string, url: string) => {
+            gistStore.createFile(
+              createRandomValue() + '.md',
+              serializeBookmark({title, url, ctime: Date.now()})
+            );
 
-        toggleNewMode();
-      }
-    },
+            toggleNewMode();
+          }
+        : undefined,
     [gistStore]
   );
 

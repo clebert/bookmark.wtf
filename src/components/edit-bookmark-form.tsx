@@ -11,7 +11,7 @@ export interface EditBookmarkFormProps {
   readonly initialUrl: string;
 
   onCancel(): void;
-  onUpdate(title: string, url: string): void;
+  onUpdate?(title: string, url: string): void;
 }
 
 export function EditBookmarkForm({
@@ -27,7 +27,10 @@ export function EditBookmarkForm({
     const title = currentTitle.trim();
     const url = currentUrl.trim();
 
-    return title && url && (title !== initialTitle || url !== initialUrl)
+    return onUpdate &&
+      title &&
+      url &&
+      (title !== initialTitle || url !== initialUrl)
       ? () => onUpdate(title, url)
       : undefined;
   }, [onUpdate, currentTitle, currentUrl]);

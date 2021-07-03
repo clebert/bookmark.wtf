@@ -1,5 +1,5 @@
 import {JSX} from 'preact';
-import {useCallback, useContext} from 'preact/hooks';
+import {useCallback, useContext, useMemo} from 'preact/hooks';
 import {ShallowGist} from '../apis/gists-api';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {HistoryContext} from '../hooks/use-history';
@@ -31,13 +31,14 @@ export function CollectionItem({
 
   const [editing, toggleEditing] = useToggle(false);
 
-  const updateCollection = useCallback(
-    (newDescription: string) => {
-      if ('updateGist' in gistsStore) {
-        gistsStore.updateGist(gistName, newDescription);
-        toggleEditing();
-      }
-    },
+  const updateCollection = useMemo(
+    () =>
+      'updateGist' in gistsStore
+        ? (newDescription: string) => {
+            gistsStore.updateGist(gistName, newDescription);
+            toggleEditing();
+          }
+        : undefined,
     [gistsStore, gistName]
   );
 

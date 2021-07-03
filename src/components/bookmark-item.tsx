@@ -1,5 +1,5 @@
 import {JSX} from 'preact';
-import {useCallback} from 'preact/hooks';
+import {useCallback, useMemo} from 'preact/hooks';
 import {
   ForkingGistStore,
   LockedGistStore,
@@ -59,17 +59,18 @@ export function BookmarkItem({
 
   const [editing, toggleEditing] = useToggle(false);
 
-  const updateBookmark = useCallback(
-    (title: string, url: string) => {
-      if ('updateFile' in gistStore) {
-        gistStore.updateFile(
-          filename,
-          serializeBookmark({...bookmark, title, url, mtime: Date.now()})
-        );
+  const updateBookmark = useMemo(
+    () =>
+      'updateFile' in gistStore
+        ? (title: string, url: string) => {
+            gistStore.updateFile(
+              filename,
+              serializeBookmark({...bookmark, title, url, mtime: Date.now()})
+            );
 
-        toggleEditing();
-      }
-    },
+            toggleEditing();
+          }
+        : undefined,
     [gistStore, filename, bookmark]
   );
 

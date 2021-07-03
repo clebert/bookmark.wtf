@@ -1,5 +1,4 @@
 import {ComponentChildren, JSX} from 'preact';
-import {useCallback} from 'preact/hooks';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 
@@ -45,7 +44,7 @@ export function Button({
       title={title}
       aria-label={title}
       disabled={!enabled}
-      onClick={useCallback(() => onClick?.(), [onClick])}
+      onClick={onClick}
     >
       {children}
     </button>
