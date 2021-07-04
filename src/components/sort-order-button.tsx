@@ -1,13 +1,8 @@
 import {JSX} from 'preact';
-import {BookmarkSortOrder} from '../hooks/use-bookmark-sort';
+import {useCallback} from 'preact/hooks';
+import {JsonStorage} from '../singletons/json-storage';
 import {Button} from './button';
 import {Icon} from './icon';
-
-export interface SortOrderButtonProps {
-  readonly sortOrder: BookmarkSortOrder;
-
-  onChangeSortOrder(): void;
-}
 
 const titles = {
   timeAsc: 'Sorting by time (ascending)',
@@ -21,15 +16,24 @@ const iconTypes = {
   clickCount: 'cursorClick',
 } as const;
 
-export function SortOrderButton({
-  sortOrder,
-  onChangeSortOrder,
-}: SortOrderButtonProps): JSX.Element {
+export function SortOrderButton(): JSX.Element {
+  const sortOrder = JsonStorage.singleton.use('sortOrder');
+
+  const toggleSortOrder = useCallback(() => {
+    if (sortOrder === 'clickCount') {
+      JsonStorage.singleton.set('sortOrder', 'timeAsc');
+    } else if (sortOrder === 'timeAsc') {
+      JsonStorage.singleton.set('sortOrder', 'timeDesc');
+    } else {
+      JsonStorage.singleton.set('sortOrder', 'clickCount');
+    }
+  }, [sortOrder]);
+
   return (
     <Button
       class="SortOrderButton"
       title={titles[sortOrder]}
-      onClick={onChangeSortOrder}
+      onClick={toggleSortOrder}
     >
       <Icon type={iconTypes[sortOrder]} standalone />
     </Button>

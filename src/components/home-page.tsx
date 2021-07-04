@@ -1,10 +1,9 @@
 import {JSX} from 'preact';
-import {useContext} from 'preact/hooks';
 import {
   AuthorizingAuthStore,
   UnauthorizedAuthStore,
 } from '../hooks/use-auth-store';
-import {UIModeContext} from '../hooks/use-ui-mode';
+import {useUiMode} from '../hooks/use-ui-mode';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 import {Button} from './button';
@@ -22,7 +21,7 @@ export interface HomePageProps {
 }
 
 export function HomePage({authStore}: HomePageProps): JSX.Element {
-  const {colorScheme} = useContext(UIModeContext);
+  const uiMode = useUiMode();
 
   return (
     <Page>
@@ -60,7 +59,7 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
       <div class={join(['max-w-5xl p-1 shadow', Colors.highlightRing()])}>
         <img
           class="select-none"
-          src={`https://raw.githubusercontent.com/clebert/bookmark.wtf/main/screenshot-${colorScheme}-mode.png`}
+          src={`https://raw.githubusercontent.com/clebert/bookmark.wtf/main/screenshot-${uiMode}-mode.png`}
         ></img>
       </div>
     </Page>

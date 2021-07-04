@@ -1,5 +1,6 @@
 import cookie from 'cookie';
-import {useEffect, useMemo, useState} from 'preact/hooks';
+import {useMemo, useState} from 'preact/hooks';
+import {JsonStorage} from '../singletons/json-storage';
 import {createRandomValue} from '../utils/create-random-value';
 import {deauthorize} from '../utils/deauthorize';
 import {useTransition} from './use-transition';
@@ -27,18 +28,7 @@ export type UnauthorizedAuthStore = {
 };
 
 export function useAuthStore(): AuthStore {
-  const [token, setToken] = useState(
-    localStorage.getItem('token') ?? undefined
-  );
-
-  useEffect(() => {
-    if (token) {
-      localStorage.setItem('token', token);
-    } else {
-      deauthorize();
-    }
-  }, [token]);
-
+  const token = JsonStorage.singleton.use('token');
   const [authorizing, setAuthorizing] = useState(false);
   const transition = useTransition(token, authorizing);
 
@@ -66,7 +56,7 @@ export function useAuthStore(): AuthStore {
       window.location.href = url.href;
     });
 
-  const signOut = () => transition(() => setToken(undefined));
+  const signOut = () => transition(deauthorize);
 
   return useMemo(
     () =>
@@ -81,9 +71,9 @@ export function useAuthStore(): AuthStore {
 
 function handleTransaction(): void {
   const searchParams = new URLSearchParams(window.location.search);
-  const tokenParam = searchParams.get('token');
+  const token = searchParams.get('token');
 
-  if (tokenParam) {
+  if (token) {
     const originalPathname =
       sessionStorage.getItem('originalPathname') ?? window.location.pathname;
 
@@ -104,11 +94,10 @@ function handleTransaction(): void {
         : originalPathname
     );
 
-    const transactionIdParam = searchParams.get('transactionId');
     const transactionId = cookie.parse(document.cookie)['transactionId'];
 
-    if (transactionIdParam && transactionIdParam === transactionId) {
-      localStorage.setItem('token', tokenParam);
+    if (transactionId && searchParams.get('transactionId') === transactionId) {
+      JsonStorage.singleton.set('token', token);
     } else {
       console.error('Untrusted OAuth transaction.');
     }

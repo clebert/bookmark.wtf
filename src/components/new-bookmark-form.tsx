@@ -1,5 +1,6 @@
 import {JSX} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
+import {Bookmark} from '../utils/parse-bookmark';
 import {Button} from './button';
 import {Form} from './form';
 import {GridItem} from './grid-item';
@@ -8,7 +9,7 @@ import {TextField} from './text-field';
 
 export interface NewBookmarkFormProps {
   onCancel(): void;
-  onCreate?(title: string, url: string): void;
+  onCreate?(bookmark: Bookmark): void;
 }
 
 export function NewBookmarkForm({
@@ -22,7 +23,9 @@ export function NewBookmarkForm({
     const title = currentTitle.trim();
     const url = currentUrl.trim();
 
-    return onCreate && title && url ? () => onCreate(title, url) : undefined;
+    return onCreate && title && url
+      ? () => onCreate({title, url, ctime: Date.now()})
+      : undefined;
   }, [onCreate, currentTitle, currentUrl]);
 
   return (

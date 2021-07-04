@@ -1,3 +1,5 @@
+import {JsonStorage} from '../singletons/json-storage';
+
 export function deauthorize(): void {
-  localStorage.removeItem('token');
+  JsonStorage.singleton.set('token', undefined);
 }

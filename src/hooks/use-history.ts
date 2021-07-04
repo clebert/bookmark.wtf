@@ -41,13 +41,9 @@ export function useHistory(): History {
   useEffect(() => {
     const synchronize = () => setUrl(window.location.href);
 
-    window.addEventListener('pageshow', synchronize);
     window.addEventListener('popstate', synchronize);
 
-    return () => {
-      window.removeEventListener('pageshow', synchronize);
-      window.removeEventListener('popstate', synchronize);
-    };
+    return () => window.removeEventListener('popstate', synchronize);
   }, []);
 
   return useMemo(() => ({url, initialUrl, push, replace}), [url]);

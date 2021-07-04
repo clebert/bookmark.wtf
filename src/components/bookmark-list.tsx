@@ -1,9 +1,11 @@
 import {JSX} from 'preact';
 import {useEffect, useMemo} from 'preact/hooks';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
-import {useBookmarkSort} from '../hooks/use-bookmark-sort';
 import {useGistStore} from '../hooks/use-gist-store';
 import {useSearchTerm} from '../hooks/use-search-term';
+import {JsonStorage} from '../singletons/json-storage';
+import {compareClickCount} from '../utils/compare-click-count';
+import {compareTime} from '../utils/compare-time';
 import {parseBookmark} from '../utils/parse-bookmark';
 import {BookmarkControl} from './bookmark-control';
 import {BookmarkFile, BookmarkItem} from './bookmark-item';
@@ -51,14 +53,18 @@ export function BookmarkList({
     [gistStore]
   );
 
-  const bookmarkSort = useBookmarkSort();
+  const sortOrder = JsonStorage.singleton.use('sortOrder');
 
   const sortedBookmarkFiles = useMemo<readonly BookmarkFile[]>(
     () =>
       [...bookmarkFiles].sort(({bookmark: a}, {bookmark: b}) =>
-        bookmarkSort.compare(a, b)
+        sortOrder === 'timeAsc'
+          ? compareTime(a, b)
+          : sortOrder === 'timeDesc'
+          ? compareTime(b, a)
+          : compareClickCount(b, a) || compareTime(b, a)
       ),
-    [bookmarkFiles, bookmarkSort]
+    [bookmarkFiles, sortOrder]
   );
 
   const {regex} = useSearchTerm();
@@ -74,16 +80,7 @@ export function BookmarkList({
 
   return gistStore.state !== 'loading' ? (
     <Grid>
-      <BookmarkControl
-        gistName={gistName}
-        gistStore={gistStore}
-        sortOrder={bookmarkSort.sortOrder}
-        onChangeSortOrder={
-          filteredBookmarkFiles.length > 0
-            ? bookmarkSort.changeSortOrder
-            : undefined
-        }
-      />
+      <BookmarkControl gistName={gistName} gistStore={gistStore} />
 
       {filteredBookmarkFiles.map((bookmarkFile) => (
         <BookmarkItem

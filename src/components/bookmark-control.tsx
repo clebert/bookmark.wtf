@@ -1,6 +1,5 @@
 import {JSX} from 'preact';
 import {useCallback, useContext, useMemo} from 'preact/hooks';
-import {BookmarkSortOrder} from '../hooks/use-bookmark-sort';
 import {
   ForkingGistStore,
   LockedGistStore,
@@ -11,6 +10,7 @@ import {HistoryContext} from '../hooks/use-history';
 import {useToggle} from '../hooks/use-toggle';
 import {changeGistName} from '../utils/change-gist-name';
 import {createRandomValue} from '../utils/create-random-value';
+import {Bookmark} from '../utils/parse-bookmark';
 import {serializeBookmark} from '../utils/serialize-bookmark';
 import {Button} from './button';
 import {GridItem} from './grid-item';
@@ -27,17 +27,11 @@ export interface BookmarkControlProps {
     | UpdatingGistStore
     | LockedGistStore
     | ForkingGistStore;
-
-  readonly sortOrder: BookmarkSortOrder;
-
-  onChangeSortOrder?(): void;
 }
 
 export function BookmarkControl({
   gistName,
   gistStore,
-  sortOrder,
-  onChangeSortOrder,
 }: BookmarkControlProps): JSX.Element {
   const history = useContext(HistoryContext);
 
@@ -51,10 +45,10 @@ export function BookmarkControl({
   const createBookmark = useMemo(
     () =>
       'createFile' in gistStore
-        ? (title: string, url: string) => {
+        ? (bookmark: Bookmark) => {
             gistStore.createFile(
               createRandomValue() + '.md',
-              serializeBookmark({title, url, ctime: Date.now()})
+              serializeBookmark(bookmark)
             );
 
             toggleNewMode();
@@ -81,27 +75,8 @@ export function BookmarkControl({
         </Label>
       }
       row2={
-        gistStore.state !== 'locked' && gistStore.state !== 'forking' ? (
-          <>
-            <Button title="New bookmark" onClick={toggleNewMode}>
-              <Icon type="viewGridAdd" />
-              New
-            </Button>
-
-            <Button title="Close collection" onClick={closeCollection}>
-              <Icon type="x" />
-              Close
-            </Button>
-
-            {onChangeSortOrder && (
-              <SortOrderButton
-                sortOrder={sortOrder}
-                onChangeSortOrder={onChangeSortOrder}
-              />
-            )}
-          </>
-        ) : (
-          <>
+        <>
+          {gistStore.state === 'locked' || gistStore.state === 'forking' ? (
             <Button
               title="Fork collection"
               onClick={'forkGist' in gistStore ? gistStore.forkGist : undefined}
@@ -109,20 +84,20 @@ export function BookmarkControl({
               <Icon type="duplicate" />
               Fork
             </Button>
-
-            <Button title="Close collection" onClick={closeCollection}>
-              <Icon type="x" />
-              Close
+          ) : (
+            <Button title="New bookmark" onClick={toggleNewMode}>
+              <Icon type="viewGridAdd" />
+              New
             </Button>
+          )}
 
-            {onChangeSortOrder && (
-              <SortOrderButton
-                sortOrder={sortOrder}
-                onChangeSortOrder={onChangeSortOrder}
-              />
-            )}
-          </>
-        )
+          <Button title="Close collection" onClick={closeCollection}>
+            <Icon type="x" />
+            Close
+          </Button>
+
+          <SortOrderButton />
+        </>
       }
     />
   );
