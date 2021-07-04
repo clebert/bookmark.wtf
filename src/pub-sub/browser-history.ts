@@ -7,7 +7,7 @@ export class BrowserHistory {
   readonly #paramBroker = new Broker();
 
   usePathname(): string {
-    return this.#pathnameBroker.use('default', () => this.getPathname());
+    return this.#pathnameBroker.use(() => this.getPathname());
   }
 
   getPathname(): string {
@@ -25,11 +25,11 @@ export class BrowserHistory {
       window.history.replaceState(undefined, '', url.href);
     }
 
-    this.#pathnameBroker.publish('default', url.pathname);
+    this.#pathnameBroker.publish(url.pathname);
   }
 
   useParam(key: string): string | undefined {
-    return this.#paramBroker.use(key, () => this.getParam(key));
+    return this.#paramBroker.use(() => this.getParam(key), {topic: key});
   }
 
   getParam(key: string): string | undefined {
@@ -57,6 +57,6 @@ export class BrowserHistory {
       window.history.replaceState(undefined, '', url.href);
     }
 
-    this.#paramBroker.publish(key, value || undefined);
+    this.#paramBroker.publish(value || undefined, {topic: key});
   }
 }

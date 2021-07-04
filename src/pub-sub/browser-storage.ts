@@ -6,7 +6,7 @@ export class BrowserStorage {
   readonly #broker = new Broker();
 
   useItem<TValue extends BrowserStorageValue>(key: string): TValue | undefined {
-    return this.#broker.use(key, () => this.getItem(key));
+    return this.#broker.use(() => this.getItem(key), {topic: key});
   }
 
   getItem<TValue extends BrowserStorageValue>(key: string): TValue | undefined {
@@ -31,6 +31,6 @@ export class BrowserStorage {
       localStorage.removeItem(key);
     }
 
-    this.#broker.publish(key, value || undefined);
+    this.#broker.publish(value || undefined, {topic: key});
   }
 }

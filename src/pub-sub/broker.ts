@@ -1,17 +1,28 @@
 import {useEffect, useMemo, useState} from 'preact/hooks';
 
-export class Broker {
-  readonly #listenersByTopic = new Map<string, Set<(value: any) => void>>();
+export interface BrokerOptions {
+  readonly topic?: Topic;
+}
 
-  use<TValue>(topic: string, getValue: () => TValue): TValue {
+export type Topic = string | symbol;
+
+const defaultTopic: Topic = Symbol('default topic');
+
+export class Broker {
+  readonly #listenersByTopic = new Map<Topic, Set<(value: any) => void>>();
+
+  use<TValue>(
+    getValue: () => TValue,
+    {topic = defaultTopic}: BrokerOptions = {}
+  ): TValue {
     const [value, setValue] = useState(getValue());
 
-    useEffect(() => this.subscribe(topic, setValue), [topic]);
+    useEffect(() => this.subscribe(setValue, {topic}), [topic]);
 
     return useMemo(() => getValue(), [topic, value]);
   }
 
-  publish(topic: string, value: unknown): void {
+  publish(value: unknown, {topic = defaultTopic}: BrokerOptions = {}): void {
     const listeners = this.#listenersByTopic.get(topic);
 
     if (listeners) {
@@ -21,7 +32,10 @@ export class Broker {
     }
   }
 
-  subscribe(topic: string, listener: (value: any) => void): () => void {
+  subscribe(
+    listener: (value: any) => void,
+    {topic = defaultTopic}: BrokerOptions = {}
+  ): () => void {
     const listeners = this.#listenersByTopic.get(topic) ?? new Set();
 
     this.#listenersByTopic.set(topic, listeners);
