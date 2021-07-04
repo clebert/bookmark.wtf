@@ -1,25 +1,13 @@
-import {useEffect, useMemo, useState} from 'preact/hooks';
+import {Broker} from './broker';
 
 export type BrowserHistoryMethod = 'push' | 'replace';
 
 export class BrowserHistory {
-  readonly #pathnameListeners = new Set<(value: string) => void>();
-
-  readonly #paramListenersByKey = new Map<
-    string,
-    Set<(value: string | undefined) => void>
-  >();
+  readonly #pathnameBroker = new Broker();
+  readonly #paramBroker = new Broker();
 
   usePathname(): string {
-    const [pathname, setPathname] = useState(this.getPathname());
-
-    useEffect(() => {
-      this.#pathnameListeners.add(setPathname);
-
-      return () => this.#pathnameListeners.delete(setPathname);
-    }, []);
-
-    return pathname;
+    return this.#pathnameBroker.use('default', () => this.getPathname());
   }
 
   getPathname(): string {
@@ -37,24 +25,11 @@ export class BrowserHistory {
       window.history.replaceState(undefined, '', url.href);
     }
 
-    for (const listener of this.#pathnameListeners) {
-      listener(url.pathname);
-    }
+    this.#pathnameBroker.publish('default', url.pathname);
   }
 
   useParam(key: string): string | undefined {
-    const [value, setValue] = useState(this.getParam(key));
-
-    useEffect(() => {
-      const listeners = this.#paramListenersByKey.get(key) ?? new Set();
-
-      this.#paramListenersByKey.set(key, listeners);
-      listeners.add(setValue);
-
-      return () => listeners.delete(setValue);
-    }, [key]);
-
-    return useMemo(() => this.getParam(key), [key, value]);
+    return this.#paramBroker.use(key, () => this.getParam(key));
   }
 
   getParam(key: string): string | undefined {
@@ -82,12 +57,6 @@ export class BrowserHistory {
       window.history.replaceState(undefined, '', url.href);
     }
 
-    const listeners = this.#paramListenersByKey.get(key);
-
-    if (listeners) {
-      for (const listener of listeners) {
-        listener(value || undefined);
-      }
-    }
+    this.#paramBroker.publish(key, value || undefined);
   }
 }

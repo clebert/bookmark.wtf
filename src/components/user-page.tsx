@@ -3,7 +3,7 @@ import {useMemo} from 'preact/hooks';
 import {UserAPI} from '../apis/user-api';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useReceiver} from '../hooks/use-receiver';
-import {AppHistory} from '../singletons/app-history';
+import {AppHistory} from '../pub-sub/app-history';
 import {BookmarkList} from './bookmark-list';
 import {CollectionList} from './collection-list';
 import {Page} from './page';

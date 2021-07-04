@@ -1,5 +1,5 @@
 import cookie from 'cookie';
-import {AppStorage} from '../singletons/app-storage';
+import {AppStorage} from '../pub-sub/app-storage';
 
 export function completeAuthorization(): void {
   const searchParams = new URLSearchParams(window.location.search);

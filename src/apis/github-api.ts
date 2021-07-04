@@ -1,4 +1,4 @@
-import {AppStorage} from '../singletons/app-storage';
+import {AppStorage} from '../pub-sub/app-storage';
 
 export interface GithubAPIRequest {
   readonly method: 'POST' | 'PATCH' | 'DELETE';

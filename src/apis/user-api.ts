@@ -1,6 +1,6 @@
+import {AppStorage} from '../pub-sub/app-storage';
 import {GET_USER} from '../queries/get-user';
 import {GetUserQuery, GetUserQueryVariables} from '../queries/types';
-import {AppStorage} from '../singletons/app-storage';
 import {createGithubClient} from '../utils/create-github-client';
 
 export class UserAPI {

@@ -1,6 +1,6 @@
 import {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
-import {AppStorage} from '../singletons/app-storage';
+import {AppStorage} from '../pub-sub/app-storage';
 import {Button} from './button';
 import {Icon} from './icon';
 

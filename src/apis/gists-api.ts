@@ -1,6 +1,6 @@
+import {AppStorage} from '../pub-sub/app-storage';
 import {GET_GISTS} from '../queries/get-gists';
 import {GetGistsQuery, GetGistsQueryVariables} from '../queries/types';
-import {AppStorage} from '../singletons/app-storage';
 import {createGithubClient} from '../utils/create-github-client';
 import {isObject} from '../utils/is-object';
 import {isString} from '../utils/is-string';

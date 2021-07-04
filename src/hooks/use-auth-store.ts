@@ -1,5 +1,5 @@
 import {useMemo, useState} from 'preact/hooks';
-import {AppStorage} from '../singletons/app-storage';
+import {AppStorage} from '../pub-sub/app-storage';
 import {beginAuthorization} from '../utils/begin-authorization';
 import {useTransition} from './use-transition';
 

@@ -1,6 +1,6 @@
 import {JSX} from 'preact';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
-import {AppHistory} from '../singletons/app-history';
+import {AppHistory} from '../pub-sub/app-history';
 import {Button} from './button';
 import {ColorSchemeButton} from './color-scheme-button';
 import {Headline} from './headline';

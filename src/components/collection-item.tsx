@@ -4,7 +4,7 @@ import {ShallowGist} from '../apis/gists-api';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
-import {AppHistory} from '../singletons/app-history';
+import {AppHistory} from '../pub-sub/app-history';
 import {DeleteButton} from './delete-button';
 import {EditButton} from './edit-button';
 import {EditCollectionForm} from './edit-collection-form';

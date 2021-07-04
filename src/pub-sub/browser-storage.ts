@@ -1,23 +1,12 @@
-import {useEffect, useMemo, useState} from 'preact/hooks';
+import {Broker} from './broker';
 
 export type BrowserStorageValue = boolean | number | object | string;
 
 export class BrowserStorage {
-  readonly #listenersByKey = new Map<string, Set<(value: any) => void>>();
+  readonly #broker = new Broker();
 
   useItem<TValue extends BrowserStorageValue>(key: string): TValue | undefined {
-    const [value, setValue] = useState(this.getItem<TValue>(key));
-
-    useEffect(() => {
-      const listeners = this.#listenersByKey.get(key) ?? new Set();
-
-      this.#listenersByKey.set(key, listeners);
-      listeners.add(setValue);
-
-      return () => listeners.delete(setValue);
-    }, [key]);
-
-    return useMemo(() => this.getItem<TValue>(key), [key, value]);
+    return this.#broker.use(key, () => this.getItem(key));
   }
 
   getItem<TValue extends BrowserStorageValue>(key: string): TValue | undefined {
@@ -42,12 +31,6 @@ export class BrowserStorage {
       localStorage.removeItem(key);
     }
 
-    const listeners = this.#listenersByKey.get(key);
-
-    if (listeners) {
-      for (const listener of listeners) {
-        listener(value);
-      }
-    }
+    this.#broker.publish(key, value || undefined);
   }
 }

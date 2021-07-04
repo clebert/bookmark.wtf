@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'preact/hooks';
-import {AppStorage} from '../singletons/app-storage';
+import {AppStorage} from '../pub-sub/app-storage';
 
 export type UiMode = 'light' | 'dark';
 

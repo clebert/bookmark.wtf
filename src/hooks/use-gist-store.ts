@@ -1,6 +1,6 @@
 import {useMemo} from 'preact/hooks';
 import {Gist, GistAPI} from '../apis/gist-api';
-import {AppHistory} from '../singletons/app-history';
+import {AppHistory} from '../pub-sub/app-history';
 import {AuthorizedAuthStore} from './use-auth-store';
 import {useBinder} from './use-binder';
 import {useReceiver} from './use-receiver';

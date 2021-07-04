@@ -1,6 +1,6 @@
 import {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
-import {AppHistory} from '../singletons/app-history';
+import {AppHistory} from '../pub-sub/app-history';
 import {TextField} from './text-field';
 
 export function SearchForm(): JSX.Element {

@@ -7,7 +7,7 @@ import {
   UpdatingGistStore,
 } from '../hooks/use-gist-store';
 import {useToggle} from '../hooks/use-toggle';
-import {AppHistory} from '../singletons/app-history';
+import {AppHistory} from '../pub-sub/app-history';
 import {createRandomValue} from '../utils/create-random-value';
 import {Bookmark} from '../utils/parse-bookmark';
 import {serializeBookmark} from '../utils/serialize-bookmark';
