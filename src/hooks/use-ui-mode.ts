@@ -1,12 +1,12 @@
 import {useEffect, useState} from 'preact/hooks';
-import {JsonStorage} from '../singletons/json-storage';
+import {BrowserStorage} from '../singletons/browser-storage';
 
 export type UiMode = 'light' | 'dark';
 
 const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
 export function useUiMode(): UiMode {
-  const colorScheme = JsonStorage.singleton.use('colorScheme');
+  const colorScheme = BrowserStorage.singleton.use('colorScheme');
   const [, rerender] = useState({});
 
   useEffect(() => {

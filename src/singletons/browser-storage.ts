@@ -1,16 +1,16 @@
 import {useEffect, useMemo, useState} from 'preact/hooks';
 
-export type Listener<TValue extends JsonValue> = (
+export type Listener<TValue extends Value> = (
   value: TValue | undefined
 ) => void;
 
-export type JsonValue = boolean | number | string | object;
 export type Key = 'colorScheme' | 'sortOrder' | 'token';
+export type Value = ColorScheme | SortOrder | string;
 export type ColorScheme = 'auto' | 'light' | 'dark';
 export type SortOrder = 'clickCount' | 'timeAsc' | 'timeDesc';
 
-export class JsonStorage {
-  static readonly singleton = new JsonStorage();
+export class BrowserStorage {
+  static readonly singleton = new BrowserStorage();
 
   readonly #listenersByKey = new Map<Key, Set<Listener<any>>>();
 
@@ -19,7 +19,7 @@ export class JsonStorage {
   set(key: 'colorScheme', value: ColorScheme): void;
   set(key: 'sortOrder', value: SortOrder): void;
   set(key: 'token', value: string | undefined): void;
-  set<TValue extends JsonValue>(key: Key, value: TValue | undefined): void {
+  set<TValue extends Value>(key: Key, value: TValue | undefined): void {
     if (value) {
       localStorage.setItem(key, JSON.stringify(value));
     } else {
@@ -38,10 +38,10 @@ export class JsonStorage {
   use(key: 'colorScheme'): ColorScheme;
   use(key: 'sortOrder'): SortOrder;
   use(key: 'token'): string | undefined;
-  use<TValue extends JsonValue>(key: Key): TValue | undefined {
+  use<TValue extends Value>(key: Key): TValue | undefined {
     const [value, setValue] = useState(this.#get<TValue>(key));
 
-    useEffect(() => this.#subscribe(key, setValue), [key]);
+    useEffect(() => this.#subscribe<TValue>(key, setValue), [key]);
 
     return useMemo(() => {
       const storedValue = this.#get<TValue>(key);
@@ -64,7 +64,7 @@ export class JsonStorage {
     }, [key, value]);
   }
 
-  #get<TValue extends JsonValue>(key: Key): TValue | undefined {
+  #get<TValue extends Value>(key: Key): TValue | undefined {
     const valueData = localStorage.getItem(key);
 
     try {
@@ -76,7 +76,7 @@ export class JsonStorage {
     }
   }
 
-  #subscribe<TValue extends JsonValue>(
+  #subscribe<TValue extends Value>(
     key: Key,
     listener: Listener<TValue>
   ): () => void {

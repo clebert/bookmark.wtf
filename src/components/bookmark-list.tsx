@@ -3,7 +3,7 @@ import {useEffect, useMemo} from 'preact/hooks';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useGistStore} from '../hooks/use-gist-store';
 import {useSearchTerm} from '../hooks/use-search-term';
-import {JsonStorage} from '../singletons/json-storage';
+import {BrowserStorage} from '../singletons/browser-storage';
 import {compareClickCount} from '../utils/compare-click-count';
 import {compareTime} from '../utils/compare-time';
 import {parseBookmark} from '../utils/parse-bookmark';
@@ -53,7 +53,7 @@ export function BookmarkList({
     [gistStore]
   );
 
-  const sortOrder = JsonStorage.singleton.use('sortOrder');
+  const sortOrder = BrowserStorage.singleton.use('sortOrder');
 
   const sortedBookmarkFiles = useMemo<readonly BookmarkFile[]>(
     () =>

@@ -3,7 +3,6 @@ import {useCallback, useEffect, useMemo, useState} from 'preact/hooks';
 
 export interface History {
   readonly url: string;
-  readonly initialUrl: string;
 
   push(...changes: readonly [HistoryChange, ...HistoryChange[]]): void;
   replace(...changes: readonly [HistoryChange, ...HistoryChange[]]): void;
@@ -25,8 +24,7 @@ export interface ParamHistoryChange {
 export const HistoryContext = createContext<History>(undefined as any);
 
 export function useHistory(): History {
-  const initialUrl = useMemo(() => window.location.href, []);
-  const [url, setUrl] = useState(initialUrl);
+  const [url, setUrl] = useState(window.location.href);
 
   const push = useCallback<History['push']>((...changes) => {
     window.history.pushState(undefined, '', applyChanges(changes));
@@ -46,7 +44,7 @@ export function useHistory(): History {
     return () => window.removeEventListener('popstate', synchronize);
   }, []);
 
-  return useMemo(() => ({url, initialUrl, push, replace}), [url]);
+  return useMemo(() => ({url, push, replace}), [url]);
 }
 
 function applyChanges(changes: readonly HistoryChange[]): string {

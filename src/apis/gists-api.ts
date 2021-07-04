@@ -1,7 +1,7 @@
 import {GET_GISTS} from '../queries/get-gists';
 import {GetGistsQuery, GetGistsQueryVariables} from '../queries/types';
+import {BrowserStorage} from '../singletons/browser-storage';
 import {createGithubClient} from '../utils/create-github-client';
-import {deauthorize} from '../utils/deauthorize';
 import {isObject} from '../utils/is-object';
 import {isString} from '../utils/is-string';
 import {GistFile} from './gist-api';
@@ -23,7 +23,7 @@ export class GistsAPI extends GithubAPI {
 
     if (error) {
       if (error.response?.status === 401) {
-        deauthorize();
+        BrowserStorage.singleton.set('token', undefined);
       }
 
       throw error;

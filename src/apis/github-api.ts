@@ -1,4 +1,4 @@
-import {deauthorize} from '../utils/deauthorize';
+import {BrowserStorage} from '../singletons/browser-storage';
 
 export interface GithubAPIRequest {
   readonly method: 'POST' | 'PATCH' | 'DELETE';
@@ -49,7 +49,7 @@ export abstract class GithubAPI {
     }
 
     if (response.status === 401) {
-      deauthorize();
+      BrowserStorage.singleton.set('token', undefined);
     }
 
     throw new Error(
