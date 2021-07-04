@@ -1,11 +1,10 @@
 import {JSX} from 'preact';
-import {useCallback, useContext, useMemo} from 'preact/hooks';
+import {useCallback, useMemo} from 'preact/hooks';
 import {ShallowGist} from '../apis/gists-api';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
-import {HistoryContext} from '../hooks/use-history';
 import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
-import {changeGistName} from '../utils/change-gist-name';
+import {AppHistory} from '../singletons/app-history';
 import {DeleteButton} from './delete-button';
 import {EditButton} from './edit-button';
 import {EditCollectionForm} from './edit-collection-form';
@@ -22,10 +21,8 @@ export function CollectionItem({
   gistsStore,
   gist: {gistName, description, mtime},
 }: CollectionItemProps): JSX.Element {
-  const history = useContext(HistoryContext);
-
   const openCollection = useCallback(
-    () => history.push(changeGistName(gistName)),
+    () => AppHistory.singleton.pushGistName(gistName),
     [gistName]
   );
 

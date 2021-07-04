@@ -1,7 +1,6 @@
 import {JSX} from 'preact';
 import {useLayoutEffect} from 'preact/hooks';
 import {useAuthStore} from '../hooks/use-auth-store';
-import {HistoryContext, useHistory} from '../hooks/use-history';
 import {useUiMode} from '../hooks/use-ui-mode';
 import {Colors} from '../utils/colors';
 import {ErrorBoundary} from './error-boundary';
@@ -28,14 +27,12 @@ export function App(): JSX.Element {
   }, [uiMode]);
 
   return (
-    <HistoryContext.Provider value={useHistory()}>
-      <ErrorBoundary fallback={<ErrorPage />}>
-        {authStore.state === 'authorized' ? (
-          <UserPage authStore={authStore} />
-        ) : (
-          <HomePage authStore={authStore} />
-        )}
-      </ErrorBoundary>
-    </HistoryContext.Provider>
+    <ErrorBoundary fallback={<ErrorPage />}>
+      {authStore.state === 'authorized' ? (
+        <UserPage authStore={authStore} />
+      ) : (
+        <HomePage authStore={authStore} />
+      )}
+    </ErrorBoundary>
   );
 }

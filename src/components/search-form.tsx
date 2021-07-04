@@ -1,26 +1,24 @@
 import {JSX} from 'preact';
-import {useCallback, useContext} from 'preact/hooks';
-import {HistoryContext} from '../hooks/use-history';
-import {useSearchTerm} from '../hooks/use-search-term';
-import {changeSearchTerm} from '../utils/change-search-term';
+import {useCallback} from 'preact/hooks';
+import {AppHistory} from '../singletons/app-history';
 import {TextField} from './text-field';
 
 export function SearchForm(): JSX.Element {
-  const searchTerm = useSearchTerm();
-  const history = useContext(HistoryContext);
+  const value = AppHistory.singleton.useSearch();
 
-  const search = useCallback((value: string) => {
-    history.replace(changeSearchTerm(value || undefined));
-  }, []);
+  const replaceSearch = useCallback(
+    AppHistory.singleton.replaceSearch.bind(AppHistory.singleton),
+    []
+  );
 
   return (
     <div class="w-full md:w-64">
       <TextField
-        value={searchTerm.value}
+        value={value}
         placeholder="Enter search term"
         autoFocus
-        highlight={searchTerm.value.length > 0}
-        onInput={search}
+        highlight={value.length > 0}
+        onInput={replaceSearch}
       />
     </div>
   );

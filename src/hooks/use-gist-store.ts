@@ -1,9 +1,8 @@
-import {useContext, useMemo} from 'preact/hooks';
+import {useMemo} from 'preact/hooks';
 import {Gist, GistAPI} from '../apis/gist-api';
-import {changeGistName} from '../utils/change-gist-name';
+import {AppHistory} from '../singletons/app-history';
 import {AuthorizedAuthStore} from './use-auth-store';
 import {useBinder} from './use-binder';
-import {HistoryContext} from './use-history';
 import {useReceiver} from './use-receiver';
 import {useSender} from './use-sender';
 import {useTransition} from './use-transition';
@@ -94,7 +93,6 @@ export function useGistStore(
     );
 
   const bind = useBinder();
-  const history = useContext(HistoryContext);
 
   const forkGist = () =>
     transition(() =>
@@ -103,7 +101,7 @@ export function useGistStore(
           .value!.forkGist()
           .then(
             bind((newGistName: string) =>
-              history.push(changeGistName(newGistName))
+              AppHistory.singleton.pushGistName(newGistName)
             )
           )
       )

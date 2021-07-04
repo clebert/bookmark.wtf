@@ -1,14 +1,13 @@
 import {JSX} from 'preact';
-import {useCallback, useContext, useMemo} from 'preact/hooks';
+import {useCallback, useMemo} from 'preact/hooks';
 import {
   ForkingGistStore,
   LockedGistStore,
   ReadyGistStore,
   UpdatingGistStore,
 } from '../hooks/use-gist-store';
-import {HistoryContext} from '../hooks/use-history';
 import {useToggle} from '../hooks/use-toggle';
-import {changeGistName} from '../utils/change-gist-name';
+import {AppHistory} from '../singletons/app-history';
 import {createRandomValue} from '../utils/create-random-value';
 import {Bookmark} from '../utils/parse-bookmark';
 import {serializeBookmark} from '../utils/serialize-bookmark';
@@ -33,10 +32,8 @@ export function BookmarkControl({
   gistName,
   gistStore,
 }: BookmarkControlProps): JSX.Element {
-  const history = useContext(HistoryContext);
-
   const closeCollection = useCallback(
-    () => history.push(changeGistName(undefined)),
+    () => AppHistory.singleton.pushGistName(),
     []
   );
 

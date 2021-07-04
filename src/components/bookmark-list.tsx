@@ -2,7 +2,7 @@ import {JSX} from 'preact';
 import {useEffect, useMemo} from 'preact/hooks';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useGistStore} from '../hooks/use-gist-store';
-import {useSearchTerm} from '../hooks/use-search-term';
+import {AppHistory} from '../singletons/app-history';
 import {BrowserStorage} from '../singletons/browser-storage';
 import {compareClickCount} from '../utils/compare-click-count';
 import {compareTime} from '../utils/compare-time';
@@ -67,16 +67,18 @@ export function BookmarkList({
     [bookmarkFiles, sortOrder]
   );
 
-  const {regex} = useSearchTerm();
+  const searchValue = AppHistory.singleton.useSearch();
 
-  const filteredBookmarkFiles = useMemo<readonly BookmarkFile[]>(
-    () =>
-      sortedBookmarkFiles.filter(
-        ({bookmark}) =>
-          !regex || regex.test(bookmark.title) || regex.test(bookmark.url)
-      ),
-    [sortedBookmarkFiles, regex]
-  );
+  const filteredBookmarkFiles = useMemo<readonly BookmarkFile[]>(() => {
+    const regex = searchValue
+      ? new RegExp(searchValue.split('').join('.?'), 'i')
+      : undefined;
+
+    return sortedBookmarkFiles.filter(
+      ({bookmark}) =>
+        !regex || regex.test(bookmark.title) || regex.test(bookmark.url)
+    );
+  }, [sortedBookmarkFiles, searchValue]);
 
   return gistStore.state !== 'loading' ? (
     <Grid>
