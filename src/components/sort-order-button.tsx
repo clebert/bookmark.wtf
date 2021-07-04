@@ -1,6 +1,6 @@
 import {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
-import {BrowserStorage} from '../singletons/browser-storage';
+import {AppStorage} from '../singletons/app-storage';
 import {Button} from './button';
 import {Icon} from './icon';
 
@@ -17,15 +17,15 @@ const iconTypes = {
 } as const;
 
 export function SortOrderButton(): JSX.Element {
-  const sortOrder = BrowserStorage.singleton.use('sortOrder');
+  const sortOrder = AppStorage.singleton.useSortOrder();
 
   const toggleSortOrder = useCallback(() => {
     if (sortOrder === 'clickCount') {
-      BrowserStorage.singleton.set('sortOrder', 'timeAsc');
+      AppStorage.singleton.setSortOrder('timeAsc');
     } else if (sortOrder === 'timeAsc') {
-      BrowserStorage.singleton.set('sortOrder', 'timeDesc');
+      AppStorage.singleton.setSortOrder('timeDesc');
     } else {
-      BrowserStorage.singleton.set('sortOrder', 'clickCount');
+      AppStorage.singleton.setSortOrder('clickCount');
     }
   }, [sortOrder]);
 

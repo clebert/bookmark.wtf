@@ -33,7 +33,7 @@ export function BookmarkControl({
   gistStore,
 }: BookmarkControlProps): JSX.Element {
   const closeCollection = useCallback(
-    () => AppHistory.singleton.pushGistName(),
+    () => AppHistory.singleton.pushGistName(undefined),
     []
   );
 

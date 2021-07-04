@@ -1,56 +1,39 @@
 import {useEffect, useMemo, useState} from 'preact/hooks';
 
-export type BrowserStorageKey = 'colorScheme' | 'sortOrder' | 'token';
-export type BrowserStorageValue = ColorScheme | SortOrder | string;
-export type ColorScheme = 'auto' | 'light' | 'dark';
-export type SortOrder = 'clickCount' | 'timeAsc' | 'timeDesc';
+export type BrowserStorageValue = boolean | number | object | string;
 
 export class BrowserStorage {
-  static readonly singleton = new BrowserStorage();
+  readonly #listenersByKey = new Map<string, Set<(value: any) => void>>();
 
-  readonly #listenersByKey = new Map<
-    BrowserStorageKey,
-    Set<(value: any) => void>
-  >();
+  useItem<TValue extends BrowserStorageValue>(key: string): TValue | undefined {
+    const [value, setValue] = useState(this.getItem<TValue>(key));
 
-  private constructor() {}
+    useEffect(() => {
+      const listeners = this.#listenersByKey.get(key) ?? new Set();
 
-  use(key: 'colorScheme'): ColorScheme;
-  use(key: 'sortOrder'): SortOrder;
-  use(key: 'token'): string | undefined;
-  use<TValue extends BrowserStorageValue>(
-    key: BrowserStorageKey
-  ): TValue | undefined {
-    const [value, setValue] = useState(this.#get<TValue>(key));
+      this.#listenersByKey.set(key, listeners);
+      listeners.add(setValue);
 
-    useEffect(() => this.#subscribe<TValue>(key, setValue), [key]);
+      return () => listeners.delete(setValue);
+    }, [key]);
 
-    return useMemo(() => {
-      const storedValue = this.#get<TValue>(key);
-
-      if (storedValue === undefined) {
-        if (key === 'colorScheme') {
-          const colorScheme: ColorScheme = 'auto';
-
-          return colorScheme as TValue;
-        }
-
-        if (key === 'sortOrder') {
-          const sortOrder: SortOrder = 'clickCount';
-
-          return sortOrder as TValue;
-        }
-      }
-
-      return storedValue;
-    }, [key, value]);
+    return useMemo(() => this.getItem<TValue>(key), [key, value]);
   }
 
-  set(key: 'colorScheme', value: ColorScheme): void;
-  set(key: 'sortOrder', value: SortOrder): void;
-  set(key: 'token', value: string | undefined): void;
-  set<TValue extends BrowserStorageValue>(
-    key: BrowserStorageKey,
+  getItem<TValue extends BrowserStorageValue>(key: string): TValue | undefined {
+    const valueData = localStorage.getItem(key);
+
+    try {
+      return valueData ? JSON.parse(valueData) : undefined;
+    } catch {
+      localStorage.removeItem(key);
+
+      return undefined;
+    }
+  }
+
+  setItem<TValue extends BrowserStorageValue>(
+    key: string,
     value: TValue | undefined
   ): void {
     if (value) {
@@ -66,31 +49,5 @@ export class BrowserStorage {
         listener(value);
       }
     }
-  }
-
-  #get<TValue extends BrowserStorageValue>(
-    key: BrowserStorageKey
-  ): TValue | undefined {
-    const valueData = localStorage.getItem(key);
-
-    try {
-      return valueData ? JSON.parse(valueData) : undefined;
-    } catch {
-      localStorage.removeItem(key);
-
-      return undefined;
-    }
-  }
-
-  #subscribe<TValue extends BrowserStorageValue>(
-    key: BrowserStorageKey,
-    listener: (value: TValue | undefined) => void
-  ): () => void {
-    const listeners = this.#listenersByKey.get(key) ?? new Set();
-
-    this.#listenersByKey.set(key, listeners);
-    listeners.add(listener);
-
-    return () => listeners.delete(listener);
   }
 }

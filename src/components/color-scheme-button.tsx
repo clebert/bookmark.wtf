@@ -1,6 +1,6 @@
 import {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
-import {BrowserStorage} from '../singletons/browser-storage';
+import {AppStorage} from '../singletons/app-storage';
 import {Button} from './button';
 import {Icon} from './icon';
 
@@ -8,15 +8,15 @@ const titles = {auto: 'System theme', light: 'Day theme', dark: 'Night theme'};
 const iconTypes = {auto: 'cog', light: 'sun', dark: 'moon'} as const;
 
 export function ColorSchemeButton(): JSX.Element {
-  const colorScheme = BrowserStorage.singleton.use('colorScheme');
+  const colorScheme = AppStorage.singleton.useColorScheme();
 
   const toggleColorScheme = useCallback(() => {
     if (colorScheme === 'auto') {
-      BrowserStorage.singleton.set('colorScheme', 'dark');
+      AppStorage.singleton.setColorScheme('dark');
     } else if (colorScheme === 'dark') {
-      BrowserStorage.singleton.set('colorScheme', 'light');
+      AppStorage.singleton.setColorScheme('light');
     } else {
-      BrowserStorage.singleton.set('colorScheme', 'auto');
+      AppStorage.singleton.setColorScheme('auto');
     }
   }, [colorScheme]);
 

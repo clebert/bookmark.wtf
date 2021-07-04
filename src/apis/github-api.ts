@@ -1,4 +1,4 @@
-import {BrowserStorage} from '../singletons/browser-storage';
+import {AppStorage} from '../singletons/app-storage';
 
 export interface GithubAPIRequest {
   readonly method: 'POST' | 'PATCH' | 'DELETE';
@@ -49,7 +49,7 @@ export abstract class GithubAPI {
     }
 
     if (response.status === 401) {
-      BrowserStorage.singleton.set('token', undefined);
+      AppStorage.singleton.setToken(undefined);
     }
 
     throw new Error(

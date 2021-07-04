@@ -1,6 +1,6 @@
 import {GET_GISTS} from '../queries/get-gists';
 import {GetGistsQuery, GetGistsQueryVariables} from '../queries/types';
-import {BrowserStorage} from '../singletons/browser-storage';
+import {AppStorage} from '../singletons/app-storage';
 import {createGithubClient} from '../utils/create-github-client';
 import {isObject} from '../utils/is-object';
 import {isString} from '../utils/is-string';
@@ -23,7 +23,7 @@ export class GistsAPI extends GithubAPI {
 
     if (error) {
       if (error.response?.status === 401) {
-        BrowserStorage.singleton.set('token', undefined);
+        AppStorage.singleton.setToken(undefined);
       }
 
       throw error;

@@ -1,6 +1,6 @@
 import {GET_USER} from '../queries/get-user';
 import {GetUserQuery, GetUserQueryVariables} from '../queries/types';
-import {BrowserStorage} from '../singletons/browser-storage';
+import {AppStorage} from '../singletons/app-storage';
 import {createGithubClient} from '../utils/create-github-client';
 
 export class UserAPI {
@@ -13,7 +13,7 @@ export class UserAPI {
 
     if (error) {
       if (error.response?.status === 401) {
-        BrowserStorage.singleton.set('token', undefined);
+        AppStorage.singleton.setToken(undefined);
       }
 
       throw error;

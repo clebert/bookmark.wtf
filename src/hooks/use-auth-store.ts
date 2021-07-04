@@ -1,6 +1,6 @@
 import cookie from 'cookie';
 import {useMemo, useState} from 'preact/hooks';
-import {BrowserStorage} from '../singletons/browser-storage';
+import {AppStorage} from '../singletons/app-storage';
 import {createRandomValue} from '../utils/create-random-value';
 import {useTransition} from './use-transition';
 
@@ -27,7 +27,7 @@ export type UnauthorizedAuthStore = {
 };
 
 export function useAuthStore(): AuthStore {
-  const token = BrowserStorage.singleton.use('token');
+  const token = AppStorage.singleton.useToken();
   const [authorizing, setAuthorizing] = useState(false);
   const transition = useTransition(token, authorizing);
 
@@ -56,7 +56,7 @@ export function useAuthStore(): AuthStore {
     });
 
   const signOut = () =>
-    transition(() => BrowserStorage.singleton.set('token', undefined));
+    transition(() => AppStorage.singleton.setToken(undefined));
 
   return useMemo(
     () =>
@@ -97,7 +97,7 @@ function handleTransaction(): void {
     const transactionId = cookie.parse(document.cookie)['transactionId'];
 
     if (transactionId && searchParams.get('transactionId') === transactionId) {
-      BrowserStorage.singleton.set('token', token);
+      AppStorage.singleton.setToken(token);
     } else {
       console.error('Untrusted OAuth transaction.');
     }
