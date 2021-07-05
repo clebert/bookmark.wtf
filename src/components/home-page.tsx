@@ -3,7 +3,7 @@ import {
   AuthorizingAuthStore,
   UnauthorizedAuthStore,
 } from '../hooks/use-auth-store';
-import {useUiMode} from '../hooks/use-ui-mode';
+import {useDarkMode} from '../hooks/use-dark-mode';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 import {Button} from './button';
@@ -21,7 +21,7 @@ export interface HomePageProps {
 }
 
 export function HomePage({authStore}: HomePageProps): JSX.Element {
-  const uiMode = useUiMode();
+  const darkMode = useDarkMode();
 
   return (
     <Page>
@@ -59,7 +59,9 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
       <div class={join(['max-w-5xl p-1 shadow', Colors.highlightRing()])}>
         <img
           class="select-none"
-          src={`https://raw.githubusercontent.com/clebert/bookmark.wtf/main/screenshot-${uiMode}-mode.png`}
+          src={`https://raw.githubusercontent.com/clebert/bookmark.wtf/main/screenshot-${
+            darkMode ? 'dark' : 'light'
+          }-mode.png`}
         ></img>
       </div>
     </Page>

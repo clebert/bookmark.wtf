@@ -1,7 +1,7 @@
 import {JSX} from 'preact';
 import {useLayoutEffect} from 'preact/hooks';
 import {useAuthStore} from '../hooks/use-auth-store';
-import {useUiMode} from '../hooks/use-ui-mode';
+import {useDarkMode} from '../hooks/use-dark-mode';
 import {Colors} from '../utils/colors';
 import {ErrorBoundary} from './error-boundary';
 import {ErrorPage} from './error-page';
@@ -10,7 +10,7 @@ import {UserPage} from './user-page';
 
 export function App(): JSX.Element {
   const authStore = useAuthStore();
-  const uiMode = useUiMode();
+  const darkMode = useDarkMode();
 
   useLayoutEffect(() => {
     document
@@ -19,12 +19,12 @@ export function App(): JSX.Element {
   }, []);
 
   useLayoutEffect(() => {
-    if (uiMode === 'dark') {
+    if (darkMode) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-  }, [uiMode]);
+  }, [darkMode]);
 
   return (
     <ErrorBoundary fallback={<ErrorPage />}>
