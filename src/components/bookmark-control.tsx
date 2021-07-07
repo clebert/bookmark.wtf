@@ -16,6 +16,7 @@ import {GridItem} from './grid-item';
 import {Icon} from './icon';
 import {Label} from './label';
 import {NewBookmarkForm} from './new-bookmark-form';
+import {PasteBookmarkButton} from './paste-bookmark-button';
 import {SortOrderButton} from './sort-order-button';
 
 export interface BookmarkControlProps {
@@ -94,6 +95,7 @@ export function BookmarkControl({
           </Button>
 
           <SortOrderButton />
+          <PasteBookmarkButton gistStore={gistStore} />
         </>
       }
     />

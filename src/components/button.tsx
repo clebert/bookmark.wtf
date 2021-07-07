@@ -9,6 +9,7 @@ export interface ButtonProps {
   readonly theme?: 'danger' | 'success';
   readonly title: string;
   readonly disabled?: boolean;
+  readonly highlight?: boolean;
 
   onClick?(): void;
 }
@@ -20,6 +21,7 @@ export function Button({
   theme,
   title,
   disabled,
+  highlight,
   onClick,
 }: ButtonProps): JSX.Element {
   const enabled = disabled === undefined ? onClick !== undefined : !disabled;
@@ -32,9 +34,10 @@ export function Button({
         enabled && Colors.activeText(theme),
         enabled && Colors.focusOutline(),
         Colors.border(theme),
+        highlight && Colors.highlightRing(),
         Colors.background(),
         enabled && Colors.activeBackground(),
-        !enabled && 'border-dashed',
+        !enabled && 'opacity-25',
         'px-2',
         'whitespace-nowrap',
         !enabled && 'cursor-default',

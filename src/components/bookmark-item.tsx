@@ -11,6 +11,7 @@ import {useToggle} from '../hooks/use-toggle';
 import {Bookmark} from '../utils/parse-bookmark';
 import {serializeBookmark} from '../utils/serialize-bookmark';
 import {BookmarkIcon} from './bookmark-icon';
+import {CopyBookmarkButton} from './copy-bookmark-button';
 import {DeleteButton} from './delete-button';
 import {EditBookmarkForm} from './edit-bookmark-form';
 import {EditButton} from './edit-button';
@@ -107,6 +108,7 @@ export function BookmarkItem({
       row2={
         deleting ? (
           <>
+            <CopyBookmarkButton bookmark={bookmark} />
             <EditButton targetName="bookmark" />
 
             <DeleteButton
@@ -117,6 +119,8 @@ export function BookmarkItem({
           </>
         ) : (
           <>
+            <CopyBookmarkButton bookmark={bookmark} />
+
             <EditButton
               targetName="bookmark"
               action={gistStore.state === 'ready' ? toggleEditing : undefined}

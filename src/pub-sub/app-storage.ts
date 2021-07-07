@@ -1,3 +1,4 @@
+import {Bookmark} from '../utils/parse-bookmark';
 import {BrowserStorage} from './browser-storage';
 
 export type ColorScheme = 'auto' | 'light' | 'dark';
@@ -30,5 +31,13 @@ export class AppStorage {
 
   setToken(value: string | undefined): void {
     this.browserStorage.setItem('token', value);
+  }
+
+  useBookmark(): Bookmark | undefined {
+    return this.browserStorage.useItem('bookmark');
+  }
+
+  setBookmark(bookmark: Bookmark | undefined): void {
+    this.browserStorage.setItem('bookmark', bookmark);
   }
 }
