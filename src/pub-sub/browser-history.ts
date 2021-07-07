@@ -6,6 +6,24 @@ export class BrowserHistory {
   readonly #pathnameBroker = new Broker();
   readonly #paramBroker = new Broker();
 
+  readonly #listener = () => {
+    const url = new URL(window.location.href);
+
+    this.#pathnameBroker.publish(url.pathname);
+
+    url.searchParams.forEach((value, key) =>
+      this.#paramBroker.publish(value || undefined, {topic: key})
+    );
+  };
+
+  constructor() {
+    window.addEventListener('popstate', this.#listener);
+  }
+
+  destroy(): void {
+    window.removeEventListener('popstate', this.#listener);
+  }
+
   usePathname(): string {
     return this.#pathnameBroker.use(() => this.getPathname());
   }
