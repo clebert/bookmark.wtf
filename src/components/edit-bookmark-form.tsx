@@ -40,23 +40,23 @@ export function EditBookmarkForm({
       <GridItem
         row1={
           <TextField
-            value={currentTitle}
-            placeholder="Enter title"
-            autoFocus
-            required
-            onInput={setCurrentTitle}
-          />
-        }
-        row2={
-          <TextField
             type="url"
             value={currentUrl}
             placeholder="Enter URL"
+            autoFocus
             required
             onInput={setCurrentUrl}
           />
         }
-        rightCol={
+        row2={
+          <TextField
+            value={currentTitle}
+            placeholder="Enter title"
+            required
+            onInput={setCurrentTitle}
+          />
+        }
+        rightCol1={
           <>
             <Button
               type="submit"

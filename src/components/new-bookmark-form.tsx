@@ -3,6 +3,7 @@ import {useMemo, useState} from 'preact/hooks';
 import {Bookmark} from '../utils/parse-bookmark';
 import {Button} from './button';
 import {Form} from './form';
+import {GetTitleButton} from './get-title-button';
 import {GridItem} from './grid-item';
 import {Icon} from './icon';
 import {TextField} from './text-field';
@@ -33,23 +34,26 @@ export function NewBookmarkForm({
       <GridItem
         row1={
           <TextField
-            value={currentTitle}
-            placeholder="Enter title"
-            autoFocus
-            required
-            onInput={setCurrentTitle}
-          />
-        }
-        row2={
-          <TextField
             type="url"
             value={currentUrl}
             placeholder="Enter URL"
+            autoFocus
             required
             onInput={setCurrentUrl}
           />
         }
-        rightCol={
+        row2={
+          <TextField
+            value={currentTitle}
+            placeholder="Enter title"
+            required
+            onInput={setCurrentTitle}
+          />
+        }
+        rightCol1={
+          <GetTitleButton url={currentUrl} setTitle={setCurrentTitle} />
+        }
+        rightCol2={
           <>
             <Button
               type="submit"

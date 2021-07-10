@@ -28,6 +28,12 @@ exports.default = {
       dirname: 'dist/app',
       cacheControl: 'max-age=157680000', // 5 years
     },
+    '/api/get-title': {
+      kind: 'function',
+      filename: 'dist/api/get-title.js',
+      timeoutInSeconds: 3,
+      parameters: {url: {required: true}},
+    },
     '/api/redirect': {
       kind: 'function',
       filename: 'dist/api/redirect.js',

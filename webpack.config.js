@@ -106,5 +106,9 @@ module.exports = (_env, argv) => {
 
   process.env.NODE_ENV = dev ? 'development' : argv.mode;
 
-  return [createAppConfig(dev), createLambdaConfig(dev, 'redirect')];
+  return [
+    createAppConfig(dev),
+    createLambdaConfig(dev, 'redirect'),
+    createLambdaConfig(dev, 'get-title'),
+  ];
 };
