@@ -22,6 +22,7 @@ export function TextField({
   value,
   placeholder,
   autoFocus,
+  disabled,
   required,
   highlight,
   onInput,
@@ -44,6 +45,7 @@ export function TextField({
         Colors.border(highlight ? 'highlight' : undefined),
         Colors.background(),
         Colors.focusOutline(),
+        disabled && 'opacity-25',
         'appearance-none',
         'rounded-none',
         'w-full',
@@ -54,6 +56,7 @@ export function TextField({
       placeholder={placeholder}
       autocomplete="off"
       autocorrect="off"
+      disabled={disabled}
       required={required}
       spellcheck={false}
       onInput={useCallback(
