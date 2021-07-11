@@ -1,5 +1,6 @@
 import {JSX} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
+import {useSender} from '../hooks/use-sender';
 import {Bookmark} from '../utils/parse-bookmark';
 import {Button} from './button';
 import {Form} from './form';
@@ -29,6 +30,8 @@ export function NewBookmarkForm({
       : undefined;
   }, [onCreate, currentTitle, currentUrl]);
 
+  const getTitleSender = useSender();
+
   return (
     <Form onSubmit={create}>
       <GridItem
@@ -38,6 +41,7 @@ export function NewBookmarkForm({
             value={currentUrl}
             placeholder="Enter URL"
             autoFocus
+            disabled={getTitleSender.state === 'sending'}
             required
             onInput={setCurrentUrl}
           />
@@ -46,12 +50,17 @@ export function NewBookmarkForm({
           <TextField
             value={currentTitle}
             placeholder="Enter title"
+            disabled={getTitleSender.state === 'sending'}
             required
             onInput={setCurrentTitle}
           />
         }
         rightCol1={
-          <GetTitleButton url={currentUrl} setTitle={setCurrentTitle} />
+          <GetTitleButton
+            sender={getTitleSender}
+            url={currentUrl}
+            setTitle={setCurrentTitle}
+          />
         }
         rightCol2={
           <>

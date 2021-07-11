@@ -31,6 +31,7 @@ exports.default = {
     '/api/get-title': {
       kind: 'function',
       filename: 'dist/api/get-title.js',
+      memorySize: 1769, // At 1,769 MB, a function has the equivalent of one vCPU.
       timeoutInSeconds: 3,
       parameters: {url: {required: true}},
     },

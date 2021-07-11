@@ -1,3 +1,4 @@
+import {Sender} from 'loxia';
 import {JSX} from 'preact';
 import {useMemo} from 'preact/hooks';
 import {useBinder} from '../hooks/use-binder';
@@ -5,12 +6,14 @@ import {Button} from './button';
 import {Icon} from './icon';
 
 export interface GetTitleButtonProps {
+  readonly sender: Sender;
   readonly url: string;
 
   setTitle(title: string): void;
 }
 
 export function GetTitleButton({
+  sender,
   url,
   setTitle,
 }: GetTitleButtonProps): JSX.Element {
@@ -18,23 +21,27 @@ export function GetTitleButton({
 
   const getTitle = useMemo(
     () =>
-      url
+      url && sender.state === 'idle'
         ? () =>
-            fetch(`/api/get-title?url=${encodeURIComponent(url)}`)
-              .then(
-                bind((response: Response) =>
-                  response
-                    .json()
-                    .then(
-                      bind((title) =>
-                        setTitle(typeof title === 'string' ? title : 'No title')
+            sender.send(
+              fetch(`/api/get-title?url=${encodeURIComponent(url)}`)
+                .then(
+                  bind((response: Response) =>
+                    response
+                      .json()
+                      .then(
+                        bind((title) =>
+                          setTitle(
+                            typeof title === 'string' ? title : 'No title'
+                          )
+                        )
                       )
-                    )
+                  )
                 )
-              )
-              .catch(bind(() => setTitle('No title')))
+                .catch(bind(() => setTitle('No title')))
+            )
         : undefined,
-    [url]
+    [sender, url]
   );
 
   return (

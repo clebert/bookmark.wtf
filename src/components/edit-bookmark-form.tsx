@@ -1,7 +1,9 @@
 import {JSX} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
+import {useSender} from '../hooks/use-sender';
 import {Button} from './button';
 import {Form} from './form';
+import {GetTitleButton} from './get-title-button';
 import {GridItem} from './grid-item';
 import {Icon} from './icon';
 import {TextField} from './text-field';
@@ -35,6 +37,8 @@ export function EditBookmarkForm({
       : undefined;
   }, [onUpdate, currentTitle, currentUrl]);
 
+  const getTitleSender = useSender();
+
   return (
     <Form onSubmit={update}>
       <GridItem
@@ -44,6 +48,7 @@ export function EditBookmarkForm({
             value={currentUrl}
             placeholder="Enter URL"
             autoFocus
+            disabled={getTitleSender.state === 'sending'}
             required
             onInput={setCurrentUrl}
           />
@@ -52,11 +57,19 @@ export function EditBookmarkForm({
           <TextField
             value={currentTitle}
             placeholder="Enter title"
+            disabled={getTitleSender.state === 'sending'}
             required
             onInput={setCurrentTitle}
           />
         }
         rightCol1={
+          <GetTitleButton
+            sender={getTitleSender}
+            url={currentUrl}
+            setTitle={setCurrentTitle}
+          />
+        }
+        rightCol2={
           <>
             <Button
               type="submit"
