@@ -8,6 +8,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": false,
     "noUncheckedIndexedAccess": true,
