@@ -10,7 +10,7 @@ export async function handler(
 
   try {
     const response = await fetch(getLambdaParam(event, 'url')!, {
-      headers: {Accept: 'text/html'},
+      headers: {'Accept': 'text/html', 'User-Agent': 'Mozilla/5.0 (Linux)'},
     });
 
     if (response.status === 200) {
