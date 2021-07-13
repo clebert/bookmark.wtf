@@ -1,5 +1,5 @@
 import cookie from 'cookie';
-import {AppStorage} from '../pub-sub/app-storage';
+import {AppTopics} from '../pub-sub/app-topics';
 
 export function completeAuthorization(): void {
   const searchParams = new URLSearchParams(window.location.search);
@@ -29,7 +29,7 @@ export function completeAuthorization(): void {
     const transactionId = cookie.parse(document.cookie)['transactionId'];
 
     if (transactionId && searchParams.get('transactionId') === transactionId) {
-      AppStorage.singleton.setToken(token);
+      AppTopics.token.publish(token);
     } else {
       console.error('Untrusted OAuth transaction.');
     }

@@ -1,6 +1,6 @@
 import {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
-import {AppStorage} from '../pub-sub/app-storage';
+import {AppTopics} from '../pub-sub/app-topics';
 import {Button} from './button';
 import {Icon} from './icon';
 
@@ -8,15 +8,15 @@ const titles = {auto: 'System theme', light: 'Day theme', dark: 'Night theme'};
 const iconTypes = {auto: 'cog', light: 'sun', dark: 'moon'} as const;
 
 export function ColorSchemeButton(): JSX.Element {
-  const colorScheme = AppStorage.singleton.useColorScheme();
+  const colorScheme = AppTopics.colorScheme.use();
 
   const toggleColorScheme = useCallback(() => {
     if (colorScheme === 'auto') {
-      AppStorage.singleton.setColorScheme('dark');
+      AppTopics.colorScheme.publish('dark');
     } else if (colorScheme === 'dark') {
-      AppStorage.singleton.setColorScheme('light');
+      AppTopics.colorScheme.publish('light');
     } else {
-      AppStorage.singleton.setColorScheme('auto');
+      AppTopics.colorScheme.publish('auto');
     }
   }, [colorScheme]);
 

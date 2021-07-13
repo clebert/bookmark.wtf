@@ -1,4 +1,4 @@
-import {AppStorage} from '../pub-sub/app-storage';
+import {AppTopics} from '../pub-sub/app-topics';
 import {GET_USER} from '../queries/get-user';
 import {GetUserQuery, GetUserQueryVariables} from '../queries/types';
 import {createGithubClient} from '../utils/create-github-client';
@@ -13,7 +13,7 @@ export class UserAPI {
 
     if (error) {
       if (error.response?.status === 401) {
-        AppStorage.singleton.setToken(undefined);
+        AppTopics.token.publish('');
       }
 
       throw error;

@@ -1,4 +1,4 @@
-import {AppStorage} from '../pub-sub/app-storage';
+import {AppTopics} from '../pub-sub/app-topics';
 import {GET_GIST} from '../queries/get-gist';
 import {GetGistQuery, GetGistQueryVariables} from '../queries/types';
 import {createGithubClient} from '../utils/create-github-client';
@@ -27,7 +27,7 @@ export class GistAPI extends GithubAPI {
 
     if (error) {
       if (error.response?.status === 401) {
-        AppStorage.singleton.setToken(undefined);
+        AppTopics.token.publish('');
       }
 
       throw error;

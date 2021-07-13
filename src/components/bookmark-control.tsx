@@ -7,7 +7,7 @@ import {
   UpdatingGistStore,
 } from '../hooks/use-gist-store';
 import {useToggle} from '../hooks/use-toggle';
-import {AppHistory} from '../pub-sub/app-history';
+import {AppTopics} from '../pub-sub/app-topics';
 import {createRandomValue} from '../utils/create-random-value';
 import {Bookmark} from '../utils/parse-bookmark';
 import {serializeBookmark} from '../utils/serialize-bookmark';
@@ -33,11 +33,7 @@ export function BookmarkControl({
   gistName,
   gistStore,
 }: BookmarkControlProps): JSX.Element {
-  const closeCollection = useCallback(
-    () => AppHistory.singleton.pushGistName(undefined),
-    []
-  );
-
+  const closeCollection = useCallback(() => AppTopics.gistName.publish(''), []);
   const [newMode, toggleNewMode] = useToggle(false);
 
   const createBookmark = useMemo(

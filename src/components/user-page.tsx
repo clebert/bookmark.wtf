@@ -3,7 +3,7 @@ import {useMemo} from 'preact/hooks';
 import {UserAPI} from '../apis/user-api';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {useReceiver} from '../hooks/use-receiver';
-import {AppHistory} from '../pub-sub/app-history';
+import {AppTopics} from '../pub-sub/app-topics';
 import {BookmarkList} from './bookmark-list';
 import {CollectionList} from './collection-list';
 import {Page} from './page';
@@ -25,7 +25,7 @@ export function UserPage({authStore}: UserPageProps): JSX.Element {
     throw userReceiver.reason;
   }
 
-  const gistName = AppHistory.singleton.useGistName();
+  const gistName = AppTopics.gistName.use();
 
   return (
     <Page>

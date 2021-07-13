@@ -4,7 +4,7 @@ import {ShallowGist} from '../apis/gists-api';
 import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
 import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
-import {AppHistory} from '../pub-sub/app-history';
+import {AppTopics} from '../pub-sub/app-topics';
 import {DeleteButton} from './delete-button';
 import {EditButton} from './edit-button';
 import {EditCollectionForm} from './edit-collection-form';
@@ -22,7 +22,7 @@ export function CollectionItem({
   gist: {gistName, description, mtime},
 }: CollectionItemProps): JSX.Element {
   const openCollection = useCallback(
-    () => AppHistory.singleton.pushGistName(gistName),
+    () => AppTopics.gistName.publish(gistName),
     [gistName]
   );
 

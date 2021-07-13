@@ -1,7 +1,7 @@
 import {JSX} from 'preact';
 import {useMemo} from 'preact/hooks';
 import {GistStore} from '../hooks/use-gist-store';
-import {AppStorage} from '../pub-sub/app-storage';
+import {AppTopics} from '../pub-sub/app-topics';
 import {createRandomValue} from '../utils/create-random-value';
 import {serializeBookmark} from '../utils/serialize-bookmark';
 import {Button} from './button';
@@ -14,7 +14,7 @@ export interface PasteBookmarkButtonProps {
 export function PasteBookmarkButton({
   gistStore,
 }: PasteBookmarkButtonProps): JSX.Element {
-  const bookmark = AppStorage.singleton.useBookmark();
+  const bookmark = AppTopics.bookmark.use();
 
   const paste = useMemo(() => {
     return 'createFile' in gistStore && bookmark
@@ -24,7 +24,7 @@ export function PasteBookmarkButton({
             serializeBookmark({...bookmark, mtime: Date.now()})
           );
 
-          AppStorage.singleton.setBookmark(undefined);
+          AppTopics.bookmark.publish(undefined);
         }
       : undefined;
   }, [gistStore, bookmark]);

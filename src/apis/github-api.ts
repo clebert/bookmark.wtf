@@ -1,4 +1,4 @@
-import {AppStorage} from '../pub-sub/app-storage';
+import {AppTopics} from '../pub-sub/app-topics';
 
 export interface GithubAPIRequest {
   readonly method: 'POST' | 'PATCH' | 'DELETE';
@@ -49,7 +49,7 @@ export abstract class GithubAPI {
     }
 
     if (response.status === 401) {
-      AppStorage.singleton.setToken(undefined);
+      AppTopics.token.publish('');
     }
 
     throw new Error(

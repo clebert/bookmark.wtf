@@ -1,7 +1,7 @@
 import equal from 'fast-deep-equal';
 import {JSX} from 'preact';
 import {useCallback, useMemo} from 'preact/hooks';
-import {AppStorage} from '../pub-sub/app-storage';
+import {AppTopics} from '../pub-sub/app-topics';
 import {Bookmark} from '../utils/parse-bookmark';
 import {Button} from './button';
 import {Icon} from './icon';
@@ -13,10 +13,10 @@ export interface CopyBookmarkButtonProps {
 export function CopyBookmarkButton({
   bookmark,
 }: CopyBookmarkButtonProps): JSX.Element {
-  const otherBookmark = AppStorage.singleton.useBookmark();
+  const otherBookmark = AppTopics.bookmark.use();
 
   const copy = useCallback(
-    () => AppStorage.singleton.setBookmark(bookmark),
+    () => AppTopics.bookmark.publish(bookmark),
     [bookmark]
   );
 

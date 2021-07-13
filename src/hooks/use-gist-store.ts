@@ -1,6 +1,6 @@
 import {useMemo} from 'preact/hooks';
 import {Gist, GistAPI} from '../apis/gist-api';
-import {AppHistory} from '../pub-sub/app-history';
+import {AppTopics} from '../pub-sub/app-topics';
 import {AuthorizedAuthStore} from './use-auth-store';
 import {useBinder} from './use-binder';
 import {useReceiver} from './use-receiver';
@@ -97,13 +97,7 @@ export function useGistStore(
   const forkGist = () =>
     transition(() =>
       gistAPISender.send?.(
-        gistAPIReceiver
-          .value!.forkGist()
-          .then(
-            bind((newGistName: string) =>
-              AppHistory.singleton.pushGistName(newGistName)
-            )
-          )
+        gistAPIReceiver.value!.forkGist().then(bind(AppTopics.gistName.publish))
       )
     );
 

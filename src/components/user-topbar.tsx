@@ -1,6 +1,6 @@
 import {JSX} from 'preact';
 import {AuthorizedAuthStore} from '../hooks/use-auth-store';
-import {AppHistory} from '../pub-sub/app-history';
+import {AppTopics} from '../pub-sub/app-topics';
 import {Button} from './button';
 import {ColorSchemeButton} from './color-scheme-button';
 import {Headline} from './headline';
@@ -14,7 +14,7 @@ export interface UserTopbarProps {
 }
 
 export function UserTopbar({authStore}: UserTopbarProps): JSX.Element {
-  const gistName = AppHistory.singleton.useGistName();
+  const gistName = AppTopics.gistName.use();
 
   return (
     <Topbar class="Topbar">

@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'preact/hooks';
-import {AppStorage} from '../pub-sub/app-storage';
+import {AppTopics} from '../pub-sub/app-topics';
 
 const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
 export function useDarkMode(): boolean {
-  const colorScheme = AppStorage.singleton.useColorScheme();
+  const colorScheme = AppTopics.colorScheme.use();
   const [prefersDark, setPrefersDark] = useState(mediaQuery.matches);
 
   useEffect(() => {

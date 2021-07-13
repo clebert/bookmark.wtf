@@ -1,5 +1,5 @@
 import {useMemo, useState} from 'preact/hooks';
-import {AppStorage} from '../pub-sub/app-storage';
+import {AppTopics} from '../pub-sub/app-topics';
 import {beginAuthorization} from '../utils/begin-authorization';
 import {useTransition} from './use-transition';
 
@@ -26,7 +26,7 @@ export type UnauthorizedAuthStore = {
 };
 
 export function useAuthStore(): AuthStore {
-  const token = AppStorage.singleton.useToken();
+  const token = AppTopics.token.use();
   const [authorizing, setAuthorizing] = useState(false);
   const transition = useTransition(token, authorizing);
 
@@ -36,8 +36,7 @@ export function useAuthStore(): AuthStore {
       beginAuthorization();
     });
 
-  const signOut = () =>
-    transition(() => AppStorage.singleton.setToken(undefined));
+  const signOut = () => transition(() => AppTopics.token.publish(''));
 
   return useMemo(
     () =>
