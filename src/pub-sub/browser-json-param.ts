@@ -1,31 +1,40 @@
-import {Container} from './topic';
+import {JsonContainer, JsonContainerInit} from './json-container';
 
-export class BrowserJsonParam<TValue> implements Container<TValue | undefined> {
-  constructor(
-    readonly key: string,
-    readonly historyMethodName: 'pushState' | 'replaceState'
-  ) {}
+export interface BrowserJsonParamInit<TValue>
+  extends JsonContainerInit<TValue> {
+  readonly key: string;
+  readonly method: 'pushState' | 'replaceState';
+}
 
-  get value(): TValue | undefined {
-    const value = new URLSearchParams(window.location.search).get(this.key);
+export class BrowserJsonParam<TValue> extends JsonContainer<TValue> {
+  readonly #init: BrowserJsonParamInit<TValue>;
 
-    return value ? JSON.parse(value) : undefined;
+  constructor(init: BrowserJsonParamInit<TValue>) {
+    super(init);
+
+    this.#init = init;
   }
 
-  set value(value: TValue | undefined) {
+  protected get text(): string {
+    return (
+      new URLSearchParams(window.location.search).get(this.#init.key) ?? ''
+    );
+  }
+
+  protected set text(text: string) {
     const initialHref = window.location.href;
     const url = new URL(initialHref);
 
-    if (value !== undefined) {
-      url.searchParams.set(this.key, JSON.stringify(value));
+    if (text) {
+      url.searchParams.set(this.#init.key, text);
     } else {
-      url.searchParams.delete(this.key);
+      url.searchParams.delete(this.#init.key);
     }
 
     const {href} = url;
 
     if (href !== initialHref) {
-      history[this.historyMethodName](undefined, '', href);
+      history[this.#init.method](undefined, '', href);
     }
   }
 }

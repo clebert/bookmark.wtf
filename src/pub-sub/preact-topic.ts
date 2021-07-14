@@ -1,11 +1,8 @@
 import {useEffect, useState} from 'preact/hooks';
 import {Topic} from './topic';
 
-export class PreactTopic<TExtrinsicValue, TIntrinsicValue> extends Topic<
-  TExtrinsicValue,
-  TIntrinsicValue
-> {
-  use(): TExtrinsicValue {
+export class PreactTopic<TValue> extends Topic<TValue> {
+  use(): TValue {
     const [value, setValue] = useState(() => this.value);
 
     useEffect(() => this.subscribe(setValue), []);

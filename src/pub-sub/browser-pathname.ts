@@ -1,22 +1,33 @@
 import {Container} from './topic';
 
-export class BrowserPathname implements Container<string> {
-  constructor(readonly historyMethodName: 'pushState' | 'replaceState') {}
+export interface BrowserPathnameInit<TValue> {
+  readonly method: 'pushState' | 'replaceState';
+  readonly input: (value: TValue) => string;
+  readonly output: (value: string) => TValue;
+}
 
-  get value(): string {
-    return window.location.pathname;
+export class BrowserPathname<TValue> implements Container<TValue> {
+  readonly #init: BrowserPathnameInit<TValue>;
+
+  constructor(init: BrowserPathnameInit<TValue>) {
+    this.#init = init;
   }
 
-  set value(value: string) {
+  get value(): TValue {
+    return this.#init.output(window.location.pathname);
+  }
+
+  set value(newValue: TValue) {
     const initialHref = window.location.href;
     const url = new URL(initialHref);
+    const pathname = this.#init.input(newValue);
 
-    url.pathname = value.startsWith('/') ? value : '/' + value;
+    url.pathname = pathname.startsWith('/') ? pathname : '/' + pathname;
 
     const {href} = url;
 
     if (href !== initialHref) {
-      history[this.historyMethodName](undefined, '', href);
+      history[this.#init.method](undefined, '', href);
     }
   }
 }
