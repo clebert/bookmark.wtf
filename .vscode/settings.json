@@ -1,4 +1,12 @@
 {
   "editor.formatOnSave": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/cdk.out": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/node_modules": true
+  },
   "typescript.tsdk": "node_modules/typescript/lib"
 }
