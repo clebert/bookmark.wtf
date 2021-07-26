@@ -17,7 +17,15 @@ export abstract class JsonContainer<TValue> implements Container<TValue> {
   get value(): TValue {
     const {text} = this;
 
-    return this.#init.output(text ? JSON.parse(text) : null);
+    let value;
+
+    if (text) {
+      try {
+        value = JSON.parse(text) ?? undefined;
+      } catch {}
+    }
+
+    return this.#init.output(value);
   }
 
   set value(newValue: TValue) {

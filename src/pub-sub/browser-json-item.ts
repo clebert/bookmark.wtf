@@ -2,16 +2,17 @@ import {JsonContainer, JsonContainerInit} from './json-container';
 
 export interface BrowserJsonItemInit<TValue> extends JsonContainerInit<TValue> {
   readonly key: string;
-  readonly storage: Storage;
+  readonly storage?: Pick<Storage, 'getItem' | 'removeItem' | 'setItem'>;
 }
 
 export class BrowserJsonItem<TValue> extends JsonContainer<TValue> {
-  readonly #init: BrowserJsonItemInit<TValue>;
+  readonly #init: BrowserJsonItemInit<TValue> &
+    Required<Pick<BrowserJsonItemInit<TValue>, 'storage'>>;
 
   constructor(init: BrowserJsonItemInit<TValue>) {
     super(init);
 
-    this.#init = init;
+    this.#init = {storage: localStorage, ...init};
   }
 
   protected get text(): string {

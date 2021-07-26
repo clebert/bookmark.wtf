@@ -3,26 +3,29 @@ import {JsonContainer, JsonContainerInit} from './json-container';
 export interface BrowserJsonParamInit<TValue>
   extends JsonContainerInit<TValue> {
   readonly key: string;
-  readonly method: 'pushState' | 'replaceState';
+  readonly replace?: boolean;
+  readonly history?: Pick<History, 'pushState' | 'replaceState'>;
+  readonly location?: Pick<Location, 'href' | 'search'>;
 }
 
 export class BrowserJsonParam<TValue> extends JsonContainer<TValue> {
-  readonly #init: BrowserJsonParamInit<TValue>;
+  readonly #init: BrowserJsonParamInit<TValue> &
+    Required<Pick<BrowserJsonParamInit<TValue>, 'history' | 'location'>>;
 
   constructor(init: BrowserJsonParamInit<TValue>) {
     super(init);
 
-    this.#init = init;
+    this.#init = {history, location, ...init};
   }
 
   protected get text(): string {
     return (
-      new URLSearchParams(window.location.search).get(this.#init.key) ?? ''
+      new URLSearchParams(this.#init.location.search).get(this.#init.key) ?? ''
     );
   }
 
   protected set text(text: string) {
-    const initialHref = window.location.href;
+    const initialHref = this.#init.location.href;
     const url = new URL(initialHref);
 
     if (text) {
@@ -34,7 +37,11 @@ export class BrowserJsonParam<TValue> extends JsonContainer<TValue> {
     const {href} = url;
 
     if (href !== initialHref) {
-      history[this.#init.method](undefined, '', href);
+      this.#init.history[this.#init.replace ? 'replaceState' : 'pushState'](
+        undefined,
+        '',
+        href
+      );
     }
   }
 }

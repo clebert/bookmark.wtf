@@ -2,7 +2,7 @@ import {AppTopics} from '../pub-sub/app-topics';
 import {GET_GIST} from '../queries/get-gist';
 import {GetGistQuery, GetGistQueryVariables} from '../queries/types';
 import {createGithubClient} from '../utils/create-github-client';
-import {isObject} from '../utils/is-object';
+import {isRecord} from '../utils/is-record';
 import {isString} from '../utils/is-string';
 import {GithubAPI} from './github-api';
 
@@ -124,7 +124,7 @@ export class GistAPI extends GithubAPI {
       params: {},
     });
 
-    if (!isObject(data) || !isString(data.id)) {
+    if (!isRecord(data) || !isString(data.id)) {
       throw new Error('Failed to fork gist.');
     }
 

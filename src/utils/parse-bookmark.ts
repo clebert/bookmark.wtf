@@ -1,5 +1,5 @@
 import {isNumber} from './is-number';
-import {isObject} from './is-object';
+import {isRecord} from './is-record';
 
 export interface Bookmark {
   readonly title: string;
@@ -34,7 +34,7 @@ export function parseBookmark(text: string): Bookmark | undefined {
   }
 
   if (
-    !isObject(properties) ||
+    !isRecord(properties) ||
     !isNumber(properties.ctime) ||
     (!isNumber(properties.mtime) && properties.mtime !== undefined) ||
     (!isNumber(properties.clickCount) && properties.clickCount !== undefined)
