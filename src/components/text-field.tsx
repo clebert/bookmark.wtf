@@ -27,7 +27,7 @@ export function TextField({
   highlight,
   onInput,
 }: TextFieldProps): JSX.Element {
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (autoFocus) {
