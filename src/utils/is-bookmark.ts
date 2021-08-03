@@ -1,13 +1,15 @@
+import {isNumber} from './is-number';
 import {isRecord} from './is-record';
+import {isString} from './is-string';
 import {Bookmark} from './parse-bookmark';
 
 export function isBookmark(value: unknown): value is Bookmark {
   return (
     isRecord(value) &&
-    typeof value.title === 'string' &&
-    typeof value.url === 'string' &&
-    typeof value.ctime === 'number' &&
-    (typeof value.mtime === 'number' || value.mtime === undefined) &&
-    (typeof value.clickCount === 'number' || value.clickCount === undefined)
+    isString(value.title) &&
+    isString(value.url) &&
+    isNumber(value.ctime) &&
+    (isNumber(value.mtime) || value.mtime === undefined) &&
+    (isNumber(value.clickCount) || value.clickCount === undefined)
   );
 }
