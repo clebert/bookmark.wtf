@@ -3,11 +3,10 @@
   "files.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,
-    "**/cdk.out": true,
-    "**/coverage": true,
-    "**/dist": true,
-    "**/node_modules": true,
-    "**/tsconfig.tsbuildinfo": true
+    "cdk.out": true,
+    "coverage": true,
+    "dist": true,
+    "node_modules": true
   },
   "tslint.jsEnable": true,
   "typescript.tsdk": "node_modules/typescript/lib"
