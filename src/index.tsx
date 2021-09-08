@@ -1,6 +1,5 @@
-import 'tailwindcss/tailwind.css';
-
 import {render} from 'preact';
+import 'tailwindcss/tailwind.css';
 import {App} from './components/app';
 import {completeAuthorization} from './utils/complete-authorization';
 

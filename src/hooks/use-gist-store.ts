@@ -63,7 +63,7 @@ export function useGistStore(
 ): GistStore {
   const gistAPIReceiver = useReceiver(
     useMemo(
-      () => GistAPI.init(authStore.token, gistName),
+      async () => GistAPI.init(authStore.token, gistName),
       [authStore, gistName]
     )
   );

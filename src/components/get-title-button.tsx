@@ -26,7 +26,7 @@ export function GetTitleButton({
             sender.send(
               fetch(`/api/get-title?url=${encodeURIComponent(url)}`)
                 .then(
-                  bind((response: Response) =>
+                  bind(async (response: Response) =>
                     response
                       .json()
                       .then(

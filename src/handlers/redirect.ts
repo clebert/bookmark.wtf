@@ -34,7 +34,10 @@ export async function handler(
     headers: {Accept: 'application/json'},
   });
 
-  const body = await response.json();
+  const body = (await response.json()) as {
+    readonly message: string;
+    readonly access_token: string;
+  };
 
   if (response.status !== 200) {
     throw new Error(`Fetching token failed: ${body.message}`);

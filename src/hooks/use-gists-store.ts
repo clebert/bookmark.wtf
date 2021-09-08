@@ -41,7 +41,7 @@ export function useGistsStore(
 ): GistsStore {
   const gistsAPIReceiver = useReceiver(
     useMemo(
-      () => GistsAPI.init(authStore.token, mainFile),
+      async () => GistsAPI.init(authStore.token, mainFile),
       [authStore, mainFile]
     )
   );

@@ -53,7 +53,7 @@ describe('bookmark.wtf', () => {
       api.exists(app.topbar.signOutButton),
     ]);
 
-    expect(await api.page.url()).toBe(url);
+    expect(api.page.url()).toBe(url);
   });
 
   test('taking a screenshot in light mode', async () => {

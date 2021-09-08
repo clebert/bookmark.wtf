@@ -16,7 +16,7 @@ export interface UserPageProps {
 export function UserPage({authStore}: UserPageProps): JSX.Element {
   const userReceiver = useReceiver(
     useMemo(
-      () => UserAPI.init(authStore.token).then(({user}) => user),
+      async () => UserAPI.init(authStore.token).then(({user}) => user),
       [authStore]
     )
   );
