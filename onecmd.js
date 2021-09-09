@@ -23,14 +23,10 @@ module.exports = [
     sources: [
       {type: 'unknown', path: 'cdk.out'},
       {type: 'unknown', path: 'dist'},
-      {type: 'unknown', path: 'src/queries/types.d.ts', versioned: true},
+      {type: 'unknown', path: 'src/queries/types.d.ts', versionable: true},
+      {type: 'unknown', path: '.envrc', editable: true},
     ],
     dependencies: [
-      {
-        type: 'string',
-        path: '.gitignore',
-        generate: (input) => [...input.split('\n'), '.envrc'].join('\n'),
-      },
       {
         type: 'object',
         path: '.github/workflows/ci.yml',
