@@ -1,38 +1,39 @@
 // @ts-check
 
-const plugins = require('@onecmd/standard-plugins');
+const std = require('@onecmd/standard-plugins');
 const deepmerge = require('deepmerge');
 const nodeVersion = '16';
 
-/** @type {import('onecmd').Plugin[]} */
-module.exports = [
-  plugins.babel(),
-  plugins.editorconfig(),
-  plugins.eslint(),
-  plugins.git(),
-  plugins.github({nodeVersion, omitReleaseStep: true, runner: 'macos-latest'}),
-  plugins.jest({coverage: true}),
-  plugins.node(nodeVersion),
-  plugins.npm(),
-  plugins.preact(),
-  plugins.prettier(),
-  plugins.typescript('web', 'bundle'),
-  plugins.vscode({showFilesInEditor: false}),
+/** @type {readonly import('onecmd').Plugin[]} */
+const plugins = [
+  std.babel(),
+  std.editorconfig(),
+  std.eslint(),
+  std.git(),
+  std.github({nodeVersion, omitReleaseStep: true, runner: 'macos-latest'}),
+  std.jest({coverage: true}),
+  std.node(nodeVersion),
+  std.npm(),
+  std.preact(),
+  std.prettier(),
+  std.typescript('web', 'bundle'),
+  std.vscode({showFilesInEditor: false}),
 
   {
     sources: [
-      {type: 'unknown', path: 'cdk.out'},
-      {type: 'unknown', path: 'dist'},
-      {type: 'unknown', path: 'src/queries/types.d.ts', versionable: true},
-      {type: 'unknown', path: '.envrc', editable: true},
+      {type: 'unmanaged', path: 'cdk.out'},
+      {type: 'unmanaged', path: 'dist'},
+      {type: 'unmanaged', path: 'src/queries/types.d.ts', versionable: true},
+      {type: 'unmanaged', path: '.envrc', editable: true},
     ],
     dependencies: [
       {
-        type: 'object',
+        type: 'managed',
         path: '.github/workflows/ci.yml',
+        is: std.isObject,
 
-        generate: (input) =>
-          deepmerge(input, {
+        update: (content) =>
+          deepmerge(content, {
             jobs: {
               ci: {
                 steps: [
@@ -84,3 +85,5 @@ module.exports = [
     ],
   },
 ];
+
+module.exports = plugins;
