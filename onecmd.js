@@ -20,15 +20,9 @@ const plugins = [
   std.vscode({showFilesInEditor: false}),
 
   {
-    sources: [
-      {type: 'unmanaged', path: 'cdk.out'},
-      {type: 'unmanaged', path: 'dist'},
-      {type: 'unmanaged', path: 'src/queries/types.d.ts', versionable: true},
-      {type: 'unmanaged', path: '.envrc', editable: true},
-    ],
-    dependencies: [
+    setup: () => [
       {
-        type: 'managed',
+        type: 'mod',
         path: '.github/workflows/ci.yml',
         is: std.isObject,
 
@@ -81,6 +75,16 @@ const plugins = [
               },
             },
           }),
+      },
+
+      {type: 'ref', path: '.envrc', attrs: {visible: true}},
+      {type: 'ref', path: 'cdk.out'},
+      {type: 'ref', path: 'dist'},
+
+      {
+        type: 'ref',
+        path: 'src/queries/types.d.ts',
+        attrs: {pretty: true, versioned: true, visible: true},
       },
     ],
   },
