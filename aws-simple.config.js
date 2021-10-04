@@ -15,18 +15,18 @@ exports.default = {
       kind: 'file',
       filename: 'dist/app/index.html',
       catchAll: true,
-      cacheControl: 'no-store',
+      responseHeaders: {'Cache-Control': 'no-store'},
     },
     '/apple-touch-icon.png': {
       kind: 'file',
       filename: 'src/apple-touch-icon.png',
       binaryMediaType: 'image/png',
-      cacheControl: 'max-age=86400', // 24 hours
+      responseHeaders: {'Cache-Control': 'max-age=86400'}, // 24 hours
     },
     '/app': {
       kind: 'folder',
       dirname: 'dist/app',
-      cacheControl: 'max-age=157680000', // 5 years
+      responseHeaders: {'Cache-Control': 'max-age=157680000'}, // 5 years
     },
     '/api/get-title': {
       kind: 'function',
