@@ -48,7 +48,7 @@
     "@types/speakeasy": "^2.0.6",
     "autoprefixer": "^10.3.4",
     "aws-cdk": "next",
-    "aws-simple": "^9.2.0",
+    "aws-simple": "^9.6.3",
     "css-loader": "^6.2.0",
     "css-minimizer-webpack-plugin": "^3.0.2",
     "deepmerge": "^4.2.2",

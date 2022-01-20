@@ -10,6 +10,10 @@ exports.default = {
     hostedZoneId: process.env.HOSTED_ZONE_ID,
     hostedZoneName: 'bookmark.wtf',
   },
+  throttling: {
+    burstLimit: 0,
+    rateLimit: 10,
+  },
   routes: () => ({
     '/': {
       kind: 'file',
