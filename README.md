@@ -35,8 +35,3 @@ URL, they'll also be able to see your gist._
 ## Light mode
 
 <a href="https://bookmark.wtf/9803bde974539a8992c0515b28db439b"><img src="./screenshot-light-mode.png"/></a>
-
----
-
-Copyright 2020-2021 Clemens Akens. All rights reserved.
-[MIT license](https://github.com/clebert/bookmark.wtf/blob/master/LICENSE.md).
