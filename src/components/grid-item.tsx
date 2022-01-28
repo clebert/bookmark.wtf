@@ -1,4 +1,4 @@
-import {ComponentChildren, JSX} from 'preact';
+import type {ComponentChildren, JSX} from 'preact';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 import {Label} from './label';
@@ -26,7 +26,7 @@ export function GridItem({
     <div
       class={join([
         className,
-        'flex space-x-2 p-2 shadow',
+        `flex space-x-2 p-2 shadow`,
         Colors.shadedBackground(),
         highlight && Colors.highlightRing(),
       ])}
@@ -37,7 +37,7 @@ export function GridItem({
         <div class="flex space-x-2 w-full">{row1}</div>
 
         <div class="flex space-x-2 w-full">
-          {row2 || <Label static>{'\u00A0'}</Label>}
+          {row2 || <Label static>{`\u00A0`}</Label>}
         </div>
       </div>
 

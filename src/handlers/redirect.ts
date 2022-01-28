@@ -1,37 +1,37 @@
-import {APIGatewayEvent, APIGatewayProxyResult} from 'aws-lambda';
+import type {APIGatewayEvent, APIGatewayProxyResult} from 'aws-lambda';
 import fetch from 'node-fetch';
 import {assertIsString} from '../utils/assert-is-string';
 import {getLambdaCookie} from '../utils/get-lambda-cookie';
 import {getLambdaParam} from '../utils/get-lambda-param';
 
 export async function handler(
-  event: APIGatewayEvent
+  event: APIGatewayEvent,
 ): Promise<APIGatewayProxyResult> {
-  const transactionId = getLambdaParam(event, 'state');
+  const transactionId = getLambdaParam(event, `state`);
 
   if (
     !transactionId ||
-    transactionId !== getLambdaCookie(event, 'transactionId')
+    transactionId !== getLambdaCookie(event, `transactionId`)
   ) {
-    throw new Error('Untrusted OAuth transaction.');
+    throw new Error(`Untrusted OAuth transaction.`);
   }
 
-  const url = new URL('https://github.com/login/oauth/access_token');
+  const url = new URL(`https://github.com/login/oauth/access_token`);
   const clientId = process.env.CLIENT_ID;
   const clientSecret = process.env.CLIENT_SECRET;
-  const code = getLambdaParam(event, 'code');
+  const code = getLambdaParam(event, `code`);
 
-  assertIsString(clientId, 'process.env.CLIENT_ID');
-  assertIsString(clientSecret, 'process.env.CLIENT_SECRET');
-  assertIsString(code, 'code');
+  assertIsString(clientId, `process.env.CLIENT_ID`);
+  assertIsString(clientSecret, `process.env.CLIENT_SECRET`);
+  assertIsString(code, `code`);
 
-  url.searchParams.set('client_id', clientId);
-  url.searchParams.set('client_secret', clientSecret);
-  url.searchParams.set('code', code);
-  url.searchParams.set('state', transactionId);
+  url.searchParams.set(`client_id`, clientId);
+  url.searchParams.set(`client_secret`, clientSecret);
+  url.searchParams.set(`code`, code);
+  url.searchParams.set(`state`, transactionId);
 
   const response = await fetch(url.href, {
-    headers: {Accept: 'application/json'},
+    headers: {Accept: `application/json`},
   });
 
   const body = (await response.json()) as {
@@ -45,12 +45,12 @@ export async function handler(
 
   const searchParams = new URLSearchParams();
 
-  searchParams.set('transactionId', transactionId);
-  searchParams.set('token', body.access_token);
+  searchParams.set(`transactionId`, transactionId);
+  searchParams.set(`token`, body.access_token);
 
   return {
     statusCode: 302,
     headers: {Location: `/?${searchParams.toString()}`},
-    body: '',
+    body: ``,
   };
 }

@@ -1,4 +1,4 @@
-import {ComponentChildren, JSX} from 'preact';
+import type {ComponentChildren, JSX} from 'preact';
 import {useMemo} from 'preact/hooks';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
@@ -28,19 +28,19 @@ export function Link({
                 onClick();
               }
             : undefined,
-        [onClick]
+        [onClick],
       )}
       class={join([
-        Colors.text('link'),
-        Colors.activeText('link'),
+        Colors.text(`link`),
+        Colors.activeText(`link`),
         Colors.focusOutline(),
-        Colors.border('hidden'),
+        Colors.border(`hidden`),
         Colors.activeBackground(),
-        'pr-1',
-        'overflow-hidden',
-        'overflow-ellipsis',
-        'whitespace-nowrap',
-        isStatic && 'select-none',
+        `pr-1`,
+        `overflow-hidden`,
+        `overflow-ellipsis`,
+        `whitespace-nowrap`,
+        isStatic && `select-none`,
       ])}
     >
       {children}

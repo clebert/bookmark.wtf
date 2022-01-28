@@ -1,6 +1,6 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useCallback, useMemo} from 'preact/hooks';
-import {
+import type {
   ForkingGistStore,
   LockedGistStore,
   ReadyGistStore,
@@ -8,7 +8,7 @@ import {
 } from '../hooks/use-gist-store';
 import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
-import {Bookmark} from '../utils/parse-bookmark';
+import type {Bookmark} from '../utils/parse-bookmark';
 import {serializeBookmark} from '../utils/serialize-bookmark';
 import {BookmarkIcon} from './bookmark-icon';
 import {CopyBookmarkButton} from './copy-bookmark-button';
@@ -42,8 +42,8 @@ export function BookmarkItem({
 
   const openBookmark = useCallback(() => {
     if (
-      !window.navigator.userAgent.includes('Firefox') &&
-      'updateFile' in gistStore
+      !window.navigator.userAgent.includes(`Firefox`) &&
+      `updateFile` in gistStore
     ) {
       gistStore.updateFile(
         filename,
@@ -51,7 +51,7 @@ export function BookmarkItem({
           ...bookmark,
           clickCount: (bookmark.clickCount ?? 0) + 1,
         }),
-        true
+        true,
       );
     }
 
@@ -62,23 +62,23 @@ export function BookmarkItem({
 
   const updateBookmark = useMemo(
     () =>
-      'updateFile' in gistStore
+      `updateFile` in gistStore
         ? (title: string, url: string) => {
             gistStore.updateFile(
               filename,
-              serializeBookmark({...bookmark, title, url, mtime: Date.now()})
+              serializeBookmark({...bookmark, title, url, mtime: Date.now()}),
             );
 
             toggleEditing();
           }
         : undefined,
-    [gistStore, filename, bookmark]
+    [gistStore, filename, bookmark],
   );
 
   const [deleting, toggleDeleting] = useToggle(false, 3000);
 
   const deleteBookmark = useCallback(() => {
-    if ('deleteFile' in gistStore) {
+    if (`deleteFile` in gistStore) {
       gistStore.deleteFile(filename);
     }
   }, [gistStore, filename]);
@@ -114,7 +114,7 @@ export function BookmarkItem({
             <DeleteButton
               targetName="bookmark"
               verbose
-              action={gistStore.state === 'ready' ? deleteBookmark : undefined}
+              action={gistStore.state === `ready` ? deleteBookmark : undefined}
             />
           </>
         ) : (
@@ -123,12 +123,12 @@ export function BookmarkItem({
 
             <EditButton
               targetName="bookmark"
-              action={gistStore.state === 'ready' ? toggleEditing : undefined}
+              action={gistStore.state === `ready` ? toggleEditing : undefined}
             />
 
             <DeleteButton
               targetName="bookmark"
-              action={gistStore.state === 'ready' ? toggleDeleting : undefined}
+              action={gistStore.state === `ready` ? toggleDeleting : undefined}
             />
           </>
         )

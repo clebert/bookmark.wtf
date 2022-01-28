@@ -1,7 +1,7 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
 import {useSender} from '../hooks/use-sender';
-import {Bookmark} from '../utils/parse-bookmark';
+import type {Bookmark} from '../utils/parse-bookmark';
 import {Button} from './button';
 import {Form} from './form';
 import {GetTitleButton} from './get-title-button';
@@ -18,8 +18,8 @@ export function NewBookmarkForm({
   onCancel,
   onCreate,
 }: NewBookmarkFormProps): JSX.Element {
-  const [currentTitle, setCurrentTitle] = useState('');
-  const [currentUrl, setCurrentUrl] = useState('');
+  const [currentTitle, setCurrentTitle] = useState(``);
+  const [currentUrl, setCurrentUrl] = useState(``);
 
   const create = useMemo(() => {
     const title = currentTitle.trim();
@@ -41,7 +41,7 @@ export function NewBookmarkForm({
             value={currentUrl}
             placeholder="Enter URL"
             autoFocus
-            disabled={getTitleSender.state === 'sending'}
+            disabled={getTitleSender.state === `sending`}
             required
             onInput={setCurrentUrl}
           />
@@ -50,7 +50,7 @@ export function NewBookmarkForm({
           <TextField
             value={currentTitle}
             placeholder="Enter title"
-            disabled={getTitleSender.state === 'sending'}
+            disabled={getTitleSender.state === `sending`}
             required
             onInput={setCurrentTitle}
           />

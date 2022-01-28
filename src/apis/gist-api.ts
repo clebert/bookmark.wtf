@@ -1,6 +1,6 @@
 import {AppTopics} from '../pub-sub/app-topics';
 import {GET_GIST} from '../queries/get-gist';
-import {GetGistQuery, GetGistQueryVariables} from '../queries/types';
+import type {GetGistQuery, GetGistQueryVariables} from '../queries/types';
 import {createGithubClient} from '../utils/create-github-client';
 import {isRecord} from '../utils/is-record';
 import {isString} from '../utils/is-string';
@@ -27,7 +27,7 @@ export class GistAPI extends GithubAPI {
 
     if (error) {
       if (error.response?.status === 401) {
-        AppTopics.token.publish('');
+        AppTopics.token.publish(``);
       }
 
       throw error;
@@ -36,7 +36,7 @@ export class GistAPI extends GithubAPI {
     const {gist} = data!.viewer;
 
     if (!gist || !gist.owner) {
-      throw new Error('Failed to fetch gist.');
+      throw new Error(`Failed to fetch gist.`);
     }
 
     const files: GistFile[] = [];
@@ -76,7 +76,7 @@ export class GistAPI extends GithubAPI {
     };
 
     await this.fetch({
-      method: 'PATCH',
+      method: `PATCH`,
       pathname: `/gists/${this.#gistName}`,
       params: {files: {[filename]: {content: text}}},
     });
@@ -85,7 +85,7 @@ export class GistAPI extends GithubAPI {
   async updateFile(
     filename: string,
     text: string,
-    skipLocalUpdate: boolean | undefined
+    skipLocalUpdate: boolean | undefined,
   ): Promise<void> {
     if (!skipLocalUpdate) {
       this.#gist = {
@@ -98,7 +98,7 @@ export class GistAPI extends GithubAPI {
     }
 
     await this.fetch({
-      method: 'PATCH',
+      method: `PATCH`,
       pathname: `/gists/${this.#gistName}`,
       params: {files: {[filename]: {content: text}}},
     });
@@ -111,7 +111,7 @@ export class GistAPI extends GithubAPI {
     };
 
     await this.fetch({
-      method: 'PATCH',
+      method: `PATCH`,
       pathname: `/gists/${this.#gistName}`,
       params: {files: {[filename]: null}},
     });
@@ -119,13 +119,13 @@ export class GistAPI extends GithubAPI {
 
   async forkGist(): Promise<string> {
     const {data} = await this.fetch({
-      method: 'POST',
+      method: `POST`,
       pathname: `/gists/${this.#gistName}/forks`,
       params: {},
     });
 
     if (!isRecord(data) || !isString(data.id)) {
-      throw new Error('Failed to fork gist.');
+      throw new Error(`Failed to fork gist.`);
     }
 
     return data.id;

@@ -1,6 +1,9 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useMemo} from 'preact/hooks';
-import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
+import type {
+  ReadyGistsStore,
+  UpdatingGistsStore,
+} from '../hooks/use-gists-store';
 import {useToggle} from '../hooks/use-toggle';
 import {Button} from './button';
 import {GridItem} from './grid-item';
@@ -19,13 +22,13 @@ export function CollectionControl({
 
   const createCollection = useMemo(
     () =>
-      'createGist' in gistsStore
+      `createGist` in gistsStore
         ? (description: string) => {
             gistsStore.createGist(description);
             toggleNewMode();
           }
         : undefined,
-    [gistsStore]
+    [gistsStore],
   );
 
   const gistCount = gistsStore.gists?.length ?? 0;
@@ -38,7 +41,7 @@ export function CollectionControl({
       row1={
         <Label static>
           <Icon type="viewGrid" />
-          {gistCount} collection{gistCount === 1 ? '' : 's'} found
+          {gistCount} collection{gistCount === 1 ? `` : `s`} found
         </Label>
       }
       row2={

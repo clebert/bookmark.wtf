@@ -4,7 +4,7 @@ import {createHash} from './create-hash';
 export async function createIdenticon(url: string): Promise<string> {
   const identicon = new Identicon(await createHash(new URL(url).hostname), {
     size: 64,
-    format: 'svg',
+    format: `svg`,
     background: [0, 0, 0, 0],
   });
 

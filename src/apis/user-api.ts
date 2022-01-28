@@ -1,6 +1,6 @@
 import {AppTopics} from '../pub-sub/app-topics';
 import {GET_USER} from '../queries/get-user';
-import {GetUserQuery, GetUserQueryVariables} from '../queries/types';
+import type {GetUserQuery, GetUserQueryVariables} from '../queries/types';
 import {createGithubClient} from '../utils/create-github-client';
 
 export class UserAPI {
@@ -13,7 +13,7 @@ export class UserAPI {
 
     if (error) {
       if (error.response?.status === 401) {
-        AppTopics.token.publish('');
+        AppTopics.token.publish(``);
       }
 
       throw error;

@@ -1,10 +1,10 @@
 import {AppTopics} from '../pub-sub/app-topics';
 import {GET_GISTS} from '../queries/get-gists';
-import {GetGistsQuery, GetGistsQueryVariables} from '../queries/types';
+import type {GetGistsQuery, GetGistsQueryVariables} from '../queries/types';
 import {createGithubClient} from '../utils/create-github-client';
 import {isRecord} from '../utils/is-record';
 import {isString} from '../utils/is-string';
-import {GistFile} from './gist-api';
+import type {GistFile} from './gist-api';
 import {GithubAPI} from './github-api';
 
 export interface ShallowGist {
@@ -23,7 +23,7 @@ export class GistsAPI extends GithubAPI {
 
     if (error) {
       if (error.response?.status === 401) {
-        AppTopics.token.publish('');
+        AppTopics.token.publish(``);
       }
 
       throw error;
@@ -51,7 +51,7 @@ export class GistsAPI extends GithubAPI {
   protected constructor(
     token: string,
     mainFile: GistFile,
-    gists: readonly ShallowGist[]
+    gists: readonly ShallowGist[],
   ) {
     super(token);
 
@@ -65,8 +65,8 @@ export class GistsAPI extends GithubAPI {
 
   async createGist(description: string): Promise<void> {
     const {data} = await this.fetch({
-      method: 'POST',
-      pathname: '/gists',
+      method: `POST`,
+      pathname: `/gists`,
       params: {
         description,
         files: {[this.#mainFile.filename]: {content: this.#mainFile.text}},
@@ -74,7 +74,7 @@ export class GistsAPI extends GithubAPI {
     });
 
     if (!isRecord(data) || !isString(data.id)) {
-      throw new Error('Failed to create gist.');
+      throw new Error(`Failed to create gist.`);
     }
 
     this.#gists = [
@@ -85,11 +85,11 @@ export class GistsAPI extends GithubAPI {
 
   async updateGist(gistName: string, description: string): Promise<void> {
     const gist = this.#gists.find(
-      (otherGist) => otherGist.gistName === gistName
+      (otherGist) => otherGist.gistName === gistName,
     );
 
     if (!gist) {
-      throw new Error('Failed to update gist.');
+      throw new Error(`Failed to update gist.`);
     }
 
     this.#gists = [
@@ -98,7 +98,7 @@ export class GistsAPI extends GithubAPI {
     ];
 
     await this.fetch({
-      method: 'PATCH',
+      method: `PATCH`,
       pathname: `/gists/${gistName}`,
       params: {description},
     });
@@ -108,7 +108,7 @@ export class GistsAPI extends GithubAPI {
     this.#gists = [...this.#gists.filter((gist) => gist.gistName !== gistName)];
 
     await this.fetch({
-      method: 'DELETE',
+      method: `DELETE`,
       pathname: `/gists/${gistName}`,
       params: {},
     });

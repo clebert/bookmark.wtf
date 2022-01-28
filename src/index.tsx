@@ -5,4 +5,4 @@ import {completeAuthorization} from './utils/complete-authorization';
 
 completeAuthorization();
 
-render(<App />, document.querySelector('main#app')!);
+render(<App />, document.querySelector(`main#app`)!);

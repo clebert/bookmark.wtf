@@ -1,7 +1,7 @@
 import {isNumber} from './is-number';
 import {isRecord} from './is-record';
 import {isString} from './is-string';
-import {Bookmark} from './parse-bookmark';
+import type {Bookmark} from './parse-bookmark';
 
 export function isBookmark(value: unknown): value is Bookmark {
   return (

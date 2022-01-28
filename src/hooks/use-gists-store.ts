@@ -1,7 +1,8 @@
 import {useMemo} from 'preact/hooks';
-import {GistFile} from '../apis/gist-api';
-import {GistsAPI, ShallowGist} from '../apis/gists-api';
-import {AuthorizedAuthStore} from './use-auth-store';
+import type {GistFile} from '../apis/gist-api';
+import type {ShallowGist} from '../apis/gists-api';
+import {GistsAPI} from '../apis/gists-api';
+import type {AuthorizedAuthStore} from './use-auth-store';
 import {useReceiver} from './use-receiver';
 import {useSender} from './use-sender';
 import {useTransition} from './use-transition';
@@ -37,13 +38,13 @@ export interface FailedGistsStore {
 
 export function useGistsStore(
   authStore: AuthorizedAuthStore,
-  mainFile: GistFile
+  mainFile: GistFile,
 ): GistsStore {
   const gistsAPIReceiver = useReceiver(
     useMemo(
       async () => GistsAPI.init(authStore.token, mainFile),
-      [authStore, mainFile]
-    )
+      [authStore, mainFile],
+    ),
   );
 
   const gistsAPISender = useSender();
@@ -51,40 +52,40 @@ export function useGistsStore(
 
   const createGist = (description: string) =>
     transition(() =>
-      gistsAPISender.send?.(gistsAPIReceiver.value!.createGist(description))
+      gistsAPISender.send?.(gistsAPIReceiver.value!.createGist(description)),
     );
 
   const updateGist = (gistName: string, description: string) =>
     transition(() =>
       gistsAPISender.send?.(
-        gistsAPIReceiver.value!.updateGist(gistName, description)
-      )
+        gistsAPIReceiver.value!.updateGist(gistName, description),
+      ),
     );
 
   const deleteGist = (gistName: string) =>
     transition(() =>
-      gistsAPISender.send?.(gistsAPIReceiver.value!.deleteGist(gistName))
+      gistsAPISender.send?.(gistsAPIReceiver.value!.deleteGist(gistName)),
     );
 
   return useMemo(() => {
-    if (gistsAPIReceiver.state === 'failed') {
-      return {state: 'failed', reason: gistsAPIReceiver.reason};
+    if (gistsAPIReceiver.state === `failed`) {
+      return {state: `failed`, reason: gistsAPIReceiver.reason};
     }
 
-    if (gistsAPISender.state === 'failed') {
-      return {state: 'failed', reason: gistsAPISender.reason};
+    if (gistsAPISender.state === `failed`) {
+      return {state: `failed`, reason: gistsAPISender.reason};
     }
 
-    if (gistsAPIReceiver.state === 'receiving') {
-      return {state: 'loading'};
+    if (gistsAPIReceiver.state === `receiving`) {
+      return {state: `loading`};
     }
 
     const {gists} = gistsAPIReceiver.value;
 
-    if (gistsAPISender.state === 'sending') {
-      return {state: 'updating', gists};
+    if (gistsAPISender.state === `sending`) {
+      return {state: `updating`, gists};
     }
 
-    return {state: 'ready', gists, createGist, updateGist, deleteGist};
+    return {state: `ready`, gists, createGist, updateGist, deleteGist};
   }, [transition]);
 }

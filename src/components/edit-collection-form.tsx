@@ -1,4 +1,4 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
 import {Button} from './button';
 import {Form} from './form';

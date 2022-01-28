@@ -1,6 +1,6 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useMemo} from 'preact/hooks';
-import {GistStore} from '../hooks/use-gist-store';
+import type {GistStore} from '../hooks/use-gist-store';
 import {AppTopics} from '../pub-sub/app-topics';
 import {createRandomValue} from '../utils/create-random-value';
 import {serializeBookmark} from '../utils/serialize-bookmark';
@@ -17,11 +17,11 @@ export function PasteBookmarkButton({
   const bookmark = AppTopics.bookmark.use();
 
   const paste = useMemo(() => {
-    return 'createFile' in gistStore && bookmark
+    return `createFile` in gistStore && bookmark
       ? () => {
           gistStore.createFile(
-            createRandomValue() + '.md',
-            serializeBookmark({...bookmark, mtime: Date.now()})
+            createRandomValue() + `.md`,
+            serializeBookmark({...bookmark, mtime: Date.now()}),
           );
 
           AppTopics.bookmark.publish(undefined);

@@ -36,15 +36,15 @@ export function useAuthStore(): AuthStore {
       beginAuthorization();
     });
 
-  const signOut = () => transition(() => AppTopics.token.publish(''));
+  const signOut = () => transition(() => AppTopics.token.publish(``));
 
   return useMemo(
     () =>
       token
-        ? {state: 'authorized', token, signOut}
+        ? {state: `authorized`, token, signOut}
         : authorizing
-        ? {state: 'authorizing'}
-        : {state: 'unauthorized', signIn},
-    [transition]
+        ? {state: `authorizing`}
+        : {state: `unauthorized`, signIn},
+    [transition],
   );
 }

@@ -1,4 +1,5 @@
-import {JsonContainer, JsonContainerInit} from './json-container';
+import type {JsonContainerInit} from './json-container';
+import {JsonContainer} from './json-container';
 
 export interface BrowserJsonItemInit<TValue> extends JsonContainerInit<TValue> {
   readonly key: string;
@@ -16,7 +17,7 @@ export class BrowserJsonItem<TValue> extends JsonContainer<TValue> {
   }
 
   protected get text(): string {
-    return this.#init.storage.getItem(this.#init.key) ?? '';
+    return this.#init.storage.getItem(this.#init.key) ?? ``;
   }
 
   protected set text(text: string) {

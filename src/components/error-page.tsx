@@ -1,4 +1,4 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
 import {Button} from './button';
 import {ColorSchemeButton} from './color-scheme-button';
@@ -12,7 +12,7 @@ import {TopbarItem} from './topbar-item';
 export function ErrorPage(): JSX.Element {
   const reload = useCallback(
     () => (window.location.href = new URL(window.location.href).origin),
-    []
+    [],
   );
 
   return (

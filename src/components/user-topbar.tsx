@@ -1,5 +1,5 @@
-import {JSX} from 'preact';
-import {AuthorizedAuthStore} from '../hooks/use-auth-store';
+import type {JSX} from 'preact';
+import type {AuthorizedAuthStore} from '../hooks/use-auth-store';
 import {AppTopics} from '../pub-sub/app-topics';
 import {Button} from './button';
 import {ColorSchemeButton} from './color-scheme-button';

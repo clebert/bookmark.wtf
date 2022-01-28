@@ -1,4 +1,4 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useCallback, useEffect, useRef} from 'preact/hooks';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
@@ -42,16 +42,16 @@ export function TextField({
         className,
         Colors.text(),
         Colors.placeholderText(),
-        Colors.border(highlight ? 'highlight' : undefined),
+        Colors.border(highlight ? `highlight` : undefined),
         Colors.background(),
         Colors.focusOutline(),
-        disabled && 'opacity-25',
-        'appearance-none',
-        'rounded-none',
-        'w-full',
-        'px-2',
+        disabled && `opacity-25`,
+        `appearance-none`,
+        `rounded-none`,
+        `w-full`,
+        `px-2`,
       ])}
-      type={type ?? 'text'}
+      type={type ?? `text`}
       value={value}
       placeholder={placeholder}
       autocomplete="off"
@@ -62,9 +62,9 @@ export function TextField({
       onInput={useCallback(
         (event: Event) => {
           event.preventDefault();
-          onInput((event.target as HTMLInputElement).value ?? '');
+          onInput((event.target as HTMLInputElement).value ?? ``);
         },
-        [onInput]
+        [onInput],
       )}
     />
   );

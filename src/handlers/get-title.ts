@@ -1,16 +1,16 @@
-import {APIGatewayEvent, APIGatewayProxyResult} from 'aws-lambda';
+import type {APIGatewayEvent, APIGatewayProxyResult} from 'aws-lambda';
 import fetch from 'node-fetch';
 import {getLambdaParam} from '../utils/get-lambda-param';
 import {parseTitle} from '../utils/parse-title';
 
 export async function handler(
-  event: APIGatewayEvent
+  event: APIGatewayEvent,
 ): Promise<APIGatewayProxyResult> {
-  let html = '';
+  let html = ``;
 
   try {
-    const response = await fetch(getLambdaParam(event, 'url')!, {
-      headers: {'Accept': 'text/html', 'User-Agent': 'Mozilla/5.0 (Linux)'},
+    const response = await fetch(getLambdaParam(event, `url`)!, {
+      headers: {'Accept': `text/html`, 'User-Agent': `Mozilla/5.0 (Linux)`},
     });
 
     if (response.status === 200) {
@@ -20,7 +20,7 @@ export async function handler(
 
   return {
     statusCode: 200,
-    headers: {'Content-Type': 'application/json'},
+    headers: {'Content-Type': `application/json`},
     body: JSON.stringify(parseTitle(html)),
   };
 }

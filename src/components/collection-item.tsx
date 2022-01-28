@@ -1,7 +1,10 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useCallback, useMemo} from 'preact/hooks';
-import {ShallowGist} from '../apis/gists-api';
-import {ReadyGistsStore, UpdatingGistsStore} from '../hooks/use-gists-store';
+import type {ShallowGist} from '../apis/gists-api';
+import type {
+  ReadyGistsStore,
+  UpdatingGistsStore,
+} from '../hooks/use-gists-store';
 import {useTimer} from '../hooks/use-timer';
 import {useToggle} from '../hooks/use-toggle';
 import {AppTopics} from '../pub-sub/app-topics';
@@ -23,33 +26,33 @@ export function CollectionItem({
 }: CollectionItemProps): JSX.Element {
   const openCollection = useCallback(
     () => AppTopics.gistName.publish(gistName),
-    [gistName]
+    [gistName],
   );
 
   const [editing, toggleEditing] = useToggle(false);
 
   const updateCollection = useMemo(
     () =>
-      'updateGist' in gistsStore
+      `updateGist` in gistsStore
         ? (newDescription: string) => {
             gistsStore.updateGist(gistName, newDescription);
             toggleEditing();
           }
         : undefined,
-    [gistsStore, gistName]
+    [gistsStore, gistName],
   );
 
   const [deleting, toggleDeleting] = useToggle(false, 3000);
 
   const deleteCollection = useCallback(() => {
-    if ('deleteGist' in gistsStore) {
+    if (`deleteGist` in gistsStore) {
       gistsStore.deleteGist(gistName);
     }
   }, [gistsStore, gistName]);
 
   return editing ? (
     <EditCollectionForm
-      initialDescription={description ?? ''}
+      initialDescription={description ?? ``}
       onCancel={toggleEditing}
       onUpdate={updateCollection}
     />
@@ -57,7 +60,7 @@ export function CollectionItem({
     <GridItem
       class="CollectionItem"
       row1={
-        <Link url={'/' + gistName} onClick={openCollection}>
+        <Link url={`/` + gistName} onClick={openCollection}>
           <Icon type="link" />
           {description ?? gistName}
         </Link>
@@ -71,7 +74,7 @@ export function CollectionItem({
               targetName="collection"
               verbose
               action={
-                gistsStore.state === 'ready' ? deleteCollection : undefined
+                gistsStore.state === `ready` ? deleteCollection : undefined
               }
             />
           </>
@@ -79,12 +82,12 @@ export function CollectionItem({
           <>
             <EditButton
               targetName="collection"
-              action={gistsStore.state === 'ready' ? toggleEditing : undefined}
+              action={gistsStore.state === `ready` ? toggleEditing : undefined}
             />
 
             <DeleteButton
               targetName="collection"
-              action={gistsStore.state === 'ready' ? toggleDeleting : undefined}
+              action={gistsStore.state === `ready` ? toggleDeleting : undefined}
             />
           </>
         )

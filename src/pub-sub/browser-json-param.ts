@@ -1,4 +1,5 @@
-import {JsonContainer, JsonContainerInit} from './json-container';
+import type {JsonContainerInit} from './json-container';
+import {JsonContainer} from './json-container';
 
 export interface BrowserJsonParamInit<TValue>
   extends JsonContainerInit<TValue> {
@@ -20,7 +21,7 @@ export class BrowserJsonParam<TValue> extends JsonContainer<TValue> {
 
   protected get text(): string {
     return (
-      new URLSearchParams(this.#init.location.search).get(this.#init.key) ?? ''
+      new URLSearchParams(this.#init.location.search).get(this.#init.key) ?? ``
     );
   }
 
@@ -37,10 +38,10 @@ export class BrowserJsonParam<TValue> extends JsonContainer<TValue> {
     const {href} = url;
 
     if (href !== initialHref) {
-      this.#init.history[this.#init.replace ? 'replaceState' : 'pushState'](
+      this.#init.history[this.#init.replace ? `replaceState` : `pushState`](
         undefined,
-        '',
-        href
+        ``,
+        href,
       );
     }
   }

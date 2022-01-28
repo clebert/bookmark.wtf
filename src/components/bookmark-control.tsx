@@ -1,6 +1,6 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useCallback, useMemo} from 'preact/hooks';
-import {
+import type {
   ForkingGistStore,
   LockedGistStore,
   ReadyGistStore,
@@ -9,7 +9,7 @@ import {
 import {useToggle} from '../hooks/use-toggle';
 import {AppTopics} from '../pub-sub/app-topics';
 import {createRandomValue} from '../utils/create-random-value';
-import {Bookmark} from '../utils/parse-bookmark';
+import type {Bookmark} from '../utils/parse-bookmark';
 import {serializeBookmark} from '../utils/serialize-bookmark';
 import {Button} from './button';
 import {GridItem} from './grid-item';
@@ -33,22 +33,22 @@ export function BookmarkControl({
   gistName,
   gistStore,
 }: BookmarkControlProps): JSX.Element {
-  const closeCollection = useCallback(() => AppTopics.gistName.publish(''), []);
+  const closeCollection = useCallback(() => AppTopics.gistName.publish(``), []);
   const [newMode, toggleNewMode] = useToggle(false);
 
   const createBookmark = useMemo(
     () =>
-      'createFile' in gistStore
+      `createFile` in gistStore
         ? (bookmark: Bookmark) => {
             gistStore.createFile(
-              createRandomValue() + '.md',
-              serializeBookmark(bookmark)
+              createRandomValue() + `.md`,
+              serializeBookmark(bookmark),
             );
 
             toggleNewMode();
           }
         : undefined,
-    [gistStore]
+    [gistStore],
   );
 
   return newMode ? (
@@ -60,9 +60,9 @@ export function BookmarkControl({
         <Label>
           <Icon
             type={
-              gistStore.state !== 'locked' && gistStore.state !== 'forking'
-                ? 'viewGrid'
-                : 'lockClosed'
+              gistStore.state !== `locked` && gistStore.state !== `forking`
+                ? `viewGrid`
+                : `lockClosed`
             }
           />
           {gistStore.gist.description ?? gistName}
@@ -70,10 +70,10 @@ export function BookmarkControl({
       }
       row2={
         <>
-          {gistStore.state === 'locked' || gistStore.state === 'forking' ? (
+          {gistStore.state === `locked` || gistStore.state === `forking` ? (
             <Button
               title="Fork collection"
-              onClick={'forkGist' in gistStore ? gistStore.forkGist : undefined}
+              onClick={`forkGist` in gistStore ? gistStore.forkGist : undefined}
             >
               <Icon type="duplicate" />
               Fork

@@ -1,4 +1,4 @@
-import {ComponentChildren, JSX} from 'preact';
+import type {ComponentChildren, JSX} from 'preact';
 import {join} from '../utils/join';
 
 export interface TopbarProps {
@@ -11,13 +11,13 @@ export function Topbar({children, class: className}: TopbarProps): JSX.Element {
     <div
       class={join([
         className,
-        'flex',
-        'flex-col',
-        'md:flex-row',
-        'md:items-center',
-        'space-y-4',
-        'md:space-y-0',
-        'md:space-x-4',
+        `flex`,
+        `flex-col`,
+        `md:flex-row`,
+        `md:items-center`,
+        `space-y-4`,
+        `md:space-y-0`,
+        `md:space-x-4`,
       ])}
     >
       {children}

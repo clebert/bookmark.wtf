@@ -1,7 +1,8 @@
 import {useMemo} from 'preact/hooks';
-import {Gist, GistAPI} from '../apis/gist-api';
+import type {Gist} from '../apis/gist-api';
+import {GistAPI} from '../apis/gist-api';
 import {AppTopics} from '../pub-sub/app-topics';
-import {AuthorizedAuthStore} from './use-auth-store';
+import type {AuthorizedAuthStore} from './use-auth-store';
 import {useBinder} from './use-binder';
 import {useReceiver} from './use-receiver';
 import {useSender} from './use-sender';
@@ -28,7 +29,7 @@ export interface ReadyGistStore {
   updateFile(
     filename: string,
     text: string,
-    skipLocalUpdate?: boolean
+    skipLocalUpdate?: boolean,
   ): boolean;
 
   deleteFile(filename: string): boolean;
@@ -59,13 +60,13 @@ export interface FailedGistStore {
 export function useGistStore(
   authStore: AuthorizedAuthStore,
   user: string,
-  gistName: string
+  gistName: string,
 ): GistStore {
   const gistAPIReceiver = useReceiver(
     useMemo(
       async () => GistAPI.init(authStore.token, gistName),
-      [authStore, gistName]
-    )
+      [authStore, gistName],
+    ),
   );
 
   const gistAPISender = useSender();
@@ -73,23 +74,23 @@ export function useGistStore(
 
   const createFile = (filename: string, text: string) =>
     transition(() =>
-      gistAPISender.send?.(gistAPIReceiver.value!.createFile(filename, text))
+      gistAPISender.send?.(gistAPIReceiver.value!.createFile(filename, text)),
     );
 
   const updateFile = (
     filename: string,
     text: string,
-    skipLocalUpdate?: boolean
+    skipLocalUpdate?: boolean,
   ) =>
     transition(() =>
       gistAPISender.send?.(
-        gistAPIReceiver.value!.updateFile(filename, text, skipLocalUpdate)
-      )
+        gistAPIReceiver.value!.updateFile(filename, text, skipLocalUpdate),
+      ),
     );
 
   const deleteFile = (filename: string) =>
     transition(() =>
-      gistAPISender.send?.(gistAPIReceiver.value!.deleteFile(filename))
+      gistAPISender.send?.(gistAPIReceiver.value!.deleteFile(filename)),
     );
 
   const bind = useBinder();
@@ -97,35 +98,37 @@ export function useGistStore(
   const forkGist = () =>
     transition(() =>
       gistAPISender.send?.(
-        gistAPIReceiver.value!.forkGist().then(bind(AppTopics.gistName.publish))
-      )
+        gistAPIReceiver
+          .value!.forkGist()
+          .then(bind(AppTopics.gistName.publish)),
+      ),
     );
 
   return useMemo(() => {
-    if (gistAPIReceiver.state === 'failed') {
-      return {state: 'failed', reason: gistAPIReceiver.reason};
+    if (gistAPIReceiver.state === `failed`) {
+      return {state: `failed`, reason: gistAPIReceiver.reason};
     }
 
-    if (gistAPISender.state === 'failed') {
-      return {state: 'failed', reason: gistAPISender.reason};
+    if (gistAPISender.state === `failed`) {
+      return {state: `failed`, reason: gistAPISender.reason};
     }
 
-    if (gistAPIReceiver.state === 'receiving') {
-      return {state: 'loading'};
+    if (gistAPIReceiver.state === `receiving`) {
+      return {state: `loading`};
     }
 
     const {gist} = gistAPIReceiver.value;
 
     if (gist.owner !== user) {
-      return gistAPISender.state === 'sending'
-        ? {state: 'forking', gist}
-        : {state: 'locked', gist, forkGist};
+      return gistAPISender.state === `sending`
+        ? {state: `forking`, gist}
+        : {state: `locked`, gist, forkGist};
     }
 
-    if (gistAPISender.state === 'sending') {
-      return {state: 'updating', gist};
+    if (gistAPISender.state === `sending`) {
+      return {state: `updating`, gist};
     }
 
-    return {state: 'ready', gist, createFile, updateFile, deleteFile};
+    return {state: `ready`, gist, createFile, updateFile, deleteFile};
   }, [transition]);
 }

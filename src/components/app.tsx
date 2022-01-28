@@ -1,4 +1,4 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useLayoutEffect} from 'preact/hooks';
 import {useAuthStore} from '../hooks/use-auth-store';
 import {useDarkMode} from '../hooks/use-dark-mode';
@@ -14,21 +14,21 @@ export function App(): JSX.Element {
 
   useLayoutEffect(() => {
     document
-      .querySelector('body')
-      ?.classList.add(...Colors.background().split(' '));
+      .querySelector(`body`)
+      ?.classList.add(...Colors.background().split(` `));
   }, []);
 
   useLayoutEffect(() => {
     if (darkMode) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add(`dark`);
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove(`dark`);
     }
   }, [darkMode]);
 
   return (
     <ErrorBoundary fallback={<ErrorPage />}>
-      {authStore.state === 'authorized' ? (
+      {authStore.state === `authorized` ? (
         <UserPage authStore={authStore} />
       ) : (
         <HomePage authStore={authStore} />

@@ -1,8 +1,8 @@
-import {APIGatewayEvent} from 'aws-lambda';
+import type {APIGatewayEvent} from 'aws-lambda';
 
 export function getLambdaParam(
   event: APIGatewayEvent,
-  key: string
+  key: string,
 ): string | undefined {
   const {queryStringParameters: params} = event;
 

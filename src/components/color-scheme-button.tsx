@@ -1,22 +1,22 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
 import {AppTopics} from '../pub-sub/app-topics';
 import {Button} from './button';
 import {Icon} from './icon';
 
-const titles = {auto: 'System theme', light: 'Day theme', dark: 'Night theme'};
-const iconTypes = {auto: 'cog', light: 'sun', dark: 'moon'} as const;
+const titles = {auto: `System theme`, light: `Day theme`, dark: `Night theme`};
+const iconTypes = {auto: `cog`, light: `sun`, dark: `moon`} as const;
 
 export function ColorSchemeButton(): JSX.Element {
   const colorScheme = AppTopics.colorScheme.use();
 
   const toggleColorScheme = useCallback(() => {
-    if (colorScheme === 'auto') {
-      AppTopics.colorScheme.publish('dark');
-    } else if (colorScheme === 'dark') {
-      AppTopics.colorScheme.publish('light');
+    if (colorScheme === `auto`) {
+      AppTopics.colorScheme.publish(`dark`);
+    } else if (colorScheme === `dark`) {
+      AppTopics.colorScheme.publish(`light`);
     } else {
-      AppTopics.colorScheme.publish('auto');
+      AppTopics.colorScheme.publish(`auto`);
     }
   }, [colorScheme]);
 

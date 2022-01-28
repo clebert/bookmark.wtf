@@ -1,4 +1,4 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
 import {useSender} from '../hooks/use-sender';
 import {Button} from './button';
@@ -48,7 +48,7 @@ export function EditBookmarkForm({
             value={currentUrl}
             placeholder="Enter URL"
             autoFocus
-            disabled={getTitleSender.state === 'sending'}
+            disabled={getTitleSender.state === `sending`}
             required
             onInput={setCurrentUrl}
           />
@@ -57,7 +57,7 @@ export function EditBookmarkForm({
           <TextField
             value={currentTitle}
             placeholder="Enter title"
-            disabled={getTitleSender.state === 'sending'}
+            disabled={getTitleSender.state === `sending`}
             required
             onInput={setCurrentTitle}
           />

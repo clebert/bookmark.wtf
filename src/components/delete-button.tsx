@@ -1,4 +1,4 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {Button} from './button';
 import {Icon} from './icon';
 
@@ -17,12 +17,12 @@ export function DeleteButton({
   return (
     <Button
       class="DeleteButton"
-      theme={verbose ? 'danger' : undefined}
+      theme={verbose ? `danger` : undefined}
       title={`Delete ${targetName}`}
       onClick={action}
     >
       <Icon type="trash" standalone={!verbose} />
-      {verbose && 'Delete'}
+      {verbose && `Delete`}
     </Button>
   );
 }

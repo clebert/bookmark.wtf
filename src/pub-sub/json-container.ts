@@ -1,4 +1,4 @@
-import {Container} from './topic';
+import type {Container} from './topic';
 
 export interface JsonContainerInit<TValue> {
   readonly input?: (value: TValue) => unknown;
@@ -31,6 +31,6 @@ export abstract class JsonContainer<TValue> implements Container<TValue> {
   set value(newValue: TValue) {
     const value = this.#init.input ? this.#init.input(newValue) : newValue;
 
-    this.text = value != null ? JSON.stringify(value) : '';
+    this.text = value != null ? JSON.stringify(value) : ``;
   }
 }

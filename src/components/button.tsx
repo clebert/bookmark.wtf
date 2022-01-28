@@ -1,4 +1,4 @@
-import {ComponentChildren, JSX} from 'preact';
+import type {ComponentChildren, JSX} from 'preact';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 
@@ -17,7 +17,7 @@ export interface ButtonProps {
 export function Button({
   children,
   class: className,
-  type = 'button',
+  type = `button`,
   theme,
   title,
   disabled,
@@ -37,11 +37,11 @@ export function Button({
         highlight && Colors.highlightRing(),
         Colors.background(),
         enabled && Colors.activeBackground(),
-        !enabled && 'opacity-25',
-        'px-2',
-        'whitespace-nowrap',
-        !enabled && 'cursor-default',
-        'select-none',
+        !enabled && `opacity-25`,
+        `px-2`,
+        `whitespace-nowrap`,
+        !enabled && `cursor-default`,
+        `select-none`,
       ])}
       type={type}
       title={title}

@@ -1,5 +1,5 @@
-import {Sender} from 'loxia';
-import {JSX} from 'preact';
+import type {Sender} from 'loxia';
+import type {JSX} from 'preact';
 import {useMemo} from 'preact/hooks';
 import {useBinder} from '../hooks/use-binder';
 import {Button} from './button';
@@ -21,7 +21,7 @@ export function GetTitleButton({
 
   const getTitle = useMemo(
     () =>
-      url && sender.state === 'idle'
+      url && sender.state === `idle`
         ? () =>
             sender.send(
               fetch(`/api/get-title?url=${encodeURIComponent(url)}`)
@@ -32,16 +32,16 @@ export function GetTitleButton({
                       .then(
                         bind((title) =>
                           setTitle(
-                            typeof title === 'string' ? title : 'No title'
-                          )
-                        )
-                      )
-                  )
+                            typeof title === `string` ? title : `No title`,
+                          ),
+                        ),
+                      ),
+                  ),
                 )
-                .catch(bind(() => setTitle('No title')))
+                .catch(bind(() => setTitle(`No title`))),
             )
         : undefined,
-    [sender, url]
+    [sender, url],
   );
 
   return (

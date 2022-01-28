@@ -1,4 +1,4 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
 import {AppTopics} from '../pub-sub/app-topics';
 import {TextField} from './text-field';

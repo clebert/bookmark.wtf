@@ -1,4 +1,4 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
 import {Button} from './button';
 import {Form} from './form';
@@ -15,7 +15,7 @@ export function NewCollectionForm({
   onCancel,
   onCreate,
 }: NewCollectionFormProps): JSX.Element {
-  const [currentDescription, setCurrentDescription] = useState('');
+  const [currentDescription, setCurrentDescription] = useState(``);
 
   const create = useMemo(() => {
     const description = currentDescription.trim();

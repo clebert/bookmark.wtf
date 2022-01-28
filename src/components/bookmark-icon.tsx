@@ -1,4 +1,4 @@
-import {JSX} from 'preact';
+import type {JSX} from 'preact';
 import {useCallback, useState} from 'preact/hooks';
 import {useBinder} from '../hooks/use-binder';
 import {Colors} from '../utils/colors';
@@ -21,19 +21,19 @@ export function BookmarkIcon({
     () =>
       `https://c.1password.com/richicons/images/login/120/${
         new URL(initialLinkUrl).hostname
-      }.png`
+      }.png`,
   );
 
   const handleError = useCallback(() => {
-    if (imageUrl.includes('/richicons/images/login/120')) {
-      setImageUrl(new URL(initialLinkUrl).origin + '/apple-touch-icon.png');
-    } else if (imageUrl.includes('/apple-touch-icon.png')) {
-      setImageUrl(new URL(initialLinkUrl).origin + '/favicon.ico');
+    if (imageUrl.includes(`/richicons/images/login/120`)) {
+      setImageUrl(new URL(initialLinkUrl).origin + `/apple-touch-icon.png`);
+    } else if (imageUrl.includes(`/apple-touch-icon.png`)) {
+      setImageUrl(new URL(initialLinkUrl).origin + `/favicon.ico`);
     } else {
       createIdenticon(initialLinkUrl)
         .then(bind(setImageUrl))
         .catch(
-          bind((error) => console.error('Failed to create identicon.', error))
+          bind((error) => console.error(`Failed to create identicon.`, error)),
         );
     }
   }, [imageUrl]);
@@ -43,7 +43,7 @@ export function BookmarkIcon({
 
   return (
     <a
-      class={join(['select-none', Colors.background(), Colors.focusOutline()])}
+      class={join([`select-none`, Colors.background(), Colors.focusOutline()])}
       href={initialLinkUrl}
       tabIndex={-1}
       onClick={useCallback(
@@ -51,11 +51,11 @@ export function BookmarkIcon({
           event.preventDefault();
           onClick();
         },
-        [onClick]
+        [onClick],
       )}
     >
       <img
-        class={join(['w-16 h-16', hidden && 'opacity-0'])}
+        class={join([`w-16 h-16`, hidden && `opacity-0`])}
         src={imageUrl}
         onError={handleError}
         onLoad={handleLoad}

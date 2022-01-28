@@ -1,5 +1,6 @@
-import {Browser, Page, webkit} from 'playwright-webkit';
-import {NodeSet} from 'sonnar';
+import type {Browser, Page} from 'playwright-webkit';
+import {webkit} from 'playwright-webkit';
+import type {NodeSet} from 'sonnar';
 
 export class API {
   static async webkit(): Promise<API> {
@@ -11,18 +12,18 @@ export class API {
   private constructor(readonly browser: Browser, readonly page: Page) {}
 
   async click(nodeSet: NodeSet): Promise<void> {
-    await this.page.click('xpath=' + nodeSet.expression);
+    await this.page.click(`xpath=` + nodeSet.expression);
   }
 
   async fill(nodeSet: NodeSet, text: string): Promise<void> {
-    await this.page.fill('xpath=' + nodeSet.expression, text);
+    await this.page.fill(`xpath=` + nodeSet.expression, text);
   }
 
   async exists(nodeSet: NodeSet): Promise<void> {
-    await this.page.waitForSelector('xpath=' + nodeSet.expression);
+    await this.page.waitForSelector(`xpath=` + nodeSet.expression);
   }
 
   async doesNotExist(nodeSet: NodeSet): Promise<void> {
-    expect(await this.page.$('xpath=' + nodeSet.expression)).toBeNull();
+    expect(await this.page.$(`xpath=` + nodeSet.expression)).toBeNull();
   }
 }

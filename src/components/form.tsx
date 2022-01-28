@@ -1,4 +1,4 @@
-import {ComponentChildren, JSX} from 'preact';
+import type {ComponentChildren, JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
 
 export interface FormProps {
@@ -15,7 +15,7 @@ export function Form({children, onSubmit}: FormProps): JSX.Element {
           event.preventDefault();
           onSubmit?.();
         },
-        [onSubmit]
+        [onSubmit],
       )}
     >
       {children}

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'preact/hooks';
 
 export function useTimer(
   duration: number,
-  startTime: number | undefined
+  startTime: number | undefined,
 ): boolean {
   const active = Date.now() - (startTime ?? 0) < duration;
   const [, rerender] = useState({});

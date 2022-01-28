@@ -1,4 +1,4 @@
-import {ComponentChildren, JSX} from 'preact';
+import type {ComponentChildren, JSX} from 'preact';
 import {Colors} from '../utils/colors';
 import {join} from '../utils/join';
 
@@ -12,9 +12,9 @@ export function Paragraph({children, theme}: ParagraphProps): JSX.Element {
     <p
       class={join([
         Colors.text(theme),
-        Colors.border('hidden'),
-        'cursor-default',
-        'select-none',
+        Colors.border(`hidden`),
+        `cursor-default`,
+        `select-none`,
       ])}
     >
       {children}

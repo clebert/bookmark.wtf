@@ -1,5 +1,5 @@
-import {JSX} from 'preact';
-import {
+import type {JSX} from 'preact';
+import type {
   AuthorizingAuthStore,
   UnauthorizedAuthStore,
 } from '../hooks/use-auth-store';
@@ -36,7 +36,7 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
           <Button
             class="SignInButton"
             title="Sign in with GitHub"
-            onClick={'signIn' in authStore ? authStore.signIn : undefined}
+            onClick={`signIn` in authStore ? authStore.signIn : undefined}
           >
             <Icon type="login" />
             Sign in with GitHub
@@ -46,7 +46,7 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
 
       <Paragraph>
         A free and open-source bookmark manager that uses GitHub Gist as
-        database.{' '}
+        database.{` `}
         <Link
           url="https://github.com/clebert/bookmark.wtf/blob/main/README.md"
           static
@@ -56,11 +56,11 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
         </Link>
       </Paragraph>
 
-      <div class={join(['max-w-5xl p-1 shadow', Colors.highlightRing()])}>
+      <div class={join([`max-w-5xl p-1 shadow`, Colors.highlightRing()])}>
         <img
           class="select-none"
           src={`https://raw.githubusercontent.com/clebert/bookmark.wtf/main/screenshot-${
-            darkMode ? 'dark' : 'light'
+            darkMode ? `dark` : `light`
           }-mode.png`}
         ></img>
       </div>

@@ -1,10 +1,10 @@
 // @ts-check
 
-const path = require('path');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const webpack = require('webpack');
+const path = require(`path`);
+const CssMinimizerPlugin = require(`css-minimizer-webpack-plugin`);
+const HtmlWebpackPlugin = require(`html-webpack-plugin`);
+const MiniCssExtractPlugin = require(`mini-css-extract-plugin`);
+const webpack = require(`webpack`);
 
 /**
  * @param {boolean} dev
@@ -12,55 +12,55 @@ const webpack = require('webpack');
  */
 function createAppConfig(dev) {
   return {
-    target: 'web',
-    entry: {index: './src/index.tsx'},
+    target: `web`,
+    entry: {index: `./src/index.tsx`},
     output: {
-      filename: '[name].[contenthash].js',
-      path: path.join(__dirname, 'dist/app'),
-      publicPath: '/app/',
+      filename: `[name].[contenthash].js`,
+      path: path.join(__dirname, `dist/app`),
+      publicPath: `/app/`,
     },
     plugins: [
       new HtmlWebpackPlugin({
-        filename: '[name].html',
-        title: 'bookmark.wtf',
-        template: './src/index.html',
+        filename: `[name].html`,
+        title: `bookmark.wtf`,
+        template: `./src/index.html`,
       }),
       new webpack.DefinePlugin({
         'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
       }),
       new webpack.SourceMapDevToolPlugin({
-        filename: '[file].map',
-        publicPath: '/app/',
+        filename: `[file].map`,
+        publicPath: `/app/`,
       }),
-      new MiniCssExtractPlugin({filename: '[name].[contenthash].css'}),
+      new MiniCssExtractPlugin({filename: `[name].[contenthash].css`}),
     ],
     module: {
       rules: [
         {
           test: /\.tsx?$/,
-          use: {loader: 'ts-loader', options: {transpileOnly: dev}},
+          use: {loader: `ts-loader`, options: {transpileOnly: dev}},
           exclude: [/node_modules/],
         },
         {
           test: /\.css$/,
           use: [
             MiniCssExtractPlugin.loader,
-            'css-loader',
+            `css-loader`,
             {
-              loader: 'postcss-loader',
+              loader: `postcss-loader`,
               options: {
-                postcssOptions: {plugins: ['tailwindcss', 'autoprefixer']},
+                postcssOptions: {plugins: [`tailwindcss`, `autoprefixer`]},
               },
             },
           ],
         },
       ],
     },
-    resolve: {extensions: ['.js', '.json', '.ts', '.tsx']},
-    devtool: dev ? 'eval-source-map' : 'source-map',
+    resolve: {extensions: [`.js`, `.json`, `.ts`, `.tsx`]},
+    devtool: dev ? `eval-source-map` : `source-map`,
     optimization: {
       minimize: !dev,
-      minimizer: ['...', new CssMinimizerPlugin()],
+      minimizer: [`...`, new CssMinimizerPlugin()],
     },
   };
 }
@@ -72,12 +72,12 @@ function createAppConfig(dev) {
  */
 function createLambdaConfig(dev, apiName) {
   return {
-    target: 'node',
+    target: `node`,
     node: {__dirname: false},
     entry: `./src/handlers/${apiName}.ts`,
     output: {
       filename: `api/${apiName}.js`,
-      libraryTarget: 'commonjs2',
+      libraryTarget: `commonjs2`,
     },
     plugins: [
       new webpack.DefinePlugin({
@@ -89,12 +89,12 @@ function createLambdaConfig(dev, apiName) {
       rules: [
         {
           test: /\.tsx?$/,
-          use: {loader: 'ts-loader', options: {transpileOnly: dev}},
+          use: {loader: `ts-loader`, options: {transpileOnly: dev}},
           exclude: [/node_modules/],
         },
       ],
     },
-    resolve: {extensions: ['.js', '.json', '.ts', '.tsx']},
+    resolve: {extensions: [`.js`, `.json`, `.ts`, `.tsx`]},
   };
 }
 
@@ -102,13 +102,13 @@ function createLambdaConfig(dev, apiName) {
  * @type {(_env: unknown, argv: {readonly mode?: string}) => import('webpack').Configuration[]}
  */
 module.exports = (_env, argv) => {
-  const dev = argv.mode !== 'production';
+  const dev = argv.mode !== `production`;
 
-  process.env.NODE_ENV = dev ? 'development' : argv.mode;
+  process.env.NODE_ENV = dev ? `development` : argv.mode;
 
   return [
     createAppConfig(dev),
-    createLambdaConfig(dev, 'redirect'),
-    createLambdaConfig(dev, 'get-title'),
+    createLambdaConfig(dev, `redirect`),
+    createLambdaConfig(dev, `get-title`),
   ];
 };

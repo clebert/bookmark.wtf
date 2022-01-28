@@ -1,4 +1,4 @@
-import {Container} from './topic';
+import type {Container} from './topic';
 
 export interface BrowserPathnameInit<TValue> {
   readonly replace?: boolean;
@@ -25,15 +25,15 @@ export class BrowserPathname<TValue> implements Container<TValue> {
     const url = new URL(initialHref);
     const pathname = this.#init.input(newValue);
 
-    url.pathname = pathname.startsWith('/') ? pathname : '/' + pathname;
+    url.pathname = pathname.startsWith(`/`) ? pathname : `/` + pathname;
 
     const {href} = url;
 
     if (href !== initialHref) {
-      this.#init.history[this.#init.replace ? 'replaceState' : 'pushState'](
+      this.#init.history[this.#init.replace ? `replaceState` : `pushState`](
         undefined,
-        '',
-        href
+        ``,
+        href,
       );
     }
   }

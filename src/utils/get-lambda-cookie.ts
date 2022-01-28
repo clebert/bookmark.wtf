@@ -1,9 +1,9 @@
-import {APIGatewayEvent} from 'aws-lambda';
+import type {APIGatewayEvent} from 'aws-lambda';
 import cookie from 'cookie';
 
 export function getLambdaCookie(
   event: APIGatewayEvent,
-  key: string
+  key: string,
 ): string | undefined {
   const {headers} = event;
 
