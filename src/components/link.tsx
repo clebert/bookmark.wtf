@@ -38,7 +38,7 @@ export function Link({
         Colors.activeBackground(),
         `pr-1`,
         `overflow-hidden`,
-        `overflow-ellipsis`,
+        `text-ellipsis`,
         `whitespace-nowrap`,
         isStatic && `select-none`,
       ])}

@@ -20,7 +20,7 @@ export function Label({
         Colors.border(`hidden`),
         bold && `font-bold`,
         `overflow-hidden`,
-        `overflow-ellipsis`,
+        `text-ellipsis`,
         `whitespace-nowrap`,
         isStatic && `cursor-default`,
         isStatic && `select-none`,

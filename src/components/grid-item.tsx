@@ -31,7 +31,7 @@ export function GridItem({
         highlight && Colors.highlightRing(),
       ])}
     >
-      {leftCol && <div class="flex flex-shrink-0 items-center">{leftCol}</div>}
+      {leftCol && <div class="flex shrink-0 items-center">{leftCol}</div>}
 
       <div class="flex flex-col space-y-4 w-full overflow-hidden">
         <div class="flex space-x-2 w-full">{row1}</div>
@@ -42,11 +42,11 @@ export function GridItem({
       </div>
 
       {rightCol1 && (
-        <div class="flex flex-col flex-shrink-0 space-y-4">{rightCol1}</div>
+        <div class="flex flex-col shrink-0 space-y-4">{rightCol1}</div>
       )}
 
       {rightCol2 && (
-        <div class="flex flex-col flex-shrink-0 space-y-4">{rightCol2}</div>
+        <div class="flex flex-col shrink-0 space-y-4">{rightCol2}</div>
       )}
     </div>
   );

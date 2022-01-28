@@ -39,7 +39,7 @@ export class Colors {
   }
 
   static focusOutline(): string {
-    return `focus:outline-blue-400`;
+    return `focus:outline-blue-400 focus:outline-1 focus:outline focus:outline-offset-[-1px]`;
   }
 
   static highlightRing(): string {
