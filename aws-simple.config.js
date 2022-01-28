@@ -5,12 +5,9 @@
  */
 exports.default = {
   appName: 'bookmarkwtf',
-  customDomain: {
-    certificateArn: process.env.CERTIFICATE_ARN,
-    hostedZoneId: process.env.HOSTED_ZONE_ID,
-    hostedZoneName: 'bookmark.wtf',
-  },
+  customDomain: {hostedZoneName: 'bookmark.wtf'},
   throttling: {burstLimit: 5, rateLimit: 10},
+  enableMetrics: true,
   routes: () => ({
     '/': {
       kind: 'file',
