@@ -16,6 +16,12 @@ exports.default = () => ({
     },
     {
       type: `file`,
+      publicPath: `/*`,
+      path: `dist/app/index.html`,
+      responseHeaders: {'cache-control': `no-store`},
+    },
+    {
+      type: `file`,
       publicPath: `/apple-touch-icon.png`,
       path: `src/apple-touch-icon.png`,
       responseHeaders: {'cache-control': `max-age=86400`}, // 24 hours
