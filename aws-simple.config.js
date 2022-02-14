@@ -1,43 +1,49 @@
 // @ts-check
 
 /**
- * @type {import('aws-simple').App}
+ * @type {import('aws-simple').ConfigFileDefaultExport}
  */
-exports.default = {
-  appName: `bookmarkwtf`,
-  customDomain: {hostedZoneName: `bookmark.wtf`},
+exports.default = () => ({
+  hostedZoneName: `bookmark.wtf`,
   throttling: {burstLimit: 5, rateLimit: 10},
-  enableMetrics: true,
-  routes: () => ({
-    '/': {
-      kind: `file`,
-      filename: `dist/app/index.html`,
-      catchAll: true,
-      responseHeaders: {'Cache-Control': `no-store`},
+  monitoring: {loggingEnabled: true, metricsEnabled: true},
+  routes: [
+    {
+      type: `file`,
+      publicPath: `/`,
+      path: `dist/app/index.html`,
+      responseHeaders: {'cache-control': `no-store`},
     },
-    '/apple-touch-icon.png': {
-      kind: `file`,
-      filename: `src/apple-touch-icon.png`,
-      binaryMediaType: `image/png`,
-      responseHeaders: {'Cache-Control': `max-age=86400`}, // 24 hours
+    {
+      type: `file`,
+      publicPath: `/apple-touch-icon.png`,
+      path: `src/apple-touch-icon.png`,
+      responseHeaders: {'cache-control': `max-age=86400`}, // 24 hours
     },
-    '/app': {
-      kind: `folder`,
-      dirname: `dist/app`,
-      responseHeaders: {'Cache-Control': `max-age=157680000`}, // 5 years
+    {
+      type: `folder`,
+      publicPath: `/app/*`,
+      path: `dist/app`,
+      responseHeaders: {'cache-control': `max-age=157680000`}, // 5 years
     },
-    '/api/get-title': {
-      kind: `function`,
-      filename: `dist/api/get-title.js`,
+    {
+      type: `function`,
+      httpMethod: `GET`,
+      publicPath: `/api/get-title`,
+      path: `dist/api/get-title.js`,
+      functionName: `get-title`,
       memorySize: 1769, // At 1,769 MB, a function has the equivalent of one vCPU.
       timeoutInSeconds: 3,
-      parameters: {url: {required: true}},
+      requestParameters: {url: {required: true}},
     },
-    '/api/redirect': {
-      kind: `function`,
-      filename: `dist/api/redirect.js`,
+    {
+      type: `function`,
+      httpMethod: `GET`,
+      publicPath: `/api/redirect`,
+      path: `dist/api/redirect.js`,
+      functionName: `redirect`,
       timeoutInSeconds: 3,
-      parameters: {code: {required: true}, state: {required: true}},
+      requestParameters: {code: {required: true}, state: {required: true}},
     },
-  }),
-};
+  ],
+});
