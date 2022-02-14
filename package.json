@@ -12,7 +12,7 @@
     "compile": "onecmd compile",
     "predeploy": "npm run build:prod && cdk bootstrap --app 'npx aws-simple synthesize'",
     "deploy": "cdk deploy --app 'npx aws-simple synthesize'",
-    "postdeploy": "aws-simple upload",
+    "postdeploy": "aws-simple upload --yes",
     "e2e-test": "jest --config jest-e2e-test.config.js",
     "format": "onecmd format",
     "format:check": "onecmd format --check",
