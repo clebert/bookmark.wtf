@@ -1,19 +1,13 @@
 // @ts-check
 
-/**
- * @type {import('aws-simple').ConfigFileDefaultExport}
- */
+/** @type {import('aws-simple').Throttling}*/
+const throttling = {burstLimit: 5, rateLimit: 10};
+
+/** @type {import('aws-simple').ConfigFileDefaultExport} */
 exports.default = () => ({
   hostedZoneName: `bookmark.wtf`,
-  throttling: {burstLimit: 5, rateLimit: 10},
   monitoring: {loggingEnabled: true, metricsEnabled: true},
   routes: [
-    {
-      type: `file`,
-      publicPath: `/`,
-      path: `dist/app/index.html`,
-      responseHeaders: {'cache-control': `no-store`},
-    },
     {
       type: `file`,
       publicPath: `/*`,
@@ -41,6 +35,7 @@ exports.default = () => ({
       memorySize: 1769, // At 1,769 MB, a function has the equivalent of one vCPU.
       timeoutInSeconds: 3,
       requestParameters: {url: {required: true}},
+      throttling,
     },
     {
       type: `function`,
@@ -50,6 +45,7 @@ exports.default = () => ({
       functionName: `redirect`,
       timeoutInSeconds: 3,
       requestParameters: {code: {required: true}, state: {required: true}},
+      throttling,
     },
   ],
 });
