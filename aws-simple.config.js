@@ -6,7 +6,7 @@ const throttling = {burstLimit: 5, rateLimit: 10};
 /** @type {import('aws-simple').ConfigFileDefaultExport} */
 exports.default = () => ({
   hostedZoneName: `bookmark.wtf`,
-  monitoring: {loggingEnabled: true, metricsEnabled: true},
+  terminationProtectionEnabled: true,
   routes: [
     {
       type: `file`,
