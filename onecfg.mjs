@@ -35,13 +35,7 @@ onecfg(
   mergeContent(eslint.ignoreFile, [`src/queries/types.d.ts`]),
   mergeContent(git.ignoreFile, [`.envrc`, `dist`]),
   mergeContent(vscode.settingsFile, {'files.exclude': {dist: true}}),
-
-  mergeContent(swc.configFile, {
-    jsc: {
-      externalHelpers: true,
-      transform: {react: {importSource: `preact`, runtime: `automatic`}},
-    },
-  }),
+  mergeContent(swc.configFile, {jsc: {externalHelpers: true}}),
 
   mergeContent(github.ciFile, {
     jobs: {

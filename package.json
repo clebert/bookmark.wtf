@@ -38,7 +38,7 @@
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "^2.4.5",
     "@graphql-codegen/typescript-operations": "^2.3.2",
-    "@onecfg/standard": "^2.0.0",
+    "@onecfg/standard": "^2.0.1",
     "@swc/core": "^1.2.148",
     "@swc/helpers": "^0.3.6",
     "@swc/jest": "^0.2.20",
