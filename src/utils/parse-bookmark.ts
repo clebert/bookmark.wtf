@@ -11,7 +11,7 @@ export interface Bookmark {
 
 export function parseBookmark(text: string): Bookmark | undefined {
   const result = /^\[(.*)\]\((.*)\) `(.*)`$/.exec(text);
-  const title = result?.[1]?.replace(/\\\[/g, `[`).replace(/\\\]/g, `]`).trim();
+  const title = result?.[1]!.replace(/\\\[/g, `[`).replace(/\\\]/g, `]`).trim();
   const url = result?.[2];
   const code = result?.[3];
 

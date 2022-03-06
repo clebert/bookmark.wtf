@@ -37,6 +37,7 @@ export const app = {
     ),
   },
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   collectionItem: (predicate: Literal | Primitive) => {
     const self = collectionItems.filter(predicate).filter(1);
 
@@ -47,6 +48,7 @@ export const app = {
     };
   },
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   editCollectionForm: (predicate: Literal | Primitive) => {
     const self = editCollectionForms.filter(predicate).filter(1);
 

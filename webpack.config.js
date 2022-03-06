@@ -38,7 +38,7 @@ function createAppConfig(dev) {
       rules: [
         {
           test: /\.tsx?$/,
-          use: {loader: `ts-loader`, options: {transpileOnly: dev}},
+          use: {loader: `swc-loader`},
           exclude: [/node_modules/],
         },
         {
@@ -89,7 +89,7 @@ function createLambdaConfig(dev, apiName) {
       rules: [
         {
           test: /\.tsx?$/,
-          use: {loader: `ts-loader`, options: {transpileOnly: dev}},
+          use: {loader: `swc-loader`},
           exclude: [/node_modules/],
         },
       ],
