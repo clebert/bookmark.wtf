@@ -32,8 +32,9 @@ onecfg(
   ...typescript({sourceMap: true}),
   ...vscode({includeAllFiles: false}),
 
-  mergeContent(eslint.ignoreFile, [`src/queries/types.d.ts`]),
+  mergeContent(eslint.ignoreFile, [`dist`, `src/queries/types.d.ts`]),
   mergeContent(git.ignoreFile, [`.envrc`, `dist`]),
+  mergeContent(prettier.ignoreFile, [`dist`]),
   mergeContent(vscode.settingsFile, {'files.exclude': {dist: true}}),
   mergeContent(swc.configFile, {jsc: {externalHelpers: true}}),
 
