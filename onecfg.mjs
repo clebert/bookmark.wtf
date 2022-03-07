@@ -5,6 +5,7 @@ import {
   eslint,
   git,
   github,
+  ignore,
   javascript,
   jest,
   node,
@@ -22,6 +23,7 @@ onecfg(
   ...eslint(),
   ...git(),
   ...github({omitReleaseStep: true}),
+  ...ignore(`dist`),
   ...javascript({target: {ecmaVersion: `es2019`, moduleType: `es2020`}}),
   ...jest(),
   ...node({nodeVersion: `16`}),
@@ -32,10 +34,8 @@ onecfg(
   ...typescript({sourceMap: true}),
   ...vscode({includeAllFiles: false}),
 
-  mergeContent(eslint.ignoreFile, [`dist`, `src/queries/types.d.ts`]),
-  mergeContent(git.ignoreFile, [`.envrc`, `dist`]),
-  mergeContent(prettier.ignoreFile, [`dist`]),
-  mergeContent(vscode.settingsFile, {'files.exclude': {dist: true}}),
+  mergeContent(eslint.ignoreFile, [`src/queries/types.d.ts`]),
+  mergeContent(git.ignoreFile, [`.envrc`]),
   mergeContent(swc.configFile, {jsc: {externalHelpers: true}}),
 
   mergeContent(github.ciFile, {
