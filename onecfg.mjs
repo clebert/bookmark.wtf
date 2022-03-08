@@ -54,7 +54,7 @@ onecfg(
               E2E_TEST_PASSWORD: `\${{ secrets.ITEST_PASSWORD }}`,
               E2E_TEST_SECRET: `\${{ secrets.ITEST_SECRET }}`,
             },
-            run: `npm run build:dev && (npm start &) && npm run e2e-test`,
+            run: `npm run build:dev && npx start-server-and-test 'npm start' 3000 'npm run e2e-test'`,
           },
           {
             name: `Deploy to AWS`,
