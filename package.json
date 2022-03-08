@@ -19,7 +19,7 @@
     "lint": "eslint .",
     "prepare": "run-s setup",
     "setup": "node onecfg.mjs",
-    "prestart": "fkill :3000 --silent",
+    "prestart": "fkill :3000 --silent && echo $(npm bin)/aws-simple",
     "start": "node --enable-source-maps $(npm bin)/aws-simple start",
     "test": "jest --silent"
   },
