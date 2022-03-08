@@ -20,7 +20,7 @@
     "prepare": "run-s setup",
     "setup": "node onecfg.mjs",
     "prestart": "fkill :3000 --silent",
-    "start": "aws-simple start",
+    "start": "node --enable-source-maps $(npm bin)/aws-simple start",
     "test": "jest --silent"
   },
   "dependencies": {

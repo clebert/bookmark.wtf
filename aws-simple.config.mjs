@@ -34,6 +34,7 @@ export default () => ({
       functionName: `get-title`,
       memorySize: 1769, // At 1,769 MB, a function has the equivalent of one vCPU.
       timeoutInSeconds: 3,
+      environment: {NODE_OPTIONS: `--enable-source-maps`},
       requestParameters: {url: {required: true}},
       throttling,
     },
@@ -44,6 +45,7 @@ export default () => ({
       path: `dist/api/redirect.js`,
       functionName: `redirect`,
       timeoutInSeconds: 3,
+      environment: {NODE_OPTIONS: `--enable-source-maps`},
       requestParameters: {code: {required: true}, state: {required: true}},
       throttling,
     },
