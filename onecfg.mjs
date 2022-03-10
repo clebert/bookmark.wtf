@@ -32,7 +32,7 @@ onecfg(
   ...prettier(),
   ...swc(),
   ...typescript({sourceMap: true}),
-  ...vscode({includeAllFiles: false}),
+  ...vscode({showFilesInEditor: false}),
 
   mergeContent(eslint.ignoreFile, [`src/queries/types.d.ts`]),
   mergeContent(git.ignoreFile, [`.envrc`]),
