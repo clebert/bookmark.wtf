@@ -14,5 +14,13 @@ describe(`serializeBookmark()`, () => {
     const bookmark3 = `[\\[\\[foo\\]\\]](https://bar.baz) \`{"ctime":123}\``;
 
     expect(serializeBookmark(parseBookmark(bookmark3)!)).toBe(bookmark3);
+
+    expect(
+      serializeBookmark({
+        title: `  foo\n\n\nbar  baz `,
+        url: `  https://bar.baz `,
+        ctime: 123,
+      }),
+    ).toBe(`[foo bar baz](https://bar.baz) \`{"ctime":123}\``);
   });
 });
