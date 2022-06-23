@@ -5,19 +5,19 @@ import type {
   LockedGistStore,
   ReadyGistStore,
   UpdatingGistStore,
-} from '../hooks/use-gist-store';
-import {useTimer} from '../hooks/use-timer';
-import {useToggle} from '../hooks/use-toggle';
-import type {Bookmark} from '../utils/parse-bookmark';
-import {serializeBookmark} from '../utils/serialize-bookmark';
-import {BookmarkIcon} from './bookmark-icon';
-import {CopyBookmarkButton} from './copy-bookmark-button';
-import {DeleteButton} from './delete-button';
-import {EditBookmarkForm} from './edit-bookmark-form';
-import {EditButton} from './edit-button';
-import {GridItem} from './grid-item';
-import {Icon} from './icon';
-import {Link} from './link';
+} from '../hooks/use-gist-store.js';
+import {useTimer} from '../hooks/use-timer.js';
+import {useToggle} from '../hooks/use-toggle.js';
+import type {Bookmark} from '../utils/parse-bookmark.js';
+import {serializeBookmark} from '../utils/serialize-bookmark.js';
+import {BookmarkIcon} from './bookmark-icon.js';
+import {CopyBookmarkButton} from './copy-bookmark-button.js';
+import {DeleteButton} from './delete-button.js';
+import {EditBookmarkForm} from './edit-bookmark-form.js';
+import {EditButton} from './edit-button.js';
+import {GridItem} from './grid-item.js';
+import {Icon} from './icon.js';
+import {Link} from './link.js';
 
 export interface BookmarkItemProps {
   readonly gistStore:

@@ -1,4 +1,4 @@
-import type {Container} from './topic';
+import type {Container} from './topic.js';
 
 export interface BrowserPathnameInit<TValue> {
   readonly replace?: boolean;

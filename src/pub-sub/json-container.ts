@@ -1,4 +1,4 @@
-import type {Container} from './topic';
+import type {Container} from './topic.js';
 
 export interface JsonContainerInit<TValue> {
   readonly input?: (value: TValue) => unknown;

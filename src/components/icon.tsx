@@ -1,5 +1,5 @@
 import type {JSX} from 'preact';
-import {join} from '../utils/join';
+import {join} from '../utils/join.js';
 
 export interface IconProps {
   readonly type:

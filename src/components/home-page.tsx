@@ -2,19 +2,19 @@ import type {JSX} from 'preact';
 import type {
   AuthorizingAuthStore,
   UnauthorizedAuthStore,
-} from '../hooks/use-auth-store';
-import {useDarkMode} from '../hooks/use-dark-mode';
-import {Colors} from '../utils/colors';
-import {join} from '../utils/join';
-import {Button} from './button';
-import {ColorSchemeButton} from './color-scheme-button';
-import {Headline} from './headline';
-import {Icon} from './icon';
-import {Link} from './link';
-import {Page} from './page';
-import {Paragraph} from './paragraph';
-import {Topbar} from './topbar';
-import {TopbarItem} from './topbar-item';
+} from '../hooks/use-auth-store.js';
+import {useDarkMode} from '../hooks/use-dark-mode.js';
+import {Colors} from '../utils/colors.js';
+import {join} from '../utils/join.js';
+import {Button} from './button.js';
+import {ColorSchemeButton} from './color-scheme-button.js';
+import {Headline} from './headline.js';
+import {Icon} from './icon.js';
+import {Link} from './link.js';
+import {Page} from './page.js';
+import {Paragraph} from './paragraph.js';
+import {TopbarItem} from './topbar-item.js';
+import {Topbar} from './topbar.js';
 
 export interface HomePageProps {
   readonly authStore: AuthorizingAuthStore | UnauthorizedAuthStore;

@@ -1,4 +1,4 @@
-import {parseTitle} from './parse-title';
+import {parseTitle} from './parse-title.js';
 
 describe(`parseTitle()`, () => {
   it(`returns a title`, () => {

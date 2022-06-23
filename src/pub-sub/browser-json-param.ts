@@ -1,5 +1,5 @@
-import type {JsonContainerInit} from './json-container';
-import {JsonContainer} from './json-container';
+import type {JsonContainerInit} from './json-container.js';
+import {JsonContainer} from './json-container.js';
 
 export interface BrowserJsonParamInit<TValue>
   extends JsonContainerInit<TValue> {

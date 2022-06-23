@@ -1,10 +1,10 @@
 import type {JSX} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
-import {Button} from './button';
-import {Form} from './form';
-import {GridItem} from './grid-item';
-import {Icon} from './icon';
-import {TextField} from './text-field';
+import {Button} from './button.js';
+import {Form} from './form.js';
+import {GridItem} from './grid-item.js';
+import {Icon} from './icon.js';
+import {TextField} from './text-field.js';
 
 export interface NewCollectionFormProps {
   onCancel(): void;

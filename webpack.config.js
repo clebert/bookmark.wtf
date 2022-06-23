@@ -1,10 +1,10 @@
-// @ts-check
-
-const path = require(`path`);
-const CssMinimizerPlugin = require(`css-minimizer-webpack-plugin`);
-const HtmlWebpackPlugin = require(`html-webpack-plugin`);
-const MiniCssExtractPlugin = require(`mini-css-extract-plugin`);
-const webpack = require(`webpack`);
+import {dirname, join} from 'path';
+import {fileURLToPath} from 'url';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import ResolveTypeScriptPlugin from 'resolve-typescript-plugin';
+import webpack from 'webpack';
 
 /**
  * @param {boolean} dev
@@ -16,7 +16,7 @@ function createAppConfig(dev) {
     entry: {index: `./src/index.tsx`},
     output: {
       filename: `[name].[contenthash].js`,
-      path: path.join(__dirname, `dist/app`),
+      path: join(dirname(fileURLToPath(import.meta.url)), `dist/app`),
       publicPath: `/app/`,
     },
     plugins: [
@@ -56,7 +56,10 @@ function createAppConfig(dev) {
         },
       ],
     },
-    resolve: {extensions: [`.js`, `.json`, `.ts`, `.tsx`]},
+    resolve: {
+      extensions: [`.js`, `.json`, `.ts`, `.tsx`],
+      plugins: [new ResolveTypeScriptPlugin()],
+    },
     devtool: dev ? `eval-source-map` : `source-map`,
     optimization: {
       minimize: !dev,
@@ -66,17 +69,16 @@ function createAppConfig(dev) {
 }
 
 /**
- * @param {boolean} dev
  * @param {string} apiName
  * @returns {import('webpack').Configuration}
  */
-function createLambdaConfig(dev, apiName) {
+function createLambdaConfig(apiName) {
   return {
     target: `node`,
     node: {__dirname: false},
     entry: `./src/handlers/${apiName}.ts`,
     output: {
-      filename: `api/${apiName}.js`,
+      filename: `api/${apiName}.cjs`,
       libraryTarget: `commonjs2`,
     },
     plugins: [
@@ -94,21 +96,24 @@ function createLambdaConfig(dev, apiName) {
         },
       ],
     },
-    resolve: {extensions: [`.js`, `.json`, `.ts`, `.tsx`]},
+    resolve: {
+      extensions: [`.js`, `.json`, `.ts`, `.tsx`],
+      plugins: [new ResolveTypeScriptPlugin()],
+    },
   };
 }
 
 /**
  * @type {(_env: unknown, argv: {readonly mode?: string}) => import('webpack').Configuration[]}
  */
-module.exports = (_env, argv) => {
+export default (_env, argv) => {
   const dev = argv.mode !== `production`;
 
   process.env.NODE_ENV = dev ? `development` : argv.mode;
 
   return [
     createAppConfig(dev),
-    createLambdaConfig(dev, `redirect`),
-    createLambdaConfig(dev, `get-title`),
+    createLambdaConfig(`redirect`),
+    createLambdaConfig(`get-title`),
   ];
 };

@@ -1,4 +1,4 @@
-import {parseBookmark} from './parse-bookmark';
+import {parseBookmark} from './parse-bookmark.js';
 
 describe(`parseBookmark()`, () => {
   it(`returns a bookmark`, () => {

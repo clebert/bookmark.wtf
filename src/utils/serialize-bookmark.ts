@@ -1,4 +1,4 @@
-import type {Bookmark} from './parse-bookmark';
+import type {Bookmark} from './parse-bookmark.js';
 
 export function serializeBookmark(bookmark: Bookmark): string {
   const {title, url, ...properties} = bookmark;

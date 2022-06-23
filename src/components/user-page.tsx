@@ -1,13 +1,13 @@
 import type {JSX} from 'preact';
 import {useMemo} from 'preact/hooks';
-import {UserAPI} from '../apis/user-api';
-import type {AuthorizedAuthStore} from '../hooks/use-auth-store';
-import {useReceiver} from '../hooks/use-receiver';
-import {AppTopics} from '../pub-sub/app-topics';
-import {BookmarkList} from './bookmark-list';
-import {CollectionList} from './collection-list';
-import {Page} from './page';
-import {UserTopbar} from './user-topbar';
+import {UserAPI} from '../apis/user-api.js';
+import type {AuthorizedAuthStore} from '../hooks/use-auth-store.js';
+import {useReceiver} from '../hooks/use-receiver.js';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import {BookmarkList} from './bookmark-list.js';
+import {CollectionList} from './collection-list.js';
+import {Page} from './page.js';
+import {UserTopbar} from './user-topbar.js';
 
 export interface UserPageProps {
   readonly authStore: AuthorizedAuthStore;

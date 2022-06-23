@@ -1,7 +1,7 @@
-import {AppTopics} from '../pub-sub/app-topics';
-import {GET_USER} from '../queries/get-user';
-import type {GetUserQuery, GetUserQueryVariables} from '../queries/types';
-import {createGithubClient} from '../utils/create-github-client';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import {GET_USER} from '../queries/get-user.js';
+import type {GetUserQuery, GetUserQueryVariables} from '../queries/types.js';
+import {createGithubClient} from '../utils/create-github-client.js';
 
 export class UserAPI {
   static async init(token: string): Promise<UserAPI> {

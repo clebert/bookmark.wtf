@@ -1,12 +1,12 @@
 import type {JSX} from 'preact';
 import {useMemo, useState} from 'preact/hooks';
-import {useSender} from '../hooks/use-sender';
-import {Button} from './button';
-import {Form} from './form';
-import {GetTitleButton} from './get-title-button';
-import {GridItem} from './grid-item';
-import {Icon} from './icon';
-import {TextField} from './text-field';
+import {useSender} from '../hooks/use-sender.js';
+import {Button} from './button.js';
+import {Form} from './form.js';
+import {GetTitleButton} from './get-title-button.js';
+import {GridItem} from './grid-item.js';
+import {Icon} from './icon.js';
+import {TextField} from './text-field.js';
 
 export interface EditBookmarkFormProps {
   readonly initialTitle: string;

@@ -3,13 +3,13 @@ import {useMemo} from 'preact/hooks';
 import type {
   ReadyGistsStore,
   UpdatingGistsStore,
-} from '../hooks/use-gists-store';
-import {useToggle} from '../hooks/use-toggle';
-import {Button} from './button';
-import {GridItem} from './grid-item';
-import {Icon} from './icon';
-import {Label} from './label';
-import {NewCollectionForm} from './new-collection-form';
+} from '../hooks/use-gists-store.js';
+import {useToggle} from '../hooks/use-toggle.js';
+import {Button} from './button.js';
+import {GridItem} from './grid-item.js';
+import {Icon} from './icon.js';
+import {Label} from './label.js';
+import {NewCollectionForm} from './new-collection-form.js';
 
 export interface CollectionControlProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;

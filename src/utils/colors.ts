@@ -1,4 +1,4 @@
-import {join} from './join';
+import {join} from './join.js';
 
 export type TextTheme = 'link' | 'danger' | 'success';
 export type BorderTheme = 'danger' | 'success' | 'highlight' | 'hidden';

@@ -1,5 +1,5 @@
-import type {API} from './api';
-import {app} from './app';
+import type {API} from './api.js';
+import {app} from './app.js';
 
 export async function takeScreenshot(
   api: API,

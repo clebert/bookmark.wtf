@@ -1,7 +1,7 @@
 import type {JSX} from 'preact';
 import {useCallback, useEffect, useRef} from 'preact/hooks';
-import {Colors} from '../utils/colors';
-import {join} from '../utils/join';
+import {Colors} from '../utils/colors.js';
+import {join} from '../utils/join.js';
 
 export interface TextFieldProps {
   readonly class?: string;

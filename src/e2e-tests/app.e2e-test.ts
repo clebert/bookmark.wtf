@@ -1,10 +1,10 @@
 import speakeasy from 'speakeasy';
-import {assertIsString} from '../utils/assert-is-string';
-import {API} from './api';
-import {app} from './app';
-import {containsText} from './contains-text';
-import {github} from './github';
-import {takeScreenshot} from './take-screenshot';
+import {assertIsString} from '../utils/assert-is-string.js';
+import {API} from './api.js';
+import {app} from './app.js';
+import {containsText} from './contains-text.js';
+import {github} from './github.js';
+import {takeScreenshot} from './take-screenshot.js';
 
 const origin = process.env.E2E_TEST_ORIGIN;
 

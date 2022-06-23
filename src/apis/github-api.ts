@@ -1,4 +1,4 @@
-import {AppTopics} from '../pub-sub/app-topics';
+import {AppTopics} from '../pub-sub/app-topics.js';
 
 export interface GithubAPIRequest {
   readonly method: 'POST' | 'PATCH' | 'DELETE';

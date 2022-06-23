@@ -1,12 +1,9 @@
-// @ts-check
-
 import {
   editorconfig,
   eslint,
   git,
   github,
   ignore,
-  javascript,
   jest,
   node,
   npm,
@@ -16,27 +13,45 @@ import {
   typescript,
   vscode,
 } from '@onecfg/standard';
-import {mergeContent, onecfg} from 'onecfg';
+import {mergeContent, writeFiles} from 'onecfg';
 
-onecfg(
+const target = `es2019`;
+
+writeFiles(
   ...editorconfig(),
   ...eslint(),
   ...git(),
   ...github({omitReleaseStep: true}),
   ...ignore(`dist`),
-  ...javascript({target: {ecmaVersion: `es2019`, moduleType: `es2020`}}),
   ...jest(),
   ...node({nodeVersion: `16`}),
   ...npm(),
   ...preact(),
   ...prettier(),
-  ...swc(),
-  ...typescript({sourceMap: true}),
-  ...vscode({showFilesInEditor: false}),
+  ...swc({target}),
+  ...typescript({target}),
+  ...vscode({includeFilesInExplorer: false}),
+
+  mergeContent(typescript.configFile, {compilerOptions: {skipLibCheck: true}}),
 
   mergeContent(eslint.ignoreFile, [`src/queries/types.d.ts`]),
   mergeContent(git.ignoreFile, [`.envrc`]),
   mergeContent(swc.configFile, {jsc: {externalHelpers: true}}),
+
+  mergeContent(npm.packageFile, {
+    scripts: {
+      'build:dev': `webpack --mode development`,
+      'prebuild:prod': `rm -rf dist`,
+      'build:prod': `webpack --mode production`,
+      'codegen': `graphql-codegen --config codegen.yml`,
+      'postcodegen': `npm run format:write`,
+      'predeploy': `npm run build:prod && cdk bootstrap --app 'npx aws-simple synth' && cdk diff --app 'npx aws-simple synth' --no-asset-metadata`,
+      'deploy': `cdk deploy --app 'npx aws-simple synth' --no-asset-metadata`,
+      'postdeploy': `aws-simple upload --yes && aws-simple redeploy --yes`,
+      'e2e-test': `jest --config jest-e2e-test.config.js`,
+      'start': `node --enable-source-maps $(npm bin)/aws-simple start`,
+    },
+  }),
 
   mergeContent(github.ciFile, {
     jobs: {

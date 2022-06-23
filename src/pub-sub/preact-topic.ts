@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'preact/hooks';
-import {Topic} from './topic';
+import {Topic} from './topic.js';
 
 export class PreactTopic<TValue> extends Topic<TValue> {
   use(): TValue {

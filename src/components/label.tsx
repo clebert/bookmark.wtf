@@ -1,6 +1,6 @@
 import type {ComponentChildren, JSX} from 'preact';
-import {Colors} from '../utils/colors';
-import {join} from '../utils/join';
+import {Colors} from '../utils/colors.js';
+import {join} from '../utils/join.js';
 
 export interface TextProps {
   readonly children: ComponentChildren;

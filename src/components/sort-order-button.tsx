@@ -1,8 +1,8 @@
 import type {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';
-import {AppTopics} from '../pub-sub/app-topics';
-import {Button} from './button';
-import {Icon} from './icon';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import {Button} from './button.js';
+import {Icon} from './icon.js';
 
 const titles = {
   timeAsc: `Sorting by time (ascending)`,

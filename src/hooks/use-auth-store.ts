@@ -1,7 +1,7 @@
 import {useMemo, useState} from 'preact/hooks';
-import {AppTopics} from '../pub-sub/app-topics';
-import {beginAuthorization} from '../utils/begin-authorization';
-import {useTransition} from './use-transition';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import {beginAuthorization} from '../utils/begin-authorization.js';
+import {useTransition} from './use-transition.js';
 
 export type AuthStore =
   | AuthorizedAuthStore

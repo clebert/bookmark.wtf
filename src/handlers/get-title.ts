@@ -1,7 +1,7 @@
 import type {APIGatewayEvent, APIGatewayProxyResult} from 'aws-lambda';
 import fetch from 'node-fetch';
-import {getLambdaParam} from '../utils/get-lambda-param';
-import {parseTitle} from '../utils/parse-title';
+import {getLambdaParam} from '../utils/get-lambda-param.js';
+import {parseTitle} from '../utils/parse-title.js';
 
 export async function handler(
   event: APIGatewayEvent,

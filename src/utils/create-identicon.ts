@@ -1,7 +1,8 @@
 import Identicon from 'identicon.js';
-import {createHash} from './create-hash';
+import {createHash} from './create-hash.js';
 
 export async function createIdenticon(url: string): Promise<string> {
+  // @ts-ignore
   const identicon = new Identicon(await createHash(new URL(url).hostname), {
     size: 64,
     format: `svg`,

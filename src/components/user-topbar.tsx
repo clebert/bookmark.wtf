@@ -1,13 +1,13 @@
 import type {JSX} from 'preact';
-import type {AuthorizedAuthStore} from '../hooks/use-auth-store';
-import {AppTopics} from '../pub-sub/app-topics';
-import {Button} from './button';
-import {ColorSchemeButton} from './color-scheme-button';
-import {Headline} from './headline';
-import {Icon} from './icon';
-import {SearchForm} from './search-form';
-import {Topbar} from './topbar';
-import {TopbarItem} from './topbar-item';
+import type {AuthorizedAuthStore} from '../hooks/use-auth-store.js';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import {Button} from './button.js';
+import {ColorSchemeButton} from './color-scheme-button.js';
+import {Headline} from './headline.js';
+import {Icon} from './icon.js';
+import {SearchForm} from './search-form.js';
+import {TopbarItem} from './topbar-item.js';
+import {Topbar} from './topbar.js';
 
 export interface UserTopbarProps {
   readonly authStore: AuthorizedAuthStore;

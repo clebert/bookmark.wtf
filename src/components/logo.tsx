@@ -1,5 +1,5 @@
 import type {JSX} from 'preact';
-import {Colors} from '../utils/colors';
+import {Colors} from '../utils/colors.js';
 
 export function Logo(): JSX.Element {
   return (

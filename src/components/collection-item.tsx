@@ -1,19 +1,19 @@
 import type {JSX} from 'preact';
 import {useCallback, useMemo} from 'preact/hooks';
-import type {ShallowGist} from '../apis/gists-api';
+import type {ShallowGist} from '../apis/gists-api.js';
 import type {
   ReadyGistsStore,
   UpdatingGistsStore,
-} from '../hooks/use-gists-store';
-import {useTimer} from '../hooks/use-timer';
-import {useToggle} from '../hooks/use-toggle';
-import {AppTopics} from '../pub-sub/app-topics';
-import {DeleteButton} from './delete-button';
-import {EditButton} from './edit-button';
-import {EditCollectionForm} from './edit-collection-form';
-import {GridItem} from './grid-item';
-import {Icon} from './icon';
-import {Link} from './link';
+} from '../hooks/use-gists-store.js';
+import {useTimer} from '../hooks/use-timer.js';
+import {useToggle} from '../hooks/use-toggle.js';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import {DeleteButton} from './delete-button.js';
+import {EditButton} from './edit-button.js';
+import {EditCollectionForm} from './edit-collection-form.js';
+import {GridItem} from './grid-item.js';
+import {Icon} from './icon.js';
+import {Link} from './link.js';
 
 export interface CollectionItemProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;

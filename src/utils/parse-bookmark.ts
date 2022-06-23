@@ -1,5 +1,5 @@
-import {isNumber} from './is-number';
-import {isRecord} from './is-record';
+import {isNumber} from './is-number.js';
+import {isRecord} from './is-record.js';
 
 export interface Bookmark {
   readonly title: string;

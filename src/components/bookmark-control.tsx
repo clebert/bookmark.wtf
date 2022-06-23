@@ -5,19 +5,19 @@ import type {
   LockedGistStore,
   ReadyGistStore,
   UpdatingGistStore,
-} from '../hooks/use-gist-store';
-import {useToggle} from '../hooks/use-toggle';
-import {AppTopics} from '../pub-sub/app-topics';
-import {createRandomValue} from '../utils/create-random-value';
-import type {Bookmark} from '../utils/parse-bookmark';
-import {serializeBookmark} from '../utils/serialize-bookmark';
-import {Button} from './button';
-import {GridItem} from './grid-item';
-import {Icon} from './icon';
-import {Label} from './label';
-import {NewBookmarkForm} from './new-bookmark-form';
-import {PasteBookmarkButton} from './paste-bookmark-button';
-import {SortOrderButton} from './sort-order-button';
+} from '../hooks/use-gist-store.js';
+import {useToggle} from '../hooks/use-toggle.js';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import {createRandomValue} from '../utils/create-random-value.js';
+import type {Bookmark} from '../utils/parse-bookmark.js';
+import {serializeBookmark} from '../utils/serialize-bookmark.js';
+import {Button} from './button.js';
+import {GridItem} from './grid-item.js';
+import {Icon} from './icon.js';
+import {Label} from './label.js';
+import {NewBookmarkForm} from './new-bookmark-form.js';
+import {PasteBookmarkButton} from './paste-bookmark-button.js';
+import {SortOrderButton} from './sort-order-button.js';
 
 export interface BookmarkControlProps {
   readonly gistName: string;

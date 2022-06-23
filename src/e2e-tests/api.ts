@@ -1,4 +1,6 @@
+// @ts-ignore
 import type {Browser, Page} from 'playwright-webkit';
+// @ts-ignore
 import {webkit} from 'playwright-webkit';
 import type {NodeSet} from 'sonnar';
 

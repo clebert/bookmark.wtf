@@ -1,11 +1,11 @@
 import type {JSX} from 'preact';
 import {useMemo} from 'preact/hooks';
-import type {GistStore} from '../hooks/use-gist-store';
-import {AppTopics} from '../pub-sub/app-topics';
-import {createRandomValue} from '../utils/create-random-value';
-import {serializeBookmark} from '../utils/serialize-bookmark';
-import {Button} from './button';
-import {Icon} from './icon';
+import type {GistStore} from '../hooks/use-gist-store.js';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import {createRandomValue} from '../utils/create-random-value.js';
+import {serializeBookmark} from '../utils/serialize-bookmark.js';
+import {Button} from './button.js';
+import {Icon} from './icon.js';
 
 export interface PasteBookmarkButtonProps {
   readonly gistStore: GistStore;

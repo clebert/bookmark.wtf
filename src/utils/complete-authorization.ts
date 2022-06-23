@@ -1,5 +1,5 @@
 import cookie from 'cookie';
-import {AppTopics} from '../pub-sub/app-topics';
+import {AppTopics} from '../pub-sub/app-topics.js';
 
 export function completeAuthorization(): void {
   const searchParams = new URLSearchParams(window.location.search);

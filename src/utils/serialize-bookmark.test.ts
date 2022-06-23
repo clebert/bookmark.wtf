@@ -1,5 +1,5 @@
-import {parseBookmark} from './parse-bookmark';
-import {serializeBookmark} from './serialize-bookmark';
+import {parseBookmark} from './parse-bookmark.js';
+import {serializeBookmark} from './serialize-bookmark.js';
 
 describe(`serializeBookmark()`, () => {
   it(`returns a string`, () => {

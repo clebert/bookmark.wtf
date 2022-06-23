@@ -1,15 +1,15 @@
 import type {JSX} from 'preact';
 import {useEffect, useMemo} from 'preact/hooks';
-import type {AuthorizedAuthStore} from '../hooks/use-auth-store';
-import {useGistStore} from '../hooks/use-gist-store';
-import {AppTopics} from '../pub-sub/app-topics';
-import {compareClickCount} from '../utils/compare-click-count';
-import {compareTime} from '../utils/compare-time';
-import {parseBookmark} from '../utils/parse-bookmark';
-import {BookmarkControl} from './bookmark-control';
-import type {BookmarkFile} from './bookmark-item';
-import {BookmarkItem} from './bookmark-item';
-import {Grid} from './grid';
+import type {AuthorizedAuthStore} from '../hooks/use-auth-store.js';
+import {useGistStore} from '../hooks/use-gist-store.js';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import {compareClickCount} from '../utils/compare-click-count.js';
+import {compareTime} from '../utils/compare-time.js';
+import {parseBookmark} from '../utils/parse-bookmark.js';
+import {BookmarkControl} from './bookmark-control.js';
+import type {BookmarkFile} from './bookmark-item.js';
+import {BookmarkItem} from './bookmark-item.js';
+import {Grid} from './grid.js';
 
 export interface BookmarkListProps {
   readonly authStore: AuthorizedAuthStore;

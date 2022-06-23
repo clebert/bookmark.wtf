@@ -1,13 +1,13 @@
-import {ensure} from '../utils/ensure';
-import {isBookmark} from '../utils/is-bookmark';
-import {isLiteral} from '../utils/is-literal';
-import {isNonEmptyString} from '../utils/is-non-empty-string';
-import {isString} from '../utils/is-string';
-import type {Bookmark} from '../utils/parse-bookmark';
-import {BrowserJsonItem} from './browser-json-item';
-import {BrowserJsonParam} from './browser-json-param';
-import {BrowserPathname} from './browser-pathname';
-import {PreactTopic} from './preact-topic';
+import {ensure} from '../utils/ensure.js';
+import {isBookmark} from '../utils/is-bookmark.js';
+import {isLiteral} from '../utils/is-literal.js';
+import {isNonEmptyString} from '../utils/is-non-empty-string.js';
+import {isString} from '../utils/is-string.js';
+import type {Bookmark} from '../utils/parse-bookmark.js';
+import {BrowserJsonItem} from './browser-json-item.js';
+import {BrowserJsonParam} from './browser-json-param.js';
+import {BrowserPathname} from './browser-pathname.js';
+import {PreactTopic} from './preact-topic.js';
 
 export interface AppTopics {
   readonly bookmark: PreactTopic<Bookmark | undefined>;

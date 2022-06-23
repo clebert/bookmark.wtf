@@ -1,10 +1,10 @@
 import equal from 'fast-deep-equal';
 import type {JSX} from 'preact';
 import {useCallback, useMemo} from 'preact/hooks';
-import {AppTopics} from '../pub-sub/app-topics';
-import type {Bookmark} from '../utils/parse-bookmark';
-import {Button} from './button';
-import {Icon} from './icon';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import type {Bookmark} from '../utils/parse-bookmark.js';
+import {Button} from './button.js';
+import {Icon} from './icon.js';
 
 export interface CopyBookmarkButtonProps {
   readonly bookmark: Bookmark;
