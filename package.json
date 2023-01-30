@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "node onecfg.js",
     "ci": "run-p compile:check format:check lint test",
     "compile:check": "tsc --pretty",
     "format:check": "prettier --check .",
@@ -37,7 +36,6 @@
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "^2.5.1",
     "@graphql-codegen/typescript-operations": "^2.4.2",
-    "@onecfg/standard": "^6.3.0",
     "@swc/core": "^1.2.204",
     "@swc/helpers": "^0.4.2",
     "@swc/jest": "^0.2.21",

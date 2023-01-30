@@ -1,0 +1,20 @@
+{
+  "jsc": {
+    "externalHelpers": true,
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true
+    },
+    "target": "es2019",
+    "transform": {
+      "react": {
+        "importSource": "preact",
+        "runtime": "automatic"
+      }
+    }
+  },
+  "module": {
+    "type": "es6"
+  },
+  "sourceMaps": true
+}
