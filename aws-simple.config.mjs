@@ -1,6 +1,3 @@
-/** @type {import('aws-simple').Throttling}*/
-const throttling = {burstLimit: 5, rateLimit: 10};
-
 /** @type {import('aws-simple').ConfigFileDefaultExport} */
 export default () => ({
   hostedZoneName: `bookmark.wtf`,
@@ -34,7 +31,7 @@ export default () => ({
       timeoutInSeconds: 3,
       environment: {NODE_OPTIONS: `--enable-source-maps`},
       requestParameters: {url: {required: true}},
-      throttling,
+      throttling: {burstLimit: 5, rateLimit: 10},
     },
     {
       type: `function`,
@@ -45,7 +42,7 @@ export default () => ({
       timeoutInSeconds: 3,
       environment: {NODE_OPTIONS: `--enable-source-maps`},
       requestParameters: {code: {required: true}, state: {required: true}},
-      throttling,
+      throttling: {burstLimit: 5, rateLimit: 10},
     },
   ],
 });
