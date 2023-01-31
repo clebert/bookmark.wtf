@@ -5,8 +5,8 @@
     "resolveJsonModule": true
   },
   "exclude": [
-    "coverage",
-    "dist"
+    "dist",
+    "coverage"
   ],
   "extends": "./tsconfig.base.json",
   "include": [
