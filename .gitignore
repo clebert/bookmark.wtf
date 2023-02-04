@@ -1,4 +1,4 @@
-/.envrc
 /coverage
-/dist
 /node_modules
+/dist
+/.envrc
