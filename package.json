@@ -19,7 +19,7 @@
     "deploy": "cdk deploy --app 'npx aws-simple synth' --no-asset-metadata",
     "postdeploy": "aws-simple upload --yes && aws-simple redeploy --yes",
     "e2e-test": "jest --config jest-e2e-test.config.js",
-    "start": "node --enable-source-maps $(npm bin)/aws-simple start"
+    "start": "aws-simple start"
   },
   "dependencies": {
     "@urql/core": "^3.1.1",
