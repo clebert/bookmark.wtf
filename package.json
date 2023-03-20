@@ -9,7 +9,7 @@
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
     "lint": "eslint .",
-    "test": "jest --silent --passWithNoTests",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --silent",
     "build:dev": "webpack --mode development",
     "prebuild:prod": "rm -rf dist",
     "build:prod": "webpack --mode production",
@@ -18,7 +18,7 @@
     "predeploy": "npm run build:prod && cdk bootstrap --app 'npx aws-simple synth' && cdk diff --app 'npx aws-simple synth' --no-asset-metadata",
     "deploy": "cdk deploy --app 'npx aws-simple synth' --no-asset-metadata",
     "postdeploy": "aws-simple upload --yes && aws-simple redeploy --yes",
-    "e2e-test": "jest --config jest-e2e-test.config.js",
+    "e2e-test": "NODE_OPTIONS=--experimental-vm-modules jest --config jest-e2e-test.config.js",
     "start": "aws-simple start"
   },
   "dependencies": {
@@ -66,7 +66,7 @@
     "postcss-loader": "^7.1.0",
     "prettier": "^2.8.5",
     "resolve-typescript-plugin": "^2.0.1",
-    "sonnar": "^0.7.0",
+    "sonnar": "^1.0.0",
     "speakeasy": "^2.0.0",
     "start-server-and-test": "^2.0.0",
     "swc-loader": "^0.2.3",
