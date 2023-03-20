@@ -4,7 +4,6 @@
     "allowUnusedLabels": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "importsNotUsedAsValues": "error",
     "isolatedModules": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
@@ -20,6 +19,7 @@
     "pretty": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2019"
+    "target": "es2019",
+    "verbatimModuleSyntax": true
   }
 }
