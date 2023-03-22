@@ -1,14 +1,13 @@
-// @ts-ignore
+import {expect} from '@jest/globals';
 import type {Browser, Page} from 'playwright-webkit';
-// @ts-ignore
 import {webkit} from 'playwright-webkit';
 import type {NodeSet} from 'sonnar';
 
-export class API {
-  static async webkit(): Promise<API> {
+export class Session {
+  static async webkit(): Promise<Session> {
     const browser = await webkit.launch();
 
-    return new API(browser, await browser.newPage());
+    return new Session(browser, await browser.newPage());
   }
 
   private constructor(readonly browser: Browser, readonly page: Page) {}

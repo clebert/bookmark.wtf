@@ -38,6 +38,15 @@
         "value": ["/dist"]
       }
     ],
+    ".prettierrc.json": [
+      {
+        "value": {
+          "overrides": [
+            {"files": "**/*.e2e-test.ts", "options": {"printWidth": 120}}
+          ]
+        }
+      }
+    ],
     ".swcrc": [
       {
         "value": {"jsc": {"externalHelpers": true, "target": "es2019"}}

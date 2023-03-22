@@ -1,3 +1,4 @@
+import {describe, expect, it} from '@jest/globals';
 import {parseBookmark} from './parse-bookmark.js';
 import {serializeBookmark} from './serialize-bookmark.js';
 

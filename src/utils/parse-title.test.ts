@@ -1,3 +1,4 @@
+import {describe, expect, it} from '@jest/globals';
 import {parseTitle} from './parse-title.js';
 
 describe(`parseTitle()`, () => {
