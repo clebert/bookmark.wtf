@@ -3,7 +3,7 @@ on:
   - push
   - pull_request
 jobs:
-  ci:
+  CI:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
