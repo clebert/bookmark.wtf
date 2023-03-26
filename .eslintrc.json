@@ -159,8 +159,11 @@
           [
             "builtin",
             "external",
+            "internal",
             "parent",
-            "sibling"
+            "sibling",
+            "index",
+            "object"
           ]
         ],
         "newlines-between": "always",
