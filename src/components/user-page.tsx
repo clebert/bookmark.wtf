@@ -22,7 +22,7 @@ export function UserPage({authStore}: UserPageProps): JSX.Element {
   );
 
   if (userReceiver.state === `failed`) {
-    throw userReceiver.reason;
+    throw userReceiver.error;
   }
 
   const gistName = AppTopics.gistName.use();

@@ -73,44 +73,64 @@ export function useGistStore(
   const transition = useTransition(user, gistAPIReceiver, gistAPISender);
 
   const createFile = (filename: string, text: string) =>
-    transition(() =>
-      gistAPISender.send?.(gistAPIReceiver.value!.createFile(filename, text)),
-    );
+    transition(() => {
+      if (
+        gistAPIReceiver.state === `successful` &&
+        gistAPISender.state !== `sending`
+      ) {
+        gistAPISender.send(gistAPIReceiver.value.createFile(filename, text));
+      }
+    });
 
   const updateFile = (
     filename: string,
     text: string,
     skipLocalUpdate?: boolean,
   ) =>
-    transition(() =>
-      gistAPISender.send?.(
-        gistAPIReceiver.value!.updateFile(filename, text, skipLocalUpdate),
-      ),
-    );
+    transition(() => {
+      if (
+        gistAPIReceiver.state === `successful` &&
+        gistAPISender.state !== `sending`
+      ) {
+        gistAPISender.send(
+          gistAPIReceiver.value.updateFile(filename, text, skipLocalUpdate),
+        );
+      }
+    });
 
   const deleteFile = (filename: string) =>
-    transition(() =>
-      gistAPISender.send?.(gistAPIReceiver.value!.deleteFile(filename)),
-    );
+    transition(() => {
+      if (
+        gistAPIReceiver.state === `successful` &&
+        gistAPISender.state !== `sending`
+      ) {
+        gistAPISender.send(gistAPIReceiver.value.deleteFile(filename));
+      }
+    });
 
   const bind = useBinder();
 
   const forkGist = () =>
-    transition(() =>
-      gistAPISender.send?.(
-        gistAPIReceiver
-          .value!.forkGist()
-          .then(bind(AppTopics.gistName.publish)),
-      ),
-    );
+    transition(() => {
+      if (
+        gistAPIReceiver.state === `successful` &&
+        gistAPISender.state !== `sending`
+      ) {
+        gistAPISender.send(
+          gistAPIReceiver.value
+            .forkGist()
+            .then(bind(AppTopics.gistName.publish)),
+        );
+      }
+    });
 
   return useMemo(() => {
     if (gistAPIReceiver.state === `failed`) {
-      return {state: `failed`, reason: gistAPIReceiver.reason};
+      return {state: `failed`, reason: gistAPIReceiver.error};
     }
 
     if (gistAPISender.state === `failed`) {
-      return {state: `failed`, reason: gistAPISender.reason};
+      return {state: `failed`, reason: gistAPISender.error};
     }
 
     if (gistAPIReceiver.state === `receiving`) {

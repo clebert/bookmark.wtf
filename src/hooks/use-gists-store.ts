@@ -51,29 +51,44 @@ export function useGistsStore(
   const transition = useTransition(gistsAPIReceiver, gistsAPISender);
 
   const createGist = (description: string) =>
-    transition(() =>
-      gistsAPISender.send?.(gistsAPIReceiver.value!.createGist(description)),
-    );
+    transition(() => {
+      if (
+        gistsAPIReceiver.state === `successful` &&
+        gistsAPISender.state !== `sending`
+      ) {
+        gistsAPISender.send?.(gistsAPIReceiver.value.createGist(description));
+      }
+    });
 
   const updateGist = (gistName: string, description: string) =>
-    transition(() =>
-      gistsAPISender.send?.(
-        gistsAPIReceiver.value!.updateGist(gistName, description),
-      ),
-    );
+    transition(() => {
+      if (
+        gistsAPIReceiver.state === `successful` &&
+        gistsAPISender.state !== `sending`
+      ) {
+        gistsAPISender.send(
+          gistsAPIReceiver.value.updateGist(gistName, description),
+        );
+      }
+    });
 
   const deleteGist = (gistName: string) =>
-    transition(() =>
-      gistsAPISender.send?.(gistsAPIReceiver.value!.deleteGist(gistName)),
-    );
+    transition(() => {
+      if (
+        gistsAPIReceiver.state === `successful` &&
+        gistsAPISender.state !== `sending`
+      ) {
+        gistsAPISender.send(gistsAPIReceiver.value.deleteGist(gistName));
+      }
+    });
 
   return useMemo(() => {
     if (gistsAPIReceiver.state === `failed`) {
-      return {state: `failed`, reason: gistsAPIReceiver.reason};
+      return {state: `failed`, reason: gistsAPIReceiver.error};
     }
 
     if (gistsAPISender.state === `failed`) {
-      return {state: `failed`, reason: gistsAPISender.reason};
+      return {state: `failed`, reason: gistsAPISender.error};
     }
 
     if (gistsAPIReceiver.state === `receiving`) {
