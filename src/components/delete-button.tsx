@@ -1,4 +1,5 @@
 import type {JSX} from 'preact';
+
 import {Button} from './button.js';
 import {Icon} from './icon.js';
 

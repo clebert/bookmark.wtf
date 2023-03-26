@@ -1,7 +1,8 @@
-import {expect} from '@jest/globals';
 import type {Browser, Page} from 'playwright-webkit';
-import {webkit} from 'playwright-webkit';
 import type {NodeSet} from 'sonnar';
+
+import {expect} from '@jest/globals';
+import {webkit} from 'playwright-webkit';
 
 export class Session {
   static async webkit(): Promise<Session> {

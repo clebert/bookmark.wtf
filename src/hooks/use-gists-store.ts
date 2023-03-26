@@ -1,11 +1,12 @@
-import {useMemo} from 'preact/hooks';
+import type {AuthorizedAuthStore} from './use-auth-store.js';
 import type {GistFile} from '../apis/gist-api.js';
 import type {ShallowGist} from '../apis/gists-api.js';
-import {GistsAPI} from '../apis/gists-api.js';
-import type {AuthorizedAuthStore} from './use-auth-store.js';
+
 import {useReceiver} from './use-receiver.js';
 import {useSender} from './use-sender.js';
 import {useTransition} from './use-transition.js';
+import {GistsAPI} from '../apis/gists-api.js';
+import {useMemo} from 'preact/hooks';
 
 export type GistsStore =
   | LoadingGistsStore

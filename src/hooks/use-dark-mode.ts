@@ -1,5 +1,5 @@
-import {useEffect, useState} from 'preact/hooks';
 import {AppTopics} from '../pub-sub/app-topics.js';
+import {useEffect, useState} from 'preact/hooks';
 
 const mediaQuery = window.matchMedia(`(prefers-color-scheme: dark)`);
 

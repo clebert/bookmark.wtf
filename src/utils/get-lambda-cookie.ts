@@ -1,4 +1,5 @@
 import type {APIGatewayEvent} from 'aws-lambda';
+
 import cookie from 'cookie';
 
 export function getLambdaCookie(

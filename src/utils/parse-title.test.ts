@@ -1,5 +1,5 @@
-import {describe, expect, it} from '@jest/globals';
 import {parseTitle} from './parse-title.js';
+import {describe, expect, it} from '@jest/globals';
 
 describe(`parseTitle()`, () => {
   it(`returns a title`, () => {

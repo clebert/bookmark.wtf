@@ -1,7 +1,8 @@
+import type {Bookmark} from './parse-bookmark.js';
+
 import {isNumber} from './is-number.js';
 import {isRecord} from './is-record.js';
 import {isString} from './is-string.js';
-import type {Bookmark} from './parse-bookmark.js';
 
 export function isBookmark(value: unknown): value is Bookmark {
   return (

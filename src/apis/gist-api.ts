@@ -1,10 +1,11 @@
+import type {GetGistQuery, GetGistQueryVariables} from '../queries/types.js';
+
+import {GithubAPI} from './github-api.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
 import {GET_GIST} from '../queries/get-gist.js';
-import type {GetGistQuery, GetGistQueryVariables} from '../queries/types.js';
 import {createGithubClient} from '../utils/create-github-client.js';
 import {isRecord} from '../utils/is-record.js';
 import {isString} from '../utils/is-string.js';
-import {GithubAPI} from './github-api.js';
 
 export interface Gist {
   readonly owner: string;

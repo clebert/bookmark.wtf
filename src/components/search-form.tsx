@@ -1,7 +1,8 @@
 import type {JSX} from 'preact';
-import {useCallback} from 'preact/hooks';
-import {AppTopics} from '../pub-sub/app-topics.js';
+
 import {TextField} from './text-field.js';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import {useCallback} from 'preact/hooks';
 
 export function SearchForm(): JSX.Element {
   const searchTerm = AppTopics.searchTerm.use();

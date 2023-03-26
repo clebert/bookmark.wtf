@@ -1,10 +1,11 @@
-import type {JSX} from 'preact';
 import type {GistFile} from '../apis/gist-api.js';
 import type {AuthorizedAuthStore} from '../hooks/use-auth-store.js';
-import {useGistsStore} from '../hooks/use-gists-store.js';
+import type {JSX} from 'preact';
+
 import {CollectionControl} from './collection-control.js';
 import {CollectionItem} from './collection-item.js';
 import {Grid} from './grid.js';
+import {useGistsStore} from '../hooks/use-gists-store.js';
 
 export interface CollectionListProps {
   readonly authStore: AuthorizedAuthStore;

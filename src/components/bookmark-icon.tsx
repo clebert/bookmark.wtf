@@ -1,9 +1,10 @@
 import type {JSX} from 'preact';
-import {useCallback, useState} from 'preact/hooks';
+
 import {useBinder} from '../hooks/use-binder.js';
 import {Colors} from '../utils/colors.js';
 import {createIdenticon} from '../utils/create-identicon.js';
 import {join} from '../utils/join.js';
+import {useCallback, useState} from 'preact/hooks';
 
 export interface BookmarkIconProps {
   readonly initialLinkUrl: string;

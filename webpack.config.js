@@ -1,9 +1,9 @@
-import {dirname, join} from 'path';
-import {fileURLToPath} from 'url';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import {dirname, join} from 'path';
 import ResolveTypeScriptPlugin from 'resolve-typescript-plugin';
+import {fileURLToPath} from 'url';
 import webpack from 'webpack';
 
 /**

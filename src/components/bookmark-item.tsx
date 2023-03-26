@@ -1,15 +1,12 @@
-import type {JSX} from 'preact';
-import {useCallback, useMemo} from 'preact/hooks';
 import type {
   ForkingGistStore,
   LockedGistStore,
   ReadyGistStore,
   UpdatingGistStore,
 } from '../hooks/use-gist-store.js';
-import {useTimer} from '../hooks/use-timer.js';
-import {useToggle} from '../hooks/use-toggle.js';
 import type {Bookmark} from '../utils/parse-bookmark.js';
-import {serializeBookmark} from '../utils/serialize-bookmark.js';
+import type {JSX} from 'preact';
+
 import {BookmarkIcon} from './bookmark-icon.js';
 import {CopyBookmarkButton} from './copy-bookmark-button.js';
 import {DeleteButton} from './delete-button.js';
@@ -18,6 +15,10 @@ import {EditButton} from './edit-button.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Link} from './link.js';
+import {useTimer} from '../hooks/use-timer.js';
+import {useToggle} from '../hooks/use-toggle.js';
+import {serializeBookmark} from '../utils/serialize-bookmark.js';
+import {useCallback, useMemo} from 'preact/hooks';
 
 export interface BookmarkItemProps {
   readonly gistStore:

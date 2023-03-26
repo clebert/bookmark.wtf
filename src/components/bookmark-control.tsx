@@ -1,16 +1,12 @@
-import type {JSX} from 'preact';
-import {useCallback, useMemo} from 'preact/hooks';
 import type {
   ForkingGistStore,
   LockedGistStore,
   ReadyGistStore,
   UpdatingGistStore,
 } from '../hooks/use-gist-store.js';
-import {useToggle} from '../hooks/use-toggle.js';
-import {AppTopics} from '../pub-sub/app-topics.js';
-import {createRandomValue} from '../utils/create-random-value.js';
 import type {Bookmark} from '../utils/parse-bookmark.js';
-import {serializeBookmark} from '../utils/serialize-bookmark.js';
+import type {JSX} from 'preact';
+
 import {Button} from './button.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
@@ -18,6 +14,11 @@ import {Label} from './label.js';
 import {NewBookmarkForm} from './new-bookmark-form.js';
 import {PasteBookmarkButton} from './paste-bookmark-button.js';
 import {SortOrderButton} from './sort-order-button.js';
+import {useToggle} from '../hooks/use-toggle.js';
+import {AppTopics} from '../pub-sub/app-topics.js';
+import {createRandomValue} from '../utils/create-random-value.js';
+import {serializeBookmark} from '../utils/serialize-bookmark.js';
+import {useCallback, useMemo} from 'preact/hooks';
 
 export interface BookmarkControlProps {
   readonly gistName: string;

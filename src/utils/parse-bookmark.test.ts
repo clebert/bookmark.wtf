@@ -1,5 +1,5 @@
-import {describe, expect, it} from '@jest/globals';
 import {parseBookmark} from './parse-bookmark.js';
+import {describe, expect, it} from '@jest/globals';
 
 describe(`parseBookmark()`, () => {
   it(`returns a bookmark`, () => {

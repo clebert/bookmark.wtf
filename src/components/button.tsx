@@ -1,4 +1,5 @@
 import type {ComponentChildren, JSX} from 'preact';
+
 import {Colors} from '../utils/colors.js';
 import {join} from '../utils/join.js';
 

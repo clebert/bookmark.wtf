@@ -1,4 +1,5 @@
 import type {Primitive} from 'sonnar';
+
 import {NodeSet, fn} from 'sonnar';
 
 export function containsText(text: string): Primitive {

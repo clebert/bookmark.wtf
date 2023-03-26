@@ -1,7 +1,8 @@
 import type {ComponentChildren, JSX} from 'preact';
+
+import {Label} from './label.js';
 import {Colors} from '../utils/colors.js';
 import {join} from '../utils/join.js';
-import {Label} from './label.js';
 
 export interface GridItemProps {
   readonly class?: string;

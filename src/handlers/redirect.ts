@@ -1,8 +1,9 @@
 import type {APIGatewayEvent, APIGatewayProxyResult} from 'aws-lambda';
-import fetch from 'node-fetch';
+
 import {assertIsString} from '../utils/assert-is-string.js';
 import {getLambdaCookie} from '../utils/get-lambda-cookie.js';
 import {getLambdaParam} from '../utils/get-lambda-param.js';
+import fetch from 'node-fetch';
 
 export async function handler(
   event: APIGatewayEvent,

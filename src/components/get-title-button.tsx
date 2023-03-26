@@ -1,9 +1,10 @@
 import type {Sender} from 'loxia';
 import type {JSX} from 'preact';
-import {useMemo} from 'preact/hooks';
-import {useBinder} from '../hooks/use-binder.js';
+
 import {Button} from './button.js';
 import {Icon} from './icon.js';
+import {useBinder} from '../hooks/use-binder.js';
+import {useMemo} from 'preact/hooks';
 
 export interface GetTitleButtonProps {
   readonly sender: Sender;

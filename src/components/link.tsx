@@ -1,7 +1,8 @@
 import type {ComponentChildren, JSX} from 'preact';
-import {useMemo} from 'preact/hooks';
+
 import {Colors} from '../utils/colors.js';
 import {join} from '../utils/join.js';
+import {useMemo} from 'preact/hooks';
 
 export interface LinkProps {
   readonly children: ComponentChildren;

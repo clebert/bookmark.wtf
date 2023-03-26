@@ -1,11 +1,11 @@
-import {afterAll, beforeAll, describe, expect, test} from '@jest/globals';
-import speakeasy from 'speakeasy';
-import {assertIsString} from '../utils/assert-is-string.js';
 import {app} from './app.js';
 import {containsText} from './contains-text.js';
 import {github} from './github.js';
 import {Session} from './session.js';
 import {takeScreenshot} from './take-screenshot.js';
+import {assertIsString} from '../utils/assert-is-string.js';
+import {afterAll, beforeAll, describe, expect, test} from '@jest/globals';
+import speakeasy from 'speakeasy';
 
 const origin = process.env.E2E_TEST_ORIGIN;
 

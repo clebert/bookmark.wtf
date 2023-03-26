@@ -1,5 +1,5 @@
 import type {JSX} from 'preact';
-import {useCallback} from 'preact/hooks';
+
 import {Button} from './button.js';
 import {ColorSchemeButton} from './color-scheme-button.js';
 import {Headline} from './headline.js';
@@ -8,6 +8,7 @@ import {Page} from './page.js';
 import {Paragraph} from './paragraph.js';
 import {TopbarItem} from './topbar-item.js';
 import {Topbar} from './topbar.js';
+import {useCallback} from 'preact/hooks';
 
 export function ErrorPage(): JSX.Element {
   const reload = useCallback(

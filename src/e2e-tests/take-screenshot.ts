@@ -1,5 +1,6 @@
-import {app} from './app.js';
 import type {Session} from './session.js';
+
+import {app} from './app.js';
 
 export async function takeScreenshot(
   session: Session,

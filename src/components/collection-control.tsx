@@ -1,15 +1,16 @@
-import type {JSX} from 'preact';
-import {useMemo} from 'preact/hooks';
 import type {
   ReadyGistsStore,
   UpdatingGistsStore,
 } from '../hooks/use-gists-store.js';
-import {useToggle} from '../hooks/use-toggle.js';
+import type {JSX} from 'preact';
+
 import {Button} from './button.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Label} from './label.js';
 import {NewCollectionForm} from './new-collection-form.js';
+import {useToggle} from '../hooks/use-toggle.js';
+import {useMemo} from 'preact/hooks';
 
 export interface CollectionControlProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;

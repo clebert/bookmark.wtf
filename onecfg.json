@@ -10,7 +10,8 @@
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-swc.json",
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-typescript.json",
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-typescript-eslint.json",
-    "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-vscode.json"
+    "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-vscode.json",
+    "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-vscode-debug.json"
   ],
   "patches": {
     "tsconfig.base.json": [

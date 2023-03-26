@@ -1,5 +1,5 @@
-import cookie from 'cookie';
 import {createRandomValue} from './create-random-value.js';
+import cookie from 'cookie';
 
 export function beginAuthorization(): void {
   const transactionId = createRandomValue();

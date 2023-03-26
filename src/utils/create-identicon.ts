@@ -1,5 +1,5 @@
-import Identicon from 'identicon.js';
 import {createHash} from './create-hash.js';
+import Identicon from 'identicon.js';
 
 export async function createIdenticon(url: string): Promise<string> {
   // @ts-ignore

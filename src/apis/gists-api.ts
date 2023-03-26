@@ -1,11 +1,12 @@
+import type {GistFile} from './gist-api.js';
+import type {GetGistsQuery, GetGistsQueryVariables} from '../queries/types.js';
+
+import {GithubAPI} from './github-api.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
 import {GET_GISTS} from '../queries/get-gists.js';
-import type {GetGistsQuery, GetGistsQueryVariables} from '../queries/types.js';
 import {createGithubClient} from '../utils/create-github-client.js';
 import {isRecord} from '../utils/is-record.js';
 import {isString} from '../utils/is-string.js';
-import type {GistFile} from './gist-api.js';
-import {GithubAPI} from './github-api.js';
 
 export interface ShallowGist {
   readonly gistName: string;

@@ -1,4 +1,5 @@
 import type {ComponentChild, ComponentChildren} from 'preact';
+
 import {Component} from 'preact';
 
 export interface ErrorBoundaryProps {

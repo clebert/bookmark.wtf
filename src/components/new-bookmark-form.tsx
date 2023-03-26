@@ -1,13 +1,14 @@
-import type {JSX} from 'preact';
-import {useMemo, useState} from 'preact/hooks';
-import {useSender} from '../hooks/use-sender.js';
 import type {Bookmark} from '../utils/parse-bookmark.js';
+import type {JSX} from 'preact';
+
 import {Button} from './button.js';
 import {Form} from './form.js';
 import {GetTitleButton} from './get-title-button.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {TextField} from './text-field.js';
+import {useSender} from '../hooks/use-sender.js';
+import {useMemo, useState} from 'preact/hooks';
 
 export interface NewBookmarkFormProps {
   onCancel(): void;

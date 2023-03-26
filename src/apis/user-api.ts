@@ -1,6 +1,7 @@
+import type {GetUserQuery, GetUserQueryVariables} from '../queries/types.js';
+
 import {AppTopics} from '../pub-sub/app-topics.js';
 import {GET_USER} from '../queries/get-user.js';
-import type {GetUserQuery, GetUserQueryVariables} from '../queries/types.js';
 import {createGithubClient} from '../utils/create-github-client.js';
 
 export class UserAPI {

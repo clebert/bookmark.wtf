@@ -1,4 +1,5 @@
 import type {Literal, Primitive} from 'sonnar';
+
 import {NodeSet} from 'sonnar';
 
 const {any, attribute} = NodeSet;
