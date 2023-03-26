@@ -1,6 +1,7 @@
 /.prettierrc.json
 /LICENSE*
 /.eslintrc.json
+/dist
 /coverage
 /jest.config.json
 /package-lock.json
@@ -10,4 +11,3 @@
 /tsconfig.eslint.json
 /.vscode/extensions.json
 /.vscode/settings.json
-/dist

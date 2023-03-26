@@ -19,7 +19,7 @@
     "pretty": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2019",
+    "target": "es2022",
     "verbatimModuleSyntax": true
   }
 }
