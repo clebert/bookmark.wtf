@@ -29,15 +29,6 @@
         "value": ["/.envrc"]
       }
     ],
-    ".prettierrc.json": [
-      {
-        "value": {
-          "overrides": [
-            {"files": "**/*.e2e-test.ts", "options": {"printWidth": 120}}
-          ]
-        }
-      }
-    ],
     ".swcrc": [
       {
         "value": {"jsc": {"externalHelpers": true}}
