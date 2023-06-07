@@ -30,7 +30,7 @@ export function SortOrderButton(): JSX.Element {
 
   return (
     <Button
-      class="SortOrderButton"
+      class="SortOrderButton border-dashed"
       title={titles[sortOrder]}
       onClick={toggleSortOrder}
     >

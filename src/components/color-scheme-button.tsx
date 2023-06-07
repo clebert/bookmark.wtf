@@ -3,8 +3,13 @@ import {Icon} from './icon.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
 import * as React from 'react';
 
-const titles = {auto: `System theme`, light: `Day theme`, dark: `Night theme`};
-const iconTypes = {auto: `cog`, light: `sun`, dark: `moon`} as const;
+const titles = {auto: `System Theme`, light: `Day Theme`, dark: `Night Theme`};
+
+const iconTypes = {
+  auto: `computerDesktop`,
+  light: `sun`,
+  dark: `moon`,
+} as const;
 
 export function ColorSchemeButton(): JSX.Element {
   const colorScheme = AppTopics.colorScheme.use();
@@ -21,7 +26,7 @@ export function ColorSchemeButton(): JSX.Element {
 
   return (
     <Button
-      class="ColorSchemeButton"
+      class="ColorSchemeButton border-dashed"
       title={titles[colorScheme]}
       onClick={toggleColorScheme}
     >
