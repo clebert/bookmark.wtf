@@ -27,11 +27,6 @@
       {
         "value": ["/.envrc"]
       }
-    ],
-    ".swcrc": [
-      {
-        "value": {"jsc": {"externalHelpers": true}}
-      }
     ]
   }
 }
