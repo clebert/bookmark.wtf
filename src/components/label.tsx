@@ -3,24 +3,17 @@ import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface TextProps extends React.PropsWithChildren {
-  readonly bold?: boolean;
   readonly static?: boolean;
 }
 
-export function Label({
-  children,
-  bold,
-  static: isStatic,
-}: TextProps): JSX.Element {
+export function Label({children, static: isStatic}: TextProps): JSX.Element {
   return (
     <label
       className={joinClassNames(
         `overflow-hidden text-ellipsis whitespace-nowrap`,
+        isStatic && `cursor-default select-none`,
         Colors.text(),
         Colors.border(`hidden`),
-        bold && `font-bold`,
-        isStatic && `cursor-default`,
-        isStatic && `select-none`,
       )}
     >
       {children}

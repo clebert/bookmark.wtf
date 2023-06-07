@@ -38,12 +38,12 @@ export function TextField({
       className={joinClassNames(
         className,
         `w-full appearance-none rounded-none px-2`,
+        disabled && `opacity-25`,
         Colors.text(),
         Colors.placeholderText(),
         Colors.border(),
         Colors.background(),
         Colors.focusOutline(),
-        disabled && `opacity-25`,
       )}
       type={type ?? `text`}
       value={value}

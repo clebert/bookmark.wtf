@@ -28,14 +28,13 @@ export function Button({
       className={joinClassNames(
         className,
         `select-none whitespace-nowrap px-2`,
+        !enabled && `cursor-default opacity-25`,
         Colors.text(theme),
         enabled && Colors.activeText(theme),
         enabled && Colors.focusOutline(),
         Colors.border(theme),
         Colors.background(),
         enabled && Colors.activeBackground(),
-        !enabled && `opacity-25`,
-        !enabled && `cursor-default`,
       )}
       type={type}
       title={title}

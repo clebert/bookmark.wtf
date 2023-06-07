@@ -19,12 +19,12 @@ export function Link({
     <a
       className={joinClassNames(
         `overflow-hidden text-ellipsis whitespace-nowrap pr-1`,
+        isStatic && `select-none`,
         Colors.text(`link`),
         Colors.activeText(`link`),
         Colors.focusOutline(),
         Colors.border(`hidden`),
         Colors.activeBackground(),
-        isStatic && `select-none`,
       )}
       href={url}
       onClick={React.useMemo(
