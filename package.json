@@ -17,6 +17,7 @@
     "lint": "eslint .",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --silent",
     "e2e-test": "NODE_OPTIONS=--experimental-vm-modules jest --config jest-e2e-test.config.js",
+    "e2e-test:dev": "npm run build:dev && npx start-server-and-test 'npm start' 3000 'npm run e2e-test'",
     "start": "aws-simple start",
     "predeploy": "npm run build:prod && cdk bootstrap --app 'npx aws-simple synth' && cdk diff --app 'npx aws-simple synth' --no-asset-metadata",
     "deploy": "cdk deploy --app 'npx aws-simple synth' --no-asset-metadata",

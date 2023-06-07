@@ -15,9 +15,7 @@ jobs:
       - uses: bahmutov/npm-install@v1
       - run: npm run ci
 
-      - run: >-
-          npm run build:dev && npx start-server-and-test 'npm start' 3000 'npm
-          run e2e-test'
+      - run: npm run e2e-test:dev
         env:
           DEBUG: pw:api
           CLIENT_ID: ${{ secrets.DEV_CLIENT_ID }}
