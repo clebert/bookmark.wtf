@@ -8,7 +8,7 @@ export interface ParagraphProps extends React.PropsWithChildren {
 
 export function Paragraph({children, theme}: ParagraphProps): JSX.Element {
   return (
-    <p
+    <div
       className={join([
         Colors.text(theme),
         Colors.border(`hidden`),
@@ -17,6 +17,6 @@ export function Paragraph({children, theme}: ParagraphProps): JSX.Element {
       ])}
     >
       {children}
-    </p>
+    </div>
   );
 }
