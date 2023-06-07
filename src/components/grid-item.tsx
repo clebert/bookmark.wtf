@@ -1,6 +1,6 @@
 import {Label} from './label.js';
 import {Colors} from '../utils/colors.js';
-import {join} from '../utils/join.js';
+import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface GridItemProps {
@@ -20,11 +20,11 @@ export function GridItem({
 }: GridItemProps): JSX.Element {
   return (
     <div
-      className={join([
+      className={joinClassNames(
         className,
         `flex space-x-2 p-2 shadow`,
         Colors.shadedBackground(),
-      ])}
+      )}
     >
       {leftCol && <div className="flex shrink-0 items-center">{leftCol}</div>}
 

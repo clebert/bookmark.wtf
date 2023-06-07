@@ -1,4 +1,4 @@
-import {join} from '../utils/join.js';
+import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface TopbarProps extends React.PropsWithChildren {
@@ -8,10 +8,10 @@ export interface TopbarProps extends React.PropsWithChildren {
 export function Topbar({children, class: className}: TopbarProps): JSX.Element {
   return (
     <div
-      className={join([
+      className={joinClassNames(
         className,
         `flex flex-col space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0`,
-      ])}
+      )}
     >
       {children}
     </div>

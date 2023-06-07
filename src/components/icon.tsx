@@ -1,4 +1,4 @@
-import {join} from '../utils/join.js';
+import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface IconProps {
@@ -30,7 +30,10 @@ export interface IconProps {
 export function Icon({type, standalone}: IconProps): JSX.Element {
   return (
     <div
-      className={join([`inline-flex h-5 align-middle`, !standalone && `mr-1`])}
+      className={joinClassNames(
+        `inline-flex h-5 align-middle`,
+        !standalone && `mr-1`,
+      )}
     >
       <svg
         className="h-4 w-4 stroke-current stroke-1"

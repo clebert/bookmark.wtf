@@ -1,5 +1,5 @@
 import {Colors} from '../utils/colors.js';
-import {join} from '../utils/join.js';
+import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface LinkProps extends React.PropsWithChildren {
@@ -17,7 +17,7 @@ export function Link({
 }: LinkProps): JSX.Element {
   return (
     <a
-      className={join([
+      className={joinClassNames(
         `overflow-hidden text-ellipsis whitespace-nowrap pr-1`,
         Colors.text(`link`),
         Colors.activeText(`link`),
@@ -25,7 +25,7 @@ export function Link({
         Colors.border(`hidden`),
         Colors.activeBackground(),
         isStatic && `select-none`,
-      ])}
+      )}
       href={url}
       onClick={React.useMemo(
         () =>

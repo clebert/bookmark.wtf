@@ -1,5 +1,5 @@
 import {Colors} from '../utils/colors.js';
-import {join} from '../utils/join.js';
+import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface ButtonProps extends React.PropsWithChildren {
@@ -25,7 +25,7 @@ export function Button({
 
   return (
     <button
-      className={join([
+      className={joinClassNames(
         className,
         `select-none whitespace-nowrap px-2`,
         Colors.text(theme),
@@ -36,7 +36,7 @@ export function Button({
         enabled && Colors.activeBackground(),
         !enabled && `opacity-25`,
         !enabled && `cursor-default`,
-      ])}
+      )}
       type={type}
       title={title}
       aria-label={title}

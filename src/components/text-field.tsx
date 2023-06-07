@@ -1,5 +1,5 @@
 import {Colors} from '../utils/colors.js';
-import {join} from '../utils/join.js';
+import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface TextFieldProps {
@@ -35,7 +35,7 @@ export function TextField({
   return (
     <input
       ref={inputRef}
-      className={join([
+      className={joinClassNames(
         className,
         `w-full appearance-none rounded-none px-2`,
         Colors.text(),
@@ -44,7 +44,7 @@ export function TextField({
         Colors.background(),
         Colors.focusOutline(),
         disabled && `opacity-25`,
-      ])}
+      )}
       type={type ?? `text`}
       value={value}
       placeholder={placeholder}

@@ -1,7 +1,7 @@
 import {useBinder} from '../hooks/use-binder.js';
 import {Colors} from '../utils/colors.js';
 import {createIdenticon} from '../utils/create-identicon.js';
-import {join} from '../utils/join.js';
+import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface BookmarkIconProps {
@@ -42,11 +42,11 @@ export function BookmarkIcon({
 
   return (
     <a
-      className={join([
+      className={joinClassNames(
         `select-none`,
         Colors.background(),
         Colors.focusOutline(),
-      ])}
+      )}
       href={initialLinkUrl}
       tabIndex={-1}
       onClick={React.useCallback(
@@ -58,7 +58,7 @@ export function BookmarkIcon({
       )}
     >
       <img
-        className={join([`h-16 w-16`, hidden && `opacity-0`])}
+        className={joinClassNames(`h-16 w-16`, hidden && `opacity-0`)}
         src={imageUrl}
         onError={handleError}
         onLoad={handleLoad}

@@ -1,5 +1,5 @@
 import {Colors} from '../utils/colors.js';
-import {join} from '../utils/join.js';
+import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface TextProps extends React.PropsWithChildren {
@@ -14,14 +14,14 @@ export function Label({
 }: TextProps): JSX.Element {
   return (
     <label
-      className={join([
+      className={joinClassNames(
         `overflow-hidden text-ellipsis whitespace-nowrap`,
         Colors.text(),
         Colors.border(`hidden`),
         bold && `font-bold`,
         isStatic && `cursor-default`,
         isStatic && `select-none`,
-      ])}
+      )}
     >
       {children}
     </label>
