@@ -10,13 +10,7 @@ export function Topbar({children, class: className}: TopbarProps): JSX.Element {
     <div
       className={join([
         className,
-        `flex`,
-        `flex-col`,
-        `md:flex-row`,
-        `md:items-center`,
-        `space-y-4`,
-        `md:space-y-0`,
-        `md:space-x-4`,
+        `flex flex-col space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0`,
       ])}
     >
       {children}

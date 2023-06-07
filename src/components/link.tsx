@@ -18,15 +18,12 @@ export function Link({
   return (
     <a
       className={join([
+        `overflow-hidden text-ellipsis whitespace-nowrap pr-1`,
         Colors.text(`link`),
         Colors.activeText(`link`),
         Colors.focusOutline(),
         Colors.border(`hidden`),
         Colors.activeBackground(),
-        `pr-1`,
-        `overflow-hidden`,
-        `text-ellipsis`,
-        `whitespace-nowrap`,
         isStatic && `select-none`,
       ])}
       href={url}

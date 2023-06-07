@@ -10,7 +10,6 @@ export interface TextFieldProps {
   readonly autoFocus?: boolean;
   readonly disabled?: boolean;
   readonly required?: boolean;
-  readonly highlight?: boolean;
 
   onInput(value: string): void;
 }
@@ -23,7 +22,6 @@ export function TextField({
   autoFocus,
   disabled,
   required,
-  highlight,
   onInput,
 }: TextFieldProps): JSX.Element {
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -39,16 +37,13 @@ export function TextField({
       ref={inputRef}
       className={join([
         className,
+        `w-full appearance-none rounded-none px-2`,
         Colors.text(),
         Colors.placeholderText(),
-        Colors.border(highlight ? `highlight` : undefined),
+        Colors.border(),
         Colors.background(),
         Colors.focusOutline(),
         disabled && `opacity-25`,
-        `appearance-none`,
-        `rounded-none`,
-        `w-full`,
-        `px-2`,
       ])}
       type={type ?? `text`}
       value={value}

@@ -9,7 +9,6 @@ export interface GridItemProps {
   readonly row1: React.ReactNode;
   readonly row2?: React.ReactNode;
   readonly rightCol?: React.ReactNode;
-  readonly highlight?: boolean;
 }
 
 export function GridItem({
@@ -18,7 +17,6 @@ export function GridItem({
   row1,
   row2,
   rightCol,
-  highlight,
 }: GridItemProps): JSX.Element {
   return (
     <div
@@ -26,7 +24,6 @@ export function GridItem({
         className,
         `flex space-x-2 p-2 shadow`,
         Colors.shadedBackground(),
-        highlight && Colors.highlightRing(),
       ])}
     >
       {leftCol && <div className="flex shrink-0 items-center">{leftCol}</div>}

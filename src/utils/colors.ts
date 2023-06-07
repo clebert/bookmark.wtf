@@ -1,7 +1,7 @@
 import {join} from './join.js';
 
 export type TextTheme = 'link' | 'danger' | 'success';
-export type BorderTheme = 'danger' | 'success' | 'highlight' | 'hidden';
+export type BorderTheme = 'danger' | 'success' | 'hidden';
 
 export class Colors {
   static text(theme?: TextTheme): string {
@@ -33,17 +33,12 @@ export class Colors {
       theme === `danger` && `border border-red-300 dark:border-red-700`,
       theme === `success` &&
         `border border-emerald-300 dark:border-emerald-700`,
-      theme === `highlight` && `border border-amber-400`,
       theme === `hidden` && `border border-transparent`,
     ]);
   }
 
   static focusOutline(): string {
     return `focus:outline-blue-400 focus:outline-1 focus:outline focus:outline-offset-[-1px]`;
-  }
-
-  static highlightRing(): string {
-    return `ring-inset ring-1 ring-amber-400`;
   }
 
   static background(): string {

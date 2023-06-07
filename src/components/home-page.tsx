@@ -13,8 +13,6 @@ import {Paragraph} from './paragraph.js';
 import {TopbarItem} from './topbar-item.js';
 import {Topbar} from './topbar.js';
 import {useDarkMode} from '../hooks/use-dark-mode.js';
-import {Colors} from '../utils/colors.js';
-import {join} from '../utils/join.js';
 import * as React from 'react';
 
 export interface HomePageProps {
@@ -57,7 +55,7 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
         </Link>
       </Paragraph>
 
-      <div className={join([`max-w-5xl p-1 shadow`, Colors.highlightRing()])}>
+      <div className="max-w-5xl p-1 shadow-xl">
         <img
           className="select-none"
           src={`https://raw.githubusercontent.com/clebert/bookmark.wtf/main/screenshot-${

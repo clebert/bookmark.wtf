@@ -10,10 +10,9 @@ export function Paragraph({children, theme}: ParagraphProps): JSX.Element {
   return (
     <div
       className={join([
+        `cursor-default select-none`,
         Colors.text(theme),
         Colors.border(`hidden`),
-        `cursor-default`,
-        `select-none`,
       ])}
     >
       {children}

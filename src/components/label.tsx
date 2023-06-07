@@ -15,12 +15,10 @@ export function Label({
   return (
     <label
       className={join([
+        `overflow-hidden text-ellipsis whitespace-nowrap`,
         Colors.text(),
         Colors.border(`hidden`),
         bold && `font-bold`,
-        `overflow-hidden`,
-        `text-ellipsis`,
-        `whitespace-nowrap`,
         isStatic && `cursor-default`,
         isStatic && `select-none`,
       ])}

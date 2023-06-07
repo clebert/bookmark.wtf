@@ -10,7 +10,6 @@ import {EditCollectionForm} from './edit-collection-form.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Link} from './link.js';
-import {useTimer} from '../hooks/use-timer.js';
 import {useToggle} from '../hooks/use-toggle.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
 import * as React from 'react';
@@ -22,7 +21,7 @@ export interface CollectionItemProps {
 
 export function CollectionItem({
   gistsStore,
-  gist: {gistName, description, mtime},
+  gist: {gistName, description},
 }: CollectionItemProps): JSX.Element {
   const openCollection = React.useCallback(
     () => AppTopics.gistName.publish(gistName),
@@ -49,8 +48,6 @@ export function CollectionItem({
       gistsStore.deleteGist(gistName);
     }
   }, [gistsStore, gistName]);
-
-  const highlight = useTimer(1500, mtime);
 
   return editing ? (
     <EditCollectionForm
@@ -94,7 +91,6 @@ export function CollectionItem({
           </>
         )
       }
-      highlight={highlight}
     />
   );
 }

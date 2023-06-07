@@ -13,7 +13,6 @@ import {EditButton} from './edit-button.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Link} from './link.js';
-import {useTimer} from '../hooks/use-timer.js';
 import {useToggle} from '../hooks/use-toggle.js';
 import {serializeBookmark} from '../utils/serialize-bookmark.js';
 import * as React from 'react';
@@ -82,8 +81,6 @@ export function BookmarkItem({
     }
   }, [gistStore, filename]);
 
-  const highlight = useTimer(1500, bookmark.mtime ?? bookmark.ctime);
-
   return editing ? (
     <EditBookmarkForm
       initialTitle={bookmark.title}
@@ -131,7 +128,6 @@ export function BookmarkItem({
           </>
         )
       }
-      highlight={highlight}
     />
   );
 }
