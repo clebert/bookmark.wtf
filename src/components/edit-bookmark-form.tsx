@@ -1,10 +1,8 @@
 import {Button} from './button.js';
 import {Form} from './form.js';
-import {GetTitleButton} from './get-title-button.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {TextField} from './text-field.js';
-import {useSender} from '../hooks/use-sender.js';
 import * as React from 'react';
 
 export interface EditBookmarkFormProps {
@@ -36,8 +34,6 @@ export function EditBookmarkForm({
       : undefined;
   }, [onUpdate, currentTitle, currentUrl]);
 
-  const getTitleSender = useSender();
-
   return (
     <Form onSubmit={update}>
       <GridItem
@@ -47,7 +43,6 @@ export function EditBookmarkForm({
             value={currentUrl}
             placeholder="Enter URL"
             autoFocus
-            disabled={getTitleSender.state === `sending`}
             required
             onInput={setCurrentUrl}
           />
@@ -56,19 +51,11 @@ export function EditBookmarkForm({
           <TextField
             value={currentTitle}
             placeholder="Enter title"
-            disabled={getTitleSender.state === `sending`}
             required
             onInput={setCurrentTitle}
           />
         }
-        rightCol1={
-          <GetTitleButton
-            sender={getTitleSender}
-            url={currentUrl}
-            setTitle={setCurrentTitle}
-          />
-        }
-        rightCol2={
+        rightCol={
           <>
             <Button
               type="submit"

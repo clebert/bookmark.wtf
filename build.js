@@ -81,13 +81,11 @@ function createLambdaBuildOptions(handlerName) {
   };
 }
 
-const getTitleLambdaBuildOptions = createLambdaBuildOptions(`get-title`);
 const redirectLambdaBuildOptions = createLambdaBuildOptions(`redirect`);
 
 if (argv.includes(`--watch`)) {
   await Promise.all([
     esbuild.context(staticAppBuildOptions).then((ctx) => ctx.watch()),
-    esbuild.context(getTitleLambdaBuildOptions).then((ctx) => ctx.watch()),
     esbuild.context(redirectLambdaBuildOptions).then((ctx) => ctx.watch()),
   ]);
 } else {
@@ -95,7 +93,6 @@ if (argv.includes(`--watch`)) {
 
   await Promise.all([
     esbuild.build(staticAppBuildOptions),
-    esbuild.build(getTitleLambdaBuildOptions),
     esbuild.build(redirectLambdaBuildOptions),
   ]);
 }

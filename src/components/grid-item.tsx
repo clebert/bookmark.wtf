@@ -8,8 +8,7 @@ export interface GridItemProps {
   readonly leftCol?: React.ReactNode;
   readonly row1: React.ReactNode;
   readonly row2?: React.ReactNode;
-  readonly rightCol1?: React.ReactNode;
-  readonly rightCol2?: React.ReactNode;
+  readonly rightCol?: React.ReactNode;
   readonly highlight?: boolean;
 }
 
@@ -18,8 +17,7 @@ export function GridItem({
   leftCol,
   row1,
   row2,
-  rightCol1,
-  rightCol2,
+  rightCol,
   highlight,
 }: GridItemProps): JSX.Element {
   return (
@@ -41,12 +39,8 @@ export function GridItem({
         </div>
       </div>
 
-      {rightCol1 && (
-        <div className="flex shrink-0 flex-col space-y-4">{rightCol1}</div>
-      )}
-
-      {rightCol2 && (
-        <div className="flex shrink-0 flex-col space-y-4">{rightCol2}</div>
+      {rightCol && (
+        <div className="flex shrink-0 flex-col space-y-4">{rightCol}</div>
       )}
     </div>
   );

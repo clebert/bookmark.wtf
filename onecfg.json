@@ -13,11 +13,6 @@
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-vscode.json"
   ],
   "patches": {
-    "tsconfig.base.json": [
-      {
-        "value": {"compilerOptions": {"skipLibCheck": true}}
-      }
-    ],
     ".eslintignore": [
       {
         "value": ["/src/queries/types.d.ts"]
