@@ -4,11 +4,11 @@ import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface GridItemProps {
-  readonly className?: string;
-  readonly leftCol?: React.ReactNode;
-  readonly row1: React.ReactNode;
-  readonly row2?: React.ReactNode;
-  readonly rightCol?: React.ReactNode;
+  className?: string;
+  leftCol?: React.ReactNode;
+  row1: React.ReactNode;
+  row2?: React.ReactNode;
+  rightCol?: React.ReactNode;
 }
 
 export function GridItem({

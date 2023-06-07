@@ -10,7 +10,7 @@ import {AppTopics} from '../pub-sub/app-topics.js';
 import * as React from 'react';
 
 export interface UserPageProps {
-  readonly authStore: AuthorizedAuthStore;
+  authStore: AuthorizedAuthStore;
 }
 
 export function UserPage({authStore}: UserPageProps): JSX.Element {

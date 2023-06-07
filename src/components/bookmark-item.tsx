@@ -18,13 +18,13 @@ import {serializeBookmark} from '../utils/serialize-bookmark.js';
 import * as React from 'react';
 
 export interface BookmarkItemProps {
-  readonly gistStore:
+  gistStore:
     | ReadyGistStore
     | UpdatingGistStore
     | LockedGistStore
     | ForkingGistStore;
 
-  readonly bookmarkFile: BookmarkFile;
+  bookmarkFile: BookmarkFile;
 }
 
 export interface BookmarkFile {

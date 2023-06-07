@@ -8,7 +8,7 @@ import {useGistsStore} from '../hooks/use-gists-store.js';
 import * as React from 'react';
 
 export interface CollectionListProps {
-  readonly authStore: AuthorizedAuthStore;
+  authStore: AuthorizedAuthStore;
 }
 
 const mainFile: GistFile = {

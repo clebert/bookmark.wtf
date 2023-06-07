@@ -11,7 +11,7 @@ import {AppTopics} from '../pub-sub/app-topics.js';
 import * as React from 'react';
 
 export interface UserTopbarProps {
-  readonly authStore: AuthorizedAuthStore;
+  authStore: AuthorizedAuthStore;
 }
 
 export function UserTopbar({authStore}: UserTopbarProps): JSX.Element {

@@ -6,8 +6,8 @@ import {TextField} from './text-field.js';
 import * as React from 'react';
 
 export interface EditBookmarkFormProps {
-  readonly initialTitle: string;
-  readonly initialUrl: string;
+  initialTitle: string;
+  initialUrl: string;
 
   onCancel(): void;
   onUpdate?(title: string, url: string): void;

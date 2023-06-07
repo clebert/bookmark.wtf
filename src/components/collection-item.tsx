@@ -15,8 +15,8 @@ import {AppTopics} from '../pub-sub/app-topics.js';
 import * as React from 'react';
 
 export interface CollectionItemProps {
-  readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
-  readonly gist: ShallowGist;
+  gistsStore: ReadyGistsStore | UpdatingGistsStore;
+  gist: ShallowGist;
 }
 
 export function CollectionItem({

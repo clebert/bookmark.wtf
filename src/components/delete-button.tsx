@@ -3,8 +3,8 @@ import {Icon} from './icon.js';
 import * as React from 'react';
 
 export interface DeleteButtonProps {
-  readonly targetName: 'bookmark' | 'collection';
-  readonly verbose?: boolean;
+  targetName: 'bookmark' | 'collection';
+  verbose?: boolean;
 
   action?(): void;
 }

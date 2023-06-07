@@ -3,13 +3,13 @@ import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface TextFieldProps {
-  readonly className?: string;
-  readonly type?: 'url';
-  readonly value: string;
-  readonly placeholder?: string;
-  readonly autoFocus?: boolean;
-  readonly disabled?: boolean;
-  readonly required?: boolean;
+  className?: string;
+  type?: 'url';
+  value: string;
+  placeholder?: string;
+  autoFocus?: boolean;
+  disabled?: boolean;
+  required?: boolean;
 
   onInput(value: string): void;
 }
@@ -31,6 +31,16 @@ export function TextField({
       inputRef.current?.focus();
     }
   }, []);
+
+  const handleInput = React.useCallback<
+    React.FormEventHandler<HTMLInputElement>
+  >(
+    (event) => {
+      event.preventDefault();
+      onInput(event.currentTarget.value);
+    },
+    [onInput],
+  );
 
   const styles = React.useContext(StylesContext);
 
@@ -54,13 +64,7 @@ export function TextField({
       disabled={disabled}
       required={required}
       spellCheck={false}
-      onInput={React.useCallback(
-        (event: React.FormEvent<HTMLInputElement>) => {
-          event.preventDefault();
-          onInput((event.target as HTMLInputElement).value ?? ``);
-        },
-        [onInput],
-      )}
+      onInput={handleInput}
     />
   );
 }

@@ -3,7 +3,7 @@ import {Icon} from './icon.js';
 import * as React from 'react';
 
 export interface EditButtonProps {
-  readonly targetName: 'bookmark' | 'collection';
+  targetName: 'bookmark' | 'collection';
 
   action?(): void;
 }

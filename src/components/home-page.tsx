@@ -17,7 +17,7 @@ import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface HomePageProps {
-  readonly authStore: AuthorizingAuthStore | UnauthorizedAuthStore;
+  authStore: AuthorizingAuthStore | UnauthorizedAuthStore;
 }
 
 export function HomePage({authStore}: HomePageProps): JSX.Element {

@@ -12,9 +12,9 @@ import {parseBookmark} from '../utils/parse-bookmark.js';
 import * as React from 'react';
 
 export interface BookmarkListProps {
-  readonly authStore: AuthorizedAuthStore;
-  readonly user: string;
-  readonly gistName: string;
+  authStore: AuthorizedAuthStore;
+  user: string;
+  gistName: string;
 }
 
 export function BookmarkList({

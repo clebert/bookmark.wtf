@@ -12,7 +12,7 @@ import {useToggle} from '../hooks/use-toggle.js';
 import * as React from 'react';
 
 export interface CollectionControlProps {
-  readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
+  gistsStore: ReadyGistsStore | UpdatingGistsStore;
 }
 
 export function CollectionControl({

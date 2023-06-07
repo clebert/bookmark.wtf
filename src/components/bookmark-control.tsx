@@ -19,9 +19,9 @@ import {serializeBookmark} from '../utils/serialize-bookmark.js';
 import * as React from 'react';
 
 export interface BookmarkControlProps {
-  readonly gistName: string;
+  gistName: string;
 
-  readonly gistStore:
+  gistStore:
     | ReadyGistStore
     | UpdatingGistStore
     | LockedGistStore

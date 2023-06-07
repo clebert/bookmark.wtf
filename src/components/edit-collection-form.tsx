@@ -6,7 +6,7 @@ import {TextField} from './text-field.js';
 import * as React from 'react';
 
 export interface EditCollectionFormProps {
-  readonly initialDescription: string;
+  initialDescription: string;
 
   onCancel(): void;
   onUpdate?(description: string): void;

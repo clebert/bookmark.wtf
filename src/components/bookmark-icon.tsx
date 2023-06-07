@@ -5,7 +5,7 @@ import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface BookmarkIconProps {
-  readonly initialLinkUrl: string;
+  initialLinkUrl: string;
 
   onClick(): void;
 }
