@@ -7,7 +7,6 @@ import type {
 import type {Bookmark} from '../utils/parse-bookmark.js';
 
 import {BookmarkIcon} from './bookmark-icon.js';
-import {CopyBookmarkButton} from './copy-bookmark-button.js';
 import {DeleteButton} from './delete-button.js';
 import {EditBookmarkForm} from './edit-bookmark-form.js';
 import {EditButton} from './edit-button.js';
@@ -110,7 +109,6 @@ export function BookmarkItem({
       row2={
         deleting ? (
           <>
-            <CopyBookmarkButton bookmark={bookmark} />
             <EditButton targetName="bookmark" />
 
             <DeleteButton
@@ -121,8 +119,6 @@ export function BookmarkItem({
           </>
         ) : (
           <>
-            <CopyBookmarkButton bookmark={bookmark} />
-
             <EditButton
               targetName="bookmark"
               action={gistStore.state === `ready` ? toggleEditing : undefined}

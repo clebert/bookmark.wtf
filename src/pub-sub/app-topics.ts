@@ -1,17 +1,13 @@
-import type {Bookmark} from '../utils/parse-bookmark.js';
-
 import {BrowserJsonItem} from './browser-json-item.js';
 import {BrowserJsonParam} from './browser-json-param.js';
 import {BrowserPathname} from './browser-pathname.js';
 import {ReactTopic} from './react-topic.js';
 import {ensure} from '../utils/ensure.js';
-import {isBookmark} from '../utils/is-bookmark.js';
 import {isLiteral} from '../utils/is-literal.js';
 import {isNonEmptyString} from '../utils/is-non-empty-string.js';
 import {isString} from '../utils/is-string.js';
 
 export interface AppTopics {
-  readonly bookmark: ReactTopic<Bookmark | undefined>;
   readonly colorScheme: ReactTopic<'auto' | 'light' | 'dark'>;
   readonly gistName: ReactTopic<string>;
   readonly searchTerm: ReactTopic<string>;
@@ -20,13 +16,6 @@ export interface AppTopics {
 }
 
 export const AppTopics: AppTopics = {
-  bookmark: new ReactTopic(
-    new BrowserJsonItem({
-      key: `bookmark`,
-      output: ensure(isBookmark, undefined),
-    }),
-  ),
-
   colorScheme: new ReactTopic(
     new BrowserJsonItem({
       key: `colorScheme`,

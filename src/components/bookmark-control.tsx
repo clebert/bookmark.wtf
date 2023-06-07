@@ -11,7 +11,6 @@ import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Label} from './label.js';
 import {NewBookmarkForm} from './new-bookmark-form.js';
-import {PasteBookmarkButton} from './paste-bookmark-button.js';
 import {SortOrderButton} from './sort-order-button.js';
 import {useToggle} from '../hooks/use-toggle.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
@@ -95,7 +94,6 @@ export function BookmarkControl({
           </Button>
 
           <SortOrderButton />
-          <PasteBookmarkButton gistStore={gistStore} />
         </>
       }
     />
