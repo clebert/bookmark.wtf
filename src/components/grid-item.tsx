@@ -33,20 +33,20 @@ export function GridItem({
     >
       {leftCol && <div className="flex shrink-0 items-center">{leftCol}</div>}
 
-      <div className="flex flex-col space-y-4 w-full overflow-hidden">
-        <div className="flex space-x-2 w-full">{row1}</div>
+      <div className="flex w-full flex-col space-y-4 overflow-hidden">
+        <div className="flex w-full space-x-2">{row1}</div>
 
-        <div className="flex space-x-2 w-full">
+        <div className="flex w-full space-x-2">
           {row2 || <Label static>{`\u00A0`}</Label>}
         </div>
       </div>
 
       {rightCol1 && (
-        <div className="flex flex-col shrink-0 space-y-4">{rightCol1}</div>
+        <div className="flex shrink-0 flex-col space-y-4">{rightCol1}</div>
       )}
 
       {rightCol2 && (
-        <div className="flex flex-col shrink-0 space-y-4">{rightCol2}</div>
+        <div className="flex shrink-0 flex-col space-y-4">{rightCol2}</div>
       )}
     </div>
   );

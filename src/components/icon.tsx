@@ -37,7 +37,7 @@ export function Icon({type, standalone}: IconProps): JSX.Element {
       className={join([`inline-flex h-5 align-middle`, !standalone && `mr-1`])}
     >
       <svg
-        className="stroke-current stroke-1 w-4 h-4"
+        className="h-4 w-4 stroke-current stroke-1"
         viewBox="0 0 24 24"
         fill="none"
         strokeLinecap="round"

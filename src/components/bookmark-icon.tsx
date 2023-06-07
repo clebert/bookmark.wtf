@@ -58,7 +58,7 @@ export function BookmarkIcon({
       )}
     >
       <img
-        className={join([`w-16 h-16`, hidden && `opacity-0`])}
+        className={join([`h-16 w-16`, hidden && `opacity-0`])}
         src={imageUrl}
         onError={handleError}
         onLoad={handleLoad}
