@@ -9,7 +9,7 @@ export interface Styles {
   ): string;
 
   border(options?: {readonly transparent?: boolean}): string;
-  focus(options?: {readonly within?: boolean}): string;
+  focus(): string;
   link(): string;
 
   text(options?: {
@@ -45,10 +45,8 @@ export const StylesContext = React.createContext<Styles>({
       : `border border-gray-300 dark:border-gray-700`;
   },
 
-  focus({within} = {}) {
-    return within
-      ? `focus-within:outline focus-within:outline-1 focus-within:outline-offset-[-1px] focus-within:outline-blue-400`
-      : `focus:outline focus:outline-1 focus:outline-offset-[-1px] focus:outline-blue-400`;
+  focus() {
+    return `focus:outline focus:outline-1 focus:outline-offset-[-1px] focus:outline-blue-400`;
   },
 
   link() {
