@@ -1,8 +1,6 @@
-import type {JSX} from 'preact';
-
 import {Colors} from '../utils/colors.js';
 import {join} from '../utils/join.js';
-import {useCallback, useEffect, useRef} from 'preact/hooks';
+import * as React from 'react';
 
 export interface TextFieldProps {
   readonly class?: string;
@@ -28,9 +26,9 @@ export function TextField({
   highlight,
   onInput,
 }: TextFieldProps): JSX.Element {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (autoFocus) {
       inputRef.current?.focus();
     }
@@ -39,7 +37,7 @@ export function TextField({
   return (
     <input
       ref={inputRef}
-      class={join([
+      className={join([
         className,
         Colors.text(),
         Colors.placeholderText(),
@@ -55,13 +53,13 @@ export function TextField({
       type={type ?? `text`}
       value={value}
       placeholder={placeholder}
-      autocomplete="off"
-      autocorrect="off"
+      autoComplete="off"
+      autoCorrect="off"
       disabled={disabled}
       required={required}
-      spellcheck={false}
-      onInput={useCallback(
-        (event: Event) => {
+      spellCheck={false}
+      onInput={React.useCallback(
+        (event: React.FormEvent<HTMLInputElement>) => {
           event.preventDefault();
           onInput((event.target as HTMLInputElement).value ?? ``);
         },

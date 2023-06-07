@@ -1,10 +1,8 @@
-import type {ComponentChildren, JSX} from 'preact';
-
 import {Colors} from '../utils/colors.js';
 import {join} from '../utils/join.js';
+import * as React from 'react';
 
-export interface TextProps {
-  readonly children: ComponentChildren;
+export interface TextProps extends React.PropsWithChildren {
   readonly bold?: boolean;
   readonly static?: boolean;
 }
@@ -16,7 +14,7 @@ export function Label({
 }: TextProps): JSX.Element {
   return (
     <label
-      class={join([
+      className={join([
         Colors.text(),
         Colors.border(`hidden`),
         bold && `font-bold`,

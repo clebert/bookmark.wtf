@@ -1,13 +1,9 @@
-import type {ComponentChildren, JSX} from 'preact';
+import * as React from 'react';
 
-export interface PageProps {
-  readonly children: ComponentChildren;
-}
-
-export function Page({children}: PageProps): JSX.Element {
+export function Page({children}: React.PropsWithChildren): JSX.Element {
   return (
-    <div class="2xl:container 2xl:mx-auto">
-      <div class="flex flex-col m-4 space-y-4">{children}</div>
+    <div className="2xl:container 2xl:mx-auto">
+      <div className="flex flex-col m-4 space-y-4">{children}</div>
     </div>
   );
 }

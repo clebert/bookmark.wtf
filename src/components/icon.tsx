@@ -1,6 +1,5 @@
-import type {JSX} from 'preact';
-
 import {join} from '../utils/join.js';
+import * as React from 'react';
 
 export interface IconProps {
   readonly type:
@@ -34,13 +33,15 @@ export interface IconProps {
 // eslint-disable-next-line complexity
 export function Icon({type, standalone}: IconProps): JSX.Element {
   return (
-    <div class={join([`inline-flex h-5 align-middle`, !standalone && `mr-1`])}>
+    <div
+      className={join([`inline-flex h-5 align-middle`, !standalone && `mr-1`])}
+    >
       <svg
-        class="stroke-current stroke-1 w-4 h-4"
+        className="stroke-current stroke-1 w-4 h-4"
         viewBox="0 0 24 24"
         fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
         {type === `check` && <path d="M5 13l4 4L19 7" />}
 

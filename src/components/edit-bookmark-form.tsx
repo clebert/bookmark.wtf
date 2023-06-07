@@ -1,5 +1,3 @@
-import type {JSX} from 'preact';
-
 import {Button} from './button.js';
 import {Form} from './form.js';
 import {GetTitleButton} from './get-title-button.js';
@@ -7,7 +5,7 @@ import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {TextField} from './text-field.js';
 import {useSender} from '../hooks/use-sender.js';
-import {useMemo, useState} from 'preact/hooks';
+import * as React from 'react';
 
 export interface EditBookmarkFormProps {
   readonly initialTitle: string;
@@ -23,10 +21,10 @@ export function EditBookmarkForm({
   onCancel,
   onUpdate,
 }: EditBookmarkFormProps): JSX.Element {
-  const [currentTitle, setCurrentTitle] = useState(initialTitle);
-  const [currentUrl, setCurrentUrl] = useState(initialUrl);
+  const [currentTitle, setCurrentTitle] = React.useState(initialTitle);
+  const [currentUrl, setCurrentUrl] = React.useState(initialUrl);
 
-  const update = useMemo(() => {
+  const update = React.useMemo(() => {
     const title = currentTitle.trim();
     const url = currentUrl.trim();
 

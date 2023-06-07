@@ -1,13 +1,13 @@
-import {useEffect, useState} from 'preact/hooks';
+import * as React from 'react';
 
 export function useTimer(
   duration: number,
   startTime: number | undefined,
 ): boolean {
   const active = Date.now() - (startTime ?? 0) < duration;
-  const [, rerender] = useState({});
+  const [, rerender] = React.useState({});
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!active) {
       return;
     }

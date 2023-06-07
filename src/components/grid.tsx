@@ -1,15 +1,10 @@
-import type {ComponentChildren, JSX} from 'preact';
-
 import {join} from '../utils/join.js';
+import * as React from 'react';
 
-export interface GridProps {
-  readonly children: ComponentChildren;
-}
-
-export function Grid({children}: GridProps): JSX.Element {
+export function Grid({children}: React.PropsWithChildren): JSX.Element {
   return (
     <div
-      class={join([
+      className={join([
         `grid`,
         `grid-cols-1`,
         `md:grid-cols-2`,

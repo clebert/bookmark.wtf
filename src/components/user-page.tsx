@@ -1,5 +1,4 @@
 import type {AuthorizedAuthStore} from '../hooks/use-auth-store.js';
-import type {JSX} from 'preact';
 
 import {BookmarkList} from './bookmark-list.js';
 import {CollectionList} from './collection-list.js';
@@ -8,7 +7,7 @@ import {UserTopbar} from './user-topbar.js';
 import {UserAPI} from '../apis/user-api.js';
 import {useReceiver} from '../hooks/use-receiver.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
-import {useMemo} from 'preact/hooks';
+import * as React from 'react';
 
 export interface UserPageProps {
   readonly authStore: AuthorizedAuthStore;
@@ -16,7 +15,7 @@ export interface UserPageProps {
 
 export function UserPage({authStore}: UserPageProps): JSX.Element {
   const userReceiver = useReceiver(
-    useMemo(
+    React.useMemo(
       async () => UserAPI.init(authStore.token).then(({user}) => user),
       [authStore],
     ),

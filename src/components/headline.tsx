@@ -1,12 +1,11 @@
-import type {JSX} from 'preact';
-
 import {Colors} from '../utils/colors.js';
 import {join} from '../utils/join.js';
+import * as React from 'react';
 
 export function Headline(): JSX.Element {
   return (
     <h1
-      class={join([
+      className={join([
         `text-3xl`,
         `font-bold`,
         `whitespace-nowrap`,
@@ -14,10 +13,10 @@ export function Headline(): JSX.Element {
         `select-none`,
       ])}
     >
-      <span class={Colors.text()}>bookmark.</span>
-      <span class={Colors.text(`danger`)}>w</span>
-      <span class={Colors.text(`success`)}>t</span>
-      <span class={Colors.text(`link`)}>f</span>
+      <span className={Colors.text()}>bookmark.</span>
+      <span className={Colors.text(`danger`)}>w</span>
+      <span className={Colors.text(`success`)}>t</span>
+      <span className={Colors.text(`link`)}>f</span>
     </h1>
   );
 }

@@ -1,10 +1,8 @@
-import type {ComponentChildren, JSX} from 'preact';
-
 import {Colors} from '../utils/colors.js';
 import {join} from '../utils/join.js';
+import * as React from 'react';
 
-export interface ButtonProps {
-  readonly children: ComponentChildren;
+export interface ButtonProps extends React.PropsWithChildren {
   readonly class?: string;
   readonly type?: 'button' | 'submit';
   readonly theme?: 'danger' | 'success';
@@ -29,7 +27,7 @@ export function Button({
 
   return (
     <button
-      class={join([
+      className={join([
         className,
         Colors.text(theme),
         enabled && Colors.activeText(theme),

@@ -1,20 +1,18 @@
-import type {ComponentChild, ComponentChildren} from 'preact';
+import * as React from 'react';
 
-import {Component} from 'preact';
-
-export interface ErrorBoundaryProps {
-  readonly fallback: ComponentChild;
+export interface ErrorBoundaryProps extends React.PropsWithChildren {
+  readonly fallback: React.ReactNode;
 }
 
 export interface ErrorBoundaryState {
   readonly hasError: boolean;
 }
 
-export class ErrorBoundary extends Component<
+export class ErrorBoundary extends React.Component<
   ErrorBoundaryProps,
   ErrorBoundaryState
 > {
-  static override getDerivedStateFromError(error: unknown): ErrorBoundaryState {
+  static getDerivedStateFromError(error: unknown): ErrorBoundaryState {
     console.error(error);
 
     return {hasError: true};
@@ -26,7 +24,7 @@ export class ErrorBoundary extends Component<
     this.state = {hasError: false};
   }
 
-  render(): ComponentChildren {
+  override render(): React.ReactNode {
     return this.state.hasError ? this.props.fallback : this.props.children;
   }
 }

@@ -1,7 +1,7 @@
 import {useTransition} from './use-transition.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
 import {beginAuthorization} from '../utils/begin-authorization.js';
-import {useMemo, useState} from 'preact/hooks';
+import * as React from 'react';
 
 export type AuthStore =
   | AuthorizedAuthStore
@@ -27,7 +27,7 @@ export type UnauthorizedAuthStore = {
 
 export function useAuthStore(): AuthStore {
   const token = AppTopics.token.use();
-  const [authorizing, setAuthorizing] = useState(false);
+  const [authorizing, setAuthorizing] = React.useState(false);
   const transition = useTransition(token, authorizing);
 
   const signIn = () =>
@@ -38,7 +38,7 @@ export function useAuthStore(): AuthStore {
 
   const signOut = () => transition(() => AppTopics.token.publish(``));
 
-  return useMemo(
+  return React.useMemo(
     () =>
       token
         ? {state: `authorized`, token, signOut}

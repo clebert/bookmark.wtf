@@ -7,7 +7,7 @@ import {useSender} from './use-sender.js';
 import {useTransition} from './use-transition.js';
 import {GistAPI} from '../apis/gist-api.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
-import {useMemo} from 'preact/hooks';
+import * as React from 'react';
 
 export type GistStore =
   | LoadingGistStore
@@ -64,7 +64,7 @@ export function useGistStore(
   gistName: string,
 ): GistStore {
   const gistAPIReceiver = useReceiver(
-    useMemo(
+    React.useMemo(
       async () => GistAPI.init(authStore.token, gistName),
       [authStore, gistName],
     ),
@@ -125,7 +125,7 @@ export function useGistStore(
       }
     });
 
-  return useMemo(() => {
+  return React.useMemo(() => {
     if (gistAPIReceiver.state === `failed`) {
       return {state: `failed`, reason: gistAPIReceiver.error};
     }

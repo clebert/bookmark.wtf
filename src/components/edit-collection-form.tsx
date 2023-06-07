@@ -1,11 +1,9 @@
-import type {JSX} from 'preact';
-
 import {Button} from './button.js';
 import {Form} from './form.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {TextField} from './text-field.js';
-import {useMemo, useState} from 'preact/hooks';
+import * as React from 'react';
 
 export interface EditCollectionFormProps {
   readonly initialDescription: string;
@@ -20,9 +18,9 @@ export function EditCollectionForm({
   onUpdate,
 }: EditCollectionFormProps): JSX.Element {
   const [currentDescription, setCurrentDescription] =
-    useState(initialDescription);
+    React.useState(initialDescription);
 
-  const update = useMemo(() => {
+  const update = React.useMemo(() => {
     const description = currentDescription.trim();
 
     return onUpdate && description && description !== initialDescription

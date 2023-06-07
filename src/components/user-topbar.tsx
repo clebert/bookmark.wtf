@@ -1,5 +1,4 @@
 import type {AuthorizedAuthStore} from '../hooks/use-auth-store.js';
-import type {JSX} from 'preact';
 
 import {Button} from './button.js';
 import {ColorSchemeButton} from './color-scheme-button.js';
@@ -9,6 +8,7 @@ import {SearchForm} from './search-form.js';
 import {TopbarItem} from './topbar-item.js';
 import {Topbar} from './topbar.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
+import * as React from 'react';
 
 export interface UserTopbarProps {
   readonly authStore: AuthorizedAuthStore;

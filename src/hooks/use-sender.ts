@@ -1,4 +1,6 @@
 import {createSenderHook} from 'loxia';
-import * as PreactHooks from 'preact/hooks';
+import * as React from 'react';
 
-export const useSender = createSenderHook(PreactHooks);
+// TODO
+// @ts-expect-error
+export const useSender = createSenderHook(React);

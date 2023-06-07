@@ -1,4 +1,6 @@
 import {createTransitionHook} from 'loxia';
-import * as PreactHooks from 'preact/hooks';
+import * as React from 'react';
 
-export const useTransition = createTransitionHook(PreactHooks);
+// TODO
+// @ts-expect-error
+export const useTransition = createTransitionHook(React);

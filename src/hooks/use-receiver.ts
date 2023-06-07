@@ -1,4 +1,6 @@
 import {createReceiverHook} from 'loxia';
-import * as PreactHooks from 'preact/hooks';
+import * as React from 'react';
 
-export const useReceiver = createReceiverHook(PreactHooks);
+// TODO
+// @ts-expect-error
+export const useReceiver = createReceiverHook(React);

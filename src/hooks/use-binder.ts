@@ -1,4 +1,6 @@
 import {createBinderHook} from 'loxia';
-import * as PreactHooks from 'preact/hooks';
+import * as React from 'react';
 
-export const useBinder = createBinderHook(PreactHooks);
+// TODO
+// @ts-expect-error
+export const useBinder = createBinderHook(React);

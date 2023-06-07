@@ -1,12 +1,11 @@
 import type {GistStore} from '../hooks/use-gist-store.js';
-import type {JSX} from 'preact';
 
 import {Button} from './button.js';
 import {Icon} from './icon.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
 import {createRandomValue} from '../utils/create-random-value.js';
 import {serializeBookmark} from '../utils/serialize-bookmark.js';
-import {useMemo} from 'preact/hooks';
+import * as React from 'react';
 
 export interface PasteBookmarkButtonProps {
   readonly gistStore: GistStore;
@@ -17,7 +16,7 @@ export function PasteBookmarkButton({
 }: PasteBookmarkButtonProps): JSX.Element {
   const bookmark = AppTopics.bookmark.use();
 
-  const paste = useMemo(() => {
+  const paste = React.useMemo(() => {
     return `createFile` in gistStore && bookmark
       ? () => {
           gistStore.createFile(

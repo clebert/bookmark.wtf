@@ -1,10 +1,9 @@
 import type {Sender} from 'loxia';
-import type {JSX} from 'preact';
 
 import {Button} from './button.js';
 import {Icon} from './icon.js';
 import {useBinder} from '../hooks/use-binder.js';
-import {useMemo} from 'preact/hooks';
+import * as React from 'react';
 
 export interface GetTitleButtonProps {
   readonly sender: Sender;
@@ -20,7 +19,7 @@ export function GetTitleButton({
 }: GetTitleButtonProps): JSX.Element {
   const bind = useBinder();
 
-  const getTitle = useMemo(
+  const getTitle = React.useMemo(
     () =>
       url && sender.state === `idle`
         ? () =>

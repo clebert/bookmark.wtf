@@ -1,9 +1,5 @@
-import type {ComponentChildren, JSX} from 'preact';
+import * as React from 'react';
 
-export interface GridItemProps {
-  readonly children: ComponentChildren;
-}
-
-export function TopbarItem({children}: GridItemProps): JSX.Element {
-  return <div class="flex items-center space-x-2">{children}</div>;
+export function TopbarItem({children}: React.PropsWithChildren): JSX.Element {
+  return <div className="flex items-center space-x-2">{children}</div>;
 }

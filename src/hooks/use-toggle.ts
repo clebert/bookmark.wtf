@@ -1,12 +1,12 @@
-import {useCallback, useEffect, useState} from 'preact/hooks';
+import * as React from 'react';
 
 export function useToggle(
   initialValue: boolean,
   timeout?: number,
 ): [boolean, () => void] {
-  const [toggle, setToggle] = useState(initialValue);
+  const [toggle, setToggle] = React.useState(initialValue);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!toggle || timeout === undefined) {
       return;
     }
@@ -18,6 +18,6 @@ export function useToggle(
 
   return [
     toggle,
-    useCallback(() => setToggle((prevToggle) => !prevToggle), []),
+    React.useCallback(() => setToggle((prevToggle) => !prevToggle), []),
   ];
 }

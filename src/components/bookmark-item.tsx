@@ -5,7 +5,6 @@ import type {
   UpdatingGistStore,
 } from '../hooks/use-gist-store.js';
 import type {Bookmark} from '../utils/parse-bookmark.js';
-import type {JSX} from 'preact';
 
 import {BookmarkIcon} from './bookmark-icon.js';
 import {CopyBookmarkButton} from './copy-bookmark-button.js';
@@ -18,7 +17,7 @@ import {Link} from './link.js';
 import {useTimer} from '../hooks/use-timer.js';
 import {useToggle} from '../hooks/use-toggle.js';
 import {serializeBookmark} from '../utils/serialize-bookmark.js';
-import {useCallback, useMemo} from 'preact/hooks';
+import * as React from 'react';
 
 export interface BookmarkItemProps {
   readonly gistStore:
@@ -41,7 +40,7 @@ export function BookmarkItem({
 }: BookmarkItemProps): JSX.Element {
   const {filename, bookmark} = bookmarkFile;
 
-  const openBookmark = useCallback(() => {
+  const openBookmark = React.useCallback(() => {
     if (
       !window.navigator.userAgent.includes(`Firefox`) &&
       `updateFile` in gistStore
@@ -61,7 +60,7 @@ export function BookmarkItem({
 
   const [editing, toggleEditing] = useToggle(false);
 
-  const updateBookmark = useMemo(
+  const updateBookmark = React.useMemo(
     () =>
       `updateFile` in gistStore
         ? (title: string, url: string) => {
@@ -78,11 +77,13 @@ export function BookmarkItem({
 
   const [deleting, toggleDeleting] = useToggle(false, 3000);
 
-  const deleteBookmark = useCallback(() => {
+  const deleteBookmark = React.useCallback(() => {
     if (`deleteFile` in gistStore) {
       gistStore.deleteFile(filename);
     }
   }, [gistStore, filename]);
+
+  const highlight = useTimer(1500, bookmark.mtime ?? bookmark.ctime);
 
   return editing ? (
     <EditBookmarkForm
@@ -134,7 +135,7 @@ export function BookmarkItem({
           </>
         )
       }
-      highlight={useTimer(1500, bookmark.mtime ?? bookmark.ctime)}
+      highlight={highlight}
     />
   );
 }

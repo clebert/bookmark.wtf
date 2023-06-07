@@ -1,11 +1,10 @@
 import type {Bookmark} from '../utils/parse-bookmark.js';
-import type {JSX} from 'preact';
 
 import {Button} from './button.js';
 import {Icon} from './icon.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
 import equal from 'fast-deep-equal';
-import {useCallback, useMemo} from 'preact/hooks';
+import * as React from 'react';
 
 export interface CopyBookmarkButtonProps {
   readonly bookmark: Bookmark;
@@ -16,12 +15,12 @@ export function CopyBookmarkButton({
 }: CopyBookmarkButtonProps): JSX.Element {
   const otherBookmark = AppTopics.bookmark.use();
 
-  const copy = useCallback(
+  const copy = React.useCallback(
     () => AppTopics.bookmark.publish(bookmark),
     [bookmark],
   );
 
-  const copied = useMemo(
+  const copied = React.useMemo(
     () => equal(JSON.parse(JSON.stringify(bookmark)), otherBookmark),
     [bookmark, otherBookmark],
   );

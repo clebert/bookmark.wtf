@@ -5,13 +5,7 @@
       "syntax": "typescript",
       "tsx": true
     },
-    "target": "es2022",
-    "transform": {
-      "react": {
-        "importSource": "preact",
-        "runtime": "automatic"
-      }
-    }
+    "target": "es2022"
   },
   "module": {
     "type": "es6"

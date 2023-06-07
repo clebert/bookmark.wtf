@@ -1,11 +1,9 @@
-import type {JSX} from 'preact';
-
 import {Button} from './button.js';
 import {Form} from './form.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {TextField} from './text-field.js';
-import {useMemo, useState} from 'preact/hooks';
+import * as React from 'react';
 
 export interface NewCollectionFormProps {
   onCancel(): void;
@@ -16,9 +14,9 @@ export function NewCollectionForm({
   onCancel,
   onCreate,
 }: NewCollectionFormProps): JSX.Element {
-  const [currentDescription, setCurrentDescription] = useState(``);
+  const [currentDescription, setCurrentDescription] = React.useState(``);
 
-  const create = useMemo(() => {
+  const create = React.useMemo(() => {
     const description = currentDescription.trim();
 
     return onCreate && description ? () => onCreate(description) : undefined;

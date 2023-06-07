@@ -5,7 +5,6 @@ import type {
   UpdatingGistStore,
 } from '../hooks/use-gist-store.js';
 import type {Bookmark} from '../utils/parse-bookmark.js';
-import type {JSX} from 'preact';
 
 import {Button} from './button.js';
 import {GridItem} from './grid-item.js';
@@ -18,7 +17,7 @@ import {useToggle} from '../hooks/use-toggle.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
 import {createRandomValue} from '../utils/create-random-value.js';
 import {serializeBookmark} from '../utils/serialize-bookmark.js';
-import {useCallback, useMemo} from 'preact/hooks';
+import * as React from 'react';
 
 export interface BookmarkControlProps {
   readonly gistName: string;
@@ -34,10 +33,14 @@ export function BookmarkControl({
   gistName,
   gistStore,
 }: BookmarkControlProps): JSX.Element {
-  const closeCollection = useCallback(() => AppTopics.gistName.publish(``), []);
+  const closeCollection = React.useCallback(
+    () => AppTopics.gistName.publish(``),
+    [],
+  );
+
   const [newMode, toggleNewMode] = useToggle(false);
 
-  const createBookmark = useMemo(
+  const createBookmark = React.useMemo(
     () =>
       `createFile` in gistStore
         ? (bookmark: Bookmark) => {

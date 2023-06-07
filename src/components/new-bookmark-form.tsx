@@ -1,5 +1,4 @@
 import type {Bookmark} from '../utils/parse-bookmark.js';
-import type {JSX} from 'preact';
 
 import {Button} from './button.js';
 import {Form} from './form.js';
@@ -8,7 +7,7 @@ import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {TextField} from './text-field.js';
 import {useSender} from '../hooks/use-sender.js';
-import {useMemo, useState} from 'preact/hooks';
+import * as React from 'react';
 
 export interface NewBookmarkFormProps {
   onCancel(): void;
@@ -19,10 +18,10 @@ export function NewBookmarkForm({
   onCancel,
   onCreate,
 }: NewBookmarkFormProps): JSX.Element {
-  const [currentTitle, setCurrentTitle] = useState(``);
-  const [currentUrl, setCurrentUrl] = useState(``);
+  const [currentTitle, setCurrentTitle] = React.useState(``);
+  const [currentUrl, setCurrentUrl] = React.useState(``);
 
-  const create = useMemo(() => {
+  const create = React.useMemo(() => {
     const title = currentTitle.trim();
     const url = currentUrl.trim();
 

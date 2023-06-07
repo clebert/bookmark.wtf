@@ -1,18 +1,14 @@
-import type {ComponentChildren, JSX} from 'preact';
+import * as React from 'react';
 
-import {useCallback} from 'preact/hooks';
-
-export interface FormProps {
-  readonly children: ComponentChildren;
-
+export interface FormProps extends React.PropsWithChildren {
   onSubmit?(): void;
 }
 
 export function Form({children, onSubmit}: FormProps): JSX.Element {
   return (
     <form
-      onSubmit={useCallback(
-        (event: Event) => {
+      onSubmit={React.useCallback(
+        (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
           onSubmit?.();
         },

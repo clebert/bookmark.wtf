@@ -2,7 +2,6 @@ import type {
   ReadyGistsStore,
   UpdatingGistsStore,
 } from '../hooks/use-gists-store.js';
-import type {JSX} from 'preact';
 
 import {Button} from './button.js';
 import {GridItem} from './grid-item.js';
@@ -10,7 +9,7 @@ import {Icon} from './icon.js';
 import {Label} from './label.js';
 import {NewCollectionForm} from './new-collection-form.js';
 import {useToggle} from '../hooks/use-toggle.js';
-import {useMemo} from 'preact/hooks';
+import * as React from 'react';
 
 export interface CollectionControlProps {
   readonly gistsStore: ReadyGistsStore | UpdatingGistsStore;
@@ -21,7 +20,7 @@ export function CollectionControl({
 }: CollectionControlProps): JSX.Element {
   const [newMode, toggleNewMode] = useToggle(false);
 
-  const createCollection = useMemo(
+  const createCollection = React.useMemo(
     () =>
       `createGist` in gistsStore
         ? (description: string) => {

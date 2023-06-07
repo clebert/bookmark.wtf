@@ -1,6 +1,5 @@
 import type {BookmarkFile} from './bookmark-item.js';
 import type {AuthorizedAuthStore} from '../hooks/use-auth-store.js';
-import type {JSX} from 'preact';
 
 import {BookmarkControl} from './bookmark-control.js';
 import {BookmarkItem} from './bookmark-item.js';
@@ -10,7 +9,7 @@ import {AppTopics} from '../pub-sub/app-topics.js';
 import {compareClickCount} from '../utils/compare-click-count.js';
 import {compareTime} from '../utils/compare-time.js';
 import {parseBookmark} from '../utils/parse-bookmark.js';
-import {useEffect, useMemo} from 'preact/hooks';
+import * as React from 'react';
 
 export interface BookmarkListProps {
   readonly authStore: AuthorizedAuthStore;
@@ -29,7 +28,7 @@ export function BookmarkList({
     throw gistStore.reason;
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (`gist` in gistStore) {
       const {description} = gistStore.gist;
 
@@ -38,10 +37,12 @@ export function BookmarkList({
       }
     }
 
-    return () => (document.title = `bookmark.wtf`);
+    return () => {
+      document.title = `bookmark.wtf`;
+    };
   }, [gistStore]);
 
-  const bookmarkFiles = useMemo<readonly BookmarkFile[]>(
+  const bookmarkFiles = React.useMemo<readonly BookmarkFile[]>(
     () =>
       (`gist` in gistStore ? gistStore.gist.files : []).reduce(
         (files, {filename, text}) => {
@@ -56,7 +57,7 @@ export function BookmarkList({
 
   const sortOrder = AppTopics.sortOrder.use();
 
-  const sortedBookmarkFiles = useMemo<readonly BookmarkFile[]>(
+  const sortedBookmarkFiles = React.useMemo<readonly BookmarkFile[]>(
     () =>
       [...bookmarkFiles].sort(({bookmark: a}, {bookmark: b}) =>
         sortOrder === `timeAsc`
@@ -70,7 +71,7 @@ export function BookmarkList({
 
   const searchTerm = AppTopics.searchTerm.use();
 
-  const filteredBookmarkFiles = useMemo<readonly BookmarkFile[]>(() => {
+  const filteredBookmarkFiles = React.useMemo<readonly BookmarkFile[]>(() => {
     const regex = searchTerm
       ? new RegExp(searchTerm.split(``).join(`.?`), `i`)
       : undefined;

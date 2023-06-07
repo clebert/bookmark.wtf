@@ -1,11 +1,8 @@
-import type {ComponentChildren, JSX} from 'preact';
-
 import {Colors} from '../utils/colors.js';
 import {join} from '../utils/join.js';
-import {useMemo} from 'preact/hooks';
+import * as React from 'react';
 
-export interface LinkProps {
-  readonly children: ComponentChildren;
+export interface LinkProps extends React.PropsWithChildren {
   readonly url: string;
   readonly static?: boolean;
 
@@ -20,18 +17,7 @@ export function Link({
 }: LinkProps): JSX.Element {
   return (
     <a
-      href={url}
-      onClick={useMemo(
-        () =>
-          onClick
-            ? (event: Event) => {
-                event.preventDefault();
-                onClick();
-              }
-            : undefined,
-        [onClick],
-      )}
-      class={join([
+      className={join([
         Colors.text(`link`),
         Colors.activeText(`link`),
         Colors.focusOutline(),
@@ -43,6 +29,17 @@ export function Link({
         `whitespace-nowrap`,
         isStatic && `select-none`,
       ])}
+      href={url}
+      onClick={React.useMemo(
+        () =>
+          onClick
+            ? (event: React.MouseEvent<HTMLAnchorElement>) => {
+                event.preventDefault();
+                onClick();
+              }
+            : undefined,
+        [onClick],
+      )}
     >
       {children}
     </a>

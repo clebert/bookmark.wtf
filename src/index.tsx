@@ -1,8 +1,9 @@
 import {App} from './components/app.js';
 import {completeAuthorization} from './utils/complete-authorization.js';
-import {render} from 'preact';
+import * as React from 'react';
+import {createRoot} from 'react-dom/client';
 import 'tailwindcss/tailwind.css';
 
 completeAuthorization();
 
-render(<App />, document.querySelector(`main#app`)!);
+createRoot(document.querySelector(`main#app`)!).render(<App />);

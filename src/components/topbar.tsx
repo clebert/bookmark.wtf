@@ -1,16 +1,14 @@
-import type {ComponentChildren, JSX} from 'preact';
-
 import {join} from '../utils/join.js';
+import * as React from 'react';
 
-export interface TopbarProps {
-  readonly children?: ComponentChildren;
+export interface TopbarProps extends React.PropsWithChildren {
   readonly class?: string;
 }
 
 export function Topbar({children, class: className}: TopbarProps): JSX.Element {
   return (
     <div
-      class={join([
+      className={join([
         className,
         `flex`,
         `flex-col`,

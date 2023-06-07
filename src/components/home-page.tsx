@@ -2,7 +2,6 @@ import type {
   AuthorizingAuthStore,
   UnauthorizedAuthStore,
 } from '../hooks/use-auth-store.js';
-import type {JSX} from 'preact';
 
 import {Button} from './button.js';
 import {ColorSchemeButton} from './color-scheme-button.js';
@@ -16,6 +15,7 @@ import {Topbar} from './topbar.js';
 import {useDarkMode} from '../hooks/use-dark-mode.js';
 import {Colors} from '../utils/colors.js';
 import {join} from '../utils/join.js';
+import * as React from 'react';
 
 export interface HomePageProps {
   readonly authStore: AuthorizingAuthStore | UnauthorizedAuthStore;
@@ -57,9 +57,9 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
         </Link>
       </Paragraph>
 
-      <div class={join([`max-w-5xl p-1 shadow`, Colors.highlightRing()])}>
+      <div className={join([`max-w-5xl p-1 shadow`, Colors.highlightRing()])}>
         <img
-          class="select-none"
+          className="select-none"
           src={`https://raw.githubusercontent.com/clebert/bookmark.wtf/main/screenshot-${
             darkMode ? `dark` : `light`
           }-mode.png`}
