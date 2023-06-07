@@ -53,9 +53,9 @@ export function NewBookmarkForm({
           <>
             <Button
               type="submit"
-              theme="success"
               title="Create bookmark"
               disabled={!create}
+              inverted
             >
               <Icon type="check" />
               Create

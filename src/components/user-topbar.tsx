@@ -18,7 +18,7 @@ export function UserTopbar({authStore}: UserTopbarProps): JSX.Element {
   const gistName = AppTopics.gistName.use();
 
   return (
-    <Topbar class="Topbar">
+    <Topbar className="Topbar">
       <TopbarItem>
         <Headline />
       </TopbarItem>
@@ -27,7 +27,7 @@ export function UserTopbar({authStore}: UserTopbarProps): JSX.Element {
         <ColorSchemeButton />
 
         <Button
-          class="SignOutButton"
+          className="SignOutButton"
           title="Sign out"
           onClick={authStore.signOut}
         >

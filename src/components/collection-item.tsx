@@ -57,7 +57,7 @@ export function CollectionItem({
     />
   ) : (
     <GridItem
-      class="CollectionItem"
+      className="CollectionItem"
       row1={
         <Link url={`/` + gistName} onClick={openCollection}>
           <Icon type="link" />

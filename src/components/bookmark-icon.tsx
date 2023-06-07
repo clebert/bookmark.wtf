@@ -1,5 +1,5 @@
+import {StylesContext} from '../contexts/styles-context.js';
 import {useBinder} from '../hooks/use-binder.js';
-import {Colors} from '../utils/colors.js';
 import {createIdenticon} from '../utils/create-identicon.js';
 import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
@@ -39,13 +39,14 @@ export function BookmarkIcon({
 
   const [hidden, setHidden] = React.useState(true);
   const handleLoad = React.useCallback(() => setHidden(false), [setHidden]);
+  const styles = React.useContext(StylesContext);
 
   return (
     <a
       className={joinClassNames(
         `select-none`,
-        Colors.background(),
-        Colors.focusOutline(),
+        styles.background(),
+        styles.focus(),
       )}
       href={initialLinkUrl}
       tabIndex={-1}

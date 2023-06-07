@@ -59,9 +59,9 @@ export function EditBookmarkForm({
           <>
             <Button
               type="submit"
-              theme="success"
               title="Update bookmark"
               disabled={!update}
+              inverted
             >
               <Icon type="check" />
               Update

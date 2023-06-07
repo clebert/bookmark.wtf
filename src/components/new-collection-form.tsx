@@ -25,10 +25,10 @@ export function NewCollectionForm({
   return (
     <Form onSubmit={create}>
       <GridItem
-        class="NewCollectionForm"
+        className="NewCollectionForm"
         row1={
           <TextField
-            class="DescriptionField"
+            className="DescriptionField"
             value={currentDescription}
             placeholder="Enter description"
             autoFocus
@@ -39,18 +39,18 @@ export function NewCollectionForm({
         row2={
           <>
             <Button
-              class="CreateButton"
+              className="CreateButton"
               type="submit"
-              theme="success"
               title="Create collection"
               disabled={!create}
+              inverted
             >
               <Icon type="check" />
               Create
             </Button>
 
             <Button
-              class="CancelButton"
+              className="CancelButton"
               title="Cancel creating collection"
               onClick={onCancel}
             >

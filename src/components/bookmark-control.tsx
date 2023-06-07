@@ -58,7 +58,7 @@ export function BookmarkControl({
     <NewBookmarkForm onCancel={toggleNewMode} onCreate={createBookmark} />
   ) : (
     <GridItem
-      class="BookmarkControl"
+      className="BookmarkControl"
       row1={
         <Label>
           <Icon

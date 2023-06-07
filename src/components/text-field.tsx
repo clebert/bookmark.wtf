@@ -1,9 +1,9 @@
-import {Colors} from '../utils/colors.js';
+import {StylesContext} from '../contexts/styles-context.js';
 import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface TextFieldProps {
-  readonly class?: string;
+  readonly className?: string;
   readonly type?: 'url';
   readonly value: string;
   readonly placeholder?: string;
@@ -15,7 +15,7 @@ export interface TextFieldProps {
 }
 
 export function TextField({
-  class: className,
+  className,
   type,
   value,
   placeholder,
@@ -32,6 +32,8 @@ export function TextField({
     }
   }, []);
 
+  const styles = React.useContext(StylesContext);
+
   return (
     <input
       ref={inputRef}
@@ -39,11 +41,10 @@ export function TextField({
         className,
         `w-full appearance-none rounded-none px-2`,
         disabled && `opacity-25`,
-        Colors.text(),
-        Colors.placeholderText(),
-        Colors.border(),
-        Colors.background(),
-        Colors.focusOutline(),
+        styles.background(),
+        styles.border(),
+        styles.focus(),
+        styles.text({placeholder: true}),
       )}
       type={type ?? `text`}
       value={value}

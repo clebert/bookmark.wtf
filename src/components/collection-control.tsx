@@ -37,7 +37,7 @@ export function CollectionControl({
     <NewCollectionForm onCancel={toggleNewMode} onCreate={createCollection} />
   ) : (
     <GridItem
-      class="CollectionControl"
+      className="CollectionControl"
       row1={
         <Label static>
           <Icon type="viewGrid" />
@@ -46,7 +46,7 @@ export function CollectionControl({
       }
       row2={
         <Button
-          class="NewButton"
+          className="NewButton"
           title="New collection"
           onClick={toggleNewMode}
         >

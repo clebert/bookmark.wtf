@@ -2,20 +2,21 @@ import {ErrorBoundary} from './error-boundary.js';
 import {ErrorPage} from './error-page.js';
 import {HomePage} from './home-page.js';
 import {UserPage} from './user-page.js';
+import {StylesContext} from '../contexts/styles-context.js';
 import {useAuthStore} from '../hooks/use-auth-store.js';
 import {useDarkMode} from '../hooks/use-dark-mode.js';
-import {Colors} from '../utils/colors.js';
 import * as React from 'react';
 
 export function App(): JSX.Element {
-  const authStore = useAuthStore();
-  const darkMode = useDarkMode();
+  const styles = React.useContext(StylesContext);
 
   React.useLayoutEffect(() => {
     document
       .querySelector(`body`)
-      ?.classList.add(...Colors.background().split(` `));
+      ?.classList.add(...styles.background().split(` `));
   }, []);
+
+  const darkMode = useDarkMode();
 
   React.useLayoutEffect(() => {
     if (darkMode) {
@@ -24,6 +25,8 @@ export function App(): JSX.Element {
       document.documentElement.classList.remove(`dark`);
     }
   }, [darkMode]);
+
+  const authStore = useAuthStore();
 
   return (
     <ErrorBoundary fallback={<ErrorPage />}>

@@ -1,10 +1,10 @@
 import {Label} from './label.js';
-import {Colors} from '../utils/colors.js';
+import {StylesContext} from '../contexts/styles-context.js';
 import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface GridItemProps {
-  readonly class?: string;
+  readonly className?: string;
   readonly leftCol?: React.ReactNode;
   readonly row1: React.ReactNode;
   readonly row2?: React.ReactNode;
@@ -12,18 +12,20 @@ export interface GridItemProps {
 }
 
 export function GridItem({
-  class: className,
+  className,
   leftCol,
   row1,
   row2,
   rightCol,
 }: GridItemProps): JSX.Element {
+  const styles = React.useContext(StylesContext);
+
   return (
     <div
       className={joinClassNames(
         className,
         `flex space-x-2 p-2 shadow`,
-        Colors.shadedBackground(),
+        styles.background({shaded: true}),
       )}
     >
       {leftCol && <div className="flex shrink-0 items-center">{leftCol}</div>}

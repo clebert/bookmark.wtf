@@ -16,9 +16,9 @@ export function DeleteButton({
 }: DeleteButtonProps): JSX.Element {
   return (
     <Button
-      class="DeleteButton"
-      theme={verbose ? `danger` : undefined}
+      className="DeleteButton"
       title={`Delete ${targetName}`}
+      inverted={verbose}
       onClick={action}
     >
       <Icon type="trash" standalone={!verbose} />

@@ -9,10 +9,11 @@ import {Headline} from './headline.js';
 import {Icon} from './icon.js';
 import {Link} from './link.js';
 import {Page} from './page.js';
-import {Paragraph} from './paragraph.js';
 import {TopbarItem} from './topbar-item.js';
 import {Topbar} from './topbar.js';
+import {StylesContext} from '../contexts/styles-context.js';
 import {useDarkMode} from '../hooks/use-dark-mode.js';
+import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface HomePageProps {
@@ -20,11 +21,12 @@ export interface HomePageProps {
 }
 
 export function HomePage({authStore}: HomePageProps): JSX.Element {
+  const styles = React.useContext(StylesContext);
   const darkMode = useDarkMode();
 
   return (
     <Page>
-      <Topbar class="Topbar">
+      <Topbar className="Topbar">
         <TopbarItem>
           <Headline />
         </TopbarItem>
@@ -33,7 +35,7 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
           <ColorSchemeButton />
 
           <Button
-            class="SignInButton"
+            className="SignInButton"
             title="Sign in with GitHub"
             onClick={`signIn` in authStore ? authStore.signIn : undefined}
           >
@@ -43,7 +45,12 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
         </TopbarItem>
       </Topbar>
 
-      <Paragraph>
+      <div
+        className={joinClassNames(
+          styles.border({transparent: true}),
+          styles.text(),
+        )}
+      >
         A free and open-source bookmark manager that uses GitHub Gist as
         database.{` `}
         <Link
@@ -53,7 +60,7 @@ export function HomePage({authStore}: HomePageProps): JSX.Element {
           <Icon type="externalLink" />
           README
         </Link>
-      </Paragraph>
+      </div>
 
       <div className="max-w-5xl p-1 shadow-xl">
         <img

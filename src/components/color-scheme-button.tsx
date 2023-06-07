@@ -26,7 +26,7 @@ export function ColorSchemeButton(): JSX.Element {
 
   return (
     <Button
-      class="ColorSchemeButton border-dashed"
+      className="ColorSchemeButton border-dashed"
       title={titles[colorScheme]}
       onClick={toggleColorScheme}
     >
