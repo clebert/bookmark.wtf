@@ -76,17 +76,17 @@
   "size-limit": [
     {
       "name": "brotli compression",
-      "path": "./dist/static/index.*.js",
+      "path": "./dist/static/app-*.js",
       "brotli": true
     },
     {
       "name": "gzip compression",
-      "path": "./dist/static/index.*.js",
+      "path": "./dist/static/app-*.js",
       "gzip": true
     },
     {
       "name": "no compression",
-      "path": "./dist/static/index.*.js",
+      "path": "./dist/static/app-*.js",
       "gzip": false
     }
   ]
