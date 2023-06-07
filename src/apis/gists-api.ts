@@ -5,8 +5,7 @@ import {GithubAPI} from './github-api.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
 import {GET_GISTS} from '../queries/get-gists.js';
 import {createGithubClient} from '../utils/create-github-client.js';
-import {isRecord} from '../utils/is-record.js';
-import {isString} from '../utils/is-string.js';
+import {z} from 'zod';
 
 export interface ShallowGist {
   readonly gistName: string;
@@ -74,12 +73,10 @@ export class GistsAPI extends GithubAPI {
       },
     });
 
-    if (!isRecord(data) || !isString(data.id)) {
-      throw new Error(`Failed to create gist.`);
-    }
+    const {id} = z.object({id: z.string()}).parse(data);
 
     this.#gists = [
-      {gistName: data.id, description, mtime: Date.now()},
+      {gistName: id, description, mtime: Date.now()},
       ...this.#gists,
     ];
   }

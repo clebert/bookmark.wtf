@@ -4,8 +4,7 @@ import {GithubAPI} from './github-api.js';
 import {AppTopics} from '../pub-sub/app-topics.js';
 import {GET_GIST} from '../queries/get-gist.js';
 import {createGithubClient} from '../utils/create-github-client.js';
-import {isRecord} from '../utils/is-record.js';
-import {isString} from '../utils/is-string.js';
+import {z} from 'zod';
 
 export interface Gist {
   readonly owner: string;
@@ -125,10 +124,6 @@ export class GistAPI extends GithubAPI {
       params: {},
     });
 
-    if (!isRecord(data) || !isString(data.id)) {
-      throw new Error(`Failed to fork gist.`);
-    }
-
-    return data.id;
+    return z.object({id: z.string()}).parse(data).id;
   }
 }

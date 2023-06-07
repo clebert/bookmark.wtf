@@ -1,19 +1,25 @@
-import {isNumber} from './is-number.js';
-import {isRecord} from './is-record.js';
+import {z} from 'zod';
 
-export interface Bookmark {
-  readonly title: string;
-  readonly url: string;
-  readonly ctime: number;
-  readonly mtime?: number;
-  readonly clickCount?: number;
-}
+export type Bookmark = Readonly<z.TypeOf<typeof bookmarkSchema>>;
+
+const bookmarkSchema = z.object({
+  title: z.string(),
+  url: z.string(),
+  ctime: z.number().int(),
+  mtime: z.number().int().optional(),
+  clickCount: z.number().int().optional(),
+});
 
 export function parseBookmark(text: string): Bookmark | undefined {
-  const result = /^\[(.*)\]\((.*)\) `(.*)`$/.exec(text);
-  const title = result?.[1]!.replace(/\\\[/g, `[`).replace(/\\\]/g, `]`).trim();
-  const url = result?.[2];
-  const code = result?.[3];
+  const searchResults = /^\[(.*)\]\((.*)\) `(.*)`$/.exec(text);
+
+  const title = searchResults?.[1]!
+    .replace(/\\\[/g, `[`)
+    .replace(/\\\]/g, `]`)
+    .trim();
+
+  const url = searchResults?.[2];
+  const code = searchResults?.[3];
 
   if (!title || !url || !code) {
     return undefined;
@@ -21,28 +27,9 @@ export function parseBookmark(text: string): Bookmark | undefined {
 
   try {
     new URL(url);
+
+    return bookmarkSchema.parse({...JSON.parse(code), title, url});
   } catch {
     return undefined;
   }
-
-  let properties: unknown;
-
-  try {
-    properties = code && JSON.parse(code);
-  } catch {
-    return undefined;
-  }
-
-  if (
-    !isRecord(properties) ||
-    !isNumber(properties.ctime) ||
-    (!isNumber(properties.mtime) && properties.mtime !== undefined) ||
-    (!isNumber(properties.clickCount) && properties.clickCount !== undefined)
-  ) {
-    return undefined;
-  }
-
-  const {ctime, mtime, clickCount} = properties;
-
-  return {title, url, ctime, mtime, clickCount};
 }

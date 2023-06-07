@@ -2,24 +2,37 @@ import {BrowserJsonItem} from './browser-json-item.js';
 import {BrowserJsonParam} from './browser-json-param.js';
 import {BrowserPathname} from './browser-pathname.js';
 import {ReactTopic} from './react-topic.js';
-import {ensure} from '../utils/ensure.js';
-import {isLiteral} from '../utils/is-literal.js';
-import {isNonEmptyString} from '../utils/is-non-empty-string.js';
-import {isString} from '../utils/is-string.js';
+import {z} from 'zod';
 
 export interface AppTopics {
-  readonly colorScheme: ReactTopic<'auto' | 'light' | 'dark'>;
+  readonly colorScheme: ReactTopic<z.TypeOf<typeof colorSchemeSchema>>;
   readonly gistName: ReactTopic<string>;
   readonly searchTerm: ReactTopic<string>;
-  readonly sortOrder: ReactTopic<'clickCount' | 'timeAsc' | 'timeDesc'>;
+  readonly sortOrder: ReactTopic<z.TypeOf<typeof sortOrderSchema>>;
   readonly token: ReactTopic<string>;
 }
+
+const colorSchemeSchema = z.union([
+  z.literal(`auto`),
+  z.literal(`light`),
+  z.literal(`dark`),
+]);
+
+const sortOrderSchema = z.union([
+  z.literal(`clickCount`),
+  z.literal(`timeAsc`),
+  z.literal(`timeDesc`),
+]);
 
 export const AppTopics: AppTopics = {
   colorScheme: new ReactTopic(
     new BrowserJsonItem({
       key: `colorScheme`,
-      output: ensure(isLiteral([`auto`, `light`, `dark`] as const), `auto`),
+      output: (value) => {
+        const result = colorSchemeSchema.safeParse(value);
+
+        return result.success ? result.data : `auto`;
+      },
     }),
   ),
 
@@ -38,26 +51,35 @@ export const AppTopics: AppTopics = {
     new BrowserJsonParam({
       key: `search`,
       replace: true,
-      input: ensure(isNonEmptyString, undefined),
-      output: ensure(isString, ``),
+      input: (value) => value || undefined,
+      output: (value) => {
+        const result = z.string().safeParse(value);
+
+        return result.success ? result.data : ``;
+      },
     }),
   ),
 
   sortOrder: new ReactTopic(
     new BrowserJsonItem({
       key: `sortOrder`,
-      output: ensure(
-        isLiteral([`clickCount`, `timeAsc`, `timeDesc`] as const),
-        `clickCount`,
-      ),
+      output: (value) => {
+        const result = sortOrderSchema.safeParse(value);
+
+        return result.success ? result.data : `clickCount`;
+      },
     }),
   ),
 
   token: new ReactTopic(
     new BrowserJsonItem({
       key: `token`,
-      input: ensure(isNonEmptyString, undefined),
-      output: ensure(isString, ``),
+      input: (value) => value || undefined,
+      output: (value) => {
+        const result = z.string().safeParse(value);
+
+        return result.success ? result.data : ``;
+      },
     }),
   ),
 };
