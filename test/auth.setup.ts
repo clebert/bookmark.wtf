@@ -1,20 +1,20 @@
 import {app} from './app.js';
 import {github} from './github.js';
 import {Session} from './session.js';
-import {assertIsString} from '../utils/assert-is-string.js';
+import {assertIsString} from '../src/utils/assert-is-string.js';
 import {expect, test as setup} from '@playwright/test';
 import {env} from 'node:process';
 import speakeasy from 'speakeasy';
 
 setup(`signing in`, async ({browser, page}) => {
   const session = new Session(browser, page);
-  const login = env.E2E_TEST_LOGIN;
-  const password = env.E2E_TEST_PASSWORD;
-  const secret = env.E2E_TEST_SECRET;
+  const login = env.GITHUB_LOGIN;
+  const password = env.GITHUB_PASSWORD;
+  const secret = env.GITHUB_SECRET;
 
-  assertIsString(login, `E2E_TEST_LOGIN`);
-  assertIsString(password, `E2E_TEST_PASSWORD`);
-  assertIsString(secret, `E2E_TEST_SECRET`);
+  assertIsString(login, `GITHUB_LOGIN`);
+  assertIsString(password, `GITHUB_PASSWORD`);
+  assertIsString(secret, `GITHUB_SECRET`);
 
   const url = `/9803bde974539a8992c0515b28db439b?foo=bar`;
 

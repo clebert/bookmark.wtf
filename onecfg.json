@@ -24,13 +24,13 @@
                   "run": "npx playwright install --with-deps"
                 },
                 {
-                  "run": "npm run build:dev && npm run e2e-test:localhost",
+                  "run": "npm run build:dev && npm run test:e2e:localhost",
                   "env": {
                     "CLIENT_ID": "${{ secrets.DEV_CLIENT_ID }}",
                     "CLIENT_SECRET": "${{ secrets.DEV_CLIENT_SECRET }}",
-                    "E2E_TEST_LOGIN": "${{ secrets.ITEST_LOGIN }}",
-                    "E2E_TEST_PASSWORD": "${{ secrets.ITEST_PASSWORD }}",
-                    "E2E_TEST_SECRET": "${{ secrets.ITEST_SECRET }}"
+                    "GITHUB_LOGIN": "${{ secrets.ITEST_LOGIN }}",
+                    "GITHUB_PASSWORD": "${{ secrets.ITEST_PASSWORD }}",
+                    "GITHUB_SECRET": "${{ secrets.ITEST_SECRET }}"
                   }
                 },
                 {
@@ -45,12 +45,12 @@
                   }
                 },
                 {
-                  "run": "npm run e2e-test",
+                  "run": "npm run test:e2e",
                   "if": "${{ github.ref == 'refs/heads/main' }}",
                   "env": {
-                    "E2E_TEST_LOGIN": "${{ secrets.ITEST_LOGIN }}",
-                    "E2E_TEST_PASSWORD": "${{ secrets.ITEST_PASSWORD }}",
-                    "E2E_TEST_SECRET": "${{ secrets.ITEST_SECRET }}"
+                    "GITHUB_LOGIN": "${{ secrets.ITEST_LOGIN }}",
+                    "GITHUB_PASSWORD": "${{ secrets.ITEST_PASSWORD }}",
+                    "GITHUB_SECRET": "${{ secrets.ITEST_SECRET }}"
                   }
                 }
               ]
