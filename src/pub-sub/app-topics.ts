@@ -5,18 +5,11 @@ import {ReactTopic} from './react-topic.js';
 import {z} from 'zod';
 
 export interface AppTopics {
-  readonly colorScheme: ReactTopic<z.TypeOf<typeof colorSchemeSchema>>;
   readonly gistName: ReactTopic<string>;
   readonly searchTerm: ReactTopic<string>;
   readonly sortOrder: ReactTopic<z.TypeOf<typeof sortOrderSchema>>;
   readonly token: ReactTopic<string>;
 }
-
-const colorSchemeSchema = z.union([
-  z.literal(`auto`),
-  z.literal(`light`),
-  z.literal(`dark`),
-]);
 
 const sortOrderSchema = z.union([
   z.literal(`clickCount`),
@@ -25,17 +18,6 @@ const sortOrderSchema = z.union([
 ]);
 
 export const AppTopics: AppTopics = {
-  colorScheme: new ReactTopic(
-    new BrowserJsonItem({
-      key: `colorScheme`,
-      output: (value) => {
-        const result = colorSchemeSchema.safeParse(value);
-
-        return result.success ? result.data : `auto`;
-      },
-    }),
-  ),
-
   gistName: new ReactTopic(
     new BrowserPathname({
       input: (gistName) => `/` + gistName,

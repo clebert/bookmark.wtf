@@ -1,10 +1,11 @@
-import {AppTopics} from '../pub-sub/app-topics.js';
+import {useStore} from './use-store.js';
+import {colorSchemeStore} from '../stores/color-scheme-store.js';
 import * as React from 'react';
 
 const mediaQuery = window.matchMedia(`(prefers-color-scheme: dark)`);
 
 export function useDarkMode(): boolean {
-  const colorScheme = AppTopics.colorScheme.use();
+  const colorSchemeSnapshot = useStore(colorSchemeStore);
   const [prefersDark, setPrefersDark] = React.useState(mediaQuery.matches);
 
   React.useEffect(() => {
@@ -15,5 +16,8 @@ export function useDarkMode(): boolean {
     return () => mediaQuery.removeEventListener(`change`, listener);
   }, []);
 
-  return colorScheme === `dark` || (colorScheme === `auto` && prefersDark);
+  return (
+    colorSchemeSnapshot.state === `dark` ||
+    (colorSchemeSnapshot.state === `auto` && prefersDark)
+  );
 }

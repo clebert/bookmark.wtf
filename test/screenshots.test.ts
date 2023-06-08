@@ -21,7 +21,7 @@ async function takeScreenshot(
   await session.page.click(`body`); // Blur search input
   await session.click(app.topbar.colorSchemeButton);
 
-  if (colorScheme === `light`) {
+  if (colorScheme === `dark`) {
     await session.click(app.topbar.colorSchemeButton);
   }
 

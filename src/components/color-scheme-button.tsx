@@ -1,6 +1,7 @@
 import {Button} from './button.js';
 import {Icon} from './icon.js';
-import {AppTopics} from '../pub-sub/app-topics.js';
+import {useStore} from '../hooks/use-store.js';
+import {colorSchemeStore} from '../stores/color-scheme-store.js';
 import * as React from 'react';
 
 const titles = {auto: `System Theme`, light: `Day Theme`, dark: `Night Theme`};
@@ -12,25 +13,19 @@ const iconTypes = {
 } as const;
 
 export function ColorSchemeButton(): JSX.Element {
-  const colorScheme = AppTopics.colorScheme.use();
+  const colorSchemeSnapshot = useStore(colorSchemeStore);
 
-  const toggleColorScheme = React.useCallback(() => {
-    if (colorScheme === `auto`) {
-      AppTopics.colorScheme.publish(`dark`);
-    } else if (colorScheme === `dark`) {
-      AppTopics.colorScheme.publish(`light`);
-    } else {
-      AppTopics.colorScheme.publish(`auto`);
-    }
-  }, [colorScheme]);
+  const toggle = React.useCallback(() => {
+    colorSchemeStore.get().actions.toggle();
+  }, []);
 
   return (
     <Button
       className="ColorSchemeButton border-dashed"
-      title={titles[colorScheme]}
-      onClick={toggleColorScheme}
+      title={titles[colorSchemeSnapshot.state]}
+      onClick={toggle}
     >
-      <Icon type={iconTypes[colorScheme]} standalone />
+      <Icon type={iconTypes[colorSchemeSnapshot.state]} standalone />
     </Button>
   );
 }
