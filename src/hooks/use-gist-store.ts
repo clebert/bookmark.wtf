@@ -6,7 +6,7 @@ import {useReceiver} from './use-receiver.js';
 import {useSender} from './use-sender.js';
 import {useTransition} from './use-transition.js';
 import {GistAPI} from '../apis/gist-api.js';
-import {AppTopics} from '../pub-sub/app-topics.js';
+import {gistNameStore} from '../stores/gist-name-store.js';
 import * as React from 'react';
 
 export type GistStore =
@@ -120,7 +120,11 @@ export function useGistStore(
         gistAPISender.send(
           gistAPIReceiver.value
             .forkGist()
-            .then(bind(AppTopics.gistName.publish)),
+            .then(
+              bind((newGistName) =>
+                gistNameStore.get().actions.set(newGistName),
+              ),
+            ),
         );
       }
     });

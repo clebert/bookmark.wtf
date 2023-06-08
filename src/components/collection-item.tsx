@@ -11,7 +11,7 @@ import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Link} from './link.js';
 import {useToggle} from '../hooks/use-toggle.js';
-import {AppTopics} from '../pub-sub/app-topics.js';
+import {gistNameStore} from '../stores/gist-name-store.js';
 import * as React from 'react';
 
 export interface CollectionItemProps {
@@ -24,7 +24,7 @@ export function CollectionItem({
   gist: {gistName, description},
 }: CollectionItemProps): JSX.Element {
   const openCollection = React.useCallback(
-    () => AppTopics.gistName.publish(gistName),
+    () => gistNameStore.get().actions.set(gistName),
     [gistName],
   );
 

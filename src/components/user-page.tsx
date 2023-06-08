@@ -6,7 +6,8 @@ import {Page} from './page.js';
 import {UserTopbar} from './user-topbar.js';
 import {UserAPI} from '../apis/user-api.js';
 import {useReceiver} from '../hooks/use-receiver.js';
-import {AppTopics} from '../pub-sub/app-topics.js';
+import {useStore} from '../hooks/use-store.js';
+import {gistNameStore} from '../stores/gist-name-store.js';
 import * as React from 'react';
 
 export interface UserPageProps {
@@ -25,7 +26,7 @@ export function UserPage({authStore}: UserPageProps): JSX.Element {
     throw userReceiver.error;
   }
 
-  const gistName = AppTopics.gistName.use();
+  const gistName = useStore(gistNameStore).value;
 
   return (
     <Page>

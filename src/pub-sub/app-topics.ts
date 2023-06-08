@@ -1,11 +1,9 @@
 import {BrowserJsonItem} from './browser-json-item.js';
 import {BrowserJsonParam} from './browser-json-param.js';
-import {BrowserPathname} from './browser-pathname.js';
 import {ReactTopic} from './react-topic.js';
 import {z} from 'zod';
 
 export interface AppTopics {
-  readonly gistName: ReactTopic<string>;
   readonly searchTerm: ReactTopic<string>;
   readonly sortOrder: ReactTopic<z.TypeOf<typeof sortOrderSchema>>;
   readonly token: ReactTopic<string>;
@@ -18,17 +16,6 @@ const sortOrderSchema = z.union([
 ]);
 
 export const AppTopics: AppTopics = {
-  gistName: new ReactTopic(
-    new BrowserPathname({
-      input: (gistName) => `/` + gistName,
-      output: (pathname) => {
-        const segments = pathname.split(`/`);
-
-        return segments.length === 2 ? segments[1]! : ``;
-      },
-    }),
-  ),
-
   searchTerm: new ReactTopic(
     new BrowserJsonParam({
       key: `search`,
@@ -66,5 +53,4 @@ export const AppTopics: AppTopics = {
   ),
 };
 
-window.addEventListener(`popstate`, AppTopics.gistName.republish);
 window.addEventListener(`popstate`, AppTopics.searchTerm.republish);

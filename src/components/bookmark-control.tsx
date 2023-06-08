@@ -13,7 +13,7 @@ import {Label} from './label.js';
 import {NewBookmarkForm} from './new-bookmark-form.js';
 import {SortOrderButton} from './sort-order-button.js';
 import {useToggle} from '../hooks/use-toggle.js';
-import {AppTopics} from '../pub-sub/app-topics.js';
+import {gistNameStore} from '../stores/gist-name-store.js';
 import {createRandomValue} from '../utils/create-random-value.js';
 import {serializeBookmark} from '../utils/serialize-bookmark.js';
 import * as React from 'react';
@@ -33,7 +33,7 @@ export function BookmarkControl({
   gistStore,
 }: BookmarkControlProps): JSX.Element {
   const closeCollection = React.useCallback(
-    () => AppTopics.gistName.publish(``),
+    () => gistNameStore.get().actions.set(``),
     [],
   );
 
