@@ -8,15 +8,14 @@ jobs:
         node-version-file: .node-version
     - uses: bahmutov/npm-install@v1
     - run: npm run ci
+    - run: npx playwright install --with-deps
     - env:
         CLIENT_ID: ${{ secrets.DEV_CLIENT_ID }}
         CLIENT_SECRET: ${{ secrets.DEV_CLIENT_SECRET }}
-        DEBUG: pw:api
         E2E_TEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
-        E2E_TEST_ORIGIN: http://localhost:3000
         E2E_TEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
         E2E_TEST_SECRET: ${{ secrets.ITEST_SECRET }}
-      run: npm run e2e-test:dev
+      run: npm run build:dev && npm run e2e-test:localhost
     - env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_REGION: eu-central-1
@@ -26,9 +25,7 @@ jobs:
       if: ${{ github.ref == 'refs/heads/main' }}
       run: npm run deploy -- --require-approval never
     - env:
-        DEBUG: pw:api
         E2E_TEST_LOGIN: ${{ secrets.ITEST_LOGIN }}
-        E2E_TEST_ORIGIN: https://bookmark.wtf
         E2E_TEST_PASSWORD: ${{ secrets.ITEST_PASSWORD }}
         E2E_TEST_SECRET: ${{ secrets.ITEST_SECRET }}
       if: ${{ github.ref == 'refs/heads/main' }}

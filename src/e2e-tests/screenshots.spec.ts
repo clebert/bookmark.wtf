@@ -1,15 +1,20 @@
-import type {Session} from './session.js';
-
 import {app} from './app.js';
+import {Session} from './session.js';
+import {test} from '@playwright/test';
 
-export async function takeScreenshot(
+test(`taking a screenshot in light mode`, async ({browser, page}) => {
+  await takeScreenshot(new Session(browser, page), `light`);
+});
+
+test(`taking a screenshot in dark mode`, async ({browser, page}) => {
+  await takeScreenshot(new Session(browser, page), `dark`);
+});
+
+async function takeScreenshot(
   session: Session,
-  origin: string,
   colorScheme: 'light' | 'dark',
 ): Promise<void> {
-  await session.page.setViewportSize({width: 1024, height: 200});
-
-  await session.page.goto(origin + `/9803bde974539a8992c0515b28db439b`, {
+  await session.page.goto(`/9803bde974539a8992c0515b28db439b`, {
     waitUntil: `networkidle`,
   });
 
