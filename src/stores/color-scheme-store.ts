@@ -23,5 +23,7 @@ export const colorSchemeStore = createStore({
 });
 
 colorSchemeStore.subscribe(() => {
-  storageItem.value = colorSchemeStore.get().state;
+  const {state} = colorSchemeStore.get();
+
+  storageItem.value = state === `auto` ? undefined : state;
 });
