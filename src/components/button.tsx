@@ -31,7 +31,7 @@ export function Button({
         `select-none whitespace-nowrap px-2`,
         !enabled && `cursor-default opacity-25`,
         styles.background({interactive: enabled, inverted}),
-        styles.border({transparent: inverted}),
+        styles.border(),
         styles.focus(),
         styles.text({interactive: enabled, inverted}),
       )}
