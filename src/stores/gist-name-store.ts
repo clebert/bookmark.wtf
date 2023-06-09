@@ -1,12 +1,13 @@
 import {createStore} from 'state-guard';
-import {z} from 'zod';
 
-const [, initialValue = ``] = location.pathname.split(`/`);
+const [, initialGistName = ``] = location.pathname.split(`/`);
 
 export const gistNameStore = createStore({
   initialState: `current`,
-  initialValue,
-  valueSchemaMap: {current: z.string()},
+  initialValue: initialGistName,
+  transformerMap: {
+    current: (gistName: string) => gistName,
+  },
   transitionsMap: {current: {set: `current`}},
 });
 

@@ -10,10 +10,10 @@ const storageItem = createJsonStorageItem(
 export const colorSchemeStore = createStore({
   initialState: storageItem.value ?? `auto`,
   initialValue: undefined,
-  valueSchemaMap: {
-    auto: z.void(),
-    light: z.void(),
-    dark: z.void(),
+  transformerMap: {
+    auto: () => undefined,
+    light: () => undefined,
+    dark: () => undefined,
   },
   transitionsMap: {
     auto: {toggle: `light`},

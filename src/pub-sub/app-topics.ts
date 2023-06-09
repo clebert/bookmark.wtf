@@ -52,5 +52,3 @@ export const AppTopics: AppTopics = {
     }),
   ),
 };
-
-window.addEventListener(`popstate`, AppTopics.searchTerm.republish);

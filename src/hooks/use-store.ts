@@ -1,28 +1,28 @@
 import type {
   Snapshot,
   Store,
+  TransformerMap,
   TransitionsMap,
-  ValueSchemaMap,
 } from 'state-guard';
 
 import * as React from 'react';
 
 export function useStore<
-  TValueSchemaMap extends ValueSchemaMap,
-  TTransitionsMap extends TransitionsMap<TValueSchemaMap>,
-  TExpectedState extends keyof TValueSchemaMap | undefined = undefined,
+  TTransformerMap extends TransformerMap,
+  TTransitionsMap extends TransitionsMap<TTransformerMap>,
+  TExpectedState extends keyof TTransformerMap | undefined = undefined,
 >(
-  store: Store<TValueSchemaMap, TTransitionsMap>,
+  store: Store<TTransformerMap, TTransitionsMap>,
   expectedState?: TExpectedState,
-): TExpectedState extends keyof TValueSchemaMap
-  ? Snapshot<TValueSchemaMap, TTransitionsMap, TExpectedState> | undefined
+): TExpectedState extends keyof TTransformerMap
+  ? Snapshot<TTransformerMap, TTransitionsMap, TExpectedState> | undefined
   : {
-      [TState in keyof TValueSchemaMap]: Snapshot<
-        TValueSchemaMap,
+      [TState in keyof TTransformerMap]: Snapshot<
+        TTransformerMap,
         TTransitionsMap,
         TState
       >;
-    }[keyof TValueSchemaMap] {
+    }[keyof TTransformerMap] {
   return React.useSyncExternalStore(store.subscribe, () =>
     store.get(expectedState),
   );
