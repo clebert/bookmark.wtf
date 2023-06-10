@@ -26,6 +26,8 @@ async function takeScreenshot(
   }
 
   await session.click(app.bookmarkControl.sortOrderButton);
+  await session.click(app.bookmarkControl.uiModeButton);
+  await session.page.click(`body`); // Blur UI mode button
 
   await session.page.screenshot({
     path: `screenshot-${colorScheme}-mode.png`,

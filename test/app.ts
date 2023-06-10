@@ -65,5 +65,9 @@ export const app = {
     sortOrderButton: bookmarkControl.path(
       any().filter(attribute(`.SortOrderButton`)),
     ),
+
+    uiModeButton: bookmarkControl.path(
+      any().filter(attribute(`.UiModeButton`)),
+    ),
   },
 };

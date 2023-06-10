@@ -8,6 +8,7 @@ import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Label} from './label.js';
 import {NewCollectionForm} from './new-collection-form.js';
+import {UiModeButton} from './ui-mode-button.js';
 import {useToggle} from '../hooks/use-toggle.js';
 import * as React from 'react';
 
@@ -45,14 +46,18 @@ export function CollectionControl({
         </Label>
       }
       row2={
-        <Button
-          className="NewButton"
-          title="New collection"
-          onClick={toggleNewMode}
-        >
-          <Icon type="viewGridAdd" />
-          New
-        </Button>
+        <>
+          <Button
+            className="NewButton"
+            title="New collection"
+            onClick={toggleNewMode}
+          >
+            <Icon type="viewGridAdd" />
+            New
+          </Button>
+
+          <UiModeButton />
+        </>
       }
     />
   );

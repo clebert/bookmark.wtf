@@ -10,8 +10,10 @@ import {EditCollectionForm} from './edit-collection-form.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Link} from './link.js';
+import {useStore} from '../hooks/use-store.js';
 import {useToggle} from '../hooks/use-toggle.js';
 import {gistNameStore} from '../stores/gist-name-store.js';
+import {uiModeStore} from '../stores/ui-mode-store.js';
 import * as React from 'react';
 
 export interface CollectionItemProps {
@@ -49,6 +51,8 @@ export function CollectionItem({
     }
   }, [gistsStore, gistName]);
 
+  const showControlsSnapshot = useStore(uiModeStore, `showControls`);
+
   return editing ? (
     <EditCollectionForm
       initialDescription={description ?? ``}
@@ -65,7 +69,8 @@ export function CollectionItem({
         </Link>
       }
       row2={
-        deleting ? (
+        showControlsSnapshot &&
+        (deleting ? (
           <>
             <EditButton targetName="collection" />
 
@@ -89,7 +94,7 @@ export function CollectionItem({
               action={gistsStore.state === `ready` ? toggleDeleting : undefined}
             />
           </>
-        )
+        ))
       }
     />
   );

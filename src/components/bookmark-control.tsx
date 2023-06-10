@@ -12,6 +12,7 @@ import {Icon} from './icon.js';
 import {Label} from './label.js';
 import {NewBookmarkForm} from './new-bookmark-form.js';
 import {SortOrderButton} from './sort-order-button.js';
+import {UiModeButton} from './ui-mode-button.js';
 import {useToggle} from '../hooks/use-toggle.js';
 import {gistNameStore} from '../stores/gist-name-store.js';
 import {createRandomValue} from '../utils/create-random-value.js';
@@ -94,6 +95,7 @@ export function BookmarkControl({
           </Button>
 
           <SortOrderButton />
+          <UiModeButton />
         </>
       }
     />

@@ -13,7 +13,9 @@ import {EditButton} from './edit-button.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Link} from './link.js';
+import {useStore} from '../hooks/use-store.js';
 import {useToggle} from '../hooks/use-toggle.js';
+import {uiModeStore} from '../stores/ui-mode-store.js';
 import {serializeBookmark} from '../utils/serialize-bookmark.js';
 import * as React from 'react';
 
@@ -81,6 +83,8 @@ export function BookmarkItem({
     }
   }, [gistStore, filename]);
 
+  const showControlsSnapshot = useStore(uiModeStore, `showControls`);
+
   return editing ? (
     <EditBookmarkForm
       initialTitle={bookmark.title}
@@ -104,7 +108,8 @@ export function BookmarkItem({
         </Link>
       }
       row2={
-        deleting ? (
+        showControlsSnapshot &&
+        (deleting ? (
           <>
             <EditButton targetName="bookmark" />
 
@@ -126,7 +131,7 @@ export function BookmarkItem({
               action={gistStore.state === `ready` ? toggleDeleting : undefined}
             />
           </>
-        )
+        ))
       }
     />
   );
