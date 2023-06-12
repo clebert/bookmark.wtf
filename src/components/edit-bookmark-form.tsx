@@ -26,10 +26,7 @@ export function EditBookmarkForm({
     const title = currentTitle.trim();
     const url = currentUrl.trim();
 
-    return onUpdate &&
-      title &&
-      url &&
-      (title !== initialTitle || url !== initialUrl)
+    return onUpdate && title && url && (title !== initialTitle || url !== initialUrl)
       ? () => onUpdate(title, url)
       : undefined;
   }, [onUpdate, currentTitle, currentUrl]);
@@ -57,12 +54,7 @@ export function EditBookmarkForm({
         }
         rightCol={
           <>
-            <Button
-              type="submit"
-              title="Update bookmark"
-              disabled={!update}
-              inverted
-            >
+            <Button type="submit" title="Update bookmark" disabled={!update} inverted>
               <Icon type="check" />
               Update
             </Button>

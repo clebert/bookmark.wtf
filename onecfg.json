@@ -73,6 +73,17 @@
       {
         "value": ["/playwright"]
       }
+    ],
+    ".prettierrc.json": [
+      {
+        "value": {"printWidth": 100}
+      }
+    ],
+    ".vscode/settings.json": [
+      {
+        "value": {"editor.rulers": [100]},
+        "array_merge": "replace"
+      }
     ]
   }
 }

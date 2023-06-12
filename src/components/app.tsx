@@ -1,19 +1,16 @@
-import {ErrorBoundary} from './error-boundary.js';
 import {ErrorPage} from './error-page.js';
 import {HomePage} from './home-page.js';
 import {UserPage} from './user-page.js';
 import {StylesContext} from '../contexts/styles-context.js';
-import {useAuthStore} from '../hooks/use-auth-store.js';
 import {useDarkMode} from '../hooks/use-dark-mode.js';
+import {app} from '../state-machines/app.js';
 import * as React from 'react';
 
 export function App(): JSX.Element {
   const styles = React.useContext(StylesContext);
 
   React.useLayoutEffect(() => {
-    document
-      .querySelector(`body`)
-      ?.classList.add(...styles.background().split(` `));
+    document.querySelector(`body`)?.classList.add(...styles.background().split(` `));
   }, []);
 
   const darkMode = useDarkMode();
@@ -26,15 +23,13 @@ export function App(): JSX.Element {
     }
   }, [darkMode]);
 
-  const authStore = useAuthStore();
+  const appSnapshot = React.useSyncExternalStore(app.subscribe, () => app.get());
 
-  return (
-    <ErrorBoundary fallback={<ErrorPage />}>
-      {authStore.state === `authorized` ? (
-        <UserPage authStore={authStore} />
-      ) : (
-        <HomePage authStore={authStore} />
-      )}
-    </ErrorBoundary>
+  return appSnapshot.state === `isInitialized` ? (
+    <HomePage appSnapshot={appSnapshot} />
+  ) : appSnapshot.state === `hasError` ? (
+    <ErrorPage appSnapshot={appSnapshot} />
+  ) : (
+    <UserPage appSnapshot={appSnapshot} />
   );
 }

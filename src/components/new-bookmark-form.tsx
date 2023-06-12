@@ -12,10 +12,7 @@ export interface NewBookmarkFormProps {
   onCreate?(bookmark: Bookmark): void;
 }
 
-export function NewBookmarkForm({
-  onCancel,
-  onCreate,
-}: NewBookmarkFormProps): JSX.Element {
+export function NewBookmarkForm({onCancel, onCreate}: NewBookmarkFormProps): JSX.Element {
   const [currentTitle, setCurrentTitle] = React.useState(``);
   const [currentUrl, setCurrentUrl] = React.useState(``);
 
@@ -23,9 +20,7 @@ export function NewBookmarkForm({
     const title = currentTitle.trim();
     const url = currentUrl.trim();
 
-    return onCreate && title && url
-      ? () => onCreate({title, url, ctime: Date.now()})
-      : undefined;
+    return onCreate && title && url ? () => onCreate({title, url, ctime: Date.now()}) : undefined;
   }, [onCreate, currentTitle, currentUrl]);
 
   return (
@@ -51,12 +46,7 @@ export function NewBookmarkForm({
         }
         rightCol={
           <>
-            <Button
-              type="submit"
-              title="Create bookmark"
-              disabled={!create}
-              inverted
-            >
+            <Button type="submit" title="Create bookmark" disabled={!create} inverted>
               <Icon type="check" />
               Create
             </Button>

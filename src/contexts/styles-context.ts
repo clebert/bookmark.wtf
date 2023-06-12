@@ -22,9 +22,7 @@ export interface Styles {
 export const StylesContext = React.createContext<Styles>({
   background(options = {}) {
     if (`shaded` in options) {
-      return options.shaded
-        ? `bg-gray-100 dark:bg-gray-800`
-        : `bg-white dark:bg-gray-900`;
+      return options.shaded ? `bg-gray-100 dark:bg-gray-800` : `bg-white dark:bg-gray-900`;
     }
 
     const {interactive, inverted} = options;

@@ -1,25 +1,24 @@
 import {Button} from './button.js';
 import {Icon} from './icon.js';
-import {useStateMachine} from '../hooks/use-state-machine.js';
-import {uiModeStore} from '../stores/ui-mode-store.js';
+import {uiMode} from '../state-machines/ui-mode.js';
 import * as React from 'react';
 
 const titles = {
-  showControls: `Show controls`,
-  hideControls: `Hide controls`,
+  isShowingControls: `Showing controls`,
+  isHidingControls: `Hiding controls`,
 };
 
 const iconTypes = {
-  showControls: `eye`,
-  hideControls: `eyeSlash`,
+  isShowingControls: `eye`,
+  isHidingControls: `eyeSlash`,
 } as const;
 
 export function UiModeButton(): JSX.Element {
-  const uiModeSnapshot = useStateMachine(uiModeStore);
+  const uiModeSnapshot = React.useSyncExternalStore(uiMode.subscribe, () => uiMode.get());
 
   const toggle = React.useCallback(() => {
-    uiModeStore.get().actions.toggle();
-  }, []);
+    uiModeSnapshot.actions.toggle();
+  }, [uiModeSnapshot]);
 
   return (
     <Button

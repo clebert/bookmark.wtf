@@ -9,12 +9,7 @@ export interface LinkProps extends React.PropsWithChildren {
   onClick?(): void;
 }
 
-export function Link({
-  children,
-  url,
-  static: isStatic,
-  onClick,
-}: LinkProps): JSX.Element {
+export function Link({children, url, static: isStatic, onClick}: LinkProps): JSX.Element {
   const styles = React.useContext(StylesContext);
 
   return (

@@ -17,9 +17,7 @@ const pathByType = {
   duplicate: [
     `M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z`,
   ],
-  externalLink: [
-    `M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14`,
-  ],
+  externalLink: [`M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14`],
   eye: [
     `M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z`,
     `M15 12a3 3 0 11-6 0 3 3 0 016 0z`,
@@ -39,9 +37,7 @@ const pathByType = {
   logout: [
     `M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1`,
   ],
-  moon: [
-    `M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z`,
-  ],
+  moon: [`M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z`],
   pencil: [
     `M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z`,
   ],
@@ -67,12 +63,7 @@ const pathByType = {
 
 export function Icon({type, standalone}: IconProps): JSX.Element {
   return (
-    <div
-      className={joinClassNames(
-        `inline-flex h-5 align-middle`,
-        !standalone && `mr-1`,
-      )}
-    >
+    <div className={joinClassNames(`inline-flex h-5 align-middle`, !standalone && `mr-1`)}>
       <svg
         className="h-4 w-4 stroke-current stroke-1"
         viewBox="0 0 24 24"

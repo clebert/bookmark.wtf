@@ -3,16 +3,12 @@ import type {APIGatewayEvent, APIGatewayProxyResult} from 'aws-lambda';
 import {assertIsString} from '../utils/assert-is-string.js';
 import {getLambdaCookie} from '../utils/get-lambda-cookie.js';
 import {getLambdaParam} from '../utils/get-lambda-param.js';
+import {z} from 'zod';
 
-export async function handler(
-  event: APIGatewayEvent,
-): Promise<APIGatewayProxyResult> {
+export async function handler(event: APIGatewayEvent): Promise<APIGatewayProxyResult> {
   const transactionId = getLambdaParam(event, `state`);
 
-  if (
-    !transactionId ||
-    transactionId !== getLambdaCookie(event, `transactionId`)
-  ) {
+  if (!transactionId || transactionId !== getLambdaCookie(event, `transactionId`)) {
     throw new Error(`Untrusted OAuth transaction.`);
   }
 
@@ -30,16 +26,13 @@ export async function handler(
   url.searchParams.set(`code`, code);
   url.searchParams.set(`state`, transactionId);
 
-  const response = await fetch(url.href, {
-    headers: {Accept: `application/json`},
-  });
+  const response = await fetch(url.href, {headers: {Accept: `application/json`}});
 
-  const body = (await response.json()) as {
-    readonly message: string;
-    readonly access_token: string;
-  };
+  const body = z
+    .object({message: z.string().optional(), access_token: z.string().optional()})
+    .parse(await response.json());
 
-  if (response.status !== 200) {
+  if (response.status !== 200 || !body.access_token) {
     throw new Error(`Fetching token failed: ${body.message}`);
   }
 
@@ -48,9 +41,5 @@ export async function handler(
   searchParams.set(`transactionId`, transactionId);
   searchParams.set(`token`, body.access_token);
 
-  return {
-    statusCode: 302,
-    headers: {Location: `/?${searchParams.toString()}`},
-    body: ``,
-  };
+  return {statusCode: 302, headers: {Location: `/?${searchParams.toString()}`}, body: ``};
 }

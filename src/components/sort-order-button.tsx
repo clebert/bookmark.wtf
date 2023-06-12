@@ -1,40 +1,34 @@
 import {Button} from './button.js';
 import {Icon} from './icon.js';
-import {AppTopics} from '../pub-sub/app-topics.js';
+import {sortOrder} from '../state-machines/sort-order.js';
 import * as React from 'react';
 
 const titles = {
-  timeAsc: `Sorting by time (ascending)`,
-  timeDesc: `Sorting by time (descending)`,
-  clickCount: `Sorting by click count`,
+  isClickCount: `Sorting by click count`,
+  isTimeAsc: `Sorting by time (ascending)`,
+  isTimeDesc: `Sorting by time (descending)`,
 };
 
 const iconTypes = {
-  timeAsc: `sortAscending`,
-  timeDesc: `sortDescending`,
-  clickCount: `cursorClick`,
+  isClickCount: `cursorClick`,
+  isTimeAsc: `sortAscending`,
+  isTimeDesc: `sortDescending`,
 } as const;
 
 export function SortOrderButton(): JSX.Element {
-  const sortOrder = AppTopics.sortOrder.use();
+  const sortOrderSnapshot = React.useSyncExternalStore(sortOrder.subscribe, () => sortOrder.get());
 
-  const toggleSortOrder = React.useCallback(() => {
-    if (sortOrder === `clickCount`) {
-      AppTopics.sortOrder.publish(`timeAsc`);
-    } else if (sortOrder === `timeAsc`) {
-      AppTopics.sortOrder.publish(`timeDesc`);
-    } else {
-      AppTopics.sortOrder.publish(`clickCount`);
-    }
-  }, [sortOrder]);
+  const toggle = React.useCallback(() => {
+    sortOrderSnapshot.actions.toggle();
+  }, [sortOrderSnapshot]);
 
   return (
     <Button
       className="SortOrderButton border-dashed"
-      title={titles[sortOrder]}
-      onClick={toggleSortOrder}
+      title={titles[sortOrderSnapshot.state]}
+      onClick={toggle}
     >
-      <Icon type={iconTypes[sortOrder]} standalone />
+      <Icon type={iconTypes[sortOrderSnapshot.state]} standalone />
     </Button>
   );
 }

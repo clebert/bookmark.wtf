@@ -11,13 +11,7 @@ export interface GridItemProps {
   rightCol?: React.ReactNode;
 }
 
-export function GridItem({
-  className,
-  leftCol,
-  row1,
-  row2,
-  rightCol,
-}: GridItemProps): JSX.Element {
+export function GridItem({className, leftCol, row1, row2, rightCol}: GridItemProps): JSX.Element {
   const styles = React.useContext(StylesContext);
 
   return (
@@ -32,15 +26,10 @@ export function GridItem({
 
       <div className="flex w-full flex-col space-y-4 overflow-hidden">
         <div className="flex w-full space-x-2">{row1}</div>
-
-        <div className="flex w-full space-x-2">
-          {row2 || <Label static>{`\u00A0`}</Label>}
-        </div>
+        <div className="flex w-full space-x-2">{row2 || <Label static>{`\u00A0`}</Label>}</div>
       </div>
 
-      {rightCol && (
-        <div className="flex shrink-0 flex-col space-y-4">{rightCol}</div>
-      )}
+      {rightCol && <div className="flex shrink-0 flex-col space-y-4">{rightCol}</div>}
     </div>
   );
 }

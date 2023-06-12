@@ -1,11 +1,13 @@
-import {useStateMachine} from './use-state-machine.js';
-import {colorSchemeStore} from '../stores/color-scheme-store.js';
+import {colorScheme} from '../state-machines/color-scheme.js';
 import * as React from 'react';
 
 const mediaQuery = window.matchMedia(`(prefers-color-scheme: dark)`);
 
 export function useDarkMode(): boolean {
-  const colorSchemeSnapshot = useStateMachine(colorSchemeStore);
+  const colorSchemeSnapshot = React.useSyncExternalStore(colorScheme.subscribe, () =>
+    colorScheme.get(),
+  );
+
   const [prefersDark, setPrefersDark] = React.useState(mediaQuery.matches);
 
   React.useEffect(() => {
@@ -13,11 +15,13 @@ export function useDarkMode(): boolean {
 
     mediaQuery.addEventListener(`change`, listener);
 
-    return () => mediaQuery.removeEventListener(`change`, listener);
+    return () => {
+      mediaQuery.removeEventListener(`change`, listener);
+    };
   }, []);
 
   return (
-    colorSchemeSnapshot.state === `dark` ||
-    (colorSchemeSnapshot.state === `auto` && prefersDark)
+    colorSchemeSnapshot.state === `isDark` ||
+    (colorSchemeSnapshot.state === `isSystem` && prefersDark)
   );
 }

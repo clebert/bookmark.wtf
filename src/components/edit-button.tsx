@@ -10,11 +10,7 @@ export interface EditButtonProps {
 
 export function EditButton({targetName, action}: EditButtonProps): JSX.Element {
   return (
-    <Button
-      className="EditButton"
-      title={`Edit ${targetName}`}
-      onClick={action}
-    >
+    <Button className="EditButton" title={`Edit ${targetName}`} onClick={action}>
       <Icon type="pencil" standalone />
     </Button>
   );

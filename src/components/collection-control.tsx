@@ -1,7 +1,5 @@
-import type {
-  ReadyGistsStore,
-  UpdatingGistsStore,
-} from '../hooks/use-gists-store.js';
+import type {app} from '../state-machines/app.js';
+import type {InferSnapshot} from 'state-guard';
 
 import {Button} from './button.js';
 import {GridItem} from './grid-item.js';
@@ -13,26 +11,25 @@ import {useToggle} from '../hooks/use-toggle.js';
 import * as React from 'react';
 
 export interface CollectionControlProps {
-  gistsStore: ReadyGistsStore | UpdatingGistsStore;
+  appSnapshot: InferSnapshot<typeof app, 'hasGists' | 'isUpdatingGists'>;
 }
 
-export function CollectionControl({
-  gistsStore,
-}: CollectionControlProps): JSX.Element {
+export function CollectionControl({appSnapshot}: CollectionControlProps): JSX.Element {
+  const {token, user, gists} = appSnapshot.value;
   const [newMode, toggleNewMode] = useToggle(false);
 
   const createCollection = React.useMemo(
     () =>
-      `createGist` in gistsStore
+      appSnapshot.state === `hasGists`
         ? (description: string) => {
-            gistsStore.createGist(description);
+            const operation = {type: `createGist`, description} as const;
+
+            appSnapshot.actions.updateGists({token, user, gists, operation});
             toggleNewMode();
           }
         : undefined,
-    [gistsStore],
+    [appSnapshot],
   );
-
-  const gistCount = gistsStore.gists?.length ?? 0;
 
   return newMode ? (
     <NewCollectionForm onCancel={toggleNewMode} onCreate={createCollection} />
@@ -42,16 +39,12 @@ export function CollectionControl({
       row1={
         <Label static>
           <Icon type="viewGrid" />
-          {gistCount} collection{gistCount === 1 ? `` : `s`} found
+          {gists.length} collection{gists.length === 1 ? `` : `s`} found
         </Label>
       }
       row2={
         <>
-          <Button
-            className="NewButton"
-            title="New collection"
-            onClick={toggleNewMode}
-          >
+          <Button className="NewButton" title="New collection" onClick={toggleNewMode}>
             <Icon type="viewGridAdd" />
             New
           </Button>

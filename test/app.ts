@@ -12,10 +12,7 @@ const bookmarkControl = any().filter(attribute(`.BookmarkControl`));
 
 export const app = {
   topbar: {
-    colorSchemeButton: topbar.path(
-      any().filter(attribute(`.ColorSchemeButton`)),
-    ),
-
+    colorSchemeButton: topbar.path(any().filter(attribute(`.ColorSchemeButton`))),
     signInButton: topbar.path(any().filter(attribute(`.SignInButton`))),
     signOutButton: topbar.path(any().filter(attribute(`.SignOutButton`))),
   },
@@ -25,17 +22,9 @@ export const app = {
   },
 
   newCollectionForm: {
-    descriptionField: newCollectionForm.path(
-      any().filter(attribute(`.DescriptionField`)),
-    ),
-
-    createButton: newCollectionForm.path(
-      any().filter(attribute(`.CreateButton`)),
-    ),
-
-    cancelButton: newCollectionForm.path(
-      any().filter(attribute(`.CancelButton`)),
-    ),
+    descriptionField: newCollectionForm.path(any().filter(attribute(`.DescriptionField`))),
+    createButton: newCollectionForm.path(any().filter(attribute(`.CreateButton`))),
+    cancelButton: newCollectionForm.path(any().filter(attribute(`.CancelButton`))),
   },
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -62,12 +51,7 @@ export const app = {
   },
 
   bookmarkControl: {
-    sortOrderButton: bookmarkControl.path(
-      any().filter(attribute(`.SortOrderButton`)),
-    ),
-
-    uiModeButton: bookmarkControl.path(
-      any().filter(attribute(`.UiModeButton`)),
-    ),
+    sortOrderButton: bookmarkControl.path(any().filter(attribute(`.SortOrderButton`))),
+    uiModeButton: bookmarkControl.path(any().filter(attribute(`.UiModeButton`))),
   },
 };

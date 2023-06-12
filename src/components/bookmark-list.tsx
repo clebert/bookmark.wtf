@@ -1,98 +1,69 @@
 import type {BookmarkFile} from './bookmark-item.js';
-import type {AuthorizedAuthStore} from '../hooks/use-auth-store.js';
+import type {app} from '../state-machines/app.js';
+import type {InferSnapshot} from 'state-guard';
 
 import {BookmarkControl} from './bookmark-control.js';
 import {BookmarkItem} from './bookmark-item.js';
 import {Grid} from './grid.js';
-import {useGistStore} from '../hooks/use-gist-store.js';
-import {AppTopics} from '../pub-sub/app-topics.js';
+import {sortOrder} from '../state-machines/sort-order.js';
 import {compareClickCount} from '../utils/compare-click-count.js';
 import {compareTime} from '../utils/compare-time.js';
 import {parseBookmark} from '../utils/parse-bookmark.js';
 import * as React from 'react';
 
 export interface BookmarkListProps {
-  authStore: AuthorizedAuthStore;
-  user: string;
-  gistName: string;
+  appSnapshot: InferSnapshot<
+    typeof app,
+    'hasGist' | 'isUpdatingGist' | 'hasForeignGist' | 'isForkingGist'
+  >;
 }
 
-export function BookmarkList({
-  authStore,
-  user,
-  gistName,
-}: BookmarkListProps): JSX.Element | null {
-  const gistStore = useGistStore(authStore, user, gistName);
-
-  if (gistStore.state === `failed`) {
-    throw gistStore.reason;
-  }
+export function BookmarkList({appSnapshot}: BookmarkListProps): JSX.Element | null {
+  const {gist} = appSnapshot.value;
 
   React.useEffect(() => {
-    if (`gist` in gistStore) {
-      const {description} = gistStore.gist;
-
-      if (description) {
-        document.title = description;
+    if (appSnapshot.state === `hasGist`) {
+      if (gist.description) {
+        document.title = gist.description;
       }
     }
 
     return () => {
       document.title = `bookmark.wtf`;
     };
-  }, [gistStore]);
+  }, [appSnapshot]);
 
-  const bookmarkFiles = React.useMemo<readonly BookmarkFile[]>(
+  const sortOrderSnapshot = React.useSyncExternalStore(sortOrder.subscribe, () => sortOrder.get());
+
+  const bookmarkFiles = React.useMemo(
     () =>
-      (`gist` in gistStore ? gistStore.gist.files : []).reduce(
-        (files, {filename, text}) => {
-          const bookmark = parseBookmark(text);
+      Object.entries(gist.files)
+        .reduce<BookmarkFile[]>((files, [filename, {content}]) => {
+          const bookmark = parseBookmark(content);
 
           return !bookmark ? files : [{filename, bookmark}, ...files];
-        },
-        [] as BookmarkFile[],
-      ),
-    [gistStore],
+        }, [])
+        .sort(({bookmark: a}, {bookmark: b}) =>
+          sortOrderSnapshot.state === `isTimeAsc`
+            ? compareTime(a, b)
+            : sortOrderSnapshot.state === `isTimeDesc`
+            ? compareTime(b, a)
+            : compareClickCount(b, a) || compareTime(b, a),
+        ),
+    [appSnapshot, sortOrderSnapshot],
   );
 
-  const sortOrder = AppTopics.sortOrder.use();
-
-  const sortedBookmarkFiles = React.useMemo<readonly BookmarkFile[]>(
-    () =>
-      [...bookmarkFiles].sort(({bookmark: a}, {bookmark: b}) =>
-        sortOrder === `timeAsc`
-          ? compareTime(a, b)
-          : sortOrder === `timeDesc`
-          ? compareTime(b, a)
-          : compareClickCount(b, a) || compareTime(b, a),
-      ),
-    [bookmarkFiles, sortOrder],
-  );
-
-  const searchTerm = AppTopics.searchTerm.use();
-
-  const filteredBookmarkFiles = React.useMemo<readonly BookmarkFile[]>(() => {
-    const regex = searchTerm
-      ? new RegExp(searchTerm.split(``).join(`.?`), `i`)
-      : undefined;
-
-    return sortedBookmarkFiles.filter(
-      ({bookmark}) =>
-        !regex || regex.test(bookmark.title) || regex.test(bookmark.url),
-    );
-  }, [sortedBookmarkFiles, searchTerm]);
-
-  return gistStore.state !== `loading` ? (
+  return (
     <Grid>
-      <BookmarkControl gistName={gistName} gistStore={gistStore} />
+      <BookmarkControl appSnapshot={appSnapshot} />
 
-      {filteredBookmarkFiles.map((bookmarkFile) => (
+      {bookmarkFiles.map((bookmarkFile) => (
         <BookmarkItem
           key={bookmarkFile.filename}
-          gistStore={gistStore}
+          appSnapshot={appSnapshot}
           bookmarkFile={bookmarkFile}
         />
       ))}
     </Grid>
-  ) : null;
+  );
 }

@@ -1,10 +1,6 @@
-import type {
-  ForkingGistStore,
-  LockedGistStore,
-  ReadyGistStore,
-  UpdatingGistStore,
-} from '../hooks/use-gist-store.js';
+import type {app} from '../state-machines/app.js';
 import type {Bookmark} from '../utils/parse-bookmark.js';
+import type {InferSnapshot} from 'state-guard';
 
 import {Button} from './button.js';
 import {GridItem} from './grid-item.js';
@@ -14,46 +10,60 @@ import {NewBookmarkForm} from './new-bookmark-form.js';
 import {SortOrderButton} from './sort-order-button.js';
 import {UiModeButton} from './ui-mode-button.js';
 import {useToggle} from '../hooks/use-toggle.js';
-import {gistNameStore} from '../stores/gist-name-store.js';
 import {createRandomValue} from '../utils/create-random-value.js';
 import {serializeBookmark} from '../utils/serialize-bookmark.js';
 import * as React from 'react';
 
 export interface BookmarkControlProps {
-  gistName: string;
-
-  gistStore:
-    | ReadyGistStore
-    | UpdatingGistStore
-    | LockedGistStore
-    | ForkingGistStore;
+  appSnapshot: InferSnapshot<
+    typeof app,
+    'hasGist' | 'isUpdatingGist' | 'hasForeignGist' | 'isForkingGist'
+  >;
 }
 
-export function BookmarkControl({
-  gistName,
-  gistStore,
-}: BookmarkControlProps): JSX.Element {
-  const closeCollection = React.useCallback(
-    () => gistNameStore.get().actions.set(``),
-    [],
+export function BookmarkControl({appSnapshot}: BookmarkControlProps): JSX.Element {
+  const {token, user, gistName, gist} = appSnapshot.value;
+
+  const closeCollection = React.useMemo(
+    () =>
+      appSnapshot.state !== `isForkingGist`
+        ? () => {
+            appSnapshot.actions.readGists({token, user});
+          }
+        : undefined,
+    [appSnapshot],
   );
 
   const [newMode, toggleNewMode] = useToggle(false);
 
   const createBookmark = React.useMemo(
     () =>
-      `createFile` in gistStore
+      appSnapshot.state === `hasGist`
         ? (bookmark: Bookmark) => {
-            gistStore.createFile(
-              createRandomValue() + `.md`,
-              serializeBookmark(bookmark),
-            );
+            const operation = {
+              type: `createFile`,
+              filename: createRandomValue() + `.md`,
+              content: serializeBookmark(bookmark),
+            } as const;
 
+            appSnapshot.actions.updateGist({token, user, gistName, gist, operation});
             toggleNewMode();
           }
         : undefined,
-    [gistStore],
+    [appSnapshot],
   );
+
+  const forkCollection = React.useMemo(
+    () =>
+      appSnapshot.state === `hasForeignGist`
+        ? () => {
+            appSnapshot.actions.forkGist({token, user, gistName, gist});
+          }
+        : undefined,
+    [appSnapshot],
+  );
+
+  const isLocked = appSnapshot.state === `hasForeignGist` || appSnapshot.state === `isForkingGist`;
 
   return newMode ? (
     <NewBookmarkForm onCancel={toggleNewMode} onCreate={createBookmark} />
@@ -62,28 +72,22 @@ export function BookmarkControl({
       className="BookmarkControl"
       row1={
         <Label>
-          <Icon
-            type={
-              gistStore.state !== `locked` && gistStore.state !== `forking`
-                ? `viewGrid`
-                : `lockClosed`
-            }
-          />
-          {gistStore.gist.description ?? gistName}
+          <Icon type={isLocked ? `lockClosed` : `viewGrid`} />
+          {gist.description || gistName}
         </Label>
       }
       row2={
         <>
-          {gistStore.state === `locked` || gistStore.state === `forking` ? (
-            <Button
-              title="Fork collection"
-              onClick={`forkGist` in gistStore ? gistStore.forkGist : undefined}
-            >
+          {forkCollection ? (
+            <Button title="Fork collection" onClick={forkCollection}>
               <Icon type="duplicate" />
               Fork
             </Button>
           ) : (
-            <Button title="New bookmark" onClick={toggleNewMode}>
+            <Button
+              title="New bookmark"
+              onClick={appSnapshot.state !== `isForkingGist` ? toggleNewMode : undefined}
+            >
               <Icon type="viewGridAdd" />
               New
             </Button>

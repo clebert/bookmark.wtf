@@ -10,14 +10,8 @@ test(`taking a screenshot in dark mode`, async ({browser, page}) => {
   await takeScreenshot(new Session(browser, page), `dark`);
 });
 
-async function takeScreenshot(
-  session: Session,
-  colorScheme: 'light' | 'dark',
-): Promise<void> {
-  await session.page.goto(`/9803bde974539a8992c0515b28db439b`, {
-    waitUntil: `networkidle`,
-  });
-
+async function takeScreenshot(session: Session, colorScheme: 'light' | 'dark'): Promise<void> {
+  await session.page.goto(`/9803bde974539a8992c0515b28db439b`, {waitUntil: `networkidle`});
   await session.page.click(`body`); // Blur search input
   await session.click(app.topbar.colorSchemeButton);
 
@@ -28,12 +22,7 @@ async function takeScreenshot(
   await session.click(app.bookmarkControl.sortOrderButton);
   await session.click(app.bookmarkControl.uiModeButton);
   await session.page.click(`body`); // Blur UI mode button
-
-  await session.page.screenshot({
-    path: `screenshot-${colorScheme}-mode.png`,
-    fullPage: true,
-  });
-
+  await session.page.screenshot({path: `screenshot-${colorScheme}-mode.png`, fullPage: true});
   await session.click(app.bookmarkControl.sortOrderButton);
   await session.click(app.bookmarkControl.sortOrderButton);
   await session.click(app.topbar.colorSchemeButton);

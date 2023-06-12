@@ -1,48 +1,35 @@
-import type {AuthorizedAuthStore} from '../hooks/use-auth-store.js';
+import type {app} from '../state-machines/app.js';
+import type {InferSnapshot, InferState} from 'state-guard';
 
 import {BookmarkList} from './bookmark-list.js';
 import {CollectionList} from './collection-list.js';
 import {Page} from './page.js';
-import {UserTopbar} from './user-topbar.js';
-import {UserAPI} from '../apis/user-api.js';
-import {useReceiver} from '../hooks/use-receiver.js';
-import {useStateMachine} from '../hooks/use-state-machine.js';
-import {gistNameStore} from '../stores/gist-name-store.js';
+import {Topbar} from './topbar.js';
 import * as React from 'react';
 
 export interface UserPageProps {
-  authStore: AuthorizedAuthStore;
+  appSnapshot: InferSnapshot<
+    typeof app,
+    Exclude<InferState<typeof app>, 'isInitialized' | 'hasError'>
+  >;
 }
 
-export function UserPage({authStore}: UserPageProps): JSX.Element {
-  const userReceiver = useReceiver(
-    React.useMemo(
-      async () => UserAPI.init(authStore.token).then(({user}) => user),
-      [authStore],
-    ),
-  );
+export function UserPage({appSnapshot}: UserPageProps): JSX.Element {
+  const {state} = appSnapshot;
 
-  if (userReceiver.state === `failed`) {
-    throw userReceiver.error;
-  }
-
-  const gistName = useStateMachine(gistNameStore).value;
+  const isReading =
+    state === `isReadingUser` || state === `isReadingGists` || state === `isReadingGist`;
 
   return (
     <Page>
-      <UserTopbar authStore={authStore} />
+      <Topbar appSnapshot={appSnapshot} />
 
-      {gistName ? (
-        userReceiver.state === `successful` && (
-          <BookmarkList
-            authStore={authStore}
-            user={userReceiver.value}
-            gistName={gistName}
-          />
-        )
-      ) : (
-        <CollectionList authStore={authStore} />
-      )}
+      {!isReading &&
+        (state === `hasGists` || state === `isUpdatingGists` ? (
+          <CollectionList appSnapshot={appSnapshot} />
+        ) : (
+          <BookmarkList appSnapshot={appSnapshot} />
+        ))}
     </Page>
   );
 }

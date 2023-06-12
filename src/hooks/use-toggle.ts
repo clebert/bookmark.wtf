@@ -1,9 +1,6 @@
 import * as React from 'react';
 
-export function useToggle(
-  initialValue: boolean,
-  timeout?: number,
-): [boolean, () => void] {
+export function useToggle(initialValue: boolean, timeout?: number): [boolean, () => void] {
   const [toggle, setToggle] = React.useState(initialValue);
 
   React.useEffect(() => {
@@ -16,8 +13,5 @@ export function useToggle(
     return () => clearTimeout(timeoutId);
   }, [timeout, toggle]);
 
-  return [
-    toggle,
-    React.useCallback(() => setToggle((prevToggle) => !prevToggle), []),
-  ];
+  return [toggle, React.useCallback(() => setToggle((prevToggle) => !prevToggle), [])];
 }

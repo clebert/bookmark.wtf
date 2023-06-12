@@ -32,9 +32,7 @@ export function TextField({
     }
   }, []);
 
-  const handleInput = React.useCallback<
-    React.FormEventHandler<HTMLInputElement>
-  >(
+  const handleInput = React.useCallback<React.FormEventHandler<HTMLInputElement>>(
     (event) => {
       event.preventDefault();
       onInput(event.currentTarget.value);

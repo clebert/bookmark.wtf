@@ -1,8 +1,5 @@
-import type {ShallowGist} from '../apis/gists-api.js';
-import type {
-  ReadyGistsStore,
-  UpdatingGistsStore,
-} from '../hooks/use-gists-store.js';
+import type {app} from '../state-machines/app.js';
+import type {InferSnapshot} from 'state-guard';
 
 import {DeleteButton} from './delete-button.js';
 import {EditButton} from './edit-button.js';
@@ -10,48 +7,56 @@ import {EditCollectionForm} from './edit-collection-form.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Link} from './link.js';
-import {useStateMachine} from '../hooks/use-state-machine.js';
 import {useToggle} from '../hooks/use-toggle.js';
-import {gistNameStore} from '../stores/gist-name-store.js';
-import {uiModeStore} from '../stores/ui-mode-store.js';
+import {uiMode} from '../state-machines/ui-mode.js';
 import * as React from 'react';
 
 export interface CollectionItemProps {
-  gistsStore: ReadyGistsStore | UpdatingGistsStore;
-  gist: ShallowGist;
+  appSnapshot: InferSnapshot<typeof app, 'hasGists' | 'isUpdatingGists'>;
+  gistIndex: number;
 }
 
-export function CollectionItem({
-  gistsStore,
-  gist: {gistName, description},
-}: CollectionItemProps): JSX.Element {
-  const openCollection = React.useCallback(
-    () => gistNameStore.get().actions.set(gistName),
-    [gistName],
-  );
+export function CollectionItem({appSnapshot, gistIndex}: CollectionItemProps): JSX.Element {
+  const {token, user, gists} = appSnapshot.value;
+  const {gistName, description} = gists[gistIndex]!;
+
+  const openCollection = React.useCallback(() => {
+    appSnapshot.actions.readGist({token, user, gistName});
+  }, [appSnapshot]);
 
   const [editing, toggleEditing] = useToggle(false);
 
   const updateCollection = React.useMemo(
     () =>
-      `updateGist` in gistsStore
+      appSnapshot.state === `hasGists`
         ? (newDescription: string) => {
-            gistsStore.updateGist(gistName, newDescription);
+            const operation = {type: `updateGist`, gistName, description: newDescription} as const;
+
+            appSnapshot.actions.updateGists({token, user, gists, operation});
             toggleEditing();
           }
         : undefined,
-    [gistsStore, gistName],
+    [appSnapshot],
   );
 
   const [deleting, toggleDeleting] = useToggle(false, 3000);
 
-  const deleteCollection = React.useCallback(() => {
-    if (`deleteGist` in gistsStore) {
-      gistsStore.deleteGist(gistName);
-    }
-  }, [gistsStore, gistName]);
+  const deleteCollection = React.useMemo(
+    () =>
+      appSnapshot.state === `hasGists`
+        ? () => {
+            const operation = {type: `deleteGist`, gistName} as const;
 
-  const showControlsSnapshot = useStateMachine(uiModeStore, `showControls`);
+            appSnapshot.actions.updateGists({token, user, gists, operation});
+            toggleDeleting();
+          }
+        : undefined,
+    [appSnapshot],
+  );
+
+  const isShowingControls = React.useSyncExternalStore(uiMode.subscribe, () =>
+    uiMode.get(`isShowingControls`),
+  );
 
   return editing ? (
     <EditCollectionForm
@@ -69,29 +74,22 @@ export function CollectionItem({
         </Link>
       }
       row2={
-        showControlsSnapshot &&
+        isShowingControls &&
         (deleting ? (
           <>
             <EditButton targetName="collection" />
-
-            <DeleteButton
-              targetName="collection"
-              verbose
-              action={
-                gistsStore.state === `ready` ? deleteCollection : undefined
-              }
-            />
+            <DeleteButton targetName="collection" verbose action={deleteCollection} />
           </>
         ) : (
           <>
             <EditButton
               targetName="collection"
-              action={gistsStore.state === `ready` ? toggleEditing : undefined}
+              action={appSnapshot.state === `hasGists` ? toggleEditing : undefined}
             />
 
             <DeleteButton
               targetName="collection"
-              action={gistsStore.state === `ready` ? toggleDeleting : undefined}
+              action={appSnapshot.state === `hasGists` ? toggleDeleting : undefined}
             />
           </>
         ))

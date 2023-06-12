@@ -17,8 +17,7 @@ export function EditCollectionForm({
   onCancel,
   onUpdate,
 }: EditCollectionFormProps): JSX.Element {
-  const [currentDescription, setCurrentDescription] =
-    React.useState(initialDescription);
+  const [currentDescription, setCurrentDescription] = React.useState(initialDescription);
 
   const update = React.useMemo(() => {
     const description = currentDescription.trim();
@@ -55,11 +54,7 @@ export function EditCollectionForm({
               Update
             </Button>
 
-            <Button
-              className="CancelButton"
-              title="Cancel updating collection"
-              onClick={onCancel}
-            >
+            <Button className="CancelButton" title="Cancel updating collection" onClick={onCancel}>
               <Icon type="x" />
               Cancel
             </Button>

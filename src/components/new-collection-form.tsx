@@ -10,10 +10,7 @@ export interface NewCollectionFormProps {
   onCreate?(description: string): void;
 }
 
-export function NewCollectionForm({
-  onCancel,
-  onCreate,
-}: NewCollectionFormProps): JSX.Element {
+export function NewCollectionForm({onCancel, onCreate}: NewCollectionFormProps): JSX.Element {
   const [currentDescription, setCurrentDescription] = React.useState(``);
 
   const create = React.useMemo(() => {
@@ -49,11 +46,7 @@ export function NewCollectionForm({
               Create
             </Button>
 
-            <Button
-              className="CancelButton"
-              title="Cancel creating collection"
-              onClick={onCancel}
-            >
+            <Button className="CancelButton" title="Cancel creating collection" onClick={onCancel}>
               <Icon type="x" />
               Cancel
             </Button>

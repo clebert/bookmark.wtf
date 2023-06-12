@@ -1,9 +1,6 @@
 import type {APIGatewayEvent} from 'aws-lambda';
 
-export function getLambdaParam(
-  event: APIGatewayEvent,
-  key: string,
-): string | undefined {
+export function getLambdaParam(event: APIGatewayEvent, key: string): string | undefined {
   const {queryStringParameters: params} = event;
 
   return (params && params[key]) || undefined;

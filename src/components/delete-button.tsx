@@ -9,11 +9,7 @@ export interface DeleteButtonProps {
   action?(): void;
 }
 
-export function DeleteButton({
-  targetName,
-  verbose,
-  action,
-}: DeleteButtonProps): JSX.Element {
+export function DeleteButton({targetName, verbose, action}: DeleteButtonProps): JSX.Element {
   return (
     <Button
       className="DeleteButton"
