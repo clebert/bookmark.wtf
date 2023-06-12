@@ -3,14 +3,14 @@ import {github} from './github.js';
 import {Session} from './session.js';
 import {assertIsString} from '../src/utils/assert-is-string.js';
 import {expect, test as setup} from '@playwright/test';
-import {env} from 'node:process';
+import process from 'node:process';
 import speakeasy from 'speakeasy';
 
 setup(`signing in`, async ({browser, page}) => {
   const session = new Session(browser, page);
-  const login = env.GITHUB_LOGIN;
-  const password = env.GITHUB_PASSWORD;
-  const secret = env.GITHUB_SECRET;
+  const login = process.env.GITHUB_LOGIN;
+  const password = process.env.GITHUB_PASSWORD;
+  const secret = process.env.GITHUB_SECRET;
 
   assertIsString(login, `GITHUB_LOGIN`);
   assertIsString(password, `GITHUB_PASSWORD`);

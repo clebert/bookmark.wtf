@@ -4,11 +4,12 @@ import {htmlPlugin} from 'esbuild-html-plugin';
 import stylePlugin from 'esbuild-style-plugin';
 import {rm} from 'node:fs/promises';
 import {createRequire} from 'node:module';
-import {argv, env} from 'node:process';
+import process from 'node:process';
 
 const require = createRequire(import.meta.url);
 const outdir = `dist`;
-const dev = env.NODE_ENV === `development`;
+const nodeEnv = process.env.NODE_ENV ?? `production`;
+const dev = nodeEnv !== `production`;
 
 /** @type {import('esbuild').BuildOptions} */
 const staticAppBuildOptions = {
@@ -19,8 +20,7 @@ const staticAppBuildOptions = {
   sourcemap: dev,
   define: {
     'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
-    'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV ?? `production`),
-    '__DEV__': String(dev),
+    'process.env.NODE_ENV': JSON.stringify(nodeEnv),
   },
   target: `es2022`,
   tsconfig: `tsconfig.base.json`,
@@ -73,7 +73,7 @@ function createLambdaBuildOptions(handlerName) {
     define: {
       'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
       'process.env.CLIENT_SECRET': JSON.stringify(process.env.CLIENT_SECRET),
-      'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV ?? `production`),
+      'process.env.NODE_ENV': JSON.stringify(nodeEnv),
     },
     target: `es2022`,
     tsconfig: `tsconfig.base.json`,
@@ -83,7 +83,7 @@ function createLambdaBuildOptions(handlerName) {
 
 const redirectLambdaBuildOptions = createLambdaBuildOptions(`redirect`);
 
-if (argv.includes(`--watch`)) {
+if (process.argv.includes(`--watch`)) {
   await Promise.all([
     esbuild.context(staticAppBuildOptions).then((ctx) => ctx.watch()),
     esbuild.context(redirectLambdaBuildOptions).then((ctx) => ctx.watch()),
