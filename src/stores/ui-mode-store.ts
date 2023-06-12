@@ -1,5 +1,5 @@
 import {createJsonStorageItem} from '../utils/create-json-storage-item.js';
-import {createStore} from 'state-guard';
+import {createStateMachine} from 'state-guard';
 import {z} from 'zod';
 
 const storageItem = createJsonStorageItem(
@@ -7,7 +7,7 @@ const storageItem = createJsonStorageItem(
   z.literal(`showControls`).or(z.literal(`hideControls`)),
 );
 
-export const uiModeStore = createStore({
+export const uiModeStore = createStateMachine({
   initialState: storageItem.value ?? `showControls`,
   initialValue: undefined,
   transformerMap: {

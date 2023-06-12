@@ -1,6 +1,6 @@
 import {Button} from './button.js';
 import {Icon} from './icon.js';
-import {useStore} from '../hooks/use-store.js';
+import {useStateMachine} from '../hooks/use-state-machine.js';
 import {uiModeStore} from '../stores/ui-mode-store.js';
 import * as React from 'react';
 
@@ -15,7 +15,7 @@ const iconTypes = {
 } as const;
 
 export function UiModeButton(): JSX.Element {
-  const uiModeSnapshot = useStore(uiModeStore);
+  const uiModeSnapshot = useStateMachine(uiModeStore);
 
   const toggle = React.useCallback(() => {
     uiModeStore.get().actions.toggle();

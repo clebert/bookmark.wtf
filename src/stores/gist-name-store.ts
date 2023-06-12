@@ -1,8 +1,8 @@
-import {createStore} from 'state-guard';
+import {createStateMachine} from 'state-guard';
 
 const [, initialGistName = ``] = location.pathname.split(`/`);
 
-export const gistNameStore = createStore({
+export const gistNameStore = createStateMachine({
   initialState: `current`,
   initialValue: initialGistName,
   transformerMap: {

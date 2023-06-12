@@ -7,7 +7,7 @@ import {Icon} from './icon.js';
 import {SearchForm} from './search-form.js';
 import {TopbarItem} from './topbar-item.js';
 import {Topbar} from './topbar.js';
-import {useStore} from '../hooks/use-store.js';
+import {useStateMachine} from '../hooks/use-state-machine.js';
 import {gistNameStore} from '../stores/gist-name-store.js';
 import * as React from 'react';
 
@@ -16,7 +16,7 @@ export interface UserTopbarProps {
 }
 
 export function UserTopbar({authStore}: UserTopbarProps): JSX.Element {
-  const gistName = useStore(gistNameStore).value;
+  const gistName = useStateMachine(gistNameStore).value;
 
   return (
     <Topbar className="Topbar">

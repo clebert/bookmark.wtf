@@ -1,6 +1,6 @@
 import {Button} from './button.js';
 import {Icon} from './icon.js';
-import {useStore} from '../hooks/use-store.js';
+import {useStateMachine} from '../hooks/use-state-machine.js';
 import {colorSchemeStore} from '../stores/color-scheme-store.js';
 import * as React from 'react';
 
@@ -13,7 +13,7 @@ const iconTypes = {
 } as const;
 
 export function ColorSchemeButton(): JSX.Element {
-  const colorSchemeSnapshot = useStore(colorSchemeStore);
+  const colorSchemeSnapshot = useStateMachine(colorSchemeStore);
 
   const toggle = React.useCallback(() => {
     colorSchemeStore.get().actions.toggle();

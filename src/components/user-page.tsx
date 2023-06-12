@@ -6,7 +6,7 @@ import {Page} from './page.js';
 import {UserTopbar} from './user-topbar.js';
 import {UserAPI} from '../apis/user-api.js';
 import {useReceiver} from '../hooks/use-receiver.js';
-import {useStore} from '../hooks/use-store.js';
+import {useStateMachine} from '../hooks/use-state-machine.js';
 import {gistNameStore} from '../stores/gist-name-store.js';
 import * as React from 'react';
 
@@ -26,7 +26,7 @@ export function UserPage({authStore}: UserPageProps): JSX.Element {
     throw userReceiver.error;
   }
 
-  const gistName = useStore(gistNameStore).value;
+  const gistName = useStateMachine(gistNameStore).value;
 
   return (
     <Page>

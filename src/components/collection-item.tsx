@@ -10,7 +10,7 @@ import {EditCollectionForm} from './edit-collection-form.js';
 import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Link} from './link.js';
-import {useStore} from '../hooks/use-store.js';
+import {useStateMachine} from '../hooks/use-state-machine.js';
 import {useToggle} from '../hooks/use-toggle.js';
 import {gistNameStore} from '../stores/gist-name-store.js';
 import {uiModeStore} from '../stores/ui-mode-store.js';
@@ -51,7 +51,7 @@ export function CollectionItem({
     }
   }, [gistsStore, gistName]);
 
-  const showControlsSnapshot = useStore(uiModeStore, `showControls`);
+  const showControlsSnapshot = useStateMachine(uiModeStore, `showControls`);
 
   return editing ? (
     <EditCollectionForm
