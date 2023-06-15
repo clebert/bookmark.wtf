@@ -44,7 +44,11 @@ export function CollectionControl({appSnapshot}: CollectionControlProps): JSX.El
       }
       row2={
         <>
-          <Button className="NewButton" title="New collection" onClick={toggleNewMode}>
+          <Button
+            className="NewButton"
+            title="New collection"
+            onClick={createCollection ? toggleNewMode : undefined}
+          >
             <Icon type="viewGridAdd" />
             New
           </Button>

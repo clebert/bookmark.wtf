@@ -111,14 +111,11 @@ export function BookmarkItem({appSnapshot, bookmarkFile}: BookmarkItemProps): JS
           </>
         ) : (
           <>
-            <EditButton
-              targetName="bookmark"
-              action={appSnapshot.state === `hasGist` ? toggleEditing : undefined}
-            />
+            <EditButton targetName="bookmark" action={updateBookmark ? toggleEditing : undefined} />
 
             <DeleteButton
               targetName="bookmark"
-              action={appSnapshot.state === `hasGist` ? toggleDeleting : undefined}
+              action={deleteBookmark ? toggleDeleting : undefined}
             />
           </>
         ))

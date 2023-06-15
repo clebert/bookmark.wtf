@@ -84,10 +84,7 @@ export function BookmarkControl({appSnapshot}: BookmarkControlProps): JSX.Elemen
               Fork
             </Button>
           ) : (
-            <Button
-              title="New bookmark"
-              onClick={appSnapshot.state !== `isForkingGist` ? toggleNewMode : undefined}
-            >
+            <Button title="New bookmark" onClick={createBookmark ? toggleNewMode : undefined}>
               <Icon type="viewGridAdd" />
               New
             </Button>

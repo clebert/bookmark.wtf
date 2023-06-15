@@ -84,12 +84,12 @@ export function CollectionItem({appSnapshot, gistIndex}: CollectionItemProps): J
           <>
             <EditButton
               targetName="collection"
-              action={appSnapshot.state === `hasGists` ? toggleEditing : undefined}
+              action={updateCollection ? toggleEditing : undefined}
             />
 
             <DeleteButton
               targetName="collection"
-              action={appSnapshot.state === `hasGists` ? toggleDeleting : undefined}
+              action={deleteCollection ? toggleDeleting : undefined}
             />
           </>
         ))
