@@ -18,7 +18,6 @@ no claim on the availability of the service.
 - **No vendor lock-in.** Bookmark collections are stored in
   [Markdown format](https://en.wikipedia.org/wiki/Markdown) as secret<sup>1</sup> GitHub gists.
 - Bookmark collections are **shareable** via link and also **forkable** by others.
-- Full text search within bookmark collections.
 - Bookmarks are automatically sorted by click count.
 
 _1 Secret gists aren't private. If you send the URL of a secret gist to a friend , they'll be able
