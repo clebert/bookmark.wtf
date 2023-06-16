@@ -55,7 +55,7 @@ export function BookmarkItem({appSnapshot, bookmarkFile}: BookmarkItemProps): JS
             const operation = {
               type: `updateFile`,
               filename,
-              content: serializeBookmark({...bookmark, title, url}),
+              content: serializeBookmark({...bookmark, title, url, mtime: Date.now()}),
             } as const;
 
             appSnapshot.actions.updateGist({token, user, gistName, gist, operation});
