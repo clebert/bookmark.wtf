@@ -23,27 +23,14 @@ export interface IsReadingGists extends IsReadingUser {
 }
 
 export interface HasGists extends IsReadingGists {
-  readonly gists: readonly {
-    readonly gistName: string;
-    readonly description: string;
-  }[];
+  readonly gists: readonly {readonly gistName: string; readonly description: string}[];
 }
 
 export interface IsUpdatingGists extends HasGists {
   readonly operation:
-    | {
-        readonly type: 'createGist';
-        readonly description: string;
-      }
-    | {
-        readonly type: 'updateGist';
-        readonly gistName: string;
-        readonly description: string;
-      }
-    | {
-        readonly type: 'deleteGist';
-        readonly gistName: string;
-      };
+    | {readonly type: 'createGist'; readonly description: string}
+    | {readonly type: 'updateGist'; readonly gistName: string; readonly description: string}
+    | {readonly type: 'deleteGist'; readonly gistName: string};
 }
 
 export interface IsReadingGist extends IsReadingUser {
@@ -61,20 +48,9 @@ export interface HasGist extends IsReadingGist {
 
 export interface IsUpdatingGist extends HasGist {
   readonly operation:
-    | {
-        readonly type: 'createFile';
-        readonly filename: string;
-        readonly content: string;
-      }
-    | {
-        readonly type: 'updateFile';
-        readonly filename: string;
-        readonly content: string;
-      }
-    | {
-        readonly type: 'deleteFile';
-        readonly filename: string;
-      };
+    | {readonly type: 'createFile'; readonly filename: string; readonly content: string}
+    | {readonly type: 'updateFile'; readonly filename: string; readonly content: string}
+    | {readonly type: 'deleteFile'; readonly filename: string};
 }
 
 export interface HasForeignGist extends HasGist {}
