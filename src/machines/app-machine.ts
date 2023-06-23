@@ -147,6 +147,8 @@ appMachine.subscribe(() => {
     case `hasError`: {
       console.error(appSnapshot.value.error);
 
+      writeGistName(``);
+
       break;
     }
     case `isReadingUser`: {
