@@ -1,6 +1,6 @@
 import {Button} from './button.js';
 import {Icon} from './icon.js';
-import {uiMode} from '../state-machines/ui-mode.js';
+import {uiModeMachine} from '../machines/ui-mode-machine.js';
 import * as React from 'react';
 
 const titles = {
@@ -14,7 +14,9 @@ const iconTypes = {
 } as const;
 
 export function UiModeButton(): JSX.Element {
-  const uiModeSnapshot = React.useSyncExternalStore(uiMode.subscribe, () => uiMode.get());
+  const uiModeSnapshot = React.useSyncExternalStore(uiModeMachine.subscribe, () =>
+    uiModeMachine.get(),
+  );
 
   const toggle = React.useCallback(() => {
     uiModeSnapshot.actions.toggle();

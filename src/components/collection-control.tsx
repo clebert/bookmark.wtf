@@ -1,4 +1,4 @@
-import type {app} from '../state-machines/app.js';
+import type {appMachine} from '../machines/app-machine.js';
 import type {InferSnapshot} from 'state-guard';
 
 import {Button} from './button.js';
@@ -11,7 +11,7 @@ import {useToggle} from '../hooks/use-toggle.js';
 import * as React from 'react';
 
 export interface CollectionControlProps {
-  appSnapshot: InferSnapshot<typeof app, 'hasGists' | 'isUpdatingGists'>;
+  appSnapshot: InferSnapshot<typeof appMachine, 'hasGists' | 'isUpdatingGists'>;
 }
 
 export function CollectionControl({appSnapshot}: CollectionControlProps): JSX.Element {

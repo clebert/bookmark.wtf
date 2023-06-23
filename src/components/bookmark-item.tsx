@@ -1,4 +1,4 @@
-import type {app} from '../state-machines/app.js';
+import type {appMachine} from '../machines/app-machine.js';
 import type {Bookmark} from '../utils/parse-bookmark.js';
 import type {InferSnapshot} from 'state-guard';
 
@@ -10,13 +10,13 @@ import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Link} from './link.js';
 import {useToggle} from '../hooks/use-toggle.js';
-import {uiMode} from '../state-machines/ui-mode.js';
+import {uiModeMachine} from '../machines/ui-mode-machine.js';
 import {serializeBookmark} from '../utils/serialize-bookmark.js';
 import * as React from 'react';
 
 export interface BookmarkItemProps {
   appSnapshot: InferSnapshot<
-    typeof app,
+    typeof appMachine,
     'hasGist' | 'isUpdatingGist' | 'hasForeignGist' | 'isForkingGist'
   >;
 
@@ -80,8 +80,8 @@ export function BookmarkItem({appSnapshot, bookmarkFile}: BookmarkItemProps): JS
     [appSnapshot],
   );
 
-  const isShowingControls = React.useSyncExternalStore(uiMode.subscribe, () =>
-    uiMode.get(`isShowingControls`),
+  const isShowingControls = React.useSyncExternalStore(uiModeMachine.subscribe, () =>
+    uiModeMachine.get(`isShowingControls`),
   );
 
   return editing ? (

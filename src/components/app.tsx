@@ -3,7 +3,7 @@ import {HomePage} from './home-page.js';
 import {UserPage} from './user-page.js';
 import {StylesContext} from '../contexts/styles-context.js';
 import {useDarkMode} from '../hooks/use-dark-mode.js';
-import {app} from '../state-machines/app.js';
+import {appMachine} from '../machines/app-machine.js';
 import * as React from 'react';
 
 export function App(): JSX.Element {
@@ -23,7 +23,7 @@ export function App(): JSX.Element {
     }
   }, [darkMode]);
 
-  const appSnapshot = React.useSyncExternalStore(app.subscribe, () => app.get());
+  const appSnapshot = React.useSyncExternalStore(appMachine.subscribe, () => appMachine.get());
 
   return appSnapshot.state === `isInitialized` ? (
     <HomePage appSnapshot={appSnapshot} />

@@ -3,7 +3,7 @@ import type {InferSnapshot} from 'state-guard';
 import {createGist} from '../data/create-gist.js';
 import {deleteGist} from '../data/delete-gist.js';
 import {updateGist} from '../data/update-gist.js';
-import {app} from '../state-machines/app.js';
+import {appMachine} from '../machines/app-machine.js';
 
 const defaultFiles = {
   [`.bookmark.wtf.md`]: {
@@ -12,7 +12,7 @@ const defaultFiles = {
 };
 
 export function handleUpdatingGists(
-  isUpdatingGists: InferSnapshot<typeof app, 'isUpdatingGists'>,
+  isUpdatingGists: InferSnapshot<typeof appMachine, 'isUpdatingGists'>,
 ): void {
   const {token, user, gists, operation} = isUpdatingGists.value;
   const {setError, setGists} = isUpdatingGists.actions;
@@ -24,7 +24,7 @@ export function handleUpdatingGists(
       const {description} = operation;
 
       promise = createGist({token, description, files: defaultFiles}).then(({gistName}) => {
-        if (isUpdatingGists === app.get(`isUpdatingGists`)) {
+        if (isUpdatingGists === appMachine.get(`isUpdatingGists`)) {
           const newGists = [{gistName, description}, ...gists];
 
           setGists({token, user, gists: newGists});
@@ -37,7 +37,7 @@ export function handleUpdatingGists(
       const {gistName, description} = operation;
 
       promise = updateGist({token, gistName, description}).then(() => {
-        if (isUpdatingGists === app.get(`isUpdatingGists`)) {
+        if (isUpdatingGists === appMachine.get(`isUpdatingGists`)) {
           const newGists = [
             {gistName, description},
             ...gists.filter((gist) => gist.gistName !== gistName),
@@ -53,7 +53,7 @@ export function handleUpdatingGists(
       const {gistName} = operation;
 
       promise = deleteGist({token, gistName}).then(() => {
-        if (isUpdatingGists === app.get(`isUpdatingGists`)) {
+        if (isUpdatingGists === appMachine.get(`isUpdatingGists`)) {
           const newGists = gists.filter((gist) => gist.gistName !== gistName);
 
           setGists({token, user, gists: newGists});
@@ -63,7 +63,7 @@ export function handleUpdatingGists(
   }
 
   promise.catch((error: unknown) => {
-    if (isUpdatingGists === app.get(`isUpdatingGists`)) {
+    if (isUpdatingGists === appMachine.get(`isUpdatingGists`)) {
       setError({error});
     }
   });

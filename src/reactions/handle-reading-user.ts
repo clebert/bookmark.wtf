@@ -1,16 +1,18 @@
 import type {InferSnapshot} from 'state-guard';
 
 import {readUser} from '../data/read-user.js';
-import {app} from '../state-machines/app.js';
+import {appMachine} from '../machines/app-machine.js';
 import {readGistName} from '../utils/read-gist-name.js';
 
-export function handleReadingUser(isReadingUser: InferSnapshot<typeof app, 'isReadingUser'>): void {
+export function handleReadingUser(
+  isReadingUser: InferSnapshot<typeof appMachine, 'isReadingUser'>,
+): void {
   const {token} = isReadingUser.value;
   const {setError, readGists, readGist} = isReadingUser.actions;
 
   readUser({token})
     .then(({user}) => {
-      if (isReadingUser === app.get(`isReadingUser`)) {
+      if (isReadingUser === appMachine.get(`isReadingUser`)) {
         const gistName = readGistName();
 
         if (gistName) {
@@ -21,7 +23,7 @@ export function handleReadingUser(isReadingUser: InferSnapshot<typeof app, 'isRe
       }
     })
     .catch((error: unknown) => {
-      if (isReadingUser === app.get(`isReadingUser`)) {
+      if (isReadingUser === appMachine.get(`isReadingUser`)) {
         setError({error});
       }
     });

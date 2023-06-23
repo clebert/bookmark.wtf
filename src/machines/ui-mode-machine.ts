@@ -1,5 +1,5 @@
 import {createJsonStorageItem} from '../utils/create-json-storage-item.js';
-import {createStateMachine} from 'state-guard';
+import {createMachine} from 'state-guard';
 import {z} from 'zod';
 
 const storageItem = createJsonStorageItem(
@@ -7,7 +7,7 @@ const storageItem = createJsonStorageItem(
   z.literal(`isShowingControls`).or(z.literal(`isHidingControls`)),
 );
 
-export const uiMode = createStateMachine({
+export const uiModeMachine = createMachine({
   initialState: storageItem.value ?? `isShowingControls`,
   initialValue: undefined,
   transformerMap: {
@@ -20,8 +20,8 @@ export const uiMode = createStateMachine({
   },
 });
 
-uiMode.subscribe(() => {
-  const {state} = uiMode.get();
+uiModeMachine.subscribe(() => {
+  const {state} = uiModeMachine.get();
 
   storageItem.value = state === `isShowingControls` ? undefined : state;
 });

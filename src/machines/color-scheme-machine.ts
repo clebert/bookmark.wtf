@@ -1,5 +1,5 @@
 import {createJsonStorageItem} from '../utils/create-json-storage-item.js';
-import {createStateMachine} from 'state-guard';
+import {createMachine} from 'state-guard';
 import {z} from 'zod';
 
 const storageItem = createJsonStorageItem(
@@ -7,7 +7,7 @@ const storageItem = createJsonStorageItem(
   z.union([z.literal(`isSystem`), z.literal(`isLight`), z.literal(`isDark`)]),
 );
 
-export const colorScheme = createStateMachine({
+export const colorSchemeMachine = createMachine({
   initialState: storageItem.value ?? `isSystem`,
   initialValue: undefined,
   transformerMap: {
@@ -22,8 +22,8 @@ export const colorScheme = createStateMachine({
   },
 });
 
-colorScheme.subscribe(() => {
-  const {state} = colorScheme.get();
+colorSchemeMachine.subscribe(() => {
+  const {state} = colorSchemeMachine.get();
 
   storageItem.value = state === `isSystem` ? undefined : state;
 });

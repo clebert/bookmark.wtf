@@ -1,4 +1,4 @@
-import type {app} from '../state-machines/app.js';
+import type {appMachine} from '../machines/app-machine.js';
 import type {InferSnapshot} from 'state-guard';
 
 import {Icon} from './icon.js';
@@ -11,7 +11,7 @@ import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface HomePageProps {
-  appSnapshot: InferSnapshot<typeof app, 'isInitialized'>;
+  appSnapshot: InferSnapshot<typeof appMachine, 'isInitialized'>;
 }
 
 export function HomePage({appSnapshot}: HomePageProps): JSX.Element {

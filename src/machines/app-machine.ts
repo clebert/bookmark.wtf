@@ -7,7 +7,7 @@ import {handleUpdatingGists} from '../reactions/handle-updating-gists.js';
 import {completeAuthorization} from '../utils/complete-authorization.js';
 import {createJsonStorageItem} from '../utils/create-json-storage-item.js';
 import {writeGistName} from '../utils/write-gist-name.js';
-import {createStateMachine} from 'state-guard';
+import {createMachine} from 'state-guard';
 import {z} from 'zod';
 
 export interface HasError {
@@ -56,7 +56,7 @@ export interface IsUpdatingGist extends HasGist {
 export interface HasForeignGist extends HasGist {}
 export interface IsForkingGist extends HasForeignGist {}
 
-export const app = createStateMachine({
+export const appMachine = createMachine({
   initialState: `isInitialized`,
   initialValue: undefined,
   transformerMap: {
@@ -133,8 +133,8 @@ export const app = createStateMachine({
 
 const tokenStorageItem = createJsonStorageItem(`token`, z.string().nonempty());
 
-app.subscribe(() => {
-  const appSnapshot = app.get();
+appMachine.subscribe(() => {
+  const appSnapshot = appMachine.get();
 
   switch (appSnapshot.state) {
     case `isInitialized`: {
@@ -185,5 +185,5 @@ const token = tokenStorageItem.value ?? completeAuthorization();
 if (token) {
   tokenStorageItem.value = token;
 
-  app.assert(`isInitialized`).actions.readUser({token});
+  appMachine.assert(`isInitialized`).actions.readUser({token});
 }

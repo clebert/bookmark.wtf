@@ -1,4 +1,4 @@
-import type {app} from '../state-machines/app.js';
+import type {appMachine} from '../machines/app-machine.js';
 import type {InferSnapshot} from 'state-guard';
 
 import {CollectionControl} from './collection-control.js';
@@ -7,7 +7,7 @@ import {Grid} from './grid.js';
 import * as React from 'react';
 
 export interface CollectionListProps {
-  appSnapshot: InferSnapshot<typeof app, 'hasGists' | 'isUpdatingGists'>;
+  appSnapshot: InferSnapshot<typeof appMachine, 'hasGists' | 'isUpdatingGists'>;
 }
 
 export function CollectionList({appSnapshot}: CollectionListProps): JSX.Element | null {

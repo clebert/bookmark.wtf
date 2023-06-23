@@ -1,4 +1,4 @@
-import type {app} from '../state-machines/app.js';
+import type {appMachine} from '../machines/app-machine.js';
 import type {InferSnapshot} from 'state-guard';
 
 import {Page} from './page.js';
@@ -8,7 +8,7 @@ import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface ErrorPageProps {
-  appSnapshot: InferSnapshot<typeof app, 'hasError'>;
+  appSnapshot: InferSnapshot<typeof appMachine, 'hasError'>;
 }
 
 export function ErrorPage({appSnapshot}: ErrorPageProps): JSX.Element {

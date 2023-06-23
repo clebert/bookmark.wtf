@@ -1,4 +1,4 @@
-import type {app} from '../state-machines/app.js';
+import type {appMachine} from '../machines/app-machine.js';
 import type {InferSnapshot} from 'state-guard';
 
 import {DeleteButton} from './delete-button.js';
@@ -8,11 +8,11 @@ import {GridItem} from './grid-item.js';
 import {Icon} from './icon.js';
 import {Link} from './link.js';
 import {useToggle} from '../hooks/use-toggle.js';
-import {uiMode} from '../state-machines/ui-mode.js';
+import {uiModeMachine} from '../machines/ui-mode-machine.js';
 import * as React from 'react';
 
 export interface CollectionItemProps {
-  appSnapshot: InferSnapshot<typeof app, 'hasGists' | 'isUpdatingGists'>;
+  appSnapshot: InferSnapshot<typeof appMachine, 'hasGists' | 'isUpdatingGists'>;
   gistIndex: number;
 }
 
@@ -54,8 +54,8 @@ export function CollectionItem({appSnapshot, gistIndex}: CollectionItemProps): J
     [appSnapshot],
   );
 
-  const isShowingControls = React.useSyncExternalStore(uiMode.subscribe, () =>
-    uiMode.get(`isShowingControls`),
+  const isShowingControls = React.useSyncExternalStore(uiModeMachine.subscribe, () =>
+    uiModeMachine.get(`isShowingControls`),
   );
 
   return editing ? (

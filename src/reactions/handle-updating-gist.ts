@@ -1,10 +1,10 @@
 import type {InferSnapshot} from 'state-guard';
 
 import {updateGist} from '../data/update-gist.js';
-import {app} from '../state-machines/app.js';
+import {appMachine} from '../machines/app-machine.js';
 
 export function handleUpdatingGist(
-  isUpdatingGist: InferSnapshot<typeof app, 'isUpdatingGist'>,
+  isUpdatingGist: InferSnapshot<typeof appMachine, 'isUpdatingGist'>,
 ): void {
   const {token, user, gistName, gist, operation} = isUpdatingGist.value;
   const {setError, setGist} = isUpdatingGist.actions;
@@ -17,7 +17,7 @@ export function handleUpdatingGist(
     },
   })
     .then(() => {
-      if (isUpdatingGist !== app.get(`isUpdatingGist`)) {
+      if (isUpdatingGist !== appMachine.get(`isUpdatingGist`)) {
         return;
       }
 
@@ -34,7 +34,7 @@ export function handleUpdatingGist(
       setGist({token, user, gistName, gist: {...gist, files}});
     })
     .catch((error: unknown) => {
-      if (isUpdatingGist === app.get(`isUpdatingGist`)) {
+      if (isUpdatingGist === appMachine.get(`isUpdatingGist`)) {
         setError({error});
       }
     });

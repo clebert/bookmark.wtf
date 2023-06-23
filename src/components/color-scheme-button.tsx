@@ -1,6 +1,6 @@
 import {Button} from './button.js';
 import {Icon} from './icon.js';
-import {colorScheme} from '../state-machines/color-scheme.js';
+import {colorSchemeMachine} from '../machines/color-scheme-machine.js';
 import * as React from 'react';
 
 const titles = {
@@ -16,8 +16,8 @@ const iconTypes = {
 } as const;
 
 export function ColorSchemeButton(): JSX.Element {
-  const colorSchemeSnapshot = React.useSyncExternalStore(colorScheme.subscribe, () =>
-    colorScheme.get(),
+  const colorSchemeSnapshot = React.useSyncExternalStore(colorSchemeMachine.subscribe, () =>
+    colorSchemeMachine.get(),
   );
 
   const toggle = React.useCallback(() => {

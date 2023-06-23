@@ -1,5 +1,5 @@
 import {createJsonStorageItem} from '../utils/create-json-storage-item.js';
-import {createStateMachine} from 'state-guard';
+import {createMachine} from 'state-guard';
 import {z} from 'zod';
 
 const storageItem = createJsonStorageItem(
@@ -7,7 +7,7 @@ const storageItem = createJsonStorageItem(
   z.union([z.literal(`isClickCount`), z.literal(`isTimeAsc`), z.literal(`isTimeDesc`)]),
 );
 
-export const sortOrder = createStateMachine({
+export const sortOrderMachine = createMachine({
   initialState: storageItem.value ?? `isClickCount`,
   initialValue: undefined,
   transformerMap: {
@@ -22,8 +22,8 @@ export const sortOrder = createStateMachine({
   },
 });
 
-sortOrder.subscribe(() => {
-  const {state} = sortOrder.get();
+sortOrderMachine.subscribe(() => {
+  const {state} = sortOrderMachine.get();
 
   storageItem.value = state === `isClickCount` ? undefined : state;
 });

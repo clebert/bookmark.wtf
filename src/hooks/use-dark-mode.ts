@@ -1,11 +1,11 @@
-import {colorScheme} from '../state-machines/color-scheme.js';
+import {colorSchemeMachine} from '../machines/color-scheme-machine.js';
 import * as React from 'react';
 
 const mediaQuery = window.matchMedia(`(prefers-color-scheme: dark)`);
 
 export function useDarkMode(): boolean {
-  const colorSchemeSnapshot = React.useSyncExternalStore(colorScheme.subscribe, () =>
-    colorScheme.get(),
+  const colorSchemeSnapshot = React.useSyncExternalStore(colorSchemeMachine.subscribe, () =>
+    colorSchemeMachine.get(),
   );
 
   const [prefersDark, setPrefersDark] = React.useState(mediaQuery.matches);

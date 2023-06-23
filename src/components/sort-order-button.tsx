@@ -1,6 +1,6 @@
 import {Button} from './button.js';
 import {Icon} from './icon.js';
-import {sortOrder} from '../state-machines/sort-order.js';
+import {sortOrderMachine} from '../machines/sort-order-machine.js';
 import * as React from 'react';
 
 const titles = {
@@ -16,7 +16,9 @@ const iconTypes = {
 } as const;
 
 export function SortOrderButton(): JSX.Element {
-  const sortOrderSnapshot = React.useSyncExternalStore(sortOrder.subscribe, () => sortOrder.get());
+  const sortOrderSnapshot = React.useSyncExternalStore(sortOrderMachine.subscribe, () =>
+    sortOrderMachine.get(),
+  );
 
   const toggle = React.useCallback(() => {
     sortOrderSnapshot.actions.toggle();

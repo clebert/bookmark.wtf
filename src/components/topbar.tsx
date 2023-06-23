@@ -1,4 +1,4 @@
-import type {app} from '../state-machines/app.js';
+import type {appMachine} from '../machines/app-machine.js';
 import type {InferSnapshot} from 'state-guard';
 
 import {Button} from './button.js';
@@ -11,7 +11,7 @@ import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
 
 export interface UserTopbarProps {
-  appSnapshot: InferSnapshot<typeof app, any>;
+  appSnapshot: InferSnapshot<typeof appMachine, any>;
 }
 
 export function Topbar({appSnapshot}: UserTopbarProps): JSX.Element {

@@ -1,5 +1,5 @@
-import type {app} from '../state-machines/app.js';
-import type {InferSnapshot, InferState} from 'state-guard';
+import type {appMachine} from '../machines/app-machine.js';
+import type {InferSnapshot, InferStateUnion} from 'state-guard';
 
 import {BookmarkList} from './bookmark-list.js';
 import {CollectionList} from './collection-list.js';
@@ -9,8 +9,8 @@ import * as React from 'react';
 
 export interface UserPageProps {
   appSnapshot: InferSnapshot<
-    typeof app,
-    Exclude<InferState<typeof app>, 'isInitialized' | 'hasError'>
+    typeof appMachine,
+    Exclude<InferStateUnion<typeof appMachine>, 'isInitialized' | 'hasError'>
   >;
 }
 

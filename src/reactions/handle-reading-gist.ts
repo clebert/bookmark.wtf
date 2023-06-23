@@ -1,10 +1,12 @@
 import type {InferSnapshot} from 'state-guard';
 
 import {readGist} from '../data/read-gist.js';
-import {app} from '../state-machines/app.js';
+import {appMachine} from '../machines/app-machine.js';
 import {writeGistName} from '../utils/write-gist-name.js';
 
-export function handleReadingGist(isReadingGist: InferSnapshot<typeof app, 'isReadingGist'>): void {
+export function handleReadingGist(
+  isReadingGist: InferSnapshot<typeof appMachine, 'isReadingGist'>,
+): void {
   const {token, user, gistName} = isReadingGist.value;
   const {setError, setGist, setForeignGist} = isReadingGist.actions;
 
@@ -12,7 +14,7 @@ export function handleReadingGist(isReadingGist: InferSnapshot<typeof app, 'isRe
 
   readGist({token, gistName})
     .then(({gist}) => {
-      if (isReadingGist === app.get(`isReadingGist`)) {
+      if (isReadingGist === appMachine.get(`isReadingGist`)) {
         if (gist.owner === user) {
           setGist({token, user, gistName, gist});
         } else {
@@ -21,7 +23,7 @@ export function handleReadingGist(isReadingGist: InferSnapshot<typeof app, 'isRe
       }
     })
     .catch((error: unknown) => {
-      if (isReadingGist === app.get(`isReadingGist`)) {
+      if (isReadingGist === appMachine.get(`isReadingGist`)) {
         setError({error});
       }
     });

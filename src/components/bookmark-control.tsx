@@ -1,4 +1,4 @@
-import type {app} from '../state-machines/app.js';
+import type {appMachine} from '../machines/app-machine.js';
 import type {Bookmark} from '../utils/parse-bookmark.js';
 import type {InferSnapshot} from 'state-guard';
 
@@ -16,7 +16,7 @@ import * as React from 'react';
 
 export interface BookmarkControlProps {
   appSnapshot: InferSnapshot<
-    typeof app,
+    typeof appMachine,
     'hasGist' | 'isUpdatingGist' | 'hasForeignGist' | 'isForkingGist'
   >;
 }

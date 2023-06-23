@@ -1,11 +1,11 @@
 import type {BookmarkFile} from './bookmark-item.js';
-import type {app} from '../state-machines/app.js';
+import type {appMachine} from '../machines/app-machine.js';
 import type {InferSnapshot} from 'state-guard';
 
 import {BookmarkControl} from './bookmark-control.js';
 import {BookmarkItem} from './bookmark-item.js';
 import {Grid} from './grid.js';
-import {sortOrder} from '../state-machines/sort-order.js';
+import {sortOrderMachine} from '../machines/sort-order-machine.js';
 import {compareClickCount} from '../utils/compare-click-count.js';
 import {compareTime} from '../utils/compare-time.js';
 import {parseBookmark} from '../utils/parse-bookmark.js';
@@ -13,7 +13,7 @@ import * as React from 'react';
 
 export interface BookmarkListProps {
   appSnapshot: InferSnapshot<
-    typeof app,
+    typeof appMachine,
     'hasGist' | 'isUpdatingGist' | 'hasForeignGist' | 'isForkingGist'
   >;
 }
@@ -33,7 +33,9 @@ export function BookmarkList({appSnapshot}: BookmarkListProps): JSX.Element | nu
     };
   }, [appSnapshot]);
 
-  const sortOrderSnapshot = React.useSyncExternalStore(sortOrder.subscribe, () => sortOrder.get());
+  const sortOrderSnapshot = React.useSyncExternalStore(sortOrderMachine.subscribe, () =>
+    sortOrderMachine.get(),
+  );
 
   const bookmarkFiles = React.useMemo(
     () =>
