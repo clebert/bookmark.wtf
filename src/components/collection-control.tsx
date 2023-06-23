@@ -38,7 +38,7 @@ export function CollectionControl({appSnapshot}: CollectionControlProps): JSX.El
       className="CollectionControl"
       row1={
         <Label static>
-          <Icon type="viewGrid" />
+          <Icon type="squares2X2" />
           {gists.length} collection{gists.length === 1 ? `` : `s`} found
         </Label>
       }
@@ -49,7 +49,7 @@ export function CollectionControl({appSnapshot}: CollectionControlProps): JSX.El
             title="New collection"
             onClick={createCollection ? toggleNewMode : undefined}
           >
-            <Icon type="viewGridAdd" />
+            <Icon type="squaresPlus" />
             New
           </Button>
 

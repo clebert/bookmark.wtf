@@ -31,7 +31,7 @@ export function Topbar({appSnapshot}: UserTopbarProps): JSX.Element {
 
         {appSnapshot.state === `isInitialized` ? (
           <Button className="SignInButton" title="Sign in with GitHub" onClick={beginAuthorization}>
-            <Icon type="login" />
+            <Icon type="arrowLeftOnRectangle" />
             Sign in with GitHub
           </Button>
         ) : (
@@ -40,7 +40,7 @@ export function Topbar({appSnapshot}: UserTopbarProps): JSX.Element {
             title="Sign out"
             onClick={appSnapshot.actions.setInitialized}
           >
-            <Icon type="logout" />
+            <Icon type="arrowRightOnRectangle" />
             Sign out
           </Button>
         )}

@@ -10,9 +10,9 @@ const titles = {
 };
 
 const iconTypes = {
-  isClickCount: `cursorClick`,
-  isTimeAsc: `sortAscending`,
-  isTimeDesc: `sortDescending`,
+  isClickCount: `cursorArrowRays`,
+  isTimeAsc: `barsArrowUp`,
+  isTimeDesc: `barsArrowDown`,
 } as const;
 
 export function SortOrderButton(): JSX.Element {

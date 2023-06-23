@@ -25,7 +25,7 @@ export function HomePage({appSnapshot}: HomePageProps): JSX.Element {
       <div className={joinClassNames(styles.border({transparent: true}), styles.text())}>
         A free and open-source bookmark manager that uses GitHub Gist as database.{` `}
         <Link url="https://github.com/clebert/bookmark.wtf/blob/main/README.md" static>
-          <Icon type="externalLink" />
+          <Icon type="arrowTopRightOnSquare" />
           README
         </Link>
       </div>

@@ -52,7 +52,7 @@ export function NewBookmarkForm({onCancel, onCreate}: NewBookmarkFormProps): JSX
             </Button>
 
             <Button title="Cancel creating bookmark" onClick={onCancel}>
-              <Icon type="x" />
+              <Icon type="xMark" />
               Cancel
             </Button>
           </>

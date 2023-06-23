@@ -55,7 +55,7 @@ export function EditCollectionForm({
             </Button>
 
             <Button className="CancelButton" title="Cancel updating collection" onClick={onCancel}>
-              <Icon type="x" />
+              <Icon type="xMark" />
               Cancel
             </Button>
           </>

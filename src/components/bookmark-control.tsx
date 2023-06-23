@@ -72,7 +72,7 @@ export function BookmarkControl({appSnapshot}: BookmarkControlProps): JSX.Elemen
       className="BookmarkControl"
       row1={
         <Label>
-          <Icon type={isLocked ? `lockClosed` : `viewGrid`} />
+          <Icon type={isLocked ? `lockClosed` : `squares2X2`} />
           {gist.description || gistName}
         </Label>
       }
@@ -80,18 +80,18 @@ export function BookmarkControl({appSnapshot}: BookmarkControlProps): JSX.Elemen
         <>
           {forkCollection ? (
             <Button title="Fork collection" onClick={forkCollection}>
-              <Icon type="duplicate" />
+              <Icon type="square2Stack" />
               Fork
             </Button>
           ) : (
             <Button title="New bookmark" onClick={createBookmark ? toggleNewMode : undefined}>
-              <Icon type="viewGridAdd" />
+              <Icon type="squaresPlus" />
               New
             </Button>
           )}
 
           <Button title="Close collection" onClick={closeCollection}>
-            <Icon type="x" />
+            <Icon type="xMark" />
             Close
           </Button>
 

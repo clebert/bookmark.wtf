@@ -98,7 +98,7 @@ export function BookmarkItem({appSnapshot, bookmarkFile}: BookmarkItemProps): JS
       }
       row1={
         <Link url={bookmark.url} onClick={openBookmark}>
-          <Icon type="externalLink" />
+          <Icon type="arrowTopRightOnSquare" />
           {bookmark.title}
         </Link>
       }

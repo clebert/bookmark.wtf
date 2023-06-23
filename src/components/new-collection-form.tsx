@@ -47,7 +47,7 @@ export function NewCollectionForm({onCancel, onCreate}: NewCollectionFormProps):
             </Button>
 
             <Button className="CancelButton" title="Cancel creating collection" onClick={onCancel}>
-              <Icon type="x" />
+              <Icon type="xMark" />
               Cancel
             </Button>
           </>

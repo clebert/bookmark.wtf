@@ -60,7 +60,7 @@ export function EditBookmarkForm({
             </Button>
 
             <Button title="Cancel updating bookmark" onClick={onCancel}>
-              <Icon type="x" />
+              <Icon type="xMark" />
               Cancel
             </Button>
           </>
