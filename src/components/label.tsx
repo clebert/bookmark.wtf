@@ -1,13 +1,12 @@
-import {StylesContext} from '../contexts/styles-context.js';
-import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
+import {Styles, joinClassNames} from 'wtfkit';
 
 export interface TextProps extends React.PropsWithChildren {
   readonly static?: boolean;
 }
 
 export function Label({children, static: isStatic}: TextProps): JSX.Element {
-  const styles = React.useContext(StylesContext);
+  const styles = React.useContext(Styles.Context);
 
   return (
     <label

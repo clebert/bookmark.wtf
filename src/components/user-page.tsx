@@ -3,8 +3,6 @@ import type {InferSnapshot, InferStateUnion} from 'state-guard';
 
 import {BookmarkList} from './bookmark-list.js';
 import {CollectionList} from './collection-list.js';
-import {Page} from './page.js';
-import {Topbar} from './topbar.js';
 import * as React from 'react';
 
 export interface UserPageProps {
@@ -21,15 +19,13 @@ export function UserPage({appSnapshot}: UserPageProps): JSX.Element {
     state === `isReadingUser` || state === `isReadingGists` || state === `isReadingGist`;
 
   return (
-    <Page>
-      <Topbar appSnapshot={appSnapshot} />
-
+    <>
       {!isReading &&
         (state === `hasGists` || state === `isUpdatingGists` ? (
           <CollectionList appSnapshot={appSnapshot} />
         ) : (
           <BookmarkList appSnapshot={appSnapshot} />
         ))}
-    </Page>
+    </>
   );
 }

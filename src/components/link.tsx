@@ -1,6 +1,5 @@
-import {StylesContext} from '../contexts/styles-context.js';
-import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
+import {Styles, joinClassNames} from 'wtfkit';
 
 export interface LinkProps extends React.PropsWithChildren {
   readonly url: string;
@@ -10,14 +9,14 @@ export interface LinkProps extends React.PropsWithChildren {
 }
 
 export function Link({children, url, static: isStatic, onClick}: LinkProps): JSX.Element {
-  const styles = React.useContext(StylesContext);
+  const styles = React.useContext(Styles.Context);
 
   return (
     <a
       className={joinClassNames(
         `overflow-hidden text-ellipsis whitespace-nowrap pr-1`,
         isStatic && `select-none`,
-        styles.background({interactive: `only`}),
+        styles.activeBackground(),
         styles.border({transparent: true}),
         styles.focus(),
         styles.link(),

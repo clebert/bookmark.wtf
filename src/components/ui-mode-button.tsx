@@ -1,7 +1,6 @@
-import {Button} from './button.js';
-import {Icon} from './icon.js';
 import {uiModeMachine} from '../machines/ui-mode-machine.js';
 import * as React from 'react';
+import {Button, Icon} from 'wtfkit';
 
 const titles = {
   isShowingControls: `Showing controls`,

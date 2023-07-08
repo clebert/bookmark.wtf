@@ -1,36 +1,22 @@
-import type {appMachine} from '../machines/app-machine.js';
-import type {InferSnapshot} from 'state-guard';
-
-import {Icon} from './icon.js';
 import {Link} from './link.js';
-import {Page} from './page.js';
-import {Topbar} from './topbar.js';
-import {StylesContext} from '../contexts/styles-context.js';
-import {useDarkMode} from '../hooks/use-dark-mode.js';
-import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
+import {Container, Icon, Styles, joinClassNames, useDarkMode} from 'wtfkit';
 
-export interface HomePageProps {
-  appSnapshot: InferSnapshot<typeof appMachine, 'isInitialized'>;
-}
-
-export function HomePage({appSnapshot}: HomePageProps): JSX.Element {
-  const styles = React.useContext(StylesContext);
+export function HomePage(): JSX.Element {
+  const styles = React.useContext(Styles.Context);
   const darkMode = useDarkMode();
 
   return (
-    <Page>
-      <Topbar appSnapshot={appSnapshot} />
-
-      <div className={joinClassNames(styles.border({transparent: true}), styles.text())}>
+    <Container className={joinClassNames(styles.border({transparent: true}), styles.text())} col>
+      <span>
         A free and open-source bookmark manager that uses GitHub Gist as database.{` `}
         <Link url="https://github.com/clebert/bookmark.wtf/blob/main/README.md" static>
           <Icon type="arrowTopRightOnSquare" />
           README
         </Link>
-      </div>
+      </span>
 
-      <div className="max-w-5xl p-1 shadow-xl">
+      <div className="max-w-5xl shadow-xl">
         <img
           className="select-none"
           src={`https://raw.githubusercontent.com/clebert/bookmark.wtf/main/screenshot-${
@@ -38,6 +24,6 @@ export function HomePage({appSnapshot}: HomePageProps): JSX.Element {
           }-mode.png`}
         ></img>
       </div>
-    </Page>
+    </Container>
   );
 }

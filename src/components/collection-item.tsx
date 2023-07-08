@@ -5,11 +5,10 @@ import {DeleteButton} from './delete-button.js';
 import {EditButton} from './edit-button.js';
 import {EditCollectionForm} from './edit-collection-form.js';
 import {GridItem} from './grid-item.js';
-import {Icon} from './icon.js';
 import {Link} from './link.js';
-import {useToggle} from '../hooks/use-toggle.js';
 import {uiModeMachine} from '../machines/ui-mode-machine.js';
 import * as React from 'react';
+import {Icon, useToggle} from 'wtfkit';
 
 export interface CollectionItemProps {
   appSnapshot: InferSnapshot<typeof appMachine, 'hasGists' | 'isUpdatingGists'>;

@@ -1,7 +1,6 @@
-import {Button} from './button.js';
-import {Icon} from './icon.js';
 import {sortOrderMachine} from '../machines/sort-order-machine.js';
 import * as React from 'react';
+import {Button, Icon} from 'wtfkit';
 
 const titles = {
   isClickCount: `Sorting by click count`,

@@ -1,7 +1,6 @@
-import {StylesContext} from '../contexts/styles-context.js';
 import {createIdenticon} from '../utils/create-identicon.js';
-import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
+import {Styles, joinClassNames} from 'wtfkit';
 
 export interface BookmarkIconProps {
   initialLinkUrl: string;
@@ -28,7 +27,7 @@ export function BookmarkIcon({initialLinkUrl, onClick}: BookmarkIconProps): JSX.
 
   const [hidden, setHidden] = React.useState(true);
   const handleLoad = React.useCallback(() => setHidden(false), [setHidden]);
-  const styles = React.useContext(StylesContext);
+  const styles = React.useContext(Styles.Context);
 
   return (
     <a

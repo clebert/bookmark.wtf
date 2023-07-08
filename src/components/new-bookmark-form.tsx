@@ -1,11 +1,9 @@
 import type {Bookmark} from '../utils/parse-bookmark.js';
 
-import {Button} from './button.js';
 import {Form} from './form.js';
 import {GridItem} from './grid-item.js';
-import {Icon} from './icon.js';
-import {TextField} from './text-field.js';
 import * as React from 'react';
+import {Button, Icon, TextField} from 'wtfkit';
 
 export interface NewBookmarkFormProps {
   onCancel(): void;
@@ -23,15 +21,21 @@ export function NewBookmarkForm({onCancel, onCreate}: NewBookmarkFormProps): JSX
     return onCreate && title && url ? () => onCreate({title, url, ctime: Date.now()}) : undefined;
   }, [onCreate, currentTitle, currentUrl]);
 
+  const textFieldRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    textFieldRef.current?.focus();
+  }, []);
+
   return (
     <Form onSubmit={create}>
       <GridItem
         row1={
           <TextField
+            ref={textFieldRef}
             type="url"
             value={currentUrl}
             placeholder="Enter URL"
-            autoFocus
             required
             onInput={setCurrentUrl}
           />

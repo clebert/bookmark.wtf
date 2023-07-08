@@ -1,9 +1,7 @@
-import {Button} from './button.js';
 import {Form} from './form.js';
 import {GridItem} from './grid-item.js';
-import {Icon} from './icon.js';
-import {TextField} from './text-field.js';
 import * as React from 'react';
+import {Button, Icon, TextField} from 'wtfkit';
 
 export interface EditBookmarkFormProps {
   initialTitle: string;
@@ -31,15 +29,21 @@ export function EditBookmarkForm({
       : undefined;
   }, [onUpdate, currentTitle, currentUrl]);
 
+  const textFieldRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    textFieldRef.current?.focus();
+  }, []);
+
   return (
     <Form onSubmit={update}>
       <GridItem
         row1={
           <TextField
+            ref={textFieldRef}
             type="url"
             value={currentUrl}
             placeholder="Enter URL"
-            autoFocus
             required
             onInput={setCurrentUrl}
           />

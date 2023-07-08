@@ -4,10 +4,7 @@ import type {NodeSet} from 'sonnar';
 import {expect} from '@playwright/test';
 
 export class Session {
-  constructor(
-    readonly browser: Browser,
-    readonly page: Page,
-  ) {}
+  constructor(readonly browser: Browser, readonly page: Page) {}
 
   async click(nodeSet: NodeSet): Promise<void> {
     await this.page.click(`xpath=` + nodeSet.expression);

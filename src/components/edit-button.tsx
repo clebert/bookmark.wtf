@@ -1,6 +1,5 @@
-import {Button} from './button.js';
-import {Icon} from './icon.js';
 import * as React from 'react';
+import {Button, Icon} from 'wtfkit';
 
 export interface EditButtonProps {
   targetName: 'bookmark' | 'collection';

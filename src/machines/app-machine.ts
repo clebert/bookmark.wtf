@@ -5,9 +5,9 @@ import {handleReadingUser} from '../reactions/handle-reading-user.js';
 import {handleUpdatingGist} from '../reactions/handle-updating-gist.js';
 import {handleUpdatingGists} from '../reactions/handle-updating-gists.js';
 import {completeAuthorization} from '../utils/complete-authorization.js';
-import {createJsonStorageItem} from '../utils/create-json-storage-item.js';
 import {writeGistName} from '../utils/write-gist-name.js';
 import {createMachine} from 'state-guard';
+import {createJsonStorageItem} from 'wtfkit';
 import {z} from 'zod';
 
 export interface HasError {

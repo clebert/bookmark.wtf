@@ -1,7 +1,6 @@
 import {Label} from './label.js';
-import {StylesContext} from '../contexts/styles-context.js';
-import {joinClassNames} from '../utils/join-class-names.js';
 import * as React from 'react';
+import {Container, Styles, joinClassNames} from 'wtfkit';
 
 export interface GridItemProps {
   className?: string;
@@ -12,24 +11,21 @@ export interface GridItemProps {
 }
 
 export function GridItem({className, leftCol, row1, row2, rightCol}: GridItemProps): JSX.Element {
-  const styles = React.useContext(StylesContext);
+  const styles = React.useContext(Styles.Context);
 
   return (
-    <div
-      className={joinClassNames(
-        className,
-        `flex space-x-2 p-2 shadow`,
-        styles.background({shaded: true}),
-      )}
+    <Container
+      className={joinClassNames(className, `p-2 shadow`, styles.background({shaded: true}))}
+      center
     >
-      {leftCol && <div className="flex shrink-0 items-center">{leftCol}</div>}
+      {leftCol && <Container col>{leftCol}</Container>}
 
-      <div className="flex w-full flex-col space-y-4 overflow-hidden">
-        <div className="flex w-full space-x-2">{row1}</div>
-        <div className="flex w-full space-x-2">{row2 || <Label static>{`\u00A0`}</Label>}</div>
-      </div>
+      <Container col grow>
+        <Container grow>{row1}</Container>
+        <Container grow>{row2 || <Label static>{`\u00A0`}</Label>}</Container>
+      </Container>
 
-      {rightCol && <div className="flex shrink-0 flex-col space-y-4">{rightCol}</div>}
-    </div>
+      {rightCol && <Container col>{rightCol}</Container>}
+    </Container>
   );
 }

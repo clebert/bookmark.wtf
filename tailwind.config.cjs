@@ -1,4 +1,4 @@
 module.exports = {
   darkMode: `class`,
-  content: [`./src/**/*.{html,ts,tsx}`],
+  content: [`./node_modules/wtfkit/lib/**/*.js`, `./src/**/*.{ts,tsx}`],
 };

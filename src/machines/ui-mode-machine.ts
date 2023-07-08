@@ -1,5 +1,5 @@
-import {createJsonStorageItem} from '../utils/create-json-storage-item.js';
 import {createMachine} from 'state-guard';
+import {createJsonStorageItem} from 'wtfkit';
 import {z} from 'zod';
 
 const storageItem = createJsonStorageItem(

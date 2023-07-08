@@ -24,6 +24,13 @@ setup(`signing in`, async ({browser, page}) => {
   await session.fill(github.passwordField, password);
   await session.click(github.primaryButton);
   await session.fill(github.otpField, speakeasy.totp({secret, encoding: `base32`}));
+
+  await page.waitForTimeout(1000);
+
+  if (session.page.url().includes(`two-factor`)) {
+    await session.click(github.primaryButton);
+  }
+
   await session.exists(app.topbar.signOutButton);
 
   expect(session.page.url()).toContain(url);

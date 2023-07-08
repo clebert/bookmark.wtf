@@ -1,9 +1,7 @@
-import {Button} from './button.js';
 import {Form} from './form.js';
 import {GridItem} from './grid-item.js';
-import {Icon} from './icon.js';
-import {TextField} from './text-field.js';
 import * as React from 'react';
+import {Button, Icon, TextField} from 'wtfkit';
 
 export interface EditCollectionFormProps {
   initialDescription: string;
@@ -27,16 +25,22 @@ export function EditCollectionForm({
       : undefined;
   }, [onUpdate, currentDescription]);
 
+  const textFieldRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    textFieldRef.current?.focus();
+  }, []);
+
   return (
     <Form onSubmit={update}>
       <GridItem
         className="EditCollectionForm"
         row1={
           <TextField
+            ref={textFieldRef}
             className="DescriptionField"
             value={currentDescription}
             placeholder="Enter description"
-            autoFocus
             required
             onInput={setCurrentDescription}
           />
