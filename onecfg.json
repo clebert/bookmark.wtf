@@ -73,6 +73,13 @@
       {
         "value": ["/playwright"]
       }
+    ],
+    ".prettierrc.json": [
+      {
+        "value": {
+          "plugins": ["prettier-plugin-tailwindcss"]
+        }
+      }
     ]
   }
 }
